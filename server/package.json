@@ -12,8 +12,10 @@
   "author": "Thanh Nguyen, Duc Anh",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1386.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "nodemailer": "^6.9.3",
     "pg": "^8.11.0"
   },
   "devDependencies": {
