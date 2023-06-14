@@ -1,5 +1,5 @@
-import React, { useState } from 'react'; 
-import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 
@@ -8,19 +8,36 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import welcome from './src/constants/welcome';
 
 import { normalize } from './src/constants/size.js';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+
+const logo = require('./assets/logo/Logo.png');
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [showHomePage, setShowHomePage] = useState(false);
-
   const [fontsLoaded] = useFonts({
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
   });
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000); // Change the duration as per your requirement
+
+    return () => clearTimeout(timer);
+  }, []);
+  if (showSplash) {
+    return (
+      <View style={styles.splashScreen}>
+        <Image source={logo} style={styles.splashImage}/>
+      </View>
+    )
+  }
   if (!fontsLoaded) {
     return null;
   }
+  
   let appIntroSliderRef = null;
-
   if (!showHomePage) {
     return (
       <AppIntroSlider
@@ -34,22 +51,22 @@ export default function App() {
                 <Text style={styles.sliderText}>{item.text}</Text>
                 <TouchableOpacity
                   style={styles.button}
-                  
+
                 >
                   <Text style={styles.buttonText}>Anmelden</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.registerButton}
-                  
+
                 >
                   <Text style={styles.registerText}>Registrieren</Text>
                 </TouchableOpacity>
-              </View>    
+              </View>
             )
           }
           return (
-          <View style={styles.slider}>
-            <Text style={styles.sliderText}>{item.text}</Text>
+            <View style={styles.slider}>
+              <Text style={styles.sliderText}>{item.text}</Text>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
@@ -58,16 +75,16 @@ export default function App() {
               >
                 <Text style={styles.buttonText}>Los Geht's</Text>
               </TouchableOpacity>
-          </View>
+            </View>
           )
         }}
         showDoneButton={false}
         showNextButton={false}
         onDone={() => setShowHomePage(true)}
       />
-    ) 
+    )
   }
-  
+
   return (
     <View style={styles.container}>
       <Text>Sign In</Text>
@@ -82,11 +99,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  splashScreen:{
+    flex: 1,
+    backgroundColor: '#B84058',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  splashImage: {
+    width: scale(263),
+    height: scale(100)
+  },
   intro: {
     backgroundColor: '#E192A2',
   },
   slider: {
-    flex:1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -96,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     fontSize: 30,
-    width: normalize(250),
+    width: scale(250),
   },
   button: {
     backgroundColor: '#B84058',
@@ -104,26 +131,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 21,
     marginTop: 20,
-    width: normalize(150),
+    width: scale(150),
   },
   buttonText: {
     color: '#fff',
     fontFamily: 'Roboto-Bold',
-    fontSize: normalize(11),
+    fontSize: scale(11),
     textAlign: 'center',
   },
-  registerButton:{
+  registerButton: {
     backgroundColor: '#fff',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 21,
     marginTop: 20,
-    width: normalize(150),
+    width: scale(150),
   },
   registerText: {
     color: '#000',
     fontFamily: 'Roboto-Bold',
-    fontSize: normalize(11),
+    fontSize: scale(11),
     textAlign: 'center',
   }
 });
