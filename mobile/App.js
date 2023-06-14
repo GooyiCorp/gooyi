@@ -10,7 +10,7 @@ import welcome from './src/constants/welcome';
 import { normalize } from './src/constants/size.js';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
-const logo = require('./assets/logo/Logo.png');
+const logo = require('./assets/logo/logo.png');
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
