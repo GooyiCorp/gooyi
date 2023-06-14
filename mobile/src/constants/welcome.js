@@ -9,6 +9,10 @@ export default welcome = [
     },
     {
         'id': 3,
-        'text': 'Reservierung einfach und bequem uber das Buchungstool vornehmen'
+        'text': 'Reservierung einfach und bequem über das Buchungstool vornehmen'
+    },
+    {
+        'id': 4,
+        'text': 'Willkommen in der Gooyi-app'
     }
 ]
