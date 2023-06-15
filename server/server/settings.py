@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'gutcheinapp.apps.GutcheinappConfig',
 ]
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -76,15 +77,17 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gutchein',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('db_database'),
+        'USER': os.environ.get('db_user'),
+        'PASSWORD': os.environ.get('db_password'),
+        'HOST': os.environ.get('db_host'),
+        'PORT': os.environ.get('db_port'),
     }
 }
 

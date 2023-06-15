@@ -1,7 +1,8 @@
 from django.urls import path
-from . import views
+from gutcheinapp.router import user
+
 
 urlpatterns = [
-    path('user/', views.user),
+    path('user/', user.user),
 ]
 

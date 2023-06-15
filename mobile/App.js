@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import welcome from './src/constants/welcome';
 
-import { normalize } from './src/constants/size.js';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
+
+
+import SignIn from './src/components/molecules/SignIn.js';
 const logo = require('./assets/logo/logo.png');
 
 export default function App() {
@@ -17,12 +20,13 @@ export default function App() {
   const [showHomePage, setShowHomePage] = useState(false);
   const [fontsLoaded] = useFonts({
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
+    'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
   });
-
+  const [showSignIn, setShowSignIn] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 3000); // Change the duration as per your requirement
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -36,10 +40,11 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  
+  const onCloseSignIn = () => setShowSignIn(false);
   let appIntroSliderRef = null;
   if (!showHomePage) {
     return (
+      <>
       <AppIntroSlider
         ref={(ref) => (appIntroSliderRef = ref)}
         style={styles.intro}
@@ -51,7 +56,7 @@ export default function App() {
                 <Text style={styles.sliderText}>{item.text}</Text>
                 <TouchableOpacity
                   style={styles.button}
-
+                  onPress={() => setShowSignIn(true)}
                 >
                   <Text style={styles.buttonText}>Anmelden</Text>
                 </TouchableOpacity>
@@ -82,12 +87,25 @@ export default function App() {
         showNextButton={false}
         onDone={() => setShowHomePage(true)}
       />
+        <GestureRecognizer
+          onSwipeDown={onCloseSignIn}
+        >
+          <Modal
+            visible={showSignIn}
+            animationType="slide"
+            transparent={true}
+          >
+            <SignIn onClose={onCloseSignIn} />
+          </Modal>
+        </GestureRecognizer>
+      </>
+
     )
   }
 
   return (
     <View style={styles.container}>
-      <Text>Sign In</Text>
+      <Text>Home</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -152,5 +170,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     fontSize: scale(11),
     textAlign: 'center',
-  }
+  },
 });
