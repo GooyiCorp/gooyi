@@ -2,11 +2,16 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from gutcheinapp.serializers import UserSerializer
 from gutcheinapp.models import User
-import json
 
-@api_view(['GET'])
+@api_view(['POST'])
 def user(request):
     
-    data = request.data
-    
-    return JsonResponse({"message":"ok", 'data':data})
+    if request.method == 'POST':
+        data = request.data
+        email = data['email']
+        password = data['password']
+        try:
+            user = User.objects.get(email=email, password=password)
+            return JsonResponse({"success": True, 'message': 'Login successfully'})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False,'message': 'email or password is incorrect'})

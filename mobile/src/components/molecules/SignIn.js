@@ -7,17 +7,19 @@ import axios from 'axios';
 // axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 import {api_url} from '../../constants/api.js'
 
-export default SignIn = ({ onClose }) => {
+export default SignIn = ({ onClose, homepage }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSignIn = async () => {
         const url = api_url + 'user/'
-        // const url = "http://localhost:8000"
         console.log(url);
         try {
-            const response = await axios.get(url);
-            console.log(response.data);
+            const response = await axios.post(url, {email: email, password: password});
+            if (response.data.success === true) homepage(true);
+            else {
+                console.log("incorrect");
+            }
         } catch(error) {
             console.log(error.message);
         }
@@ -50,7 +52,7 @@ export default SignIn = ({ onClose }) => {
                 <TouchableOpacity style={styles.formButton} onPress={handleSignIn}>
                     <Text style={styles.formButtonText}>Anmelden</Text>
                 </TouchableOpacity>
-                <Button color={'#B84058'} title='Passwort vergesser'/>
+                <Button color={'#B84058'} title='Passwort vergessen'/>
             </View>
         </View>
     )

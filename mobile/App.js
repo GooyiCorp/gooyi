@@ -95,7 +95,7 @@ export default function App() {
             animationType="slide"
             transparent={true}
           >
-            <SignIn onClose={onCloseSignIn} />
+            <SignIn onClose={onCloseSignIn} homepage={setShowHomePage}/>
           </Modal>
         </GestureRecognizer>
       </>
