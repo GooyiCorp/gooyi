@@ -11,7 +11,12 @@ def user(request):
         email = data['email']
         password = data['password']
         try:
-            user = User.objects.get(email=email, password=password)
-            return JsonResponse({"success": True, 'message': 'Login successfully'})
+            user = User.objects.get(email=email)
+            if user.password == password:
+                return JsonResponse({"success": True, 'message': 'Login successfully'})
+            else:
+                raise Exception('Wrong password')
         except User.DoesNotExist:
-            return JsonResponse({'success': False,'message': 'email or password is incorrect'})
+            return JsonResponse({'success': False, 'error': 'email'})
+        except Exception:
+            return JsonResponse({'success': False, 'error': 'password'})

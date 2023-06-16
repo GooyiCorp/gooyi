@@ -21,6 +21,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
+    'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
   });
   const [showSignIn, setShowSignIn] = useState(false);
   useEffect(() => {

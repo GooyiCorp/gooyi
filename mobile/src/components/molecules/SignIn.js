@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Button, Alert } from 'react-native';
 import { moderateScale, s, scale, verticalScale } from'react-native-size-matters';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 // axios.defaults.xsrfCookieName = 'csrftoken';
 // axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -11,17 +11,39 @@ export default SignIn = ({ onClose, homepage }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [wrongEmail, setWrongEmail] = useState(false);
+    const [wrongPassword, setWrongPassword ] = useState(false);
+    const [nullPassword, setNullPassword] = useState(false);
     const handleSignIn = async () => {
+        if (password === '') {
+            setNullPassword(true);
+            return;
+        }
         const url = api_url + 'user/'
-        console.log(url);
         try {
             const response = await axios.post(url, {email: email, password: password});
             if (response.data.success === true) homepage(true);
             else {
-                console.log("incorrect");
+                console.log(response.data.error);
+                if (response.data.error == 'email') setWrongEmail(true);
+                if (response.data.error == 'password') {
+                    Alert.alert(
+                        'Ooops! Irendwas ist schief gelaufen.',
+                        'E-mail oder Passwort leider ungültig.',
+                        [
+                            {
+                                text: 'OK',
+                                onPress: () => console.log('OK Pressed'),
+                            },
+                        ],
+                        { cancelable: false }
+                    );                    
+                }
+                setEmail('');
+                setPassword('');
             }
         } catch(error) {
-            console.log(error.message);
+            console.log(error);
         }
     
     };
@@ -34,20 +56,32 @@ export default SignIn = ({ onClose, homepage }) => {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.formTitle}>Anmelden</Text>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Email</Text>    
-                    <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} />
+                <View>
+                    <View style={[styles.inputContainer, wrongEmail && styles.falseInputField]}>
+                        <Text style={[styles.label, wrongEmail && styles.falseLabel]}>E-mail</Text>    
+                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email}/>
+                    </View>
+                    <View style={{ flexDirection: 'row', left: scale(30) }}>
+                        <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{ display: 'none' }, wrongEmail && { display: 'flex' }]} />
+                        <Text style={[styles.falseAlert, wrongEmail && {display: 'flex'}]}>Die eingegebene E-Mail-Addresse existiert nicht</Text>
+                    </View>
                 </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Passwort</Text>    
-                    <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword}/>
-                    <TouchableOpacity style={styles.eyeIcon} onPress={()=> setShowPassword((prev)=> !prev)}>
-                        <Ionicons
-                            name={showPassword ? 'eye-off' : 'eye'}
-                            size={24}
-                            color="#4A4A4A"
-                        />
-                    </TouchableOpacity>
+                <View>
+                    <View style={[styles.inputContainer, nullPassword && styles.falseInputField]}>
+                        <Text style={[styles.label, nullPassword && styles.falseLabel ]}>Passwort</Text>    
+                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password}/>
+                        <TouchableOpacity style={styles.eyeIcon} onPress={()=> setShowPassword((prev)=> !prev)}>
+                            <Ionicons
+                                name={showPassword ? 'eye-off' : 'eye'}
+                                size={24}
+                                color="#4A4A4A"
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flexDirection: 'row', left: scale(30)}}>
+                        <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{display: 'none'},nullPassword && {display: 'flex'}]}/>
+                        <Text style={[styles.falseAlert, nullPassword && {display: 'flex'}]}>Passwort fehlt</Text>
+                    </View>
                 </View>
                 <TouchableOpacity style={styles.formButton} onPress={handleSignIn}>
                     <Text style={styles.formButtonText}>Anmelden</Text>
@@ -136,5 +170,27 @@ styles = StyleSheet.create({
         padding: scale(10),
         position: 'absolute',
         right: scale(10),
+    },
+    falseInputField: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        margin: scale(10),
+        height: verticalScale(50),
+        width: scale(300),
+        borderRadius: 16,
+        backgroundColor: '#f4f4f4',
+        borderWidth: 1,
+        borderColor: '#EEC8C8',
+    },
+    falseLabel: {
+        color: '#B84058',
+    },
+    falseAlert: {
+        fontSize: scale(10),
+        fontFamily: 'Roboto-Medium',
+        color: '#B84058',
+        display: 'none',
+        marginLeft: scale(5),
     },
 });
