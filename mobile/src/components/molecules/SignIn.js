@@ -14,10 +14,16 @@ export default SignIn = ({ onClose, homepage }) => {
     const [wrongEmail, setWrongEmail] = useState(false);
     const [wrongPassword, setWrongPassword ] = useState(false);
     const [nullPassword, setNullPassword] = useState(false);
+    const [nullEmail, setNullEmail] = useState(false);
     const handleSignIn = async () => {
-        if (password === '') {
-            setNullPassword(true);
-            return;
+        if (password) setNullPassword(false)
+        if (email) setNullEmail(false)
+        if (password === '' || email === '') {
+            if (email === '') {
+                setNullEmail(true);
+                return
+            }
+            if (password === '') setNullPassword(true);
         }
         const url = api_url + 'user/'
         try {
@@ -33,7 +39,6 @@ export default SignIn = ({ onClose, homepage }) => {
                         [
                             {
                                 text: 'OK',
-                                onPress: () => console.log('OK Pressed'),
                             },
                         ],
                         { cancelable: false }
@@ -57,13 +62,13 @@ export default SignIn = ({ onClose, homepage }) => {
                 </View>
                 <Text style={styles.formTitle}>Anmelden</Text>
                 <View>
-                    <View style={[styles.inputContainer, wrongEmail && styles.falseInputField]}>
+                    <View style={[styles.inputContainer, (wrongEmail || nullEmail) && styles.falseInputField]}>
                         <Text style={[styles.label, wrongEmail && styles.falseLabel]}>E-mail</Text>    
                         <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email}/>
                     </View>
                     <View style={{ flexDirection: 'row', left: scale(30) }}>
-                        <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{ display: 'none' }, wrongEmail && { display: 'flex' }]} />
-                        <Text style={[styles.falseAlert, wrongEmail && {display: 'flex'}]}>Die eingegebene E-Mail-Addresse existiert nicht</Text>
+                        <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{ display: 'none' }, (wrongEmail || nullEmail) && { display: 'flex' }]} />
+                        <Text style={[styles.falseAlert, (wrongEmail || nullEmail) && {display: 'flex'}]}>{nullEmail ? 'E-mail fehlt' : 'Die eingegebene E-Mail-Addresse existiert nicht'}</Text>
                     </View>
                 </View>
                 <View>
