@@ -13,6 +13,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 
 import SignIn from './src/components/molecules/SignIn.js';
+import SignUp from './src/components/molecules/SignUp';
 const logo = require('./assets/logo/logo.png');
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
     'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
   });
   const [showSignIn, setShowSignIn] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
@@ -42,6 +44,8 @@ export default function App() {
     return null;
   }
   const onCloseSignIn = () => setShowSignIn(false);
+  const onCloseRegister = () => setShowRegister(false);
+
   let appIntroSliderRef = null;
   if (!showHomePage) {
     return (
@@ -63,7 +67,7 @@ export default function App() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.registerButton}
-
+                  onPress={() => setShowRegister(true)}
                 >
                   <Text style={styles.registerText}>Registrieren</Text>
                 </TouchableOpacity>
@@ -97,6 +101,17 @@ export default function App() {
             transparent={true}
           >
             <SignIn onClose={onCloseSignIn} homepage={setShowHomePage}/>
+          </Modal>
+        </GestureRecognizer>
+        <GestureRecognizer
+          onSwipeDown={onCloseRegister}
+        >
+          <Modal
+            visible={showRegister}
+            animationType="slide"
+            transparent={true}
+          >
+            <SignUp onClose={onCloseSignIn} homepage={setShowHomePage}/>
           </Modal>
         </GestureRecognizer>
       </>
