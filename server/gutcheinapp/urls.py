@@ -3,6 +3,8 @@ from gutcheinapp.router import user
 
 
 urlpatterns = [
-    path('user/', user.user),
+    path('user/login/', user.login),
+    path('user/register/', user.register),
+    path('user/verification/', user.email_verification),
 ]
 

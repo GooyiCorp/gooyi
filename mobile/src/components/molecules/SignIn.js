@@ -3,8 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Button, Ale
 import { moderateScale, s, scale, verticalScale } from'react-native-size-matters';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
-// axios.defaults.xsrfCookieName = 'csrftoken';
-// axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 import {api_url} from '../../constants/api.js'
 
 export default SignIn = ({ onClose, homepage }) => {
@@ -15,6 +13,9 @@ export default SignIn = ({ onClose, homepage }) => {
     const [wrongPassword, setWrongPassword ] = useState(false);
     const [nullPassword, setNullPassword] = useState(false);
     const [nullEmail, setNullEmail] = useState(false);
+    
+    const [focus, setFocus] = useState(null);
+
     const handleSignIn = async () => {
         if (password) setNullPassword(false)
         if (email) setNullEmail(false)
@@ -25,14 +26,18 @@ export default SignIn = ({ onClose, homepage }) => {
             }
             if (password === '') setNullPassword(true);
         }
-        const url = api_url + 'user/'
+        const url = api_url + 'user/login/'
         try {
-            const response = await axios.post(url, {email: email, password: password});
+            const response = await axios.post(url, {email: email.toLowerCase(), password: password});
             if (response.data.success === true) homepage(true);
             else {
-                console.log(response.data.error);
                 if (response.data.error == 'email') setWrongEmail(true);
                 if (response.data.error == 'password') {
+                    if (password === '') {
+                        setWrongEmail(false);
+                        return;
+                    }
+                    setWrongEmail(false);
                     Alert.alert(
                         'Ooops! Irendwas ist schief gelaufen.',
                         'E-mail oder Passwort leider ungültig.',
@@ -44,7 +49,7 @@ export default SignIn = ({ onClose, homepage }) => {
                         { cancelable: false }
                     );                    
                 }
-                setEmail('');
+                console.log(response.data);
                 setPassword('');
             }
         } catch(error) {
@@ -62,9 +67,9 @@ export default SignIn = ({ onClose, homepage }) => {
                 </View>
                 <Text style={styles.formTitle}>Anmelden</Text>
                 <View>
-                    <View style={[styles.inputContainer, (wrongEmail || nullEmail) && styles.falseInputField]}>
+                    <View style={[styles.inputContainer, focus === 'email' && {backgroundColor: '#f4f4f4'}, (wrongEmail || nullEmail) && styles.falseInputField]}>
                         <Text style={[styles.label, wrongEmail && styles.falseLabel]}>E-mail</Text>    
-                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email}/>
+                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email} onFocus={()=>setFocus('email')} onBlur={()=>setFocus(null)}/>
                     </View>
                     <View style={{ flexDirection: 'row', left: scale(30) }}>
                         <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{ display: 'none' }, (wrongEmail || nullEmail) && { display: 'flex' }]} />
@@ -72,9 +77,9 @@ export default SignIn = ({ onClose, homepage }) => {
                     </View>
                 </View>
                 <View>
-                    <View style={[styles.inputContainer, nullPassword && styles.falseInputField]}>
+                    <View style={[styles.inputContainer, nullPassword && styles.falseInputField, focus ==='password' && {backgroundColor: '#f4f4f4'}]}>
                         <Text style={[styles.label, nullPassword && styles.falseLabel ]}>Passwort</Text>    
-                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password}/>
+                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password} onFocus={()=>setFocus('password')} onBlur={()=>setFocus(null)}/>
                         <TouchableOpacity style={styles.eyeIcon} onPress={()=> setShowPassword((prev)=> !prev)}>
                             <Ionicons
                                 name={showPassword ? 'eye-off' : 'eye'}
@@ -91,7 +96,7 @@ export default SignIn = ({ onClose, homepage }) => {
                 <TouchableOpacity style={styles.formButton} onPress={handleSignIn}>
                     <Text style={styles.formButtonText}>Anmelden</Text>
                 </TouchableOpacity>
-                <Button color={'#B84058'} title='Passwort vergessen'/>
+                <Button color={'#444444'} title='Passwort vergessen'/>
             </View>
         </View>
     )
@@ -169,7 +174,8 @@ styles = StyleSheet.create({
         height: verticalScale(50),
         width: scale(300),
         borderRadius: 16,
-        backgroundColor: '#f4f4f4',
+        borderColor: '#f4f4f4',
+        borderWidth: 2,
     },
     eyeIcon: {
         padding: scale(10),
@@ -184,7 +190,6 @@ styles = StyleSheet.create({
         height: verticalScale(50),
         width: scale(300),
         borderRadius: 16,
-        backgroundColor: '#f4f4f4',
         borderWidth: 1,
         borderColor: '#EEC8C8',
     },

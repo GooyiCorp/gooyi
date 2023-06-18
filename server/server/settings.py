@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -134,3 +134,27 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = os.environ.get('MAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('MAIL_USER')  # your Gmail address
+EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')  # your Gmail password
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = 'noreply@example.com'  # your Gmail address
+
+
+import warnings
+from django.core.cache import CacheKeyWarning
+
+# Ignore CacheKeyWarning
+warnings.simplefilter("ignore", CacheKeyWarning)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache',
+    }
+}
