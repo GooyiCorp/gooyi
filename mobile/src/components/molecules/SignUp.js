@@ -142,9 +142,10 @@ styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        justifyContent: 'flex-end',
+        // justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        
     },
     closeButton: {
         width: moderateScale(30),

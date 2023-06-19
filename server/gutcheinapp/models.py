@@ -10,5 +10,6 @@ class User(models.Model):
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=255)
     verified = models.BooleanField(default=False)
+    active = models.BooleanField(default=False)
     def __str__(self) -> str:
         return self.first_name + ' ' + self.last_name

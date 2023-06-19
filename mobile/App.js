@@ -23,6 +23,7 @@ export default function App() {
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
     'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
+    'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
   });
   const [showSignIn, setShowSignIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -99,6 +100,7 @@ export default function App() {
             visible={showSignIn}
             animationType="slide"
             transparent={true}
+            
           >
             <SignIn onClose={onCloseSignIn} homepage={setShowHomePage}/>
           </Modal>

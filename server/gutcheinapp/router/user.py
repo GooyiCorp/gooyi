@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
+from gutcheinapp.utils.response import *
 from gutcheinapp.serializers import UserSerializer
 from gutcheinapp.models import User
 
@@ -15,26 +16,29 @@ def login(request):
     try:
         user = User.objects.get(email=email)
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-            return JsonResponse({"success": True, 'message': 'Login successfully'})
+            return sendSuccess("Login successfully")
         else:
             raise Exception('Wrong password')
     except User.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'email'})
+        return sendError("email")
     except Exception:
-        return JsonResponse({'success': False, 'error': 'password'})
+        return sendError("password")
 @api_view(['POST'])
 def register(request):
     email = request.data['email']
     otp = OTP_generator()
     
+    # Email contents
     subject = 'Authentication'
     body = 'Sehrgeehter Damen und Herren, OTP is ' + (otp)
     from_email = 'Gooyi <noreply@gmail.com>'
     to_email = [email]
     
+    # Send email
     email_send = EmailMessage(subject, body, from_email, to_email)
     email_send.send()
     
+    # Store OTP
     cache_key = f'otp:{email}'
     cache.set(cache_key, otp, timeout=300)
     
