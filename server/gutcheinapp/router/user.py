@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from gutcheinapp.utils.response import *
 from gutcheinapp.serializers import UserSerializer
-from gutcheinapp.models import User
+from gutcheinapp.models import User, UserVersuche
 
 from django.core.mail import EmailMessage
 from gutcheinapp.utils.opt import OTP_generator
@@ -22,42 +22,66 @@ def login(request):
     except User.DoesNotExist:
         return sendError("email")
     except Exception:
-        return sendError("password")
+        user_versuche = UserVersuche.objects.get(user=user)
+        if user_versuche.versucher == 0:
+            user.active = False
+            user.save()
+            return sendError("password", "kein mehr versuche")
+        user_versuche.versucher -= 1
+        user_versuche.save()
+        return sendError("password", "")
 @api_view(['POST'])
 def register(request):
     email = request.data['email']
-    otp = OTP_generator()
-    
-    # Email contents
-    subject = 'Authentication'
-    body = 'Sehrgeehter Damen und Herren, OTP is ' + (otp)
-    from_email = 'Gooyi <noreply@gmail.com>'
-    to_email = [email]
-    
-    # Send email
-    email_send = EmailMessage(subject, body, from_email, to_email)
-    email_send.send()
-    
-    # Store OTP
-    cache_key = f'otp:{email}'
-    cache.set(cache_key, otp, timeout=300)
-    
-    
     last_name = request.data['last_name']
     first_name = request.data['first_name']
     password = request.data['password']
-    hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     try:
         user = User.objects.get(email=email)
-        user.first_name = first_name
-        user.last_name = last_name
-        user.password = hash_password.decode('utf-8')
-        user.save()
+        if user.verified is False:
+            otp = OTP_generator()   
+             # Email contents
+            subject = 'Authentication'
+            body = 'Sehrgeehter Damen und Herren, OTP is ' + (otp)
+            from_email = 'Gooyi <noreply@gmail.com>'
+            to_email = [email]
+            
+            # Send email
+            email_send = EmailMessage(subject, body, from_email, to_email)
+            email_send.send()
+        
+            # Store OTP
+            cache_key = f'otp:{email}'
+            cache.set(cache_key, otp, timeout=300)
+            
+            # Update user
+            user.first_name = first_name
+            user.last_name = last_name
+            hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            user.password = hash_password.decode('utf-8')
+            user.save()
+            return sendSuccess("Email sent successfully")
+        else: return sendError("Die eingegebene E-Mail-Addresse existiert")
     except User.DoesNotExist:
+        otp = OTP_generator()   
+        # Email contents
+        subject = 'Authentication'
+        body = 'Sehrgeehter Damen und Herren, OTP is ' + (otp)
+        from_email = 'Gooyi <noreply@gmail.com>'
+        to_email = [email]
+        
+        # Send email
+        email_send = EmailMessage(subject, body, from_email, to_email)
+        email_send.send()
+    
+        # Store OTP
+        cache_key = f'otp:{email}'
+        cache.set(cache_key, otp, timeout=300)
+        
+        hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         user = User(first_name=first_name, last_name=last_name,email=email,password=hash_password.decode('utf-8'),verified=False)
         user.save()
-        print('User saved')
-    return JsonResponse({"success": True, 'message': 'email sent'})
+    return sendSuccess("Email sent successfully")
 
 @api_view(['POST'])
 def email_verification(request):
@@ -70,7 +94,10 @@ def email_verification(request):
         if otp == stored_otp:
             user = User.objects.get(email=email)
             user.verified = True
+            user.active = True
             user.save()
+            user_versuche = UserVersuche(user=user)
+            user_versuche.save()
             return JsonResponse({"success": True, 'message': 'Email successfully verified'})
         else:
             return JsonResponse({"success": False, 'message': 'OTP was wrong'})

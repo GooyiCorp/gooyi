@@ -1,18 +1,22 @@
 export default welcome = [
     {
         'id': 1,
-        'text': 'Finde deinen Lieblingsshop und sammle Punkte fur tollee Pramien'
+        'image': require('../../assets/image/foxSlider1.png'),
+        'text': 'Finde deinen Lieblingsshop und sammle Punkte fur tollee Pramien',
     },
     {
         'id': 2,
-        'text':'Behalte die besten Deals und Angebote immer im Blick'
+        'image': require('../../assets/image/foxSlider1.png'),
+        'text':'Behalte die besten Deals und Angebote immer im Blick',
     },
     {
         'id': 3,
+        'image': require('../../assets/image/foxSlider1.png'),
         'text': 'Reservierung einfach und bequem über das Buchungstool vornehmen'
     },
     {
         'id': 4,
-        'text': 'Willkommen in der Gooyi-app'
+        'image': require('../../assets/image/foxSlider1.png'),
+        'text': 'Willkommen in der Gooyi-app',
     }
 ]

@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import welcome from './src/constants/welcome';
 
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
-
-
+import { SCREEN_WIDTH } from './src/constants/size';
 
 import SignIn from './src/components/molecules/SignIn.js';
 import SignUp from './src/components/molecules/SignUp';
 const logo = require('./assets/logo/logo.png');
-
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [showHomePage, setShowHomePage] = useState(false);
@@ -27,6 +26,14 @@ export default function App() {
   });
   const [showSignIn, setShowSignIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [slide, setSlide] = useState(1);
+  let paginationStatus = {
+    height: 6,
+    backgroundColor: "#B84058",
+    width: (25*slide) + '%',
+    borderRadius: 5,
+    opacity: 1,
+  }
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
@@ -37,7 +44,7 @@ export default function App() {
   if (showSplash) {
     return (
       <View style={styles.splashScreen}>
-        <Image source={logo} style={styles.splashImage}/>
+        <Image source={logo} style={styles.splashImage} />
       </View>
     )
   }
@@ -46,53 +53,71 @@ export default function App() {
   }
   const onCloseSignIn = () => setShowSignIn(false);
   const onCloseRegister = () => setShowRegister(false);
-
+  const PaginationBar = () => {
+    return (
+      <View style={styles.paginationBar}>
+        <View style={paginationStatus}></View>
+      </View>
+    )
+  }
   let appIntroSliderRef = null;
   if (!showHomePage) {
     return (
       <>
-      <AppIntroSlider
-        ref={(ref) => (appIntroSliderRef = ref)}
-        style={styles.intro}
-        data={welcome}
-        renderItem={({ item, index, slides }) => {
-          if (index === welcome.length - 1) {
+        <AppIntroSlider
+          ref={(ref) => (appIntroSliderRef = ref)}
+          style={styles.intro}
+          data={welcome}
+          renderPagination={()=>null}
+          renderItem={({ item, index, slides }) => {
+            if (index === welcome.length - 1) {
+              return (
+                <LinearGradient
+                  colors={['rgb(187,95,113)', 'rgba(211,128,145,1)', 'rgba(239,151,171,1)', 'rgba(229,150,167,1)', 'rgba(206,120,138,1)', 'rgba(182,87,107,1)']}
+                  locations={[0, 0.14, 0.24, 0.6, 0.74, 1]}
+                  style={styles.slider}>
+                  <Image source={item.image} style={{ height: moderateScale(280) }} resizeMode="contain" />
+                  <Text style={styles.sliderText}>{item.text}</Text>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => setShowSignIn(true)}
+                  >
+                    <Text style={styles.buttonText}>Anmelden</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.registerButton}
+                    onPress={() => setShowRegister(true)}
+                  >
+                    <Text style={styles.registerText}>Registrieren</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              )
+            }
             return (
-              <View style={styles.slider}>
-                <Text style={styles.sliderText}>{item.text}</Text>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => setShowSignIn(true)}
-                >
-                  <Text style={styles.buttonText}>Anmelden</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.registerButton}
-                  onPress={() => setShowRegister(true)}
-                >
-                  <Text style={styles.registerText}>Registrieren</Text>
-                </TouchableOpacity>
-              </View>
+              <LinearGradient
+                colors={['rgb(187,95,113)', 'rgba(211,128,145,1)', 'rgba(239,151,171,1)', 'rgba(229,150,167,1)', 'rgba(206,120,138,1)', 'rgba(182,87,107,1)']}
+                locations={[0, 0.14, 0.24, 0.6, 0.74, 1]}
+                style={styles.slider}>
+                    <Image source={item.image} style={{ height: moderateScale(280), marginBottom: verticalScale(30) }} resizeMode="contain" />
+                    <Text style={styles.sliderText}>{item.text}</Text>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        appIntroSliderRef.goToSlide(welcome.length - 1);
+                        setSlide(welcome.length)
+                      }}
+                    >
+                      <Text style={styles.buttonText}>Los Geht's</Text>
+                    </TouchableOpacity>
+              </LinearGradient>
             )
-          }
-          return (
-            <View style={styles.slider}>
-              <Text style={styles.sliderText}>{item.text}</Text>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  appIntroSliderRef.goToSlide(welcome.length - 1);
-                }}
-              >
-                <Text style={styles.buttonText}>Los Geht's</Text>
-              </TouchableOpacity>
-            </View>
-          )
-        }}
-        showDoneButton={false}
-        showNextButton={false}
-        onDone={() => setShowHomePage(true)}
-      />
+          }}
+          showDoneButton={false}
+          showNextButton={true}
+          onDone={() => setShowHomePage(true)}
+          onSlideChange={(index) => {setSlide(index + 1)}}
+        />
+          <PaginationBar />
         <GestureRecognizer
           onSwipeDown={onCloseSignIn}
         >
@@ -100,9 +125,9 @@ export default function App() {
             visible={showSignIn}
             animationType="slide"
             transparent={true}
-            
+
           >
-            <SignIn onClose={onCloseSignIn} homepage={setShowHomePage}/>
+            <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />
           </Modal>
         </GestureRecognizer>
         <GestureRecognizer
@@ -113,7 +138,7 @@ export default function App() {
             animationType="slide"
             transparent={true}
           >
-            <SignUp onClose={onCloseSignIn} homepage={setShowHomePage}/>
+            <SignUp onClose={onCloseSignIn} homepage={setShowHomePage} />
           </Modal>
         </GestureRecognizer>
       </>
@@ -135,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  splashScreen:{
+  splashScreen: {
     flex: 1,
     backgroundColor: '#B84058',
     justifyContent: 'center',
@@ -158,35 +183,48 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     textAlign: 'center',
     alignSelf: 'center',
-    fontSize: 30,
+    fontSize: moderateScale(25),
     width: scale(250),
+    marginBottom: verticalScale(10),
   },
   button: {
     backgroundColor: '#B84058',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 21,
+    paddingVertical: verticalScale(14),
+    borderRadius: 30,
     marginTop: 20,
-    width: scale(150),
+    width: moderateScale(200),
   },
   buttonText: {
     color: '#fff',
-    fontFamily: 'Roboto-Bold',
-    fontSize: scale(11),
+    fontFamily: 'Roboto-Medium',
+    fontSize: moderateScale(13),
     textAlign: 'center',
   },
   registerButton: {
     backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 21,
-    marginTop: 20,
-    width: scale(150),
+    paddingVertical: verticalScale(15),
+    // paddingHorizontal: moderateScale(70),
+    width: moderateScale(200),
+    borderRadius: 30,
+    marginTop: verticalScale(10),
   },
   registerText: {
     color: '#000',
-    fontFamily: 'Roboto-Bold',
-    fontSize: scale(11),
+    fontFamily: 'Roboto-Medium',
+    fontSize: moderateScale(13),
     textAlign: 'center',
   },
+  paginationBar: {
+    backgroundColor: 'rgba(216,216,216,0.5)',
+    height: 6,
+    width: '80%',
+    // marginTop: verticalScale(40),
+    position: 'absolute',
+    bottom: verticalScale(60),
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    borderRadius: 5,
+  },
+  
 });

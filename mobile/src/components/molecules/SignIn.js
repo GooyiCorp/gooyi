@@ -5,7 +5,7 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 import { api_url } from '../../constants/api.js'
 const dum = require('../../../assets/icons/dum.png');
-export default SignIn = ({ onClose, homepage }) => {
+const SignIn = ({ onClose, homepage }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,17 +37,8 @@ export default SignIn = ({ onClose, homepage }) => {
                         return;
                     }
                     setWrongEmail(false);
-                    // Alert.alert(
-                    //     'Ooops! Irendwas ist schief gelaufen.',
-                    //     'E-mail oder Passwort leider ungültig.',
-                    //     [
-                    //         {
-                    //             text: 'OK',
-                    //         },
-                    //     ],
-                    //     { cancelable: false }
-                    // );     
                     setWrongPassword(true)
+                    console.log(response.data);
                 }
                 setPassword('');
             }
@@ -64,18 +55,17 @@ export default SignIn = ({ onClose, homepage }) => {
                     <Ionicons name="close" size={moderateScale(24)} color="#4A4A4A" />
                 </TouchableOpacity>
                 <View>
-                    <View style={[styles.inputContainer, focus === 'email' && { backgroundColor: '#f4f4f4' }, (wrongEmail || nullEmail) && styles.falseInputField]}>
-                        <Text style={[styles.label, wrongEmail && styles.falseLabel]}>E-mail</Text>
+                    <View style={[styles.inputContainer, (wrongEmail || nullEmail) && styles.falseInputField]}>
+                        <Text style={[styles.label]}>E-mail</Text>
                         <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email} onFocus={() => setFocus('email')} onBlur={() => setFocus(null)} />
                     </View>
-                    <View style={{ flexDirection: 'row', left: scale(30) }}>
-                        <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{ display: 'none' }, (wrongEmail || nullEmail) && { display: 'flex' }]} />
+                    <View>
                         <Text style={[styles.falseAlert, (wrongEmail || nullEmail) && { display: 'flex' }]}>{nullEmail ? 'E-mail fehlt' : 'Die eingegebene E-Mail-Addresse existiert nicht'}</Text>
                     </View>
                 </View>
                 <View>
-                    <View style={[styles.inputContainer, nullPassword && styles.falseInputField, focus === 'password' && { backgroundColor: '#f4f4f4' }]}>
-                        <Text style={[styles.label, nullPassword && styles.falseLabel]}>Passwort</Text>
+                    <View style={[styles.inputContainer, nullPassword && styles.falseInputField]}>
+                        <Text style={[styles.label]}>Passwort</Text>
                         <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password} onFocus={() => setFocus('password')} onBlur={() => setFocus(null)} />
                         <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword((prev) => !prev)}>
                             <Ionicons
@@ -85,18 +75,19 @@ export default SignIn = ({ onClose, homepage }) => {
                             />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flexDirection: 'row', left: scale(30) }}>
-                        <AntDesign name="exclamationcircleo" size={scale(11)} color="#B84058" style={[{ display: 'none' }, nullPassword && { display: 'flex' }]} />
+                    <View style={{justifyContent: 'center' }}>
                         <Text style={[styles.falseAlert, nullPassword && { display: 'flex' }]}>Passwort fehlt</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.formButton} onPress={handleSignIn}>
                     <Text style={styles.formButtonText}>Anmelden</Text>
                 </TouchableOpacity>
-                <Button color={'#444444'} title='Passwort vergessen' />
+                <TouchableOpacity style={{marginTop: verticalScale(12)}}>
+                    <Text style={styles.vergessen}>Passwort vergessen</Text>
+                </TouchableOpacity>
                 <Modal
                     visible={wrongPassword}
-                    animationType='slide'
+                    animationType='fade'
                     transparent={true}
                 >
                     <View style={styles.wrongPasswordModal}>
@@ -110,8 +101,8 @@ export default SignIn = ({ onClose, homepage }) => {
                                 E-mail oder Passwort leider ungültig. {'\n\n'}
                                 Noch <Text style={{ color: '#B84058', fontFamily: 'Roboto-Bold' }}>3</Text> Versuche.
                             </Text>
-                            <TouchableOpacity>
-                                <Text style={{ fontFamily: 'Roboto-Medium', fontSize: moderateScale(16), color: '#B84058', margin: moderateScale(20) }}>Erneut versuchen</Text>
+                            <TouchableOpacity onPress={()=>setWrongPassword(false)}>
+                                <Text style={styles.vergessen}>Erneut versuchen</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -137,30 +128,32 @@ styles = StyleSheet.create({
     formInput: {
         width: moderateScale(250),
         height: moderateScale(40),
-        paddingHorizontal: 10,
         fontSize: moderateScale(15),
         justifyContent: 'center',
+        marginLeft: 'auto',
     },
     formButton: {
         backgroundColor: '#B84058',
-        paddingVertical: 12,
-        borderRadius: 21,
+        paddingVertical: verticalScale(14),
+        borderRadius: 30,
         marginTop: 20,
-        width: moderateScale(229),
-        height: verticalScale(40),
-        justifyContent: 'center',
+        width: moderateScale(200),
     },
     formButtonText: {
         color: '#fff',
-        fontFamily: 'Roboto-Bold',
-        fontSize: scale(11),
+        fontFamily: 'Roboto-Medium',
+        fontSize: moderateScale(13),
         textAlign: 'center',
+    },
+    vergessen: {
+        color: '#B84058',
+        fontFamily: 'Roboto-Medium',
+        fontSize: moderateScale(13),
     },
     modalContainer: {
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
-        height: '100%',
     },
     closeButton: {
         width: moderateScale(30),
@@ -170,14 +163,14 @@ styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-start',
-        marginBottom: moderateScale(20),
         marginLeft: moderateScale(15),
     },
     label: {
-        margin: scale(10),
+        marginBottom: 0,
         fontFamily: 'Roboto-Bold',
         fontSize: scale(11),
-        alignSelf: 'center',
+        position: 'absolute',
+        left: 0,
     },
     inputContainer: {
         flexDirection: 'row',
@@ -186,14 +179,13 @@ styles = StyleSheet.create({
         margin: scale(10),
         height: verticalScale(50),
         width: scale(300),
-        borderRadius: 16,
         borderColor: '#f4f4f4',
-        borderWidth: 2,
+        borderBottomWidth: 2,
     },
     eyeIcon: {
         padding: scale(10),
         position: 'absolute',
-        right: scale(10),
+        right: scale(5),
     },
     falseInputField: {
         flexDirection: 'row',
@@ -202,9 +194,8 @@ styles = StyleSheet.create({
         margin: scale(10),
         height: verticalScale(50),
         width: scale(300),
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: '#EEC8C8',
+        borderBottomWidth: 2,
+        borderBottomColor: '#EEC8C8',
     },
     falseLabel: {
         color: '#B84058',
@@ -214,7 +205,7 @@ styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium',
         color: '#B84058',
         display: 'none',
-        marginLeft: scale(5),
+        alignSelf: 'center',
     },
 
 
@@ -243,8 +234,12 @@ styles = StyleSheet.create({
     },
     wrongPasswordDetail: {
         fontFamily: 'Roboto-Regular',
-        fontSize: moderateScale(12),
+        fontSize: moderateScale(13),
         textAlign: 'center',
         margin: scale(10),
+        marginBottom: verticalScale(20)
     }
 });
+
+
+export default SignIn
