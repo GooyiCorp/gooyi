@@ -13,8 +13,7 @@ const SignIn = ({ onClose, homepage }) => {
     const [wrongPassword, setWrongPassword] = useState(false);
     const [nullPassword, setNullPassword] = useState(false);
     const [nullEmail, setNullEmail] = useState(false);
-    const [focus, setFocus] = useState(null);
-
+    const [tries_left, setTries_left] = useState(null);
     const handleSignIn = async () => {
         if (password) setNullPassword(false)
         if (email) setNullEmail(false)
@@ -38,7 +37,11 @@ const SignIn = ({ onClose, homepage }) => {
                     }
                     setWrongEmail(false);
                     setWrongPassword(true)
+                    setTries_left(response.data.data.tries_left)
                     console.log(response.data);
+                }
+                if (response.data.error == 'OutOfTries') {
+                    console.log(response.data.data);
                 }
                 setPassword('');
             }
@@ -57,7 +60,7 @@ const SignIn = ({ onClose, homepage }) => {
                 <View>
                     <View style={[styles.inputContainer, (wrongEmail || nullEmail) && styles.falseInputField]}>
                         <Text style={[styles.label]}>E-mail</Text>
-                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email} onFocus={() => setFocus('email')} onBlur={() => setFocus(null)} />
+                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email} />
                     </View>
                     <View>
                         <Text style={[styles.falseAlert, (wrongEmail || nullEmail) && { display: 'flex' }]}>{nullEmail ? 'E-mail fehlt' : 'Die eingegebene E-Mail-Addresse existiert nicht'}</Text>
@@ -66,7 +69,7 @@ const SignIn = ({ onClose, homepage }) => {
                 <View>
                     <View style={[styles.inputContainer, nullPassword && styles.falseInputField]}>
                         <Text style={[styles.label]}>Passwort</Text>
-                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password} onFocus={() => setFocus('password')} onBlur={() => setFocus(null)} />
+                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password} />
                         <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword((prev) => !prev)}>
                             <Ionicons
                                 name={showPassword ? 'eye-off' : 'eye'}
@@ -99,7 +102,7 @@ const SignIn = ({ onClose, homepage }) => {
                             <Text style={styles.wrongPasswordTitle}>Ooops! Irendwas ist schief gelaufen.</Text>
                             <Text style={styles.wrongPasswordDetail}>
                                 E-mail oder Passwort leider ungültig. {'\n\n'}
-                                Noch <Text style={{ color: '#B84058', fontFamily: 'Roboto-Bold' }}>3</Text> Versuche.
+                                Noch <Text style={{ color: '#B84058', fontFamily: 'Roboto-Bold' }}>{tries_left}</Text> Versuche.
                             </Text>
                             <TouchableOpacity onPress={()=>setWrongPassword(false)}>
                                 <Text style={styles.vergessen}>Erneut versuchen</Text>
@@ -159,7 +162,7 @@ styles = StyleSheet.create({
         width: moderateScale(30),
         height: moderateScale(30),
         backgroundColor: '#F4F4F4',
-        borderRadius: '50%',
+        borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-start',

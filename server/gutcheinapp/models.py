@@ -20,4 +20,4 @@ class UserVersuche(models.Model):
             MaxValueValidator(3),
         ])
     def __str__(self) -> str:
-        return self.user
+        return self.user.first_name + ' ' + self.user.last_name

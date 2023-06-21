@@ -10,11 +10,11 @@ def sendSuccess(message, data = None):
     if data is not None: res_data["data"] = data
     return Response(data=res_data, status=status.HTTP_200_OK)
 
-def sendError(error, message, code = None):
+def sendError(error, data, code = None):
     res_data = {
         "success": False,
         "error": error,
-        "message": message
+        "data": data
     }
     if code is None: return Response(data=res_data)    
     if code == 400: return Response(data=res_data, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -63,7 +63,7 @@ export default function App() {
   let appIntroSliderRef = null;
   if (!showHomePage) {
     return (
-      <>
+      <View style={{flex: 1}}>
         <AppIntroSlider
           ref={(ref) => (appIntroSliderRef = ref)}
           style={styles.intro}
@@ -141,7 +141,7 @@ export default function App() {
             <SignUp onClose={onCloseSignIn} homepage={setShowHomePage} />
           </Modal>
         </GestureRecognizer>
-      </>
+      </View>
 
     )
   }
@@ -218,9 +218,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(216,216,216,0.5)',
     height: 6,
     width: '80%',
-    // marginTop: verticalScale(40),
     position: 'absolute',
-    bottom: verticalScale(60),
+    bottom: verticalScale(50),
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'flex-start',

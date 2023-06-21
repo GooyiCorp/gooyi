@@ -48,7 +48,7 @@ const SignIn = ({ onClose, homepage }) => {
     };
     return (
         <SafeAreaView style={styles.modalContainer}>
-            <Text style={styles.formTitle}>Anmelden</Text>
+            <Text style={styles.formTitle}>Registrieren</Text>
             <View style={styles.formContainer}>
                 <TouchableOpacity onPress={onClose} style={styles.closeButton}>
                     <Ionicons name="close" size={moderateScale(24)} color="#4A4A4A" />
@@ -133,12 +133,10 @@ styles = StyleSheet.create({
     },
     formButton: {
         backgroundColor: '#B84058',
-        paddingVertical: 12,
-        borderRadius: 21,
+        paddingVertical: verticalScale(14),
+        borderRadius: 30,
         marginTop: 20,
-        width: moderateScale(229),
-        height: verticalScale(40),
-        justifyContent: 'center',
+        width: moderateScale(200),
     },
     formButtonText: {
         color: '#fff',
@@ -160,7 +158,7 @@ styles = StyleSheet.create({
         width: moderateScale(30),
         height: moderateScale(30),
         backgroundColor: '#F4F4F4',
-        borderRadius: '50%',
+        borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-start',
