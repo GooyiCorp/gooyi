@@ -48,7 +48,7 @@ const SignIn = ({ onClose, homepage }) => {
     };
     return (
         <SafeAreaView style={styles.modalContainer}>
-            <Text style={styles.formTitle}>Anmelden</Text>
+            <Text style={styles.formTitle}>Registrieren</Text>
             <View style={styles.formContainer}>
                 <TouchableOpacity onPress={onClose} style={styles.closeButton}>
                     <Ionicons name="close" size={moderateScale(24)} color="#4A4A4A" />
