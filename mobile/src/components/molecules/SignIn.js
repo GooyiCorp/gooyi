@@ -41,6 +41,7 @@ const SignIn = ({ onClose, homepage }) => {
                     console.log(response.data);
                 }
                 if (response.data.error == 'OutOfTries') {
+                    setWrongEmail(false);
                     console.log(response.data.data);
                 }
                 setPassword('');

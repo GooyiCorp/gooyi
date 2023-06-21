@@ -15,14 +15,15 @@ def login(request):
     password = data['password']
     try:
         user = User.objects.get(email=email)
+        user_versuche = UserVersuche.objects.get(user=user)
+        if user_versucher == 0: raise Exception
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             return sendSuccess("Login successfully")
         else:
-            raise Exception('Wrong password')
+            raise Exception
     except User.DoesNotExist:
         return sendError("email", {"message": "Email does not exist"})
     except Exception:
-        user_versuche = UserVersuche.objects.get(user=user)
         if user_versuche.versucher == 0:
             user.active = False
             user.save()
