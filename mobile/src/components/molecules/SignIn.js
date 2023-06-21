@@ -38,12 +38,12 @@ const SignIn = ({ onClose, homepage }) => {
                     setWrongEmail(false);
                     setWrongPassword(true)
                     setTries_left(response.data.data.tries_left)
-                    console.log(response.data);
                 }
                 if (response.data.error == 'OutOfTries') {
                     setWrongEmail(false);
                     console.log(response.data.data);
                 }
+                console.log(response.data);
                 setPassword('');
             }
         } catch (error) {

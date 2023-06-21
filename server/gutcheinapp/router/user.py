@@ -16,7 +16,7 @@ def login(request):
     try:
         user = User.objects.get(email=email)
         user_versuche = UserVersuche.objects.get(user=user)
-        if user_versucher == 0: raise Exception
+        if user_versuche.versucher == 0: raise Exception
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             return sendSuccess("Login successfully")
         else:
@@ -28,6 +28,8 @@ def login(request):
             user.active = False
             user.save()
             return sendError("OutOfTries", {"message": "No more tries"})
+        elif password == '':
+            return sendError(None, {"message": "Password fehlt"})
         user_versuche.versucher -= 1
         user_versuche.save()
         return sendError("password", {"message": "Wrong password", "tries_left": user_versuche.versucher})
