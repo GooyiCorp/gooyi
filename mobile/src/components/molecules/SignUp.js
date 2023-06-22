@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Button, Alert, SafeAreaView, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, Modal } from 'react-native';
 import { moderateScale, s, scale, verticalScale } from 'react-native-size-matters';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { api_url } from '../../constants/api.js'
 const dum = require('../../../assets/icons/dum.png');
@@ -13,8 +13,7 @@ const SignIn = ({ onClose, homepage }) => {
     const [wrongPassword, setWrongPassword] = useState(false);
     const [nullPassword, setNullPassword] = useState(false);
     const [nullEmail, setNullEmail] = useState(false);
-    const [focus, setFocus] = useState(null);
-
+    const [tries_left, setTries_left] = useState(null);
     const handleSignIn = async () => {
         if (password) setNullPassword(false)
         if (email) setNullEmail(false)
@@ -38,7 +37,13 @@ const SignIn = ({ onClose, homepage }) => {
                     }
                     setWrongEmail(false);
                     setWrongPassword(true)
+                    setTries_left(response.data.data.tries_left)
                 }
+                if (response.data.error == 'OutOfTries') {
+                    setWrongEmail(false);
+                    console.log(response.data.data);
+                }
+                console.log(response.data);
                 setPassword('');
             }
         } catch (error) {
@@ -48,7 +53,7 @@ const SignIn = ({ onClose, homepage }) => {
     };
     return (
         <SafeAreaView style={styles.modalContainer}>
-            <Text style={styles.formTitle}>Registrieren</Text>
+            <Text style={styles.formTitle}>Anmelden</Text>
             <View style={styles.formContainer}>
                 <TouchableOpacity onPress={onClose} style={styles.closeButton}>
                     <Ionicons name="close" size={moderateScale(24)} color="#4A4A4A" />
@@ -56,7 +61,7 @@ const SignIn = ({ onClose, homepage }) => {
                 <View>
                     <View style={[styles.inputContainer, (wrongEmail || nullEmail) && styles.falseInputField]}>
                         <Text style={[styles.label]}>E-mail</Text>
-                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email} onFocus={() => setFocus('email')} onBlur={() => setFocus(null)} />
+                        <TextInput style={styles.formInput} placeholder="example@email.com" onChangeText={setEmail} value={email} />
                     </View>
                     <View>
                         <Text style={[styles.falseAlert, (wrongEmail || nullEmail) && { display: 'flex' }]}>{nullEmail ? 'E-mail fehlt' : 'Die eingegebene E-Mail-Addresse existiert nicht'}</Text>
@@ -65,7 +70,7 @@ const SignIn = ({ onClose, homepage }) => {
                 <View>
                     <View style={[styles.inputContainer, nullPassword && styles.falseInputField]}>
                         <Text style={[styles.label]}>Passwort</Text>
-                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password} onFocus={() => setFocus('password')} onBlur={() => setFocus(null)} />
+                        <TextInput style={styles.formInput} secureTextEntry={!showPassword} onChangeText={setPassword} value={password} />
                         <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword((prev) => !prev)}>
                             <Ionicons
                                 name={showPassword ? 'eye-off' : 'eye'}
@@ -74,14 +79,14 @@ const SignIn = ({ onClose, homepage }) => {
                             />
                         </TouchableOpacity>
                     </View>
-                    <View style={{justifyContent: 'center' }}>
+                    <View style={{ justifyContent: 'center' }}>
                         <Text style={[styles.falseAlert, nullPassword && { display: 'flex' }]}>Passwort fehlt</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.formButton} onPress={handleSignIn}>
                     <Text style={styles.formButtonText}>Anmelden</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: verticalScale(12)}}>
+                <TouchableOpacity style={{ marginTop: verticalScale(12) }}>
                     <Text style={styles.vergessen}>Passwort vergessen</Text>
                 </TouchableOpacity>
                 <Modal
@@ -98,9 +103,9 @@ const SignIn = ({ onClose, homepage }) => {
                             <Text style={styles.wrongPasswordTitle}>Ooops! Irendwas ist schief gelaufen.</Text>
                             <Text style={styles.wrongPasswordDetail}>
                                 E-mail oder Passwort leider ungültig. {'\n\n'}
-                                Noch <Text style={{ color: '#B84058', fontFamily: 'Roboto-Bold' }}>3</Text> Versuche.
+                                Noch <Text style={{ color: '#B84058', fontFamily: 'Roboto-Bold' }}>{tries_left}</Text> Versuche.
                             </Text>
-                            <TouchableOpacity onPress={()=>setWrongPassword(false)}>
+                            <TouchableOpacity onPress={() => setWrongPassword(false)}>
                                 <Text style={styles.vergessen}>Erneut versuchen</Text>
                             </TouchableOpacity>
                         </View>
@@ -135,19 +140,19 @@ styles = StyleSheet.create({
         backgroundColor: '#B84058',
         paddingVertical: verticalScale(14),
         borderRadius: 30,
-        marginTop: 20,
+        marginTop: verticalScale(20),
         width: moderateScale(200),
     },
     formButtonText: {
         color: '#fff',
-        fontFamily: 'Roboto-Bold',
-        fontSize: scale(11),
+        fontFamily: 'Roboto-Medium',
+        fontSize: moderateScale(13),
         textAlign: 'center',
     },
     vergessen: {
         color: '#B84058',
         fontFamily: 'Roboto-Medium',
-        fontSize: moderateScale(14),
+        fontSize: moderateScale(13),
     },
     modalContainer: {
         flex: 1,
@@ -193,7 +198,7 @@ styles = StyleSheet.create({
         margin: scale(10),
         height: verticalScale(50),
         width: scale(300),
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         borderBottomColor: '#EEC8C8',
     },
     falseLabel: {
@@ -233,7 +238,7 @@ styles = StyleSheet.create({
     },
     wrongPasswordDetail: {
         fontFamily: 'Roboto-Regular',
-        fontSize: moderateScale(12),
+        fontSize: moderateScale(13),
         textAlign: 'center',
         margin: scale(10),
         marginBottom: verticalScale(20)

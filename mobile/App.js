@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput, SafeAreaView } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput, SafeAreaView, Animated } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -10,11 +10,13 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import welcome from './src/constants/welcome';
 
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
-import { SCREEN_WIDTH } from './src/constants/size';
+import { SCREEN_WIDTH } from './src/constants/size.js';
 
 import SignIn from './src/components/molecules/SignIn.js';
 import SignUp from './src/components/molecules/SignUp';
+import PaginationBar from './src/components/atoms/PaginationBar';
 const logo = require('./assets/logo/logo.png');
+
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [showHomePage, setShowHomePage] = useState(false);
@@ -26,19 +28,20 @@ export default function App() {
   });
   const [showSignIn, setShowSignIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [slide, setSlide] = useState(1);
-  let paginationStatus = {
-    height: 6,
-    backgroundColor: "#B84058",
-    width: (25*slide) + '%',
-    borderRadius: 5,
-    opacity: 1,
+  const width = useState(new Animated.Value(1))[0]
+  const changeSlide = (index) => {
+    Animated.spring(width, {
+      toValue: 25 * (index + 1) * SCREEN_WIDTH * 0.8 * 0.01,
+      // duration: 500,
+      useNativeDriver: false,
+    }).start()
   }
   useEffect(() => {
+    changeSlide(0)
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 3000);
-
+    
     return () => clearTimeout(timer);
   }, []);
   if (showSplash) {
@@ -53,13 +56,7 @@ export default function App() {
   }
   const onCloseSignIn = () => setShowSignIn(false);
   const onCloseRegister = () => setShowRegister(false);
-  const PaginationBar = () => {
-    return (
-      <View style={styles.paginationBar}>
-        <View style={paginationStatus}></View>
-      </View>
-    )
-  }
+  
   let appIntroSliderRef = null;
   if (!showHomePage) {
     return (
@@ -104,7 +101,7 @@ export default function App() {
                       style={styles.button}
                       onPress={() => {
                         appIntroSliderRef.goToSlide(welcome.length - 1);
-                        setSlide(welcome.length)
+                        changeSlide(3)
                       }}
                     >
                       <Text style={styles.buttonText}>Los Geht's</Text>
@@ -115,9 +112,9 @@ export default function App() {
           showDoneButton={false}
           showNextButton={true}
           onDone={() => setShowHomePage(true)}
-          onSlideChange={(index) => {setSlide(index + 1)}}
+          onSlideChange={(index) => changeSlide(index)}
         />
-          <PaginationBar />
+          <PaginationBar width={width} />
         <GestureRecognizer
           onSwipeDown={onCloseSignIn}
         >
@@ -127,7 +124,7 @@ export default function App() {
             transparent={true}
 
           >
-            <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />
+          <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />
           </Modal>
         </GestureRecognizer>
         <GestureRecognizer
@@ -214,16 +211,4 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(13),
     textAlign: 'center',
   },
-  paginationBar: {
-    backgroundColor: 'rgba(216,216,216,0.5)',
-    height: 6,
-    width: '80%',
-    position: 'absolute',
-    bottom: verticalScale(50),
-    alignSelf: 'center',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    borderRadius: 5,
-  },
-  
 });

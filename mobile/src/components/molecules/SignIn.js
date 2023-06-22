@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Button, Alert, SafeAreaView, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, Modal } from 'react-native';
 import { moderateScale, s, scale, verticalScale } from 'react-native-size-matters';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { api_url } from '../../constants/api.js'
 const dum = require('../../../assets/icons/dum.png');
@@ -140,7 +140,7 @@ styles = StyleSheet.create({
         backgroundColor: '#B84058',
         paddingVertical: verticalScale(14),
         borderRadius: 30,
-        marginTop: 20,
+        marginTop: verticalScale(20),
         width: moderateScale(200),
     },
     formButtonText: {
