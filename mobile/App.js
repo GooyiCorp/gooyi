@@ -32,7 +32,6 @@ export default function App() {
   const changeSlide = (index) => {
     Animated.spring(width, {
       toValue: 25 * (index + 1) * SCREEN_WIDTH * 0.8 * 0.01,
-      // duration: 500,
       useNativeDriver: false,
     }).start()
   }
@@ -41,7 +40,7 @@ export default function App() {
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 3000);
-    
+
     return () => clearTimeout(timer);
   }, []);
   if (showSplash) {
@@ -56,16 +55,16 @@ export default function App() {
   }
   const onCloseSignIn = () => setShowSignIn(false);
   const onCloseRegister = () => setShowRegister(false);
-  
+
   let appIntroSliderRef = null;
   if (!showHomePage) {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <AppIntroSlider
           ref={(ref) => (appIntroSliderRef = ref)}
           style={styles.intro}
           data={welcome}
-          renderPagination={()=>null}
+          renderPagination={() => null}
           renderItem={({ item, index, slides }) => {
             if (index === welcome.length - 1) {
               return (
@@ -95,17 +94,17 @@ export default function App() {
                 colors={['rgb(187,95,113)', 'rgba(211,128,145,1)', 'rgba(239,151,171,1)', 'rgba(229,150,167,1)', 'rgba(206,120,138,1)', 'rgba(182,87,107,1)']}
                 locations={[0, 0.14, 0.24, 0.6, 0.74, 1]}
                 style={styles.slider}>
-                    <Image source={item.image} style={{ height: moderateScale(280), marginBottom: verticalScale(30) }} resizeMode="contain" />
-                    <Text style={styles.sliderText}>{item.text}</Text>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => {
-                        appIntroSliderRef.goToSlide(welcome.length - 1);
-                        changeSlide(3)
-                      }}
-                    >
-                      <Text style={styles.buttonText}>Los Geht's</Text>
-                    </TouchableOpacity>
+                <Image source={item.image} style={{ height: moderateScale(280), marginBottom: verticalScale(30) }} resizeMode="contain" />
+                <Text style={styles.sliderText}>{item.text}</Text>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    appIntroSliderRef.goToSlide(welcome.length - 1);
+                    changeSlide(3)
+                  }}
+                >
+                  <Text style={styles.buttonText}>Los Geht's</Text>
+                </TouchableOpacity>
               </LinearGradient>
             )
           }}
@@ -114,7 +113,7 @@ export default function App() {
           onDone={() => setShowHomePage(true)}
           onSlideChange={(index) => changeSlide(index)}
         />
-          <PaginationBar width={width} />
+        <PaginationBar width={width} />
         <GestureRecognizer
           onSwipeDown={onCloseSignIn}
         >
@@ -124,7 +123,7 @@ export default function App() {
             transparent={true}
 
           >
-          <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />
+            <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />
           </Modal>
         </GestureRecognizer>
         <GestureRecognizer
