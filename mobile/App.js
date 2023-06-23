@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput, SafeAreaView, Animated } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput, SafeAreaView, Animated, PanResponder } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -28,13 +28,23 @@ export default function App() {
   });
   const [showSignIn, setShowSignIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const width = useState(new Animated.Value(1))[0]
+
+  // slide animation -----------------------------------------------
+  const width = useRef(new Animated.Value(1)).current
+  const nextSlide = useRef(null)
+  const indexRef = useRef(0)
+  const [swipeVelocity, setSwipeVelocity] = useState(0);
   const changeSlide = (index) => {
+    if (index <= 0) index = 0
+    if (index >= 3) index = 3
+    nextSlide.current = index
     Animated.spring(width, {
       toValue: 25 * (index + 1) * SCREEN_WIDTH * 0.8 * 0.01,
       useNativeDriver: false,
     }).start()
   }
+  
+  // ----------------------------------------------------------------
   useEffect(() => {
     changeSlide(0)
     const timer = setTimeout(() => {
@@ -58,6 +68,8 @@ export default function App() {
 
   let appIntroSliderRef = null;
   if (!showHomePage) {
+    
+
     return (
       <View style={{ flex: 1 }}>
         <AppIntroSlider
@@ -66,9 +78,29 @@ export default function App() {
           data={welcome}
           renderPagination={() => null}
           renderItem={({ item, index, slides }) => {
+            const panResponder = PanResponder.create({
+              onStartShouldSetPanResponder: () => true,
+              onPanResponderMove: (_, gestureState) => {
+                setSwipeVelocity(gestureState.vx);
+                if (swipeVelocity > 0 && Math.abs(gestureState.moveX) > 30) {
+                  changeSlide(index - 1)
+                } else if (swipeVelocity < 0 && Math.abs(gestureState.moveX) > 30) {
+                  changeSlide(index + 1)
+                }
+                
+              },
+              onPanResponderTerminationRequest: ()=>{},
+              onPanResponderRelease: () => {
+                setSwipeVelocity(0)
+                setTimeout(() => {
+                  if (indexRef.current != nextSlide.current) changeSlide(indexRef.current)
+                }, 322);
+              }
+ 
+            });
             if (index === welcome.length - 1) {
               return (
-                <LinearGradient
+                <LinearGradient {...panResponder.panHandlers}
                   colors={['rgb(187,95,113)', 'rgba(211,128,145,1)', 'rgba(239,151,171,1)', 'rgba(229,150,167,1)', 'rgba(206,120,138,1)', 'rgba(182,87,107,1)']}
                   locations={[0, 0.14, 0.24, 0.6, 0.74, 1]}
                   style={styles.slider}>
@@ -89,8 +121,8 @@ export default function App() {
                 </LinearGradient>
               )
             }
-            return (
-              <LinearGradient
+            return ( 
+              <LinearGradient {...panResponder.panHandlers}
                 colors={['rgb(187,95,113)', 'rgba(211,128,145,1)', 'rgba(239,151,171,1)', 'rgba(229,150,167,1)', 'rgba(206,120,138,1)', 'rgba(182,87,107,1)']}
                 locations={[0, 0.14, 0.24, 0.6, 0.74, 1]}
                 style={styles.slider}>
@@ -108,10 +140,10 @@ export default function App() {
               </LinearGradient>
             )
           }}
-          showDoneButton={false}
-          showNextButton={true}
-          onDone={() => setShowHomePage(true)}
-          onSlideChange={(index) => changeSlide(index)}
+          onSlideChange={(index) => { 
+            changeSlide(index); 
+            indexRef.current = index}
+          }
         />
         <PaginationBar width={width} />
         <GestureRecognizer
