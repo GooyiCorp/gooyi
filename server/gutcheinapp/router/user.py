@@ -25,13 +25,15 @@ def login(request):
         return sendError("email", {"message": "Email does not exist"})
     except Exception:
         if user_versuche.versucher == 0:
-            user.active = False
-            user.save()
             return sendError("OutOfTries", {"message": "No more tries"})
         elif password == '':
             return sendError(None, {"message": "Password fehlt"})
         user_versuche.versucher -= 1
         user_versuche.save()
+        if user_versuche.versucher == 0:
+            user.active = False
+            user.save()
+            return sendError("OutOfTries", {"message": "No more tries"})
         return sendError("password", {"message": "Wrong password", "tries_left": user_versuche.versucher})
 @api_view(['POST'])
 def register(request):
