@@ -107,6 +107,7 @@ def email_verification(request):
     else:
         return JsonResponse({'success': False, 'message': 'OTP expired'})
     
+    
 @api_view(['PUT', 'POST'])
 def password_vergessen(request):
     email = request.data['email']
@@ -125,6 +126,9 @@ def password_vergessen(request):
         # Store OTP
         cache_key = f'otp:{email}'
         cache.set(cache_key, otp, timeout=300)
+        return sendSuccess("Email sent successfully")
+        
+        
     
     if request.method == 'PUT':
         otp = request.data['otp']
