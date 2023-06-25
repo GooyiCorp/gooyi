@@ -6,5 +6,6 @@ urlpatterns = [
     path('user/login/', user.login),
     path('user/register/', user.register),
     path('user/verification/', user.email_verification),
+    path('user/forgot_password/', user.password_vergessen),
 ]
 
