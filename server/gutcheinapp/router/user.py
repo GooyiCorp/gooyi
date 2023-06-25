@@ -106,3 +106,47 @@ def email_verification(request):
             return JsonResponse({"success": False, 'message': 'OTP was wrong'})
     else:
         return JsonResponse({'success': False, 'message': 'OTP expired'})
+    
+@api_view(['PUT', 'POST'])
+def password_vergessen(request):
+    email = request.data['email']
+
+    if request.method == 'POST':
+        otp = OTP_generator()
+        subject = "Password Recovery"
+        body = 'Sehrgeehter Damen und Herren, OTP is ' + (otp)
+        from_email = 'Gooyi <noreply@gmail.com>'
+        to_email = [email]
+        
+        # Send email
+        email_send = EmailMessage(subject, body, from_email, to_email)
+        email_send.send()
+    
+        # Store OTP
+        cache_key = f'otp:{email}'
+        cache.set(cache_key, otp, timeout=300)
+    
+    if request.method == 'PUT':
+        otp = request.data['otp']
+        password = request.data['password']
+        
+        cache_key = f'otp:{email}'
+        stored_otp = cache.get(cache_key)
+        
+        if stored_otp:
+            if otp == stored_otp:
+                user = User.objects.get(email=email)
+                hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+                user.password = hash_password.decode('utf-8')
+                user.save()
+                return JsonResponse({"success": True, 'message': 'Email successfully verified'})
+            else:
+                return JsonResponse({"success": False, 'message': 'OTP was wrong'})
+        else:
+            return JsonResponse({'success': False, 'message': 'OTP expired'})
+    
+        
+        
+        
+        
+                
