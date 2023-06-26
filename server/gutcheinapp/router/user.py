@@ -144,6 +144,7 @@ def password_vergessen(request):
                 user = User.objects.get(email=email)
                 hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
                 user.password = hash_password.decode('utf-8')
+                user.active = True
                 user.save()
                 return JsonResponse({"success": True, 'message': 'Email successfully verified'})
             else:
