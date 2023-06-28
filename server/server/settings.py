@@ -138,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.environ.get('MAIL_HOST')
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('MAIL_USER')  # your Gmail address
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')  # your Gmail password
