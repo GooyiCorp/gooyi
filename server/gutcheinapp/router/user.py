@@ -146,6 +146,9 @@ def password_vergessen(request):
                 user.password = hash_password.decode('utf-8')
                 user.active = True
                 user.save()
+                user_versuche = UserVersuche.objects.get(user=user)
+                user_versuche.versucher = 3
+                user_versuche.save()
                 return JsonResponse({"success": True, 'message': 'Email successfully verified'})
             else:
                 return JsonResponse({"success": False, 'message': 'OTP was wrong'})
