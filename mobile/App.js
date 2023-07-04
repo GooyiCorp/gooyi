@@ -13,7 +13,8 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SCREEN_WIDTH } from './src/constants/size.js';
 
 import SignIn from './src/components/molecules/SignIn.js';
-import SignUp from './src/components/molecules/SignUp';
+import Register from './src/components/molecules/Register.js';
+
 import PaginationBar from './src/components/atoms/PaginationBar';
 const logo = require('./assets/logo/logo.png');
 
@@ -146,9 +147,8 @@ export default function App() {
           }
         />
         <PaginationBar width={width} />
-        <GestureRecognizer
-          onSwipeDown={onCloseSignIn}
-        >
+
+        <GestureRecognizer onSwipeDown={onCloseSignIn}>
           <Modal
             visible={showSignIn}
             animationType="slide"
@@ -158,17 +158,16 @@ export default function App() {
             <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />
           </Modal>
         </GestureRecognizer>
-        <GestureRecognizer
-          onSwipeDown={onCloseRegister}
-        >
+        <GestureRecognizer onSwipeDown={onCloseRegister}>
           <Modal
             visible={showRegister}
             animationType="slide"
             transparent={true}
-          >
-            <SignUp onClose={onCloseSignIn} homepage={setShowHomePage} />
-          </Modal>
+            >
+            <Register onClose={onCloseRegister} homepage={setShowHomePage} />
+          </Modal>        
         </GestureRecognizer>
+
       </View>
 
     )

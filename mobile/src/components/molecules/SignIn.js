@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, Modal } from 'react-native';
-import { moderateScale, s, scale, verticalScale } from 'react-native-size-matters';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { api_url } from '../../constants/api.js'
@@ -117,7 +117,7 @@ const SignIn = ({ onClose, homepage }) => {
     )
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     formContainer: {
         padding: scale(20),
         alignItems: 'center',
