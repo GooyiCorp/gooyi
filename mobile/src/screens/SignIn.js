@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, SafeAreaVie
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { api_url } from '../../constants/api.js'
-const dum = require('../../../assets/icons/dum.png');
+import { api_url } from '../constants/api.js'
+const dum = require('../../assets/icons/dum.png');
 const SignIn = ({ onClose, homepage }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');

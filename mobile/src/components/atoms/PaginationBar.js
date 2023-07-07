@@ -1,37 +1,54 @@
 import React, { useState, useRef } from 'react';
 
-import { StyleSheet, View , Animated } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { width } from '../../constants/size';
 
+import welcome from '../../constants/welcome';
 
-
-
-const PaginationBar = ({width}) => {
-    let paginationStatus = {
-        height: 6,
-        backgroundColor: "#B84058",
-        borderRadius: 5,
-        opacity: 1,
-    }
+const PaginationBar = ({scrollX}) => {
+    
     return (
-        <View style={styles.paginationBar}>
-            <Animated.View style={[paginationStatus, { width: width }]}></Animated.View>
+        <View style={styles.container} >
+            {
+                welcome.map((_, index) =>{
+                    const inputRange = [(index-1)*width, index*width, (index+1)*width]
+                    const dotWidth = scrollX.interpolate({
+                        inputRange,
+                        outputRange: [12,30,12],
+                        extrapolate: 'clamp'
+                    })
+                    const dotBackground = scrollX.interpolate({
+                        inputRange,
+                        outputRange: ['#ccc','#B84058', '#ccc'],
+                        extrapolate: 'clamp'
+                    })
+                    return <Animated.View key={index.toString()} style={[styles.dot, {width: dotWidth, backgroundColor: dotBackground}]}/>;
+                })
+            }
         </View>
     )
 }
 
 const styles= StyleSheet.create({
-    paginationBar: {
-        backgroundColor: 'rgba(216,216,216,0.5)',
-        height: 6,
-        width: '80%',
+    container: {
         position: 'absolute',
-        bottom: verticalScale(50),
-        alignSelf: 'center',
+        bottom: 50,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        borderRadius: 5,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
+    dot: {
+        width: 12,
+        height: 12,
+        backgroundColor: 'white',
+        borderRadius: 6,
+        marginHorizontal: 3
+    },
+    // activeDot: {
+    //     backgroundColor: '#B84058'
+    // },
 })
 
 export default PaginationBar

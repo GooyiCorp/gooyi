@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, SafeAreaVie
 import { moderateScale, s, scale, verticalScale } from 'react-native-size-matters';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { api_url } from '../../constants/api.js'
+import { api_url } from '../constants/api.js'
 
 const Register = ({ onClose, homepage }) => {
     
