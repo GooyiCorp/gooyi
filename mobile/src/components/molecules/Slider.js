@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, Text, View, StyleSheet, Animated, TouchableOpacity } from "react-native";
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
@@ -6,11 +6,18 @@ import { width, height } from "../../constants/size.js";
 import welcome from "../../constants/welcome.js";
 import { RedButton, WhiteButton } from "../atoms/Button.js";
 
+const Slider = ({ item, index, scrollToEnd, scrollX, setShowSignIn, setShowRegister, showRegister }) => {
+    
+    const handleSignIn = () => {
+        setShowSignIn(true)
+    }
+    const handleRegister = () => {
+        setShowRegister(true)
+    }
 
-const Slider = ({ item, index, scrollToEnd, scrollX }) => {
     const inputRange = [(index - 1) * width, index * width, (index + 1) * width]
     const opacity = scrollX.interpolate({
-        inputRange,
+        inputRange: inputRange,
         outputRange: [0.2, 1, 0.2],
         extrapolate: 'clamp'
     })
@@ -27,8 +34,8 @@ const Slider = ({ item, index, scrollToEnd, scrollX }) => {
             <View style={[styles.container]}>
                 <Image source={item.image} style={styles.image} resizeMode="center"/>
                 <Text style={styles.text}>{item.text}</Text>
-                <RedButton title="Anmelden" />
-                <WhiteButton title="Registrieren" />
+                <RedButton title="Anmelden" onPress={handleSignIn} />
+                <WhiteButton title="Registrieren" onPress={handleRegister}/>
             </View>
         )
     }

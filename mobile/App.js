@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import AppIntroSlider from './src/screens/AppIntroSlider.js';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const logo = require('./assets/logo/logo.png');
 
@@ -38,9 +39,9 @@ export default function App() {
   }
   if (!showHomePage) {
     return (
-      <View>
-        <AppIntroSlider />
-      </View>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <AppIntroSlider setShowHomePage={setShowHomePage} />
+      </GestureHandlerRootView>
     )
   }
   return (
