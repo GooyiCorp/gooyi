@@ -11,7 +11,7 @@ export default welcome = [
     },
     {
         'id': 3,
-        'image': require('../../assets/image/foxSlide1.png'),
+        'image': require('../../assets/image/foxSlide3.png'),
         'text': 'Reservierung einfach und bequem über das Buchungstool vornehmen'
     },
     {
