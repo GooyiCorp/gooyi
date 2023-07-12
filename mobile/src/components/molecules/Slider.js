@@ -6,7 +6,7 @@ import { width, height } from "../../constants/size.js";
 import welcome from "../../constants/welcome.js";
 import { RedButton, WhiteButton } from "../atoms/Button.js";
 
-const Slider = ({ item, index, scrollToEnd, scrollX, setShowSignIn, setShowRegister, showRegister }) => {
+const Slider = ({ item, index, scrollX, setShowSignIn, setShowRegister }) => {
     
     const handleSignIn = () => {
         setShowSignIn(true)
@@ -24,15 +24,14 @@ const Slider = ({ item, index, scrollToEnd, scrollX, setShowSignIn, setShowRegis
     if (index != welcome.length - 1) {
         return (
             <Animated.View style={[styles.container, opacity]}>
-                <Image source={item.image} style={styles.image} resizeMode="center"/>
+                <Image source={item.image} style={styles.image} resizeMode="contain"/>
                 <Text style={styles.text}>{item.text}</Text>
-                <RedButton title="Los geht's" onPress={scrollToEnd}/>
             </Animated.View>
         )
     } else {
         return (
             <View style={[styles.container]}>
-                <Image source={item.image} style={styles.image} resizeMode="center"/>
+                <Image source={item.image} style={styles.image} resizeMode="contain"/>
                 <Text style={styles.text}>{item.text}</Text>
                 <RedButton title="Anmelden" onPress={handleSignIn} />
                 <WhiteButton title="Registrieren" onPress={handleRegister}/>
@@ -50,8 +49,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     image: {
-        width: "80%",
+        maxWidth: "80%",
         flex: 0.6,
+        // maxHeight: "30%",
+        // overflow: "visible"
     },
     text: {
         color: '#fff',
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: moderateScale(25),
         width: scale(250),
-        marginBottom: verticalScale(10),
+        marginVertical: verticalScale(10),
     }
 })
 

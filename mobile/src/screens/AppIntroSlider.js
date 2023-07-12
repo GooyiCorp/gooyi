@@ -9,6 +9,9 @@ import PaginationBar from "../components/atoms/PaginationBar.js";
 import SignIn from "./SignIn.js";
 import Register from "./Register.js";
 
+import { RedButton } from "../components/atoms/Button.js";
+import { verticalScale } from "react-native-size-matters";
+import { width } from "../constants/size.js";
 const AppIntroSlider = ( {setShowHomePage}) => {
 
     const [showSignIn, setShowSignIn] = useState(false)
@@ -50,6 +53,14 @@ const AppIntroSlider = ( {setShowHomePage}) => {
             },
         )(event);
     }
+    const inputRange = [(slideIndex - 1) * width, slideIndex * width, (slideIndex + 1) * width]
+    if ( slideIndex > 1) {
+        var opacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0, 1, 0],
+            extrapolate: 'clamp'
+        })
+    }
     // -------------------------------------------------------------------------
 
     return (
@@ -75,6 +86,11 @@ const AppIntroSlider = ( {setShowHomePage}) => {
                 onScroll={handleScroll}
                 onViewableItemsChanged={handleGetIndex}
             />
+            { slideIndex != welcome.length -1 && 
+            <Animated.View style={{opacity: opacity}}>
+                <RedButton title="Los geht's" onPress={scrollToEnd} style={{position: 'absolute', bottom: verticalScale(70), alignSelf: 'center' }} />
+            </Animated.View>
+            }
             <PaginationBar scrollX={scrollX} currentIndex={slideIndex} />
             {showSignIn && <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />}
             {showRegister && <Register onClose={onCloseRegister} homepage={setShowHomePage}/>}

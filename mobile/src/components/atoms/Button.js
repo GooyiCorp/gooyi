@@ -4,17 +4,17 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 
 
-export const RedButton = ({ title, onPress }) => {
+export const RedButton = ({ title, style, onPress }) => {
     return (
-        <TouchableOpacity style={styles.redButton} onPress={onPress}>
+        <TouchableOpacity style={[styles.redButton, style]} onPress={onPress}>
             <Text style={styles.redTitle}>{title}</Text>
         </TouchableOpacity>
     )
 };
 
-export const WhiteButton = ({ title, onPress }) => {
+export const WhiteButton = ({ title, style, onPress }) => {
     return (
-        <TouchableOpacity style={styles.whiteButton} onPress={onPress}>
+        <TouchableOpacity style={[styles.whiteButton, style]} onPress={onPress}>
             <Text style={styles.whiteTitle}>{title}</Text>
         </TouchableOpacity>
     )

@@ -33,7 +33,7 @@ const PaginationBar = ({scrollX}) => {
 const styles= StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 50,
+        bottom: verticalScale(30),
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'center',
@@ -46,9 +46,6 @@ const styles= StyleSheet.create({
         borderRadius: 6,
         marginHorizontal: 3
     },
-    // activeDot: {
-    //     backgroundColor: '#B84058'
-    // },
 })
 
 export default PaginationBar
