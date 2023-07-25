@@ -50,9 +50,7 @@ const styles = StyleSheet.create({
     },
     image: {
         maxWidth: "80%",
-        flex: 0.6,
-        // maxHeight: "30%",
-        // overflow: "visible"
+        flex: 0.5,
     },
     text: {
         color: '#fff',
