@@ -7,12 +7,14 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import AppIntroSlider from './src/screens/AppIntroSlider.js';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Navigation from './src/navigation/Navigation.js';
+import { NavigationContainer } from '@react-navigation/native';
 
 const logo = require('./assets/logo/logo.png');
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
-  const [showHomePage, setShowHomePage] = useState(false);
+  const [showSplash, setShowSplash] = useState(false);
+  const [showHomePage, setShowHomePage] = useState(true);
   const [fontsLoaded] = useFonts({
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
@@ -45,10 +47,9 @@ export default function App() {
     )
   }
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Navigation />
+    </NavigationContainer>
   );
 }
 
