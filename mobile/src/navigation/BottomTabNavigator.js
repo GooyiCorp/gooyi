@@ -35,9 +35,6 @@ const BottomTabNavigator = () => {
         headerTitleAlign: 'left',
         headerLeft: () => (
           <View style={styles.headerLeft}>
-          <Button title='test' />
-          <Button title='test' />
-          <Button title='test' />
           </View>
         )
       }}
