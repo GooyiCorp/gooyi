@@ -7,7 +7,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import AppIntroSlider from './src/screens/AppIntroSlider.js';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Navigation from './src/navigation/Navigation.js';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator.js';
 import { NavigationContainer } from '@react-navigation/native';
 
 const logo = require('./assets/logo/logo.png');
@@ -48,7 +48,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Navigation />
+      <BottomTabNavigator />
     </NavigationContainer>
   );
 }
