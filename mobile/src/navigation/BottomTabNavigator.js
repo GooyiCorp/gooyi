@@ -5,9 +5,11 @@ import { StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import { DiscoverScreen, CouponsScreen, FinderScreen, StoresScreen } from '../screens/index.js';
 import { COLORS, ROUTES } from '../constants/index.js';
 
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header.js';
 import { Avatar } from 'react-native-paper';
+import StackNavigationStore from './StackNavigationStore.js';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -18,16 +20,26 @@ const BottomTabNavigator = () => {
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: COLORS.primary,
         headerStyle: styles.headerStyle,
+        headerTitleContainerStyle: styles.titleContainer,
+        headerRightContainerStyle: styles.rightContainer,
         headerRight: () => (
-          <View style={styles.row}>
-            <TouchableOpacity>
-              <Avatar.Text size={42} label="XD" />
+          <View style={{flexDirection: 'row', marginRight: 25}}>
+            <TouchableOpacity style={styles.qrButton}>
+              <MaterialCommunityIcons name="qrcode-scan" size={20} color="white" />
             </TouchableOpacity>
-            <View >
-              <Button title='scan'/>
-            </View>
+            <TouchableOpacity>
+              <Avatar.Text size={42} label="XD" style={{margin: 5}}/>
+            </TouchableOpacity>
           </View>
         ),
+        headerTitleAlign: 'left',
+        headerLeft: () => (
+          <View style={styles.headerLeft}>
+          <Button title='test' />
+          <Button title='test' />
+          <Button title='test' />
+          </View>
+        )
       }}
     >
         <Tab.Screen 
@@ -42,7 +54,7 @@ const BottomTabNavigator = () => {
         />
         <Tab.Screen name={ROUTES.COUPONS} component={CouponsScreen}/>
         <Tab.Screen name={ROUTES.FINDER} component={FinderScreen}/>
-        <Tab.Screen name={ROUTES.STORES} component={StoresScreen}/>
+        <Tab.Screen name='StackNavigation' component={StackNavigationStore}/>
     </Tab.Navigator>
   )
 }
@@ -60,12 +72,34 @@ const styles = StyleSheet.create({
 
   headerStyle: {
     height: 169,
-    backgroundColor: COLORS.transparent,
+  },
+
+  headerLeft: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 80,
     borderBottomWidth: 0,
   },
 
-  row: {
-    flexDirection: 'row',
-    marginRight: 15
-  }
+  qrButton: {
+    height: 42,
+    width: 42,
+    backgroundColor: COLORS.primary,
+    borderRadius: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 5
+  },
+
+  titleContainer: {
+    marginTop: 25, 
+    marginLeft: 30,
+    justifyContent: 'flex-start',
+  },
+
+  rightContainer: {
+    marginTop: 15,
+    justifyContent: 'flex-start',
+  },
+
 })

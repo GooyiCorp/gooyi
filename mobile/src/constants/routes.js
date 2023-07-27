@@ -6,4 +6,6 @@ export default {
     FINDER: 'Finder',
 
     STORES: 'Stores',
+    STOREDETAILS: 'StoreDetailsScreen',
+    
 }

@@ -1,31 +1,33 @@
-import { StyleSheet,View, Text } from 'react-native'
+import { StyleSheet,View, Text, Button } from 'react-native'
 import React from 'react'
 
-export function HomeScreen() {
+export function Store1({navigation}) {
   return (
     <View style={styles.screen}>
-      <Text>Entdecke</Text>
+      <Text>Store Page 1</Text>
+      <Button title='move' onPress={() => navigation.navigate('store2')}/>
     </View>
   )
 }
-export function CouponScreen() {
+export function Store2() {
   return (
     <View style={styles.screen}>
-      <Text>Coupon</Text>
+      <Text>Store Page 2</Text>
+      
     </View>
   )
 }
-export function StoreScreen() {
+export function Store3() {
   return (
     <View style={styles.screen}>
-      <Text>Store</Text>
+      <Text>Store Page 3</Text>
     </View>
   )
 }
-export function MapScreen() {
+export function Store4() {
   return (
     <View style={styles.screen}>
-      <Text>Map</Text>
+      <Text>Store Page 4</Text>
     </View>
   )
 }

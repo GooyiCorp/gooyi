@@ -3,8 +3,8 @@ import {View, Text} from 'react-native'
 
 const Header = (props) => {
     return (
-        <View style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+        <View>
+            <Text style={{fontFamily: 'Roboto-Medium', fontSize: 28, fontWeight: 'bold'}}>
                 {props.name}
             </Text>
         </View>

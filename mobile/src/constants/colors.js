@@ -1,4 +1,4 @@
 export default {
-    primary: 'red',
+    primary: 'aquamarine',
 
 }
