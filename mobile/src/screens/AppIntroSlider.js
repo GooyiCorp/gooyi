@@ -19,7 +19,7 @@ const AppIntroSlider = ( {setShowHomePage}) => {
     useEffect(() => {
         timerId.current = setTimeout(() => {
             active.current = false;
-        }, 3000)
+        }, 5000)
         const id = setInterval(() => {
             if (active.current == false && slideIndex.current != welcome.length - 1) {
                 slideIndex.current += 1;
@@ -36,7 +36,7 @@ const AppIntroSlider = ( {setShowHomePage}) => {
         }
         timerId.current = setTimeout(() => {
             active.current = false;
-        }, 3000);
+        }, 5000);
         
     }
     // ----------------------------------------------------------------
