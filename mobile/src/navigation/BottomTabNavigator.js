@@ -1,14 +1,16 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, View, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import { DiscoverScreen, CouponsScreen, FinderScreen, StoresScreen } from '../screens/index.js';
 import { COLORS, ROUTES } from '../constants/index.js';
 
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header.js';
-import { Avatar } from 'react-native-paper';
+import { Avatar, Button} from 'react-native-paper';
 import StackNavigationStore from './StackNavigationStore.js';
+import SearchBox from '../components/atoms/SearchBox.js'
+import { width } from '../constants/size.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -33,19 +35,28 @@ const BottomTabNavigator = () => {
           </View>
         ),
         headerTitleAlign: 'left',
-        headerLeft: () => (
-          <View style={styles.headerLeft}>
-          </View>
-        )
+        // headerLeft: () => (
+        //   <View style={styles.headerLeft}>
+        //   </View>
+        // )
       }}
     >
         <Tab.Screen 
-            name={ROUTES.DISCOVER} component={DiscoverScreen} 
+            name={ROUTES.DISCOVER} 
+            component={DiscoverScreen} 
             options={{
                 tabBarLabel: 'Entdecken',
                 headerTitle: () => <Header name='Entdecken'/>,
                 tabBarIcon: ({ color }) => (<Entypo name="box" color={color} size={26} />),
-                
+                headerLeft: () => (
+                  <View style={styles.headerLeft}>
+                    <SearchBox/>
+                    <Button mode="contained" 
+
+                    onPress={() => console.log('Pressed')}>Press me</Button>
+                    {/* <Button mode="contained" onPress={() => console.log('Pressed')}>Press me</Button> */}
+                  </View>
+                )
                 
             }}
         />
@@ -76,6 +87,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 80,
     borderBottomWidth: 0,
+    //backgroundColor: 'red'
   },
 
   qrButton: {

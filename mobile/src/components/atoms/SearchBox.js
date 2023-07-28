@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -7,6 +7,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 
 const SearchBox = () => {
   const animation = useSharedValue(0);
+  const [val, setVal] = useState(animation.value)
   const animatedStyle = useAnimatedStyle(() => {
     return {
       width: animation.value==1?withTiming(200,{duration:500}):withTiming(0,{duration:500}),
@@ -14,7 +15,7 @@ const SearchBox = () => {
     }
   })
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'flex-start', width: '80%'}}>
+    <View style={{alignItems: 'flex-start'}}>
       <View style={{ flexDirection: 'row', alignItems: "center"}}>
           <TouchableOpacity 
           style={styles.icon}
@@ -24,9 +25,10 @@ const SearchBox = () => {
             } else {
               animation.value = 1;
             }
+            setVal(animation.value)
           }} 
           >
-            <Ionicons name={animation.value==1?"close":"search"} size={20} color="black" />
+            <Ionicons name={val?'search':'close'} size={20} color="black" />
           </TouchableOpacity>
         <Animated.View style={[styles.searchContainer, animatedStyle]}>
           <TextInput style={{width: '85%'}} placeholder={'Search something...'}/>
@@ -46,7 +48,7 @@ const styles = StyleSheet.create ({
     borderRadius: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10
+    //marginRight: 10
   },
 
   searchContainer: {
@@ -55,7 +57,7 @@ const styles = StyleSheet.create ({
     backgroundColor: '#eeeeee',
     borderRadius: '50%',
     justifyContent: 'center',
-    padding: 10,
+    //padding: 10,
 
   }
 })
