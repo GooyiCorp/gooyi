@@ -13,20 +13,23 @@ const SearchBox = () => {
     }
   })
   return (
-    <Animated.View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <View style={[{width: 300, height: 50, backgroundColor: '#dfdede', borderRadius: 10, flexDirection: 'row', alignItems: 'center'}, animatedStyle,]}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'flex-start', width: '80%'}}>
+      <View style={{ flexDirection: 'row', alignItems: "center"}}>
+        <Animated.View style={[{width: 300, height: 50, backgroundColor: '#dfdede', borderRadius: 10, justifyContent: 'center'}, animatedStyle]}>
           <TextInput style={{width: '85%'}} placeholder={'Search something...'}/>
+        </Animated.View>
           <TouchableOpacity onPress={() => {
             if (animation.value==1) {
               animation.value = 0;
             } else {
               animation.value = 1;
             }
-          }}>
+          }}
+          >
             <Feather name="search" size={24} color="black" />
           </TouchableOpacity>
-        </View>
-    </Animated.View>
+      </View>
+    </View>
   )
 }
 
