@@ -18,6 +18,7 @@ export default function App() {
     'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
     'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
     'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
+    'Roboto-Black': require('./assets/fonts/Roboto/Roboto-Black.ttf'),
   });
   useEffect(() => {
     const timer = setTimeout(() => {

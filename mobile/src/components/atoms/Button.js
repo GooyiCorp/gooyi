@@ -19,11 +19,18 @@ export const WhiteButton = ({ title, style, onPress }) => {
         </TouchableOpacity>
     )
 };
+export const GreyButton = ({ title, style, onPress }) => {
+    return (
+        <TouchableOpacity style={[styles.greyButton, style]} onPress={onPress}>
+            <Text style={styles.greyTitle}>{title}</Text>
+        </TouchableOpacity>
+    )
+};
 
 const styles = StyleSheet.create({
     redButton: {
         backgroundColor: '#B84058',
-        paddingVertical: verticalScale(14),
+        paddingVertical: verticalScale(15),
         borderRadius: 30,
         marginTop: 20,
         width: moderateScale(200),
@@ -42,6 +49,19 @@ const styles = StyleSheet.create({
         marginTop: verticalScale(10),
     },
     whiteTitle: {
+        color: '#000',
+        fontFamily: 'Roboto-Medium',
+        fontSize: moderateScale(13),
+        textAlign: 'center',
+    },
+    greyButton: {
+        backgroundColor: '#f4f4f4',
+        paddingVertical: verticalScale(15),
+        width: moderateScale(200),
+        borderRadius: 30,
+        marginTop: verticalScale(10),
+    },
+    greyTitle: {
         color: '#000',
         fontFamily: 'Roboto-Medium',
         fontSize: moderateScale(13),
