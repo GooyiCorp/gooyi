@@ -8,8 +8,6 @@ export default function DiscoverScreen() {
   return (
     <View style={styles.screen}>
       <Text>Entdecke</Text>
-      <Avatar.Text size={24} label="XD" />
-      <SearchBox />
     </View>
   )
 }

@@ -10,7 +10,8 @@ import Header from './Header.js';
 import { Avatar, Button} from 'react-native-paper';
 import StackNavigationStore from './StackNavigationStore.js';
 import SearchBox from '../components/atoms/SearchBox.js'
-import { width } from '../constants/size.js';
+import { NavButton } from '../components/atoms/Button.js';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Tab = createBottomTabNavigator();
@@ -51,11 +52,11 @@ const BottomTabNavigator = () => {
                 headerLeft: () => (
                   <View style={styles.headerLeft}>
                     <SearchBox/>
-                    <Button mode="contained" 
-
-                    onPress={() => console.log('Pressed')}>Press me</Button>
-                    {/* <Button mode="contained" onPress={() => console.log('Pressed')}>Press me</Button> */}
-                  </View>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
+                    <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} />
+                    <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} />
+                    </ScrollView>
+                    </View>
                 )
                 
             }}
@@ -79,15 +80,19 @@ const styles = StyleSheet.create({
   },
 
   headerStyle: {
+    shadowOpacity: 0,
     height: 169,
   },
 
   headerLeft: {
+    width: 350,
+    overflow:'hidden',
     flexDirection: 'row',
     position: 'absolute',
-    top: 80,
+    top: 70,
     borderBottomWidth: 0,
-    //backgroundColor: 'red'
+    //backgroundColor: 'red',
+    marginLeft: 28
   },
 
   qrButton: {
@@ -110,5 +115,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: 'flex-start',
   },
+
+  buttonStyle: {
+    //height: 30,
+    margin:5 
+  }
 
 })

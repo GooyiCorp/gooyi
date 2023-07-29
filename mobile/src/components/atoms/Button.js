@@ -20,7 +20,30 @@ export const WhiteButton = ({ title, style, onPress }) => {
     )
 };
 
+export const NavButton = ({ title, style, onPress }) => {
+    return (
+        <TouchableOpacity style={[styles.navButton, style]} onPress={onPress}>
+            <Text style={styles.navTitle}>{title}</Text>
+        </TouchableOpacity>
+    )
+};
+
 const styles = StyleSheet.create({
+    navButton: {
+        backgroundColor: '#eeeeee',
+        paddingHorizontal: 15,
+        height: moderateScale(30),
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        marginHorizontal: 5,
+    },
+    navTitle: {
+        color: 'black',
+        fontFamily: 'Roboto-Medium',
+        fontSize: moderateScale(11),
+        textAlign: 'center',
+    },
     redButton: {
         backgroundColor: '#B84058',
         paddingVertical: verticalScale(14),

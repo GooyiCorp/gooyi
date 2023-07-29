@@ -31,7 +31,7 @@ const SearchBox = () => {
             <Ionicons name={val?'search':'close'} size={20} color="black" />
           </TouchableOpacity>
         <Animated.View style={[styles.searchContainer, animatedStyle]}>
-          <TextInput style={{width: '85%'}} placeholder={'Search something...'}/>
+          <TextInput style={{width: '85%', margin: 10}} placeholder={'Search something...'}/>
         </Animated.View>
       </View>
     </View>
@@ -48,16 +48,15 @@ const styles = StyleSheet.create ({
     borderRadius: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    //marginRight: 10
+    marginRight: 5,
   },
 
   searchContainer: {
     width: 200,
     height: 40,
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#f8f8f8',
     borderRadius: '50%',
     justifyContent: 'center',
-    //padding: 10,
-
+    marginHorizontal: 5,
   }
 })
