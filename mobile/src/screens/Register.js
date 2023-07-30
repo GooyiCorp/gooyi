@@ -17,11 +17,27 @@ const Register = ({ onClose, homepage }) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
-    const handleSubmit = () => {
+    const handleSubmit  = async () => {
         console.log(email, name, nachName, password, confirmPassword);
         if (password!== confirmPassword) {
-            Alert.alert('Passwörter stimmen nicht überein!')
+            return Alert.alert('Passwörter stimmen nicht überein!')
         }
+        const data = {
+            'email': email.toLowerCase(),
+            'first_name': name.charAt(0).toUpperCase() + name.slice(1),
+            'last_name': nachName.charAt(0).toUpperCase() + nachName.slice(1),
+            'password': password
+        }
+        console.log(data);
+        // const url = api_url + 'user/register/'
+        // try {
+        //     const response = await axios.post(url, {})
+        // }
+        // catch(error) {
+        //     console.log(error);
+        // }
+
+
     }
     // -- Scrolling ------------------------------------------------------------------
     const slideRef = useRef()
@@ -121,10 +137,10 @@ const Register = ({ onClose, homepage }) => {
                      <View style={styles.slide}>
                         <Text style={styles.slideTitle}>Passwort festlegen</Text>
                         <View>
-                            <TextInput style={styles.input} secureTextEntry={showPassword} onChangeText={setPassword}/>
+                            <TextInput style={styles.input} secureTextEntry={!showPassword} onChangeText={setPassword}/>
                             <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword((prev) => !prev)}>
                                 <Ionicons
-                                    name={showPassword ? 'eye-off' : 'eye'}
+                                    name={showPassword ? 'eye' : 'eye-off'}
                                     size={24}
                                     color="#4A4A4A"
                                 />
@@ -132,10 +148,10 @@ const Register = ({ onClose, homepage }) => {
                         </View>
                             <Text style={styles.label}>Passwort</Text>
                         <View>
-                            <TextInput style={styles.input} secureTextEntry={showPassword} onChangeText={setConfirmPassword}/>
+                            <TextInput style={styles.input} secureTextEntry={!showPassword} onChangeText={setConfirmPassword}/>
                             <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword((prev) => !prev)}>
                                 <Ionicons
-                                    name={showPassword ? 'eye-off' : 'eye'}
+                                    name={showPassword ? 'eye' : 'eye-off'}
                                     size={24}
                                     color="#4A4A4A"
                                 />
