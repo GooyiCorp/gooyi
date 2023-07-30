@@ -12,6 +12,7 @@ import StackNavigationStore from './StackNavigationStore.js';
 import SearchBox from '../components/atoms/SearchBox.js'
 import { NavButton } from '../components/atoms/Button.js';
 import { ScrollView } from 'react-native-gesture-handler';
+import { TopNavButton } from '../components/atoms/TopNavButton.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -53,8 +54,9 @@ const BottomTabNavigator = () => {
                   <View style={styles.headerLeft}>
                     <SearchBox/>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
-                    <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} />
-                    <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} />
+                      <TopNavButton />
+                    {/* <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} />
+                    <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} /> */}
                     </ScrollView>
                     </View>
                 )
