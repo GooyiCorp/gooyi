@@ -45,7 +45,7 @@ const styles = StyleSheet.create ({
     width: 30,
     height: 30,
     backgroundColor: '#eeeeee',
-    borderRadius: '50%',
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 5,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create ({
     width: 200,
     height: 40,
     backgroundColor: '#f8f8f8',
-    borderRadius: '50%',
+    borderRadius: 50,
     justifyContent: 'center',
     marginHorizontal: 5,
   }

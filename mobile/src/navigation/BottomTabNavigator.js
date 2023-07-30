@@ -54,7 +54,9 @@ const BottomTabNavigator = () => {
                   <View style={styles.headerLeft}>
                     <SearchBox/>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
-                      <TopNavButton />
+                      <TopNavButton lists={[
+                      {id: 1, title: 'Alle'},
+                      {id: 2, title: 'Favoriten'},]} />
                     {/* <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} />
                     <NavButton title="Los geht's" onPress={console.log('Pressed')} style={{alignSelf: 'center'}} /> */}
                     </ScrollView>

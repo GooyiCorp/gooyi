@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         height: moderateScale(30),
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: '50%',
+        borderRadius: 50,
         marginHorizontal: 5,
     },
     navTitle: {

@@ -1,14 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 
-const lists = [
-    {id: 1, title: 'Alle'},
-    {id: 2, title: 'Favoriten'},
-]
 
-export const TopNavButton = () => {
 
-    const [selected, setSelected] = useState(0)
+export const TopNavButton = ({lists}) => {
+
+    const [selected, setSelected] = useState(1)
     const [bgColor, setBgColor] = useState('grey')
 
     const handleColor = (row) => {
@@ -33,7 +30,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         height: 30,
         marginHorizontal: 5,
-        borderRadius: '50%',
+        borderRadius: 50,
     },
     topNavTitle: {
         color: 'black',
