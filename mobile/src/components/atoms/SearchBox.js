@@ -7,7 +7,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 
 const SearchBox = () => {
   const animation = useSharedValue(0);
-  const [val, setVal] = useState(animation.value)
+  const [icon, setIcon] = useState('search')
   const animatedStyle = useAnimatedStyle(() => {
     return {
       width: animation.value==1?withTiming(200,{duration:500}):withTiming(0,{duration:500}),
@@ -21,14 +21,15 @@ const SearchBox = () => {
           style={styles.icon}
           onPress={() => {
             if (animation.value==1) {
-              animation.value = 0;
+              animation.value = 0
+              setIcon('search')
             } else {
-              animation.value = 1;
+              animation.value = 1
+              setIcon('close')
             }
-            setVal(animation.value)
           }} 
           >
-            <Ionicons name={val?'search':'close'} size={20} color="black" />
+            <Ionicons name={icon} size={20} color="black" />
           </TouchableOpacity>
         <Animated.View style={[styles.searchContainer, animatedStyle]}>
           <TextInput style={{width: '85%', margin: 10}} placeholder={'Search something...'}/>

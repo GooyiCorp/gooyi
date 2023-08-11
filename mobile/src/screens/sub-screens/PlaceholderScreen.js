@@ -17,17 +17,17 @@ export function Store2() {
     </View>
   )
 }
-export function Store3() {
+export function ProfilePlaceholder({navigation}) {
   return (
     <View style={styles.screen}>
-      <Text>Store Page 3</Text>
+      <Text>Profile Placeholder</Text>
     </View>
   )
 }
-export function Store4() {
+export function StorePlaceholder({navigation}) {
   return (
     <View style={styles.screen}>
-      <Text>Store Page 4</Text>
+      <Text>Store Placeholder</Text>
     </View>
   )
 }
