@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StoreDetailsScreen, StoresScreen } from '../screens';
-import { ROUTES } from '../constants/index.js';
-import SearchBox from '../components/atoms/SearchBox';
-import { TopNavButton } from '../components/atoms/TopNavButton';
+import { StoreDetailsScreen, StoresScreen } from '../../screens';
+import { ROUTES } from '../../constants/index.js';
+import SearchBox from '../../components/atoms/SearchBox';
+import { TopNavButton } from '../../components/atoms/TopNavButton';
 import { ScrollView } from 'react-native-gesture-handler';
-import Header from './navhelperfunction/Header';
+import Header from '../navhelperfunction/Header';
 
 const Stack = createNativeStackNavigator();
 
