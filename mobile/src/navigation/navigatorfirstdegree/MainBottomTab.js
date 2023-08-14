@@ -3,6 +3,7 @@ import React from 'react'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { ScrollView } from 'react-native-gesture-handler';
+import { BlurView } from 'expo-blur';
 
 import DiscoverStackNav from './navigatorseconddegree/DiscoverStack';
 import FinderStackNav from './navigatorseconddegree/FinderStack';
@@ -28,7 +29,7 @@ export default function MainBottomTab() {
   return (
     <MainTab.Navigator
     screenOptions={({navigation}) => ({
-      
+
       // Styles
       tabBarStyle: styles.tabBar,
       headerStyle: styles.headerStyle,
@@ -60,7 +61,6 @@ export default function MainBottomTab() {
         component={DiscoverStackNav}
         options={{
           tabBarLabel: 'Entdecken',
-
           headerTitle: () => <Header name='Entdecken'/>,
 
         }}
@@ -127,6 +127,7 @@ const styles = StyleSheet.create ({
   headerStyle: {
     shadowOpacity: 0,
     height: 110,
+    //backgroundColor: 'transparent',
   },
 
   titleContainer: {

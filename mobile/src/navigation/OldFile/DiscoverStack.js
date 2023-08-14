@@ -7,6 +7,8 @@ import { DiscoverScreen } from '../../screens/index.js';
 import { ROUTES } from '../../constants/index.js';
 import Header from '../navhelperfunction/Header.js';
 
+import Animated from 'react-native-reanimated';
+
 const Stack = createNativeStackNavigator();
 
 export default function DiscoverStack() {

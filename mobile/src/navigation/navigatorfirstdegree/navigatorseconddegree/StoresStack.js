@@ -22,18 +22,28 @@ export default function StoresStackNav() {
             name='Stores1'
             component={StoresScreen}
             options={{
-                headerStyle: styles.headerStyle,
-                headerTitle: '',
-                headerLeft: () => (
-                    <View style={styles.headerLeft}>
-                      <SearchBox/>
-                      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
-                        <TopNavButton lists={[
-                          {id: 1, title: 'Alle'},
-                          {id: 2, title: 'Favoriten'},]} />
-                      </ScrollView>
+                header: () => (
+                    <View 
+                        style={{
+                            height: 55, 
+                            width: '100%', 
+                            backgroundColor: '#ffffff',
+                            paddingBottom: 10,
+                            paddingHorizontal: 30,
+                            //justifyContent: 'center',
+                            alignItems: 'center',
+                            overflow:'hidden',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <SearchBox/>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
+                            <TopNavButton lists={[
+                                {id: 1, title: 'Alle'},
+                                {id: 2, title: 'Meine Favoriten'},]} />
+                        </ScrollView>
                     </View>
-                  )
+                )
             }}
         />
         <StoresStack.Screen 
@@ -44,26 +54,4 @@ export default function StoresStackNav() {
   )
 }
 
-const styles = StyleSheet.create({
-
-    headerStyle: {
-        height: 150,
-        shadowOpacity: 0,
-        borderBottomWidth: 0,
-        backgroundColor: 'white'
-    },
-
-    headerLeft: {
-        width: 350,
-        overflow:'hidden',
-        flexDirection: 'row',
-        //position: 'absolute',
-        //top: 70,
-        borderBottomWidth: 0,
-        marginLeft: 10,
-        //backgroundColor: 'red',
-        //height: 150,
-        
-      },
-
-})
+const styles = StyleSheet.create({})
