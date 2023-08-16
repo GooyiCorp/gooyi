@@ -19,11 +19,11 @@ export default function DiscoverScreen({navigation}) {
       <MainHeader 
         title='test'
         style={{backgroundColor: 'red', alignItems: 'center'}}
-        //avatar
-        //onPressAvatar={() => navigation.navigate('RootProfile')}
+        avatar
+        onPressAvatar={() => navigation.navigate('RootProfile')}
         qrButton
         onPressQRButton={() => navigation.navigate('RootQR')}
-        notificationButton
+        //notificationButton
       />  
       <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0}}>
         <BottomTabNavigation navigation={navigation}/>

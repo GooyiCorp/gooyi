@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import NavIcons, {icons} from './NavIcons'
 
 const tabIcons = [
-    {ico: 'rocket-sharp', type: icons.Ionicons, routeName: ''},
-    {ico: 'ticket-percent', type: icons.MaterialCommunityIcons, routeName: ''},
-    {ico: 'map-marker', type: icons.MaterialCommunityIcons, routeName: ''},
-    {ico: 'ios-browsers', type: icons.Ionicons, routeName: ''}
+    {ico: 'rocket-sharp', type: icons.Ionicons, routeName: 'RootDiscover', label: 'Entdecken' },
+    {ico: 'ticket-percent', type: icons.MaterialCommunityIcons, routeName: 'RootCoupons', label: 'Coupons'},
+    {ico: 'map-marker', type: icons.MaterialCommunityIcons, routeName: 'RootFinder', label: 'Finder'},
+    {ico: 'ios-browsers', type: icons.Ionicons, routeName: 'RootStores', label: 'Stores'}
 
 ]
 
@@ -32,6 +32,7 @@ export default function BottomTabNavigation({navigation}) {
                     style={styles.touchArea}
                 >
                     <NavIcons icon={item.type} iconName={item.ico} iconColor={focused === item.ico ? 'black' : 'rgb(137, 137, 137)'} iconSize={24}/>
+                    <Text style={[styles.labelStyle, {color: focused === item.ico ? 'black' : 'rgb(137, 137, 137)'}]}>{item.label}</Text>
                 </TouchableOpacity>
             ))}
         </View>
@@ -57,5 +58,12 @@ const styles = StyleSheet.create({
         //backgroundColor: 'red',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    labelStyle: {
+        fontFamily: 'Roboto-Medium', 
+        fontSize: 10, 
+        //fontWeight: 'bold',
+        marginTop: 5,
     }
 })
