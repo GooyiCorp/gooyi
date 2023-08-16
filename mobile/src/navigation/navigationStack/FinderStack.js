@@ -2,23 +2,25 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ProfilePlaceholder } from '../../../screens/sub-screens/PlaceholderScreen';
+import { FinderScreen } from '../../screens';
+
+
 
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const ProfileStack = createNativeStackNavigator();
+const FinderStack = createNativeStackNavigator();
 
 //---------------------------------------------------------------------------------------------------------------------
 
-export default function ProfileStackNav({navigation}) {
+export default function FinderStackNav() {
   return (
-    <ProfileStack.Navigator>
-        <ProfileStack.Screen 
-            name='ProfileScreen'
-            component={ProfilePlaceholder}
+    <FinderStack.Navigator>
+        <FinderStack.Screen 
+            name='Finder2'
+            component={FinderScreen}
         />
-    </ProfileStack.Navigator>
+    </FinderStack.Navigator>
   )
 }
 
