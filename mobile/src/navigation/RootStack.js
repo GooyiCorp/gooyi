@@ -3,11 +3,6 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import MainBottomTab from './OldFile/MainBottomTab'
-import GetHeaderTitle from './navhelperfunction/HeaderTitle';
-
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Avatar } from 'react-native-paper';
 import QRCodeScreen from '../screens/main-screens/QRCodeScreen';
 import CouponsStackNav from './navigationStack/CouponsStack';
 import DiscoverStackNav from './navigationStack/DiscoverStack';

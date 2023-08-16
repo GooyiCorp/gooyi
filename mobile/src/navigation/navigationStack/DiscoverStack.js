@@ -12,7 +12,11 @@ const DiscoverStack = createNativeStackNavigator()
 
 export default function DiscoverStackNav() {
   return (
-    <DiscoverStack.Navigator>
+    <DiscoverStack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
         <DiscoverStack.Screen 
             name='Discover2'
             component={DiscoverScreen}
