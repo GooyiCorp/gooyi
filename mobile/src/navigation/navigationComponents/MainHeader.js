@@ -64,9 +64,9 @@ export default function MainHeader({
 const styles = StyleSheet.create({
     
     headerDefaultContainer: {
-        height: 100,
+        height: 110,
         width: '100%',
-        backgroundColor: 'rgb(238, 238, 238)',
+        backgroundColor: '#fff',
         justifyContent: 'flex-end',
     },
 
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium', 
         fontSize: 28, 
         fontWeight: 'bold',
+        marginTop: 10,
     },
 
     view: {

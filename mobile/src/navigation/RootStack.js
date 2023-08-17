@@ -1,16 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import QRCodeScreen from '../screens/main-screens/QRCodeScreen';
-import CouponsStackNav from './navigationStack/CouponsStack';
-import DiscoverStackNav from './navigationStack/DiscoverStack';
-import FinderStackNav from './navigationStack/FinderStack';
-import ProfileStackNav from './navigationStack/ProfileStack';
-import StoresStackNav from './navigationStack/StoresStack';
+import { QRCodeScreen } from '../index/screenIndex'
+import { DiscoverStackNav, CouponsStackNav, FinderStackNav, ProfileStackNav, StoresStackNav } from '../index/navIndex'
 
-
+import { ROUTES } from '../index/constantsindex'
 
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -29,37 +24,52 @@ export default function RootStackNavigator() {
 
     {/* Root Discover ----------------------------------------------------------------------------- */}
         <RootStack.Screen 
-            name='RootDiscover'
+            name={ROUTES.RootDiscover}
             component={DiscoverStackNav}
+            options={{
+                animation: 'none'
+            }}
         />
 
     {/* Root Coupons ----------------------------------------------------------------------------- */}
         <RootStack.Screen 
-            name='RootCoupons'
+            name={ROUTES.RootCoupons}
             component={CouponsStackNav}
+            options={{
+                animation: 'none'
+            }}
         />
 
     {/* Root Finder ----------------------------------------------------------------------------- */}
         <RootStack.Screen 
-            name='RootFinder'
+            name={ROUTES.RootFinder}
             component={FinderStackNav}
+            options={{
+                animation: 'none'
+            }}
         />
 
     {/* Root Stores ----------------------------------------------------------------------------- */}
         <RootStack.Screen 
-            name='RootStores'
+            name={ROUTES.RootStores}
             component={StoresStackNav}
+            options={{
+                animation: 'none'
+            }}
         />
 
     {/* Root Profile ----------------------------------------------------------------------------- */}
         <RootStack.Screen 
-            name='RootProfile'
+            name={ROUTES.RootProfile}
             component={ProfileStackNav}
+            options={{
+                animation: 'none'
+            }}
         />
 
     {/* Root QR ----------------------------------------------------------------------------- */}
         <RootStack.Screen
-            name='RootQR'
+            name={ROUTES.RootQR}
             component={QRCodeScreen}
             options={{
                 presentation: 'transparentModal',
@@ -70,9 +80,3 @@ export default function RootStackNavigator() {
     </RootStack.Navigator>
   )
 }
-
-
-            // options={({route}) => ({
-            //     headerTitle: GetHeaderTitle(route),
-            //     headerShown
-            // })}

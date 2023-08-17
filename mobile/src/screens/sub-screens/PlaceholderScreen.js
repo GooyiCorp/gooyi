@@ -1,14 +1,7 @@
 import { StyleSheet,View, Text, Button } from 'react-native'
 import React from 'react'
 
-export function Store1({navigation}) {
-  return (
-    <View style={styles.screen}>
-      <Text>Store Page 1</Text>
-      <Button title='move' onPress={() => navigation.navigate('store2')}/>
-    </View>
-  )
-}
+
 export function Store2() {
   return (
     <View style={styles.screen}>

@@ -1,45 +1,45 @@
 import React from 'react'
-import { StyleSheet,View, Text, TouchableOpacity, Button } from 'react-native'
-import { Avatar } from 'react-native-paper';
-import HeaderNavigation from '../../navigation/headercomponents/HeaderNavigation';
-import TestScrollView from '../../components/atoms/TestScrollView';
-import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native';
-import Animated from 'react-native-reanimated';
-import { useSharedValue , useAnimatedGestureHandler, useAnimatedStyle } from 'react-native-reanimated';
-import { TapGestureHandler } from 'react-native-gesture-handler';
-import MainHeader from '../../navigation/navigationComponents/MainHeader';
-import BottomTabNavigation from '../../navigation/navigationComponents/BottomTabNavigation';
+import { StyleSheet,View } from 'react-native'
 
+import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
+import { ROUTES } from '../../index/constantsindex'
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen({navigation}) {
 
   return (
     <View style={{flex: 1}}>
+      
+      {/* Main Header */} 
       <MainHeader 
-        title='test'
+        title='Entdecken'
         style={{backgroundColor: 'red', alignItems: 'center'}}
         avatar
-        onPressAvatar={() => navigation.navigate('RootProfile')}
+        onPressAvatar={() => navigation.navigate(ROUTES.RootProfile)}
         qrButton
-        onPressQRButton={() => navigation.navigate('RootQR')}
-        //notificationButton
-      />  
+        onPressQRButton={() => navigation.navigate(ROUTES.RootQR)}
+      />
+
+      {/* Sub Header */} 
+      <SubHeader
+        search
+      /> 
+
+      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+
+
+
+
+      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      
+      {/* Bottom Navigation */} 
       <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0}}>
-        <BottomTabNavigation navigation={navigation}/>
+        <BottomTabNavigation navigation={navigation} focusIcon={'rocket-sharp'}/>
       </View>
+
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-
-    screen: {
-        flex:1,
-        justifyContent: 'center', 
-        alignItems: 'center',
-        backgroundColor: 'white'
-    },
-
-    
-})
+const styles = StyleSheet.create({})

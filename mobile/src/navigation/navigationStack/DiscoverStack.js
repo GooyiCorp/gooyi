@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { DiscoverScreen } from '../../screens'
+
+import { DiscoverScreen } from '../../index/screenIndex'
+
+import { ROUTES } from '../../index/constantsindex'
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -18,30 +20,9 @@ export default function DiscoverStackNav() {
       }}
     >
         <DiscoverStack.Screen 
-            name='Discover2'
+            name={ROUTES.DiscoverScreen1}
             component={DiscoverScreen}
-            // options={{
-            //     header: () => (
-            //         <Animated.View 
-            //             style={{
-            //                 height: 55, 
-            //                 width: '100%', 
-            //                 paddingBottom: 10,
-            //                 paddingHorizontal: 30,
-            //                 backgroundColor: 'white',
-            //                 //justifyContent: 'center',
-            //                 alignItems: 'center',
-            //                 overflow:'hidden',
-            //                 flexDirection: 'row',
-            //             }}
-            //         >
-            //             <SearchBox/>
-            //         </Animated.View>
-            //     )
-            // }}
         />
     </DiscoverStack.Navigator>
   )
 }
-
-const styles = StyleSheet.create({})

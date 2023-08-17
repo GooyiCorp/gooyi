@@ -10,13 +10,13 @@ const tabIcons = [
 
 ]
 
-export default function BottomTabNavigation({navigation}) {
-    const [focused, setFocused] = useState('rocket-sharp'); 
+export default function BottomTabNavigation({navigation, focusIcon}) {
+    const [focused, setFocused] = useState(''); 
     const navigate = (routeName) => routeName !== '' ? navigation.navigate(routeName) : null;
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          setFocused('rocket-sharp');
+          setFocused(focusIcon);
         })
         return () => unsubscribe;
       }, [navigation])
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        //backgroundColor: 'rgb(205, 205, 205)',
+        backgroundColor: '#fff',
         paddingHorizontal: 40,
         paddingBottom: 30,
         paddingTop: 10,
