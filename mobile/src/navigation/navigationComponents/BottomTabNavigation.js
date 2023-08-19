@@ -11,15 +11,15 @@ const tabIcons = [
 ]
 
 export default function BottomTabNavigation({navigation, focusIcon}) {
-    const [focused, setFocused] = useState(''); 
+    const [focused, setFocused] = useState('rocket-sharp'); 
     const navigate = (routeName) => routeName !== '' ? navigation.navigate(routeName) : null;
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          setFocused(focusIcon);
+            setFocused('rocket-sharp');
         })
         return () => unsubscribe;
-      }, [navigation])
+    }, [navigation])
     return (
         <View style={styles.tabNavigationContainer}>
             {tabIcons.map((item, index) => (

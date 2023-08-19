@@ -1,9 +1,12 @@
 import React from 'react'
+import { Button, View } from 'react-native'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
 
 import { QRCodeScreen } from '../index/screenIndex'
-import { DiscoverStackNav, CouponsStackNav, FinderStackNav, ProfileStackNav, StoresStackNav } from '../index/navIndex'
+import { DiscoverStackNav, CouponsStackNav, FinderStackNav, ProfileStackNav, StoresStackNav } from '../index/stackIndex'
+import BottomTabNavigation from '../navigation/navigationComponents/BottomTabNavigation'
 
 import { ROUTES } from '../index/constantsindex'
 
@@ -15,7 +18,9 @@ const RootStack = createNativeStackNavigator();
 //---------------------------------------------------------------------------------------------------------------------
 
 export default function RootStackNavigator() {
+    const navigation = useNavigation()
   return (
+    <>
     <RootStack.Navigator
         screenOptions={{
             headerShown: false
@@ -27,7 +32,7 @@ export default function RootStackNavigator() {
             name={ROUTES.RootDiscover}
             component={DiscoverStackNav}
             options={{
-                animation: 'none'
+                animation: 'fade'
             }}
         />
 
@@ -36,7 +41,7 @@ export default function RootStackNavigator() {
             name={ROUTES.RootCoupons}
             component={CouponsStackNav}
             options={{
-                animation: 'none'
+                animation: 'fade'
             }}
         />
 
@@ -45,7 +50,7 @@ export default function RootStackNavigator() {
             name={ROUTES.RootFinder}
             component={FinderStackNav}
             options={{
-                animation: 'none'
+                animation: 'fade'
             }}
         />
 
@@ -54,7 +59,7 @@ export default function RootStackNavigator() {
             name={ROUTES.RootStores}
             component={StoresStackNav}
             options={{
-                animation: 'none'
+                animation: 'fade'
             }}
         />
 
@@ -78,5 +83,11 @@ export default function RootStackNavigator() {
         />  
 
     </RootStack.Navigator>
+    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height:100, width: '100%' , backgroundColor: 'red'}}>
+            <BottomTabNavigation navigation={navigation}/>
+    {/* <Button title='move' onPress={() => {navigation.navigate(ROUTES.RootFinder)}}/> */}
+    </View>
+    
+    </>
   )
 }

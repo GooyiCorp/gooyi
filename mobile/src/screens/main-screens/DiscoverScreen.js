@@ -32,11 +32,6 @@ export default function DiscoverScreen({navigation}) {
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      
-      {/* Bottom Navigation */} 
-      <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0}}>
-        <BottomTabNavigation navigation={navigation} focusIcon={'rocket-sharp'}/>
-      </View>
 
     </View>
   )
