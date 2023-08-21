@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet,View } from 'react-native'
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
 import { ROUTES } from '../../index/constantsindex'
+import Animated from 'react-native-reanimated'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen({navigation}) {
@@ -30,11 +31,11 @@ export default function DiscoverScreen({navigation}) {
 
       <ScrollView>
 
-        <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-        <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-        <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-        <View style={{width:200, height: 200, backgroundColor:'blue'}}></View>
-        <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
+        <Animated.View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10, borderRadius: 10}}></Animated.View>
+        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
+        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
+        <View style={{width:200, height: 200, backgroundColor:'blue', marginVertical: 10}}></View>
+        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
       </ScrollView>
 
 

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     headerDefaultContainer: {
         height: 110,
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: 'blue',
         justifyContent: 'flex-end',
     },
 
