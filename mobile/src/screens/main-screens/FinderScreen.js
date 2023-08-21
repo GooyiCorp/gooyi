@@ -8,7 +8,7 @@ import { ROUTES } from '../../index/constantsindex'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function FinderScreen({navigation}) {
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: 'blue'}}>
 
       {/* Main Header */}
       <MainHeader 

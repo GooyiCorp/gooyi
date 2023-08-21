@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import NavIcons, {icons} from './NavIcons'
+import { StackActions } from '@react-navigation/native'
 
 const tabIcons = [
     {ico: 'rocket-sharp', type: icons.Ionicons, routeName: 'RootDiscover', label: 'Entdecken' },
@@ -10,7 +11,7 @@ const tabIcons = [
 
 ]
 
-export default function BottomTabNavigation({navigation, focusIcon}) {
+export default function BottomTabNavigation({navigation}) {
     const [focused, setFocused] = useState('rocket-sharp'); 
     const navigate = (routeName) => routeName !== '' ? navigation.navigate(routeName) : null;
 

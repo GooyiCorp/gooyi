@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createStackNavigator } from '@react-navigation/stack';
 
 import { FinderScreen } from '../../index/screenIndex'
 
@@ -8,7 +8,7 @@ import { ROUTES } from '../../index/constantsindex'
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const FinderStack = createNativeStackNavigator();
+const FinderStack = createStackNavigator();
 
 //---------------------------------------------------------------------------------------------------------------------
 

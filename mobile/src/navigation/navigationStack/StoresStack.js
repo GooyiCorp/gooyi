@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createStackNavigator } from '@react-navigation/stack';
 
 import { StoresScreen, StorePlaceholder } from '../../index/screenIndex'
 
@@ -8,7 +8,7 @@ import { ROUTES } from '../../index/constantsindex'
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const StoresStack = createNativeStackNavigator();
+const StoresStack = createStackNavigator();
 
 //---------------------------------------------------------------------------------------------------------------------
 

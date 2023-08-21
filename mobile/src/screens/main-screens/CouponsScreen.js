@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet,View, Text } from 'react-native'
+import { StyleSheet,View, Text , ScrollView} from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
@@ -8,7 +8,7 @@ import { ROUTES } from '../../index/constantsindex'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function CouponsScreen({navigation}) {
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: 'red'}}>
 
       {/* Main Header */}
       <MainHeader 
@@ -31,7 +31,14 @@ export default function CouponsScreen({navigation}) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
+      <ScrollView>
 
+<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
+<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
+<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
+<View style={{width:200, height: 200, backgroundColor:'blue'}}></View>
+<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
+</ScrollView>
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

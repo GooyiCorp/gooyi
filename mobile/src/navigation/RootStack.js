@@ -1,75 +1,37 @@
 import React from 'react'
-import { Button, View } from 'react-native'
+import { Animated, Button, View, Easing } from 'react-native'
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useNavigation } from '@react-navigation/native'
+import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from '@react-navigation/stack'
 
 import { QRCodeScreen } from '../index/screenIndex'
-import { DiscoverStackNav, CouponsStackNav, FinderStackNav, ProfileStackNav, StoresStackNav } from '../index/stackIndex'
-import BottomTabNavigation from '../navigation/navigationComponents/BottomTabNavigation'
+
 
 import { ROUTES } from '../index/constantsindex'
+import TabNavigator from './TabNavigator'
 
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const RootStack = createNativeStackNavigator();
+const RootStack = createStackNavigator();
+
+// Screen Transition ---------------------------------------------------------------------------------------------------------------------
+
+
 
 //---------------------------------------------------------------------------------------------------------------------
 
 export default function RootStackNavigator() {
-    const navigation = useNavigation()
   return (
-    <>
     <RootStack.Navigator
         screenOptions={{
-            headerShown: false
+            headerShown: false,
         }}
     >
 
-    {/* Root Discover ----------------------------------------------------------------------------- */}
+    {/* Root Tab ----------------------------------------------------------------------------- */}
         <RootStack.Screen 
-            name={ROUTES.RootDiscover}
-            component={DiscoverStackNav}
-            options={{
-                animation: 'fade'
-            }}
-        />
-
-    {/* Root Coupons ----------------------------------------------------------------------------- */}
-        <RootStack.Screen 
-            name={ROUTES.RootCoupons}
-            component={CouponsStackNav}
-            options={{
-                animation: 'fade'
-            }}
-        />
-
-    {/* Root Finder ----------------------------------------------------------------------------- */}
-        <RootStack.Screen 
-            name={ROUTES.RootFinder}
-            component={FinderStackNav}
-            options={{
-                animation: 'fade'
-            }}
-        />
-
-    {/* Root Stores ----------------------------------------------------------------------------- */}
-        <RootStack.Screen 
-            name={ROUTES.RootStores}
-            component={StoresStackNav}
-            options={{
-                animation: 'fade'
-            }}
-        />
-
-    {/* Root Profile ----------------------------------------------------------------------------- */}
-        <RootStack.Screen 
-            name={ROUTES.RootProfile}
-            component={ProfileStackNav}
-            options={{
-                animation: 'none'
-            }}
+            name={ROUTES.RootTabNavigator}
+            component={TabNavigator}
         />
 
     {/* Root QR ----------------------------------------------------------------------------- */}
@@ -83,11 +45,76 @@ export default function RootStackNavigator() {
         />  
 
     </RootStack.Navigator>
-    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height:100, width: '100%' , backgroundColor: 'red'}}>
-            <BottomTabNavigation navigation={navigation}/>
-    {/* <Button title='move' onPress={() => {navigation.navigate(ROUTES.RootFinder)}}/> */}
-    </View>
-    
-    </>
   )
 }
+
+
+// const customTransition = {
+//     gestureEnabled: true,
+//     gestureDirection: 'horizontal',
+//     transitionSpec: {
+//       open: TransitionSpecs.TransitionIOSSpec,
+//       close: none
+//     },
+//     cardStyleInterpolator: ({ current, next, layouts }) => {
+//       return {
+//         cardStyle: {
+
+//           transform: [
+//             {
+//               translateY: current.progress.interpolate({
+//                 inputRange: [0, 1],
+//                 outputRange: [layouts.screen.height, 0],
+//               })
+//             },
+//             {
+//                 scale: current.progress.interpolate({
+//                   inputRange: [0, 0.8, 1],
+//                   outputRange: [0, 1.1, 1],
+//                 })
+//               },
+//             {
+//               scale: next ?
+//                 next.progress.interpolate({
+//                   inputRange: [0, 1],
+//                   outputRange: [1, 0.8],
+//                 }) : 1,
+//             }
+//           ]
+//         },
+//         opacity: current.opacity,
+        
+//       }
+//     }
+//   }
+
+
+
+
+
+// const customTransition = {
+//   gestureEnabled: true,
+//   gestureDirection: 'horizontal',
+//   transitionSpec: {
+//     open: TransitionSpecs.TransitionIOSSpec,
+//     close: TransitionSpecs.TransitionIOSSpec,
+//   },
+//   cardStyleInterpolator: ({ current, next, layouts }) => {
+//     return {
+//       cardStyle: {
+
+//         transform: [
+//           {
+//             translateY: current.progress.interpolate({
+//               inputRange: [0, 1],
+//               outputRange: [layouts.screen.height, 0],
+//             })
+//           },
+
+//         ]
+//       },
+//       opacity: current.opacity,
+      
+//     }
+//   }
+// }
