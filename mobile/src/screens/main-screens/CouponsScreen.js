@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet,View, Text , ScrollView} from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
@@ -6,7 +6,9 @@ import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex
 import { ROUTES } from '../../index/constantsindex'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function CouponsScreen({navigation}) {
+export default function CouponsScreen({ navigation}) {
+
+
   return (
     <View style={{flex: 1, backgroundColor: 'red'}}>
 

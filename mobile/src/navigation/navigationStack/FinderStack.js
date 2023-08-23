@@ -12,7 +12,9 @@ const FinderStack = createStackNavigator();
 
 //---------------------------------------------------------------------------------------------------------------------
 
-export default function FinderStackNav() {
+export default function FinderStackNav({route, navigation}) {
+  const {testValue} = route.params;
+  console.log(testValue+1)
   return (
     <FinderStack.Navigator
       screenOptions={{
