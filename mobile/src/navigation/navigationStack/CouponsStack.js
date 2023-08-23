@@ -37,7 +37,8 @@ export default function CouponsStackNav({route, navigation}) {
           }
         }
   )
-  console.log(scaleValue.value)
+  console.log(newVal);
+  console.log(scaleValue.value);
 
   return (
     <>
