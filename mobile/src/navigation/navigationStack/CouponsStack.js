@@ -16,11 +16,18 @@ const CouponsStack = createStackNavigator();
 //---------------------------------------------------------------------------------------------------------------------
 
 export default function CouponsStackNav({route, navigation}) {
-  //const {testValue} = route.params;
+  const {testValue} = route.params;
   //console.log(testValue)
-  
-  const scaleValue = useSharedValue(0)
-  scaleValue.value = withTiming(1,{duration: 1000})
+  const newVal = testValue
+  const scaleValue = useSharedValue(newVal)
+  scaleValue.value = withTiming(1,{duration: 1000}, (finished) => {
+    if (finished) {
+      console.log('ANIMATION ENDED');
+      //scaleValue.value = 0
+    } else {
+      console.log('ANIMATION GOT CANCELLED');
+    }
+  })
 
   const style = useAnimatedStyle(() => {
           return {
