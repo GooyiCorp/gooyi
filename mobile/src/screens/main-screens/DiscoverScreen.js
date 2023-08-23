@@ -10,8 +10,8 @@ import Animated from 'react-native-reanimated'
 export default function DiscoverScreen({navigation}) {
 
   return (
-    <View style={{flex: 1, backgroundColor: 'green'}}>
-      
+    <View style={{flex: 1, backgroundColor: 'green', overflow: 'hidden'}}>
+
       {/* Main Header */} 
       <MainHeader 
         title='Entdecken'

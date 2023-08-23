@@ -23,7 +23,7 @@ export default function MainHeader({
     const RightView = () => (
         rightComponent ? rightComponent : 
         <View style={[styles.view, styles.rightView]}>
-
+            
             {/* QR Button */}
             {qrButton && <TouchableOpacity style={styles.qrScanButton} onPress={onPressQRButton}>
                   <MaterialCommunityIcons name="qrcode-scan" size={20} color="white" />
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: 'blue',
         justifyContent: 'flex-end',
+        //borderRadius: 50,
     },
 
     headerJustifyView: {

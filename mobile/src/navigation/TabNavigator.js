@@ -21,17 +21,17 @@ const FadeInView = ( props, { navigation }) => {
     const x = props.index < 2 ? -width/2 + props.index*width/4 : props.index*width/4
     const translateX = useSharedValue(x)
     const scale = useSharedValue(0)
-    const radius = useSharedValue(width/2)
+    const radius = useSharedValue(200)
     useFocusEffect(() => {
       fade.value = withTiming(0, {duration: 500})
       translateX.value = withTiming(0, {duration: 500})
       scale.value = withTiming(1, {duration: 600})
-      radius.value = withTiming(0, {duration: 100})
+      radius.value = withTiming(0, {duration: 1000})
       return () => {
         fade.value = withTiming(screenHeight, {duration: 500})
         translateX.value = withTiming(x, {duration: 500})
         scale.value = withTiming(0, {duration: 600})
-        radius.value = withTiming(width/2, {duration: 100})
+        radius.value = withTiming(200, {duration: 1000})
       };
     });
     const style = useAnimatedStyle(() => {
@@ -41,6 +41,8 @@ const FadeInView = ( props, { navigation }) => {
           {translateX: translateX.value},
           {scale: scale.value}
         ],
+        borderTopRightRadius: radius.value,
+        borderTopLeftRadius: radius.value
       }
     })
     return (
@@ -51,7 +53,7 @@ const FadeInView = ( props, { navigation }) => {
         // }}
       style={[{
         flex: 1,
-        borderRadius: 100
+        overflow: 'hidden'
         },style]}
       >
         {props.children}
@@ -89,7 +91,7 @@ const FadeInView = ( props, { navigation }) => {
 export default function TabNavigator() {
     
     const navigation = useNavigation()
-    
+  
     return (
         <>
         <Tab.Navigator
