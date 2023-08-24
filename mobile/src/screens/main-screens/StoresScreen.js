@@ -21,7 +21,7 @@ export default function StoresScreen({navigation}) {
       />
 
       {/* Sub Header */} 
-      <SubHeader
+      <SubHeader 
         search
         topnavbutton
         topnavbuttonlists={[

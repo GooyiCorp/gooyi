@@ -7,8 +7,7 @@ import { ROUTES } from '../../index/constantsindex'
 import Animated from 'react-native-reanimated'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function DiscoverScreen({navigation}) {
-
+export default function DiscoverScreen({navigation, testV}) {
   return (
     <View style={{flex: 1, backgroundColor: 'green', overflow: 'hidden'}}>
 
@@ -32,7 +31,9 @@ export default function DiscoverScreen({navigation}) {
       <ScrollView>
 
         <Animated.View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10, borderRadius: 10}}></Animated.View>
-        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
+        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10, transform:[{scale: 0.5}], }}>
+        <View style={{width:300,height: 300, backgroundColor:'yellow', marginVertical: 10, }}></View>
+        </View>
         <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
         <View style={{width:200, height: 200, backgroundColor:'blue', marginVertical: 10}}></View>
         <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>

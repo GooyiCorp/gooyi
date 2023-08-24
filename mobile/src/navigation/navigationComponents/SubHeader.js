@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     subHeaderContainer: {
         height: 50,
         backgroundColor: '#fff',
+        
     },
     
     subHeaderJustifyView: {
