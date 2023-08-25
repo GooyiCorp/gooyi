@@ -98,6 +98,9 @@ export default function TabNavigator() {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: { display: "none" },
+                screenOptions: {
+                  
+                }
 
             }}
         >

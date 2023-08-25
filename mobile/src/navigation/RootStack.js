@@ -3,18 +3,15 @@ import { Animated, Button, View, Easing } from 'react-native'
 
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from '@react-navigation/stack'
 
-import { QRCodeScreen } from '../index/screenIndex'
-
-
 import { ROUTES } from '../index/constantsindex'
-import { DiscoverStackNav, CouponsStackNav, FinderStackNav, ProfileStackNav, StoresStackNav } from '../index/stackIndex'
+import { DiscoverStackNav, CouponsStackNav, FinderStackNav, StoresStackNav } from '../index/stackIndex'
 import BottomTabNavigation from '../navigation/navigationComponents/BottomTabNavigation'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator()
 
 // Screen Transition ---------------------------------------------------------------------------------------------------------------------
 
@@ -24,68 +21,53 @@ const RootStack = createStackNavigator();
 
 export default function RootStackNavigator() {
     const navigation = useNavigation()
+
   return (
     <>
     <RootStack.Navigator
         screenOptions={{
-            headerShown: false,
+            headerShown: false,    
         }}
     >
-            {/* Tab Discover ----------------------------------------------------------------------------- */}
-            <RootStack.Screen 
-                name={ROUTES.RootDiscover} 
-                component={DiscoverStackNav} 
-                options={{
-                    presentation: 'transparentModal',
-                    animation: 'none',
-                }}
-            />
-
-            {/* Tab Coupons ----------------------------------------------------------------------------- */}
-            <RootStack.Screen 
-                name={ROUTES.RootCoupons} 
-                component={CouponsStackNav}
-                options={{
-                    presentation: 'transparentModal',
-                    animation: 'none',
-                }} 
-            />
-
-            {/* Tab Finder ----------------------------------------------------------------------------- */}
-            <RootStack.Screen 
-                name={ROUTES.RootFinder} 
-                component={FinderStackNav} 
-                options={{
-                    presentation: 'transparentModal',
-                    animation: 'none',
-                }}
-            />
-
-            {/* Tab Stores ----------------------------------------------------------------------------- */}
-            <RootStack.Screen 
-                name={ROUTES.RootStores} 
-                component={StoresStackNav} 
-                options={{
-                    presentation: 'transparentModal',
-                    animation: 'none',
-                }}
-            />
-
-            {/* Tab Profile ----------------------------------------------------------------------------- */}
-            <RootStack.Screen 
-                name={ROUTES.RootProfile} 
-                component={ProfileStackNav} 
-            />
-
-    {/* Root QR ----------------------------------------------------------------------------- */}
-        <RootStack.Screen
-            name={ROUTES.RootQR}
-            component={QRCodeScreen}
+    {/* Tab Discover ----------------------------------------------------------------------------- */}
+        <RootStack.Screen 
+            name={ROUTES.RootDiscover} 
+            component={DiscoverStackNav} 
             options={{
                 presentation: 'transparentModal',
-                animation: 'fade',
+                animation: 'none',
             }}
-        />  
+        />
+
+    {/* Tab Coupons ----------------------------------------------------------------------------- */}
+        <RootStack.Screen 
+            name={ROUTES.RootCoupons} 
+            component={CouponsStackNav}
+            options={{
+                presentation: 'transparentModal',
+                animation: 'none',
+            }} 
+        />
+
+    {/* Tab Finder ----------------------------------------------------------------------------- */}
+        <RootStack.Screen 
+            name={ROUTES.RootFinder} 
+            component={FinderStackNav} 
+            options={{
+                presentation: 'transparentModal',
+                animation: 'none',
+            }}
+        />
+
+    {/* Tab Stores ----------------------------------------------------------------------------- */}
+        <RootStack.Screen 
+            name={ROUTES.RootStores} 
+            component={StoresStackNav} 
+            options={{
+                presentation: 'transparentModal',
+                animation: 'none',
+                }}
+        /> 
 
     </RootStack.Navigator>
 

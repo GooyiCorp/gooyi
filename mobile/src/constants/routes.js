@@ -1,16 +1,15 @@
 export default {
 
-    // Root Stack Routes -----------------------------------------------------------------------------
-    RootTabNavigator: 'RootTabNavigator',
-    RootQR: 'RootQR',
+    // Main Stack Routes -----------------------------------------------------------------------------
+    RootNav: 'RootNav',
+    MainProfile: 'MainProfile',
+    MainQR: 'MainQR',
 
-    // Tab Navigation Routes -------------------------------------------------------------------------
+    // Root Stack Routes -------------------------------------------------------------------------
     RootDiscover: 'RootDiscover',
     RootCoupons: 'RootCoupons',
     RootFinder: 'RootFinder',
     RootStores: 'RootStores',
-
-    RootProfile: 'RootProfile',
 
     // Discover Stack Routes ----------------------------------------------
     DiscoverScreen1: 'DiscoverStartScreen',

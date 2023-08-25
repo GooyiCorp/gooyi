@@ -8,7 +8,10 @@ import AppIntroSlider from './src/screens/AppIntroSlider.js';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import RootStackNavigator from './src/navigation/RootStack.js';
+import { enableFreeze } from "react-native-screens";
+import MainStackNavigator from './src/navigation/MainStack.js';
+
+enableFreeze(true);
 
 const logo = require('./assets/logo/logo.png');
 
@@ -48,7 +51,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <RootStackNavigator />
+      <MainStackNavigator />
     </NavigationContainer>
   );
 }

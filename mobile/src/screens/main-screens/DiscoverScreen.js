@@ -16,9 +16,9 @@ export default function DiscoverScreen({navigation, testV}) {
         title='Entdecken'
         style={{backgroundColor: 'red', alignItems: 'center'}}
         avatar
-        onPressAvatar={() => navigation.navigate(ROUTES.RootProfile)}
+        onPressAvatar={() => navigation.navigate(ROUTES.MainProfile)}
         qrButton
-        onPressQRButton={() => navigation.navigate(ROUTES.RootQR)}
+        onPressQRButton={() => navigation.navigate(ROUTES.MainQR)}
       />
 
       {/* Sub Header */} 
@@ -30,11 +30,11 @@ export default function DiscoverScreen({navigation, testV}) {
 
       <ScrollView>
 
-        <Animated.View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10, borderRadius: 10}}></Animated.View>
-        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10, transform:[{scale: 0.5}], }}>
+        <Animated.View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10, borderRadius: 10}}></Animated.View>
+        <View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10, transform:[{scale: 0.5}], }}>
         <View style={{width:300,height: 300, backgroundColor:'yellow', marginVertical: 10, }}></View>
         </View>
-        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
+        <View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10}}></View>
         <View style={{width:200, height: 200, backgroundColor:'blue', marginVertical: 10}}></View>
         <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
       </ScrollView>
