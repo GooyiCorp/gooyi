@@ -4,6 +4,7 @@ import { Button, ScrollView, StyleSheet,View } from 'react-native'
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
 import Animated from 'react-native-reanimated'
+import CategorySelection from '../../components/molecules/CategorySelection'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {navigation} ) {
@@ -28,15 +29,7 @@ export default function DiscoverScreen( {navigation} ) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <ScrollView>
-        <Animated.View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10, borderRadius: 10}}></Animated.View>
-        <View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10, transform:[{scale: 0.5}], }}>
-        <View style={{width:300,height: 300, backgroundColor:'yellow', marginVertical: 10, }}></View>
-        </View>
-        <View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10}}></View>
-        <View style={{width:200, height: 200, backgroundColor:'blue', marginVertical: 10}}></View>
-        <View style={{width:200, height: 200, backgroundColor:'red', marginVertical: 10}}></View>
-      </ScrollView>
+      <CategorySelection/>
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
