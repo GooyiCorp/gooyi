@@ -34,7 +34,7 @@ export default function Category({
 // ---------------------------------------------------------------------------------------------------------------------
 
   return (
-    <TouchableOpacity onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 500}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 500}, (finished) => (flashValue.value = 0)) ) }>
+    <TouchableOpacity onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 400}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 400}, (finished) => (flashValue.value = 0)) ) }>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={styles.container}>
