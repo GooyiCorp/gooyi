@@ -2,9 +2,8 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { ProfileScreen } from '../../index/screenIndex'
-
 import { ROUTES } from '../../index/constantsindex'
+import ProfileScreen from '../../screens/root-screens/S-Profile';
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -12,17 +11,20 @@ const ProfileStack = createStackNavigator();
 
 //---------------------------------------------------------------------------------------------------------------------
 
-export default function ProfileStackNav({navigation}) {
+export default function ProfileStackNav( {navigation} ) {
   return (
     <ProfileStack.Navigator
-      screenOptions={{
-        headerShown: false
-      }}
+        screenOptions={{
+            headerShown: false
+        }}
     >
+
+{/* Screen Profile 1 ------------------------------------------- */}
         <ProfileStack.Screen 
-            name={ROUTES.ProfileScreen1}
+            name='Profile1'
             component={ProfileScreen}
         />
+
     </ProfileStack.Navigator>
   )
 }

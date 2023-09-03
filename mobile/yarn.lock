@@ -2433,6 +2433,11 @@ better-opn@~3.0.2:
   dependencies:
     open "^8.0.4"
 
+between-pages@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/between-pages/-/between-pages-1.0.8.tgz#fd9397cdbc08175c5b21a393e55a593626093373"
+  integrity sha512-Z5lA1ABDBhn8z99wxDrG5BK+gbme5C8KtMZUWhvyD9KtlWV9mUP/YtiU+vkw5RsEe1RECAZZTjRBo1nGb6obnQ==
+
 big-integer@1.6.x:
   version "1.6.51"
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"

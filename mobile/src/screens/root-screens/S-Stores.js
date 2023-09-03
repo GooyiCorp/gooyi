@@ -15,9 +15,9 @@ export default function StoresScreen({navigation}) {
         title='Stores'
         style={{backgroundColor: 'red', alignItems: 'center'}}
         avatar
-        onPressAvatar={() => navigation.navigate(ROUTES.MainProfile)}
+        onPressAvatar={() => navigation.navigate('Profile')}
         qrButton
-        onPressQRButton={() => navigation.navigate(ROUTES.MainQR)}
+        onPressQRButton={() => navigation.navigate('QRScan')}
       />
 
       {/* Sub Header */} 
@@ -31,7 +31,7 @@ export default function StoresScreen({navigation}) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-       
+       <Button title='next' onPress={()=>{navigation.navigate(ROUTES.StoreScreen2)}}/>
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

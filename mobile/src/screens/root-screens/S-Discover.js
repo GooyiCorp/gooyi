@@ -1,24 +1,24 @@
 import React from 'react'
-import { ScrollView, StyleSheet,View } from 'react-native'
+import { Button, ScrollView, StyleSheet,View } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
-import { ROUTES } from '../../index/constantsindex'
 import Animated from 'react-native-reanimated'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function DiscoverScreen({navigation, testV}) {
+export default function DiscoverScreen( {navigation} ) {
+
   return (
-    <View style={{flex: 1, backgroundColor: 'green', overflow: 'hidden'}}>
+    <View style={{flex: 1, backgroundColor: 'rgb(204, 204, 204)'}}>
 
       {/* Main Header */} 
       <MainHeader 
         title='Entdecken'
         style={{backgroundColor: 'red', alignItems: 'center'}}
         avatar
-        onPressAvatar={() => navigation.navigate(ROUTES.MainProfile)}
+        onPressAvatar={() => navigation.navigate('Profile')}
         qrButton
-        onPressQRButton={() => navigation.navigate(ROUTES.MainQR)}
+        onPressQRButton={() => navigation.navigate('QRScan')}
       />
 
       {/* Sub Header */} 
@@ -29,7 +29,6 @@ export default function DiscoverScreen({navigation, testV}) {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
       <ScrollView>
-
         <Animated.View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10, borderRadius: 10}}></Animated.View>
         <View style={{width:200, height: 200, backgroundColor:'grey', marginVertical: 10, transform:[{scale: 0.5}], }}>
         <View style={{width:300,height: 300, backgroundColor:'yellow', marginVertical: 10, }}></View>
@@ -41,6 +40,7 @@ export default function DiscoverScreen({navigation, testV}) {
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+
 
     </View>
   )

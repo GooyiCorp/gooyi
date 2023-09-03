@@ -8,8 +8,9 @@ import AppIntroSlider from './src/screens/AppIntroSlider.js';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { enableFreeze } from "react-native-screens";
-import MainStackNavigator from './src/navigation/MainStack.js';
+import { enableFreeze, enableScreens } from "react-native-screens";
+
+import RootNav from './src/navigation/N-RootNav.js';
 
 enableFreeze(true);
 
@@ -51,7 +52,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <MainStackNavigator />
+      <RootNav />
     </NavigationContainer>
   );
 }

@@ -14,7 +14,7 @@ export default function ProfileScreen({navigation, navigation: {goBack}}) {
       <MainHeader 
         title='Moin Thanh'
         qrButton
-        onPressQRButton={() => navigation.navigate(ROUTES.MainQR)}
+        onPressQRButton={() => navigation.navigate('QRScan')}
         notificationButton
       />
 

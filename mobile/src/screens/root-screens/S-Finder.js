@@ -1,49 +1,33 @@
-import React, { useState } from 'react'
-import { StyleSheet,View, Text , ScrollView} from 'react-native'
+import React from 'react'
+import { StyleSheet,View, Text, ScrollView } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
-import { ROUTES } from '../../index/constantsindex'
-
-
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function CouponsScreen({ navigation}) {
-
-
+export default function FinderScreen({navigation}) {
   return (
-    <View style={{flex: 1, backgroundColor: 'yellow'}}>
+    <View style={{flex: 1, backgroundColor: 'blue'}}>
 
       {/* Main Header */}
       <MainHeader 
-        title='Coupons'
-        style={{backgroundColor: 'red', alignItems: 'center'}}
-        avatar
-        onPressAvatar={() => navigation.navigate(ROUTES.MainProfile)}
-        qrButton
-        onPressQRButton={() => navigation.navigate(ROUTES.MainQR)}
+        title='Finder'
       />
 
       {/* Sub Header */}
-      <SubHeader
-        search
-        topnavbutton
-        topnavbuttonlists={[
-          {id: 1, title: 'Merkliste'},
-          {id: 2, title: 'Meine Coupons'},]}
-      /> 
+      
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+
 
       <ScrollView>
 
 <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
 <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
 <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-<View style={{width:200, height: 200, backgroundColor:'blue'}}></View>
+<View style={{width:200, height: 200, backgroundColor:'yellow'}}></View>
 <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
 </ScrollView>
-
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       
