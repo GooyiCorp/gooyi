@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'gutcheinapp.apps.GutcheinappConfig',
+    'django.contrib.gis',
+    'rest_framework_gis'
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -83,7 +85,7 @@ load_dotenv()
 import os
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('db_database'),
         'USER': os.environ.get('db_user'),
         'PASSWORD': os.environ.get('db_password'),
@@ -91,7 +93,8 @@ DATABASES = {
         'PORT': os.environ.get('db_port'),
     }
 }
-
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -1,4 +1,6 @@
-from django.db import models
+from django.contrib.gis.db import models
+from django.contrib.gis.db.models import PointField
+from django.contrib.gis.geos import Point
 from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
@@ -29,13 +31,22 @@ class BannedEmail(models.Model):
 # Store
 class Store(models.Model):
     store_id = models.AutoField(primary_key=True)
-    name = models.TextField()
-    address = models.TextField()
-    opening_hour = models.TextField()
+    name = models.CharField()
+    address = models.CharField()
+    longtitude = models.FloatField(default="0")
+    latitude = models.FloatField(default="0")
+    location = PointField(geography=True, default=Point((0, 0)))
+    opening_hour = models.CharField()
     active = models.BooleanField(default=False)
     description = models.TextField()
     average_rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    
+    def __str__(self) -> str:
+        return self.name
+    def save(self, *args, **kwargs):
+        self.location.y = float(self.longtitude)
+        self.location.x = float(self.latitude)
+        super(Store, self).save(*args, **kwargs)
+        
 class FavoriteStore(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     store_id = models.ForeignKey(Store, on_delete=models.CASCADE)

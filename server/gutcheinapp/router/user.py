@@ -1,7 +1,6 @@
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from gutcheinapp.utils.response import *
-from gutcheinapp.serializers import UserSerializer
 from gutcheinapp.models import User, UserVersuche
 
 from django.core.mail import EmailMessage
