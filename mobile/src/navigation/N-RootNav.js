@@ -5,10 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Onboarding from '../screens/root-screens/S-Onboarding';
 import Loading from '../screens/root-screens/S-Loading';
-import QRScan from '../screens/root-screens/S-QRScan';
+import QRScanStackNav from './navigationStack/N-QRScanStack';
 import ProfileStackNav from './navigationStack/N-ProfileStack';
 
 import TabNav from './N-TabNav';
+import QRCode from '../screens/root-screens/S-QRCode';
 
 
 
@@ -44,7 +45,7 @@ export default function RootNav() {
 {/* Screen QR Scan --------------------------------------------------------- */}
             <Root.Screen 
                 name='QRScan' 
-                component={QRScan}
+                component={QRCode}
                 options={{
                     presentation: 'transparentModal',
                     animation: 'fade',

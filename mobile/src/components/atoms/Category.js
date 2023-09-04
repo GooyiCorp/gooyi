@@ -13,10 +13,9 @@ export default function Category({
 
   // Value --------------------------------------------------------------- Transition
   const diagonal = Math.sqrt(2)*100
-  const startPosition = (diagonal/2)+50
-  const endPosition = -(diagonal/2)-50
 
   const flashValue = useSharedValue(0)
+  const transitionVal = useSharedValue(0)
 
   // UseAnimatedStyle ---------------------------------------------------- Transition
 
@@ -29,19 +28,29 @@ export default function Category({
             ],
         }
     }
-)
+  )
+
+  const boxTransition = useAnimatedStyle(() =>{
+    const boxScale = interpolate(transitionVal.value, [0,1], [1, 0.97])
+        return {
+            transform:[
+                {scale: boxScale},
+            ],
+        }
+    }
+  )
 
 // ---------------------------------------------------------------------------------------------------------------------
 
   return (
-    <TouchableOpacity onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 500}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 500}, (finished) => (flashValue.value = 0)) ) }>
+    <TouchableOpacity onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 400}), transitionVal.value = withTiming(1, {duration: 100}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 400}, (finished) => (flashValue.value = 0)), transitionVal.value = withTiming(0, {duration: 100}) ) }>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={styles.container}>
 
-        <View style={styles.imgContainer}>
+        <Animated.View style={[styles.imgContainer, boxTransition]}>
           <Animated.View style={[ { height: diagonal, width: diagonal, backgroundColor: '#fff', position: 'absolute', opacity: 0.3, zIndex: 1, }, flashOverlay ]}></Animated.View>
-        </View>
+        </Animated.View>
 
 
         <View style={{flexDirection: 'row'}}>

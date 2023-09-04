@@ -12,7 +12,7 @@ export default function CouponsScreen({ navigation}) {
 
 
   return (
-    <View style={{flex: 1, backgroundColor: 'yellow'}}>
+    <View style={{flex: 1}}>
 
       {/* Main Header */}
       <MainHeader 

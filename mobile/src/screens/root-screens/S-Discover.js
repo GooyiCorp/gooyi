@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, ScrollView, StyleSheet,View } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
-
-import Animated from 'react-native-reanimated'
-import CategorySelection from '../../components/molecules/CategorySelection'
+import Category from '../../components/atoms/Category'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {navigation} ) {
 
   return (
-    <View style={{flex: 1, backgroundColor: 'rgb(204, 204, 204)'}}>
+    <View style={{flex: 1}}>
 
       {/* Main Header */} 
       <MainHeader 
@@ -28,8 +26,10 @@ export default function DiscoverScreen( {navigation} ) {
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 
-      <CategorySelection/>
+      <Category title={'Sushi'} number={12}/>
+      </View>
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

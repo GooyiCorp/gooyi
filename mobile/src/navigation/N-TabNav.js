@@ -24,7 +24,7 @@ export default function TabNav() {
     <>
     <Tab.Navigator
         
-        sceneContainerStyle={{backgroundColor: 'rgba(157, 52, 52, 0.27)'}}
+        // sceneContainerStyle={{backgroundColor: 'rgba(157, 52, 52, 0.27)'}}
         screenOptions={{
             headerShown: false,    
             
