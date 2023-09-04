@@ -3,7 +3,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { View } from 'react-native';
-import Animated, { interpolate, useSharedValue, withTiming, useAnimatedStyle, useAnimatedRef, withSpring, Easing, runOnUI, withDelay } from 'react-native-reanimated';
+import Animated, { interpolate, useSharedValue, withTiming, useAnimatedStyle, useAnimatedRef, withSpring, Easing, runOnUI, withDelay, withSequence } from 'react-native-reanimated';
 
 import { useIsFocused } from '@react-navigation/native';
 import { width, height } from '../../constants/size'
@@ -32,7 +32,10 @@ export default function CouponsStackNav() {
 
     // WithTiming ---------------------------------------------------------- Transition
     
-    transitionValue.value = withTiming(1,{duration: 500, easing: Easing.bezier(0, 0.61, 0.49, 1)}, (finished) => {if (finished) {isFocused? transitionValue.value = 1 : transitionValue.value = withDelay(500, withTiming(0)) }})
+    transitionValue.value = isFocused? withSequence(withTiming(0, {duration: 0}), withTiming(1,{duration: 500, easing: Easing.bezier(0, 0.61, 0.49, 1)}) ) : transitionValue.value = 1
+    //withTiming(1,{duration: 500, easing: Easing.bezier(0, 0.61, 0.49, 1)}, (finished) => {if (finished) {isFocused? transitionValue.value = 1 : transitionValue.value = withDelay(500, withTiming(0)) }})
+    
+    //transitionValue.value = withTiming(1,{duration: 500, easing: Easing.bezier(0, 0.61, 0.49, 1)}, (finished) => {if (finished) {isFocused? transitionValue.value = 1 : transitionValue.value = withDelay(500, withTiming(0)) }})
 
     // UseAnimatedStyle ---------------------------------------------------- Transition
 

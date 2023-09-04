@@ -16,7 +16,7 @@ export default function Selector({
 
     // withTiming ---------------------------------------------------------- Transition
 
-    transitionValue.value = withTiming(pressValue, {duration: 150, easing: Easing.bezier(0.45, 0.23, 0.78, 0.42)})
+    transitionValue.value = withTiming(pressValue, {duration: 100, easing: Easing.bezier(0.45, 0.23, 0.78, 0.42)})
 
     // UseAnimatedStyle ---------------------------------------------------- Transition
 
