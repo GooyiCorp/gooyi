@@ -40,13 +40,13 @@ export default function CouponsStackNav() {
     // UseAnimatedStyle ---------------------------------------------------- Transition
 
     const transformScreen = useAnimatedStyle(() =>{
-        const scaleScreen = interpolate(transitionValue.value, [0,1], [1.1, 1])
-        const opacityScreen = interpolate(transitionValue.value, [0,1], [0,1])
+        const scaleScreen = interpolate(transitionValue.value, [0,1], [1, 0])
+        const opacityScreen = interpolate(transitionValue.value, [0,1], [1,0])
             return {
-                transform:[
-                    {scale: scaleScreen}
-                ],
-                opacity: opacityScreen
+                // transform:[
+                //     {scale: scaleScreen}
+                // ],
+                // opacity: opacityScreen
         
             }
         }
@@ -56,7 +56,7 @@ export default function CouponsStackNav() {
 
     return (
         <>
-            <Animated.View style={[ {height: screenHeight, width: screenWidth} , transformScreen]}>
+            <Animated.View style={[ {height: screenHeight, width: screenWidth}]}>
 
         {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
@@ -76,7 +76,7 @@ export default function CouponsStackNav() {
         </CouponsStack.Navigator>
 
         {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-
+        
             </Animated.View>
         </>
     )

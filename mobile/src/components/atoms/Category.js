@@ -31,7 +31,7 @@ export default function Category({
   )
 
   const boxTransition = useAnimatedStyle(() =>{
-    const boxScale = interpolate(transitionVal.value, [0,1], [1, 0.97])
+    const boxScale = interpolate(transitionVal.value, [0,1], [1, 0.95])
         return {
             transform:[
                 {scale: boxScale},

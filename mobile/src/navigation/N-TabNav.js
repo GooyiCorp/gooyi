@@ -11,6 +11,7 @@ import StoresStackNav from './navigationStack/N-StoresStack';
 
 
 
+
 //---------------------------------------------------------------------------------------------------------------------
 
 const Tab = createBottomTabNavigator();
@@ -18,13 +19,12 @@ const Tab = createBottomTabNavigator();
 //---------------------------------------------------------------------------------------------------------------------
 
 export default function TabNav() {
-    
 
   return (
     <>
     <Tab.Navigator
         
-        // sceneContainerStyle={{backgroundColor: 'rgba(157, 52, 52, 0.27)'}}
+        //sceneContainerStyle={{backgroundColor: 'transparent', position: 'absolute'}}
         screenOptions={{
             headerShown: false,    
             
@@ -57,6 +57,7 @@ export default function TabNav() {
         />
 
     </Tab.Navigator>
+
     </>
   )
 }

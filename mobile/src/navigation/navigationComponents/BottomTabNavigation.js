@@ -4,10 +4,10 @@ import NavIcons, {icons} from './NavIcons'
 import { StackActions } from '@react-navigation/native'
 
 const tabIcons = [
-    {ico: 'rocket-sharp', type: icons.Ionicons, routeName: 'RootDiscover', label: 'Entdecken' },
-    {ico: 'ticket-percent', type: icons.MaterialCommunityIcons, routeName: 'RootCoupons', label: 'Coupons'},
-    {ico: 'map-marker', type: icons.MaterialCommunityIcons, routeName: 'RootFinder', label: 'Finder'},
-    {ico: 'ios-browsers', type: icons.Ionicons, routeName: 'RootStores', label: 'Stores'}
+    {ico: 'rocket-sharp', type: icons.Ionicons, routeName: 'Discover', label: 'Entdecken' },
+    {ico: 'ticket-percent', type: icons.MaterialCommunityIcons, routeName: 'Coupons', label: 'Coupons'},
+    {ico: 'map-marker', type: icons.MaterialCommunityIcons, routeName: 'Finder', label: 'Finder'},
+    {ico: 'ios-browsers', type: icons.Ionicons, routeName: 'Stores', label: 'Stores'}
 
 ]
 

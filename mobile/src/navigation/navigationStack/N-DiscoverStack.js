@@ -39,10 +39,10 @@ export default function DiscoverStackNav() {
            const scaleScreen = interpolate(transitionValue.value, [0,1], [1.1, 1])
            const opacityScreen = interpolate(transitionValue.value, [0,1], [0,1])
                return {
-                   transform:[
-                       {scale: scaleScreen}
-                   ],
-                   opacity: opacityScreen
+                //    transform:[
+                //        {scale: scaleScreen}
+                //    ],
+                //    opacity: opacityScreen
            
                }
            }

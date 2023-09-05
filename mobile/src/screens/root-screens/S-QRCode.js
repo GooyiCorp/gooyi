@@ -3,27 +3,42 @@ import React, { useState } from 'react'
 import { BlurView } from 'expo-blur'
 
 import Selector from '../../components/atoms/Selector'
+import NavBackButton from '../../components/atoms/NavBackButton'
 
+
+
+// ---------------------------------------------------------------------------------------------------------------------   
 export default function QRCode({navigation: {goBack}}) {
-  
-  const [selectorVal, setSelectorVal] = useState(0);
 
+    const [pressValue, setPressValue] = useState(0)
+
+// ---------------------------------------------------------------------------------------------------------------------    
   return (
     <View style={{flex: 1}}>
         <BlurView intensity={16}  style={{flex:1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
 
+    {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
         <View style={styles.cardContainer}>
-            <Selector pressValue={selectorVal}/>
-            <View style={styles.selector}>
-              <TouchableOpacity style={styles.selectorButton} onPress={ () => setSelectorVal(0) }></TouchableOpacity>
-              <TouchableOpacity style={styles.selectorButton} onPress={ () => setSelectorVal(1) }></TouchableOpacity>
-            </View>
 
-            <View style={styles.contentContainer}>
-              <Button title='back' onPress={() => goBack()}/>
-            </View>
+          {/* Selector Tab Bar */}
+          <View style={{flexDirection: 'row', position: 'absolute', zIndex: 1}}>
+            <TouchableOpacity style={styles.selectorButton} onPress={() => setPressValue(0)}></TouchableOpacity>
+            <TouchableOpacity style={styles.selectorButton} onPress={() => setPressValue(1)}></TouchableOpacity>
+          </View>
+          <Selector pressValue={pressValue}/>
+
+          {/* Content Container */}
+          <View style={styles.contentContainer}>
+
+          </View>
           
+          {/* Back Button */}
+          <View style={{height: 70, width: 363, position: 'absolute', bottom: 0, justifyContent: 'flex-start', alignItems: 'center'}}>
+            <NavBackButton onPressBack={() => goBack()}/>
+          </View>
+
         </View>
+    {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
         </BlurView>
     </View>
@@ -52,8 +67,11 @@ const styles = StyleSheet.create({
 
   selectorButton: {
     height: 48,
-    width: 180,
-    //backgroundColor: 'green'
+    width: 181.5,
+    //backgroundColor: 'green',
+    opacity: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   contentContainer: {

@@ -4,6 +4,7 @@ import { Button, ScrollView, StyleSheet,View } from 'react-native'
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import Category from '../../components/atoms/Category'
 
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {navigation} ) {
 

@@ -1,11 +1,17 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { Ionicons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
 
-export default function NavBackButton() {
+export default function NavBackButton({
+  customStyle,
+  onPressBack
+}) {
+
   return (
-    <TouchableOpacity style={styles.icon}>
-        <Ionicons name="md-chevron-back" size={20} color="black" />
+    <TouchableOpacity style={styles.opacityRadius} onPress={onPressBack}>
+      <View style={[styles.icon, customStyle]}>
+        <MaterialIcons name="close" size={23} color="white" />
+      </View>
     </TouchableOpacity>
   )
 }
@@ -14,10 +20,17 @@ const styles = StyleSheet.create({
     icon: {
         width: 30,
         height: 30,
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#B84058',
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 5,
-    }
+    },
+
+    opacityRadius: {
+      width: 60,
+      height: 60,
+      //backgroundColor: 'yellow',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
 })
