@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     qrScanButton: {
         height: 42,
         width: 42,
-        backgroundColor: 'red',
+        backgroundColor: '#B84058',
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',

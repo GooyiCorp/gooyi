@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   imgContainer: {
     height: 100,
     width: 100,
-    backgroundColor: 'grey',
+    backgroundColor: '#eeeeee',
     borderRadius: 16,
     marginBottom: 5,
     justifyContent: 'center',

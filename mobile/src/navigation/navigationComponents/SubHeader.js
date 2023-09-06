@@ -11,6 +11,8 @@ export default function SubHeader({
     topnavbuttonlists,
     goBack,
     onPressGoBack,
+    userID,
+    idNumber,
 }) {
   return (
     <View style={styles.subHeaderContainer}>
@@ -24,6 +26,8 @@ export default function SubHeader({
             {topnavbutton && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
                 <TopNavButton lists={topnavbuttonlists}/>
             </ScrollView>}
+
+            {userID && <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>}
         </View>
     </View>
   )
@@ -53,5 +57,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 5,
+    },
+
+    id: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 12,
+        marginLeft: 15,
     }
 })

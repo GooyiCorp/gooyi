@@ -7,7 +7,7 @@ import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function FinderScreen({navigation}) {
   return (
-    <View style={{flex: 1, backgroundColor: 'blue'}}>
+    <View style={{flex: 1}}>
 
       {/* Main Header */}
       <MainHeader 
@@ -20,14 +20,6 @@ export default function FinderScreen({navigation}) {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
 
-      <ScrollView>
-
-<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-<View style={{width:200, height: 200, backgroundColor:'yellow'}}></View>
-<View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-</ScrollView>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       

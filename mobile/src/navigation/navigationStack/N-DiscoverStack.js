@@ -64,11 +64,11 @@ export default function DiscoverStackNav() {
         >
         
         {/* Nesting Stack Screens */}
-          <DiscoverStack.Screen 
+        <DiscoverStack.Screen 
             name='Discover1'
             component={DiscoverScreen}
-          />
-    
+        />
+        
         </DiscoverStack.Navigator>
         
         {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

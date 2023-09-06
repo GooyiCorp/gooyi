@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     topNavTitle: {
         color: 'black',
         fontFamily: 'Roboto-Medium',
-        fontSize: 11,
+        fontSize: 12,
         textAlign: 'center',
     },
 })

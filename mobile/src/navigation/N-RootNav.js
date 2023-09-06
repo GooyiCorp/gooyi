@@ -48,14 +48,7 @@ export default function RootNav() {
                 component={QRCode}
                 options={{
                     presentation: 'transparentModal',
-                    animation: 'fade',
                 }}
-            />
-
-{/* Screen Profile --------------------------------------------------------- */}
-            <Root.Screen 
-                name='Profile' 
-                component={ProfileStackNav}
             />
 
 {/* Screen Discover -------------------------------------------------------- */}
@@ -64,7 +57,15 @@ export default function RootNav() {
                 component={TabNav}
             />
 
+{/* Screen Profile --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Profile' 
+                component={ProfileStackNav}
+            />
+            
         </Root.Navigator>
+
+
     </>
   )
 }

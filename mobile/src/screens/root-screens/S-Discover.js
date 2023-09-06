@@ -3,6 +3,8 @@ import { Button, ScrollView, StyleSheet,View } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import Category from '../../components/atoms/Category'
+import PresentationHeader from '../../components/molecules/PresentationHeader'
+import NoResults from '../../components/molecules/NoResults'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,9 +29,47 @@ export default function DiscoverScreen( {navigation} ) {
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+      
+      <View style={{width: '100%', paddingVertical: 15}}>
 
-      <Category title={'Sushi'} number={12}/>
+        <PresentationHeader 
+          title={'Kategorie'}
+          //showAllButton  
+        />
+
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{paddingLeft: 30, flexDirection: 'row'}}>
+          <Category title={'Sushi'} number={12}/>
+          <Category title={'Sushi'} number={12}/>
+          <Category title={'Sushi'} number={12}/>
+          <Category title={'Sushi'} number={12}/>
+          <Category title={'Sushi'} number={12}/>
+        </ScrollView>
+
+      </View>
+
+      <View style={{width: '100%', paddingVertical: 15}}>
+
+        <PresentationHeader 
+          title={'Neue Angebote'}
+          //showAllButton  
+        />
+        
+        <NoResults message={'no results found :/'} boxHeight={{height: 253}}/>
+
+      </View>
+
+      <View style={{width: '100%', paddingVertical: 15}}>
+
+      <PresentationHeader 
+        title={'Neue Shops'}
+        showAllButton  
+      />
+
+      <NoResults message={'no results found :/'} boxHeight={{height: 253}}/>
+
+      </View>
+
       </View>
 
 

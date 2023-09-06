@@ -15,7 +15,7 @@ export default function QRCode({navigation: {goBack}}) {
 // ---------------------------------------------------------------------------------------------------------------------    
   return (
     <View style={{flex: 1}}>
-        <BlurView intensity={16}  style={{flex:1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+      <BlurView intensity={16}  style={{flex:1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
 
     {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
         <View style={styles.cardContainer}>
@@ -40,7 +40,7 @@ export default function QRCode({navigation: {goBack}}) {
         </View>
     {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-        </BlurView>
+      </BlurView>
     </View>
   )
 }
