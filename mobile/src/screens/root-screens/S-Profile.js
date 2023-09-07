@@ -5,6 +5,7 @@ import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex
 
 import { ROUTES } from '../../index/constantsindex'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
+import NewOfferBox from '../../components/molecules/NewOfferBox'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function ProfileScreen({navigation, navigation: {goBack}}) {
@@ -39,6 +40,8 @@ export default function ProfileScreen({navigation, navigation: {goBack}}) {
         />
 
       </View>
+
+      <NewOfferBox />
 
       </View>
 

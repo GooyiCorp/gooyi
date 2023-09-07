@@ -5,6 +5,7 @@ import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex
 import Category from '../../components/atoms/Category'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
 import NoResults from '../../components/molecules/NoResults'
+import NewOfferBox from '../../components/molecules/NewOfferBox'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -54,8 +55,9 @@ export default function DiscoverScreen( {navigation} ) {
           title={'Neue Angebote'}
           //showAllButton  
         />
-        
-        <NoResults message={'no results found :/'} boxHeight={{height: 253}}/>
+        <NewOfferBox />
+
+        {/* <NoResults message={'no results found :/'} boxHeight={{height: 253}}/> */}
 
       </View>
 
