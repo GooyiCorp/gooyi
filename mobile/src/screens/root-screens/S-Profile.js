@@ -9,6 +9,7 @@ import NewOfferBox from '../../components/molecules/NewOfferBox'
 import NewShopsBox from '../../components/molecules/NewShopsBox'
 import CouponCard from '../../components/molecules/CouponCard'
 import SortByShop from '../../components/molecules/SortByShop'
+import BonusImageCard from '../../components/atoms/BonusImageCard'
 
 
 
@@ -45,6 +46,7 @@ export default function ProfileScreen({navigation, navigation: {goBack}}) {
         />
 
       </View>
+      <BonusImageCard />
       <NewShopsBox />
 
       <CouponCard />
