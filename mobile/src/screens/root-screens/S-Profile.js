@@ -11,6 +11,7 @@ import CouponCard from '../../components/molecules/CouponCard'
 import SortByShop from '../../components/molecules/SortByShop'
 import BonusCard from '../../components/atoms/BonusCard'
 
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function ProfileScreen({navigation, navigation: {goBack}}) {
   return (
