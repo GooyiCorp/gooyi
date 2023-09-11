@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function bonusCard() {
+export default function BonusCard() {
   return (
     <View>
       <Text>bonusCard</Text>
