@@ -31,11 +31,11 @@ export default function HeartButton() {
         <Pressable onPress={() => (liked.value = withTiming(liked.value ? 0 : 1))}>
 
             <Animated.View style={[StyleSheet.absoluteFillObject, outlineStyle]}>
-                <Octicons name={"heart-fill"} size={28} color={'#eeeeee'}/>
+                <Octicons name={"heart-fill"} size={26} color={'#eeeeee'}/>
             </Animated.View>
     
             <Animated.View style={fillStyle}>
-                <Octicons name={"heart-fill"} size={28} color={'#B84058'} />
+                <Octicons name={"heart-fill"} size={26} color={'#B84058'} />
             </Animated.View>
 
         </Pressable>

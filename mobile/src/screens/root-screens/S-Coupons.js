@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { StyleSheet,View, Text , ScrollView} from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
+import PresentationHeader from '../../components/molecules/PresentationHeader'
+import SortByShop from '../../components/molecules/SortByShop'
 
 
 
@@ -34,7 +36,28 @@ export default function CouponsScreen({ navigation}) {
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+      
+      <View style={{width: '100%', paddingVertical: 15}}>
 
+        <PresentationHeader
+          title={'Sortieren nach'}
+          //showAllButton  
+        />
+
+
+          <SortByShop lists={[
+                {id: 1, number: '1'},
+                {id: 2, number: '5'},
+                {id: 3, number: '3'},
+                {id: 4, number: '3'}
+            ]}/>
+
+
+      </View>
+
+
+      </View>
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

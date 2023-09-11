@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View, Button, Pressable } from 'react-native'
 import React from 'react'
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming, interpolate,} from 'react-native-reanimated'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -43,7 +43,7 @@ export default function Category({
 // ---------------------------------------------------------------------------------------------------------------------
 
   return (
-    <TouchableOpacity onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 400}), transitionVal.value = withTiming(1, {duration: 100}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 400}, (finished) => (flashValue.value = 0)), transitionVal.value = withTiming(0, {duration: 100}) ) }>
+    <Pressable onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 400}), transitionVal.value = withTiming(1, {duration: 100}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 400}, (finished) => (flashValue.value = 0)), transitionVal.value = withTiming(0, {duration: 100}) ) }>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={styles.container}>
@@ -61,7 +61,7 @@ export default function Category({
       </View>
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

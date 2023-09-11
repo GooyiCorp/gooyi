@@ -4,6 +4,8 @@ import { StyleSheet,View, Text, Button } from 'react-native'
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
 import { ROUTES } from '../../index/constantsindex'
+import StoreCard from '../../components/molecules/StoreCard'
+import OfferBoxS from '../../components/molecules/OfferBoxS'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function StoresScreen({navigation}) {
@@ -30,9 +32,12 @@ export default function StoresScreen({navigation}) {
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-
+      <View style={{flex: 1, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center'}}>
+       <StoreCard />
+       <OfferBoxS />
+       
        <Button title='next' onPress={()=>{navigation.navigate(ROUTES.StoreScreen2)}}/>
-
+       </View>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 

@@ -7,8 +7,8 @@ import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, wi
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const imgBoxWidth = 246
-const imgBoxHeight = 115
+const imgBoxWidth = 117
+const imgBoxHeight = 138
 
 // Test API
 const shopName = 'NOOSOO Asia Kitchen'
@@ -21,7 +21,7 @@ const distance = '1,2 km'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default function NewOfferBox() {
+export default function OfferBoxS() {
 
   // Value --------------------------------------------------------------- Transition
   const [boxWidth, setBoxWidth] = useState(0)
@@ -135,11 +135,13 @@ export default function NewOfferBox() {
 const styles = StyleSheet.create({
   
   boxContainer: {
-    width: 246,
-    height: 253,
+    width: 363,
+    height: 138,
     borderRadius: 16,
     overflow: 'hidden',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flexDirection: 'row'
+
   },
 
   imageBox: {
@@ -161,11 +163,11 @@ const styles = StyleSheet.create({
   },
 
   shadowProp: {
-    width: 246,
-    height: 253,
+    width: 363,
+    height: 138,
     backgroundColor: '#ffffff',
     borderRadius: 16,
-    marginLeft: 30,
+    marginTop: 30,
 
     shadowColor: "#000000",
     shadowOpacity: 0.15,

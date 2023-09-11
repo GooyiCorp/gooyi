@@ -4,8 +4,9 @@ import { BlurView } from 'expo-blur'
 
 import Selector from '../../components/atoms/Selector'
 import NavBackButton from '../../components/atoms/NavBackButton'
+import { height } from '../../constants/size'
 
-
+idNumber='400 121 9613'
 
 // ---------------------------------------------------------------------------------------------------------------------   
 export default function QRCode({navigation: {goBack}}) {
@@ -29,6 +30,14 @@ export default function QRCode({navigation: {goBack}}) {
 
           {/* Content Container */}
           <View style={styles.contentContainer}>
+            <View style={{height: 430, width: 363, justifyContent: 'center', alignItems: 'center'}}>
+
+              <Text style={styles.userNameStyle}>Sebastian</Text>
+              <View style={styles.qrCodeContainer}></View>
+              <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>
+              <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, textAlign: 'center', marginTop: 15 }}>{`Lasse teilnehmenden Partnern diesen QR-Code
+ scannen, um Punkte zu sammeln.`}</Text>
+            </View>
 
           </View>
           
@@ -77,9 +86,28 @@ const styles = StyleSheet.create({
   contentContainer: {
     height: 488,
     width: 363,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',  
+    backgroundColor: '#ffffff',
+    // justifyContent: 'center',
+    // alignItems: 'center',  
+  },
+
+  userNameStyle: {
+    fontFamily: 'Roboto-Medium', 
+    fontSize: 28, 
+    fontWeight: 'bold',
+    marginTop: 10,
   },
   
+  qrCodeContainer: {
+    height: 252,
+    width: 252,
+    backgroundColor: '#eeeeee',
+    marginVertical: 15,
+  },
+
+    id: {
+      fontFamily: 'Roboto-Bold',
+      fontSize: 15,
+      marginLeft: 15,
+  }
 })

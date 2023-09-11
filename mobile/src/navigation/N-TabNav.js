@@ -23,8 +23,7 @@ export default function TabNav() {
   return (
     <>
     <Tab.Navigator
-        
-        //sceneContainerStyle={{backgroundColor: 'transparent', position: 'absolute'}}
+        initialRouteName='Stores'
         screenOptions={{
             headerShown: false,    
             
