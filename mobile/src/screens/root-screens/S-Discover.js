@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, ScrollView, StyleSheet,View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Button, FlatList, ScrollView, StyleSheet,View } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import Category from '../../components/atoms/Category'
@@ -7,10 +7,17 @@ import PresentationHeader from '../../components/molecules/PresentationHeader'
 import NoResults from '../../components/molecules/NoResults'
 import NewOfferBox from '../../components/molecules/NewOfferBox'
 
-
+import axios from 'axios'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {navigation} ) {
-
+  const [category, setCategory] = useState([])
+  const fetchCategory = async () => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/users')
+    setCategory(response.data)
+  }
+  useEffect(() => {
+    fetchCategory()
+  }, [])
   return (
     <View style={{flex: 1}}>
 
@@ -36,16 +43,23 @@ export default function DiscoverScreen( {navigation} ) {
 
         <PresentationHeader 
           title={'Kategorie'}
-          //showAllButton  
+          showAllButton={category.length > 5 ? true : false}
         />
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{paddingLeft: 30, flexDirection: 'row'}}>
+        {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{paddingLeft: 30, flexDirection: 'row'}}>
           <Category title={'Sushi'} number={12}/>
           <Category title={'Sushi'} number={12}/>
           <Category title={'Sushi'} number={12}/>
           <Category title={'Sushi'} number={12}/>
           <Category title={'Sushi'} number={12}/>
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{paddingLeft: 30, flexDirection: 'row'}}
+          data={category.slice(0,5)}
+          renderItem={({item}) =><Category title={item.username} number={Math.floor(item.address.geo.lat)}/> }
+        />
 
       </View>
 

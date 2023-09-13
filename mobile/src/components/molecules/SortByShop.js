@@ -15,11 +15,15 @@ export default function SortByShop({
     lists
 }) {
 
-    const [selected, setSelected] = useState(0)
+    const [selected, setSelected] = useState(new Set([]))
     const [bgColor, setBgColor] = useState('grey')
 
     const handleColor = (row) => {
-        setSelected(row.id)
+      if (!selected.has(row.id)) {
+        setSelected(prev => new Set(prev.add(row.id)))
+      } else {
+        setSelected(prev => new Set([...prev].filter(x => x !== row.id)))
+      }
     }
 
   return (
@@ -33,7 +37,7 @@ export default function SortByShop({
                 onPress={() => handleColor(list)
                 }
             >
-                <View style={[styles.container, {borderWidth: list.id === selected?  1 : 0 }]}></View>
+                <View style={[styles.container, {borderWidth: selected.has(list.id)?  1 : 0 }]}></View>
                     <Text style={[styles.numberStyle, {fontFamily: list.id === selected?  'Roboto-Medium' : 'Roboto-Light'}, {color: list.id === selected? '#B84058' : '#000000'}]}>{list.number}</Text>
 
             </TouchableOpacity>
