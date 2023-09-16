@@ -25,7 +25,7 @@ export default function RootNav() {
   return (
     <>
         <Root.Navigator
-            initialRouteName='Main'
+            initialRouteName='Profile'
             screenOptions={{
                 headerShown: false,    
             }}

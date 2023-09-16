@@ -13,7 +13,7 @@ export default function CouponCard() {
     // Value --------------------------------------------------------------- Transition
     const transitionVal = useSharedValue(0)
 
-     // UseAnimatedStyle ---------------------------------------------------- Transition
+    // UseAnimatedStyle ---------------------------------------------------- Transition
     const boxTransition = useAnimatedStyle(() =>{
         const boxScale = interpolate(transitionVal.value, [0,1], [1, 0.95])
             return {

@@ -11,7 +11,11 @@ const imgBoxHeight = 88
 const shopName = 'mai-mai'
 const points = 450
 
-export default function StoreCard() {
+export default function StoreCard({
+    shopName,
+}   
+
+) {
     
     // Value --------------------------------------------------------------- Transition
     const [boxWidth, setBoxWidth] = useState(0)
