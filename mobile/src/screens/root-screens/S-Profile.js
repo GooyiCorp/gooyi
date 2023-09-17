@@ -30,6 +30,7 @@ export default function ProfileScreen({navigation, navigation: {goBack}}) {
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
         notificationButton
+        onPressNotificationButton={() => navigation.navigate('Profile4')}
       />
 
       {/* Sub Header */}
@@ -50,7 +51,7 @@ export default function ProfileScreen({navigation, navigation: {goBack}}) {
           title={'Meine Stores'}
           showAllButton  
         />
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginLeft: 20, overflow: 'visible'}}>
         <BonusImageCard />
 
         <BonusImageCard />

@@ -6,7 +6,7 @@ import {icons} from '../atoms/Icons'
 const data = [
     {
         title: 'Meine Informationen',
-        content: ['Profil bearbeiten', 'Passwort und Sicherheit'],
+        content: [{routeTitle: 'Profil bearbeiten', routeName: 'Profile2'}, {routeTitle: 'Passwort und Sicherheit', routeName: 'Profile3'}],
         type: icons.MaterialCommunityIcons,
         ico: 'shield-account',
         size: 24,

@@ -4,9 +4,12 @@ import { TouchableOpacity } from 'react-native'
 import Animated, { measure, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming, runOnUI, interpolate } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
 import Icons, {icons} from '../atoms/Icons'
+import { useNavigation } from '@react-navigation/native'
 
 // ---------------------------------------------------------------------------------------------------------------------
 export default function Accordion({value}) {
+    const navigation = useNavigation()
+    const navigate = (routeName) => routeName !== '' ? navigation.navigate(routeName) : null;
 
     // Value --------------------------------------------------------------- Transition
     const open = useSharedValue();
@@ -90,8 +93,10 @@ export default function Accordion({value}) {
 
                 {value.content.map((v, i) => {
                     return (
-                        <TouchableOpacity key={i} style={styles.content}>
-                            <Text>{v}</Text>
+                        <TouchableOpacity key={i} style={styles.content} onPress={() => {
+                            navigate(v.routeName)
+                        }}>
+                            <Text>{v.routeTitle}</Text>
                         </TouchableOpacity>
                     )
                 })}
