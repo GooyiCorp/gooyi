@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
 import { BlurView } from 'expo-blur'
+import  {default as QR} from 'react-native-qrcode-svg';
 
 import Selector from '../../components/atoms/Selector'
 import NavBackButton from '../../components/atoms/NavBackButton'
 import { height } from '../../constants/size'
 
-idNumber='400 121 9613'
 
 // ---------------------------------------------------------------------------------------------------------------------   
 export default function QRCode({navigation: {goBack}}) {
+    const idNumber = Math.random().toString()
 
     const [pressValue, setPressValue] = useState(0)
 
@@ -33,7 +34,15 @@ export default function QRCode({navigation: {goBack}}) {
             <View style={{height: 430, width: 363, justifyContent: 'center', alignItems: 'center'}}>
 
               <Text style={styles.userNameStyle}>Sebastian</Text>
-              <View style={styles.qrCodeContainer}></View>
+              <View style={styles.qrCodeContainer}>
+              <QR
+              value={idNumber}
+              size={250}
+              color="black"
+              backgroundColor="white"
+              // getRef={getRef}
+              />
+              </View>
               <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>
               <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, textAlign: 'center', marginTop: 15 }}>{`Lasse teilnehmenden Partnern diesen QR-Code
  scannen, um Punkte zu sammeln.`}</Text>
@@ -101,8 +110,10 @@ const styles = StyleSheet.create({
   qrCodeContainer: {
     height: 252,
     width: 252,
-    backgroundColor: '#eeeeee',
+    //backgroundColor: '#eeeeee',
     marginVertical: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
     id: {
