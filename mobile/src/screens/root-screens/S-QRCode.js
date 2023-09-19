@@ -5,7 +5,7 @@ import  {default as QR} from 'react-native-qrcode-svg';
 
 import Selector from '../../components/atoms/Selector'
 import NavBackButton from '../../components/atoms/NavBackButton'
-import { height } from '../../constants/size'
+import { height, width } from '../../constants/size'
 import UserID from '../../components/molecules/UserID';
 import CodeScanner from '../../components/molecules/CodeScanner';
 
@@ -22,7 +22,8 @@ export default function QRCode({navigation: {goBack}}) {
 // ---------------------------------------------------------------------------------------------------------------------    
   return (
     <View style={{flex: 1}}>
-      <BlurView intensity={16}  style={{flex:1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+
+      <BlurView intensity={16}  style={{flex:1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
 
     {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
         <View style={styles.cardContainer}>
@@ -46,8 +47,12 @@ export default function QRCode({navigation: {goBack}}) {
         </View>
     {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
+      <Pressable style={{height: height, width: width, position:'absolute'}} onPress={()=> goBack()}></Pressable>
+     
       </BlurView>
+
     </View>
+
   )
 }
 
@@ -59,6 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#B84058', 
     borderRadius: 16,
     overflow: 'hidden',
+    zIndex: 1
   },
 
   selector: {
