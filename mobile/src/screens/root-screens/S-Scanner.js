@@ -1,16 +1,78 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-export default function Scanner({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+import { BarCodeScanner} from 'expo-barcode-scanner';
+import BoundBox from '../../components/atoms/BoundBox';
 
-        <View style={styles.cardContainer}>
-          <TouchableOpacity style={styles.selector} onPress={ () => navigation.navigate('QRCode') }>
-            
-          </TouchableOpacity>
+export default function Scanner() {
 
-        </View>
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+
+  const [boundX, setBoundX] = useState(0)
+  const [boundY, setBoundY] = useState(0)
+  const [sizeWidth, setSizeWidth] = useState(0)
+  const [sizeHeight, setSizeHeight] = useState(0)
+
+  useEffect(() => {
+    const getBarCodeScannerPermissions = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    };
+
+    getBarCodeScannerPermissions();
+  }, []);
+
+  const handleBarCodeScanned = (context, type, data) => {
+    //setScanned(true);
+    const {origin, size} = context.bounds
+    setBoundX(origin.x)
+    setBoundY(origin.y)
+    setSizeHeight(size.height)
+    setSizeWidth(size.width)
+    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    //console.log(context)
+  };
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+return (
+    <View style={styles.contentContainer}>
+
+      {/* Justify Container ------------------------------------------- */}
+      <View style={styles.userNameContainer}>
+      </View>
+
+      {/* Main Container ------------------------------------------------ */}
+      <View style={styles.mainContainer}>
+        
+        {/* BarCodeSacnner */}
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        >
+          
+        {/* BoundBox */}
+        <BoundBox boxHeight={sizeHeight} boxWidth={sizeWidth} top={boundY} left={boundX}/>
+
+        </BarCodeScanner>
+        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+    
+      </View>
+
+      {/* Direction Container -------------------------------------------- */}
+      <View style={styles.directionContainer}>
+        <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12}}>{`Richten Sie den QR-Code innerhalb des Rahmens aus.`}</Text>
+      </View>
 
     </View>
   )
@@ -18,20 +80,36 @@ export default function Scanner({navigation}) {
 
 const styles = StyleSheet.create({
   
-  cardContainer: {
-    width: 363, 
-    height: 536, 
-    backgroundColor: '#B84058', 
-    borderRadius: 16,
-    overflow: 'hidden',
+  userNameContainer: {
+    height: 50,
+    width: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 10,
+    // backgroundColor: 'green',
   },
 
-  selector: {
-    height: 48,
-    width: 181,
-    //backgroundColor: 'yellow',
-    position: 'absolute',
-    zIndex: 2,
-  }
+  mainContainer: {
+    height: 320,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    // backgroundColor: 'blue',
+  },
   
+  directionContainer: {
+    height: 60,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'red',
+  },
+
+  contentContainer: {
+    height: 488,
+    width: 363,
+    backgroundColor: '#ffffff',
+  },
+
 })

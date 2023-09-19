@@ -1,118 +1,102 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity, Image, Pressable } from 'react-native'
-import React, { useState } from 'react'
-import { BlurView } from 'expo-blur'
+import React from 'react'
 import  {default as QR} from 'react-native-qrcode-svg';
 
-import Selector from '../../components/atoms/Selector'
-import NavBackButton from '../../components/atoms/NavBackButton'
-import { height, width } from '../../constants/size'
-import UserID from '../../components/molecules/UserID';
-import CodeScanner from '../../components/molecules/CodeScanner';
 
 
 // ---------------------------------------------------------------------------------------------------------------------   
-export default function QRCode({navigation: {goBack}}) {
-    const idNumber = Math.random().toString()
+export default function QRCode() {
 
-    const [pressValue, setPressValue] = useState(0)
-
-    const [showScanner, setShowScanner] = useState(false)
-    const [showUserID, setShowUserID] = useState(true)
+  const userID = Math.random().toString()
 
 // ---------------------------------------------------------------------------------------------------------------------    
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.contentContainer}>
 
-      <BlurView intensity={16}  style={{flex:1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
+      {/* User Name Container ------------------------------------------- */}
+      <View style={styles.userNameContainer}>
+        <Text style={styles.userNameStyle}>Sebastian</Text>
+      </View>
 
-    {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-        <View style={styles.cardContainer}>
-
-          {/* Selector Tab Bar */}
-          <View style={{flexDirection: 'row', position: 'absolute', zIndex: 1}}>
-            <Pressable style={styles.selectorButton} onPress={() => {setPressValue(0), setShowScanner(!showScanner), setShowUserID(!showUserID)} }></Pressable>
-            <Pressable style={styles.selectorButton} onPress={() => {setPressValue(1), setShowScanner(!showScanner), setShowUserID(!showUserID)}}></Pressable>
-          </View>
-          <Selector pressValue={pressValue}/>
-
-          {/* Content Container */}
-          <UserID setUserID={showUserID}/>
-          <CodeScanner setScanner={showScanner}/>
-          
-          {/* Back Button */}
-          <View style={{height: 70, width: 363, position: 'absolute', bottom: 0, justifyContent: 'flex-start', alignItems: 'center'}}>
-            <NavBackButton onPressBack={() => goBack()}/>
-          </View>
-
+      {/* Main Container ------------------------------------------------ */}
+      <View style={styles.mainContainer}>
+        
+        {/* QR Code */}
+        <View style={styles.qrCodeContainer}>          
+          <QR
+            value={userID}
+            size={250}
+            color="black"
+            backgroundColor="white"
+          />
         </View>
-    {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+        
+        {/* User ID */}
+        <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{userID}</Text></Text>
+    
+      </View>
 
-      <Pressable style={{height: height, width: width, position:'absolute'}} onPress={()=> goBack()}></Pressable>
-     
-      </BlurView>
+      {/* Direction Container -------------------------------------------- */}
+      <View style={styles.directionContainer}>
+        <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, textAlign: 'center'}}>{`Lasse teilnehmenden Partnern diesen QR-Code
+scannen, um Punkte zu sammeln.`}</Text>
+      </View>
 
     </View>
-
   )
 }
 
 const styles = StyleSheet.create({
   
-  cardContainer: {
-    width: 363, 
-    height: 536, 
-    backgroundColor: '#B84058', 
-    borderRadius: 16,
-    overflow: 'hidden',
-    zIndex: 1
+  userNameContainer: {
+    height: 80,
+    width: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 10,
+    // backgroundColor: 'green',
   },
 
-  selector: {
-    height: 48,
-    width: 363,
-    //backgroundColor: 'yellow',
-    position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    zIndex: 1,
+  mainContainer: {
+    height: 290,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor: 'blue',
   },
-
-  selectorButton: {
-    height: 48,
-    width: 181.5,
-    //backgroundColor: 'green',
-    opacity: 0.5,
+  
+  directionContainer: {
+    height: 60,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: 'red',
   },
 
   contentContainer: {
     height: 488,
     width: 363,
     backgroundColor: '#ffffff',
-    // justifyContent: 'center',
-    // alignItems: 'center',  
   },
 
   userNameStyle: {
     fontFamily: 'Roboto-Medium', 
     fontSize: 28, 
     fontWeight: 'bold',
-    marginTop: 10,
   },
   
   qrCodeContainer: {
     height: 252,
     width: 252,
-    //backgroundColor: '#eeeeee',
-    marginVertical: 15,
+    marginBottom: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: '#eeeeee',
   },
 
-    id: {
-      fontFamily: 'Roboto-Bold',
-      fontSize: 15,
-      marginLeft: 15,
+  id: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: 15,
+    marginLeft: 15,
   }
 })

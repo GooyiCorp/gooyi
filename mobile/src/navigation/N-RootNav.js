@@ -45,7 +45,7 @@ export default function RootNav() {
 {/* Screen QR Scan --------------------------------------------------------- */}
             <Root.Screen 
                 name='QRScan' 
-                component={QRCode}
+                component={QRScanStackNav}
                 options={{
                     presentation: 'transparentModal',
                 }}
