@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { BlurView } from 'expo-blur'
 import  {default as QR} from 'react-native-qrcode-svg';
@@ -6,6 +6,8 @@ import  {default as QR} from 'react-native-qrcode-svg';
 import Selector from '../../components/atoms/Selector'
 import NavBackButton from '../../components/atoms/NavBackButton'
 import { height } from '../../constants/size'
+import UserID from '../../components/molecules/UserID';
+import CodeScanner from '../../components/molecules/CodeScanner';
 
 
 // ---------------------------------------------------------------------------------------------------------------------   
@@ -13,6 +15,9 @@ export default function QRCode({navigation: {goBack}}) {
     const idNumber = Math.random().toString()
 
     const [pressValue, setPressValue] = useState(0)
+
+    const [showScanner, setShowScanner] = useState(false)
+    const [showUserID, setShowUserID] = useState(true)
 
 // ---------------------------------------------------------------------------------------------------------------------    
   return (
@@ -24,31 +29,14 @@ export default function QRCode({navigation: {goBack}}) {
 
           {/* Selector Tab Bar */}
           <View style={{flexDirection: 'row', position: 'absolute', zIndex: 1}}>
-            <TouchableOpacity style={styles.selectorButton} onPress={() => setPressValue(0)}></TouchableOpacity>
-            <TouchableOpacity style={styles.selectorButton} onPress={() => setPressValue(1)}></TouchableOpacity>
+            <Pressable style={styles.selectorButton} onPress={() => {setPressValue(0), setShowScanner(!showScanner), setShowUserID(!showUserID)} }></Pressable>
+            <Pressable style={styles.selectorButton} onPress={() => {setPressValue(1), setShowScanner(!showScanner), setShowUserID(!showUserID)}}></Pressable>
           </View>
           <Selector pressValue={pressValue}/>
 
           {/* Content Container */}
-          <View style={styles.contentContainer}>
-            <View style={{height: 430, width: 363, justifyContent: 'center', alignItems: 'center'}}>
-
-              <Text style={styles.userNameStyle}>Sebastian</Text>
-              <View style={styles.qrCodeContainer}>
-              <QR
-              value={idNumber}
-              size={250}
-              color="black"
-              backgroundColor="white"
-              // getRef={getRef}
-              />
-              </View>
-              <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>
-              <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, textAlign: 'center', marginTop: 15 }}>{`Lasse teilnehmenden Partnern diesen QR-Code
- scannen, um Punkte zu sammeln.`}</Text>
-            </View>
-
-          </View>
+          <UserID setUserID={showUserID}/>
+          <CodeScanner setScanner={showScanner}/>
           
           {/* Back Button */}
           <View style={{height: 70, width: 363, position: 'absolute', bottom: 0, justifyContent: 'flex-start', alignItems: 'center'}}>

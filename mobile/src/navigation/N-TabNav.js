@@ -23,7 +23,7 @@ export default function TabNav() {
   return (
     <>
     <Tab.Navigator
-        initialRouteName='Stores'
+        initialRouteName='Discover'
         screenOptions={{
             headerShown: false,    
             

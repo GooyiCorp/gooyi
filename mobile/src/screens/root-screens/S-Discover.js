@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, FlatList, ScrollView, StyleSheet,View } from 'react-native'
+import { Button, FlatList, ScrollView, StyleSheet,View, Text } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import Category from '../../components/atoms/Category'
