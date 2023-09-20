@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import { BarCodeScanner} from 'expo-barcode-scanner';
 import BoundBox from '../../components/atoms/BoundBox';
+import Animated, { useAnimatedStyle, useSharedValue, interpolate, withTiming, withSpring, withSequence, withDelay, Easing} from 'react-native-reanimated';
 
 export default function Scanner() {
 
@@ -11,10 +12,25 @@ export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
+  const boundValue = useSharedValue(0)
+
+
   const [boundX, setBoundX] = useState(0)
   const [boundY, setBoundY] = useState(0)
   const [sizeWidth, setSizeWidth] = useState(0)
   const [sizeHeight, setSizeHeight] = useState(0)
+
+  const showBound = useAnimatedStyle(() =>{
+    const scale = interpolate(boundValue.value, [0, 1, 2], [1.5, 1, 1])
+    const opacity = interpolate(boundValue.value, [0, 1, 2], [0, 1, 0])
+        return {
+            transform:[
+                {scale: scale}
+            ],
+          opacity: opacity
+        }
+    }
+  )
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -28,10 +44,12 @@ export default function Scanner() {
   const handleBarCodeScanned = (context, type, data) => {
     //setScanned(true);
     const {origin, size} = context.bounds
+    boundValue.value = withSequence(withTiming(1, {duration: 500, easing: Easing.bezier(0.03, 0.68, 0.5, 1.13)}), withDelay(300, withTiming(2, {duration: 300})), withTiming(0, {duration: 0}) )
     setBoundX(origin.x)
     setBoundY(origin.y)
     setSizeHeight(size.height)
     setSizeWidth(size.width)
+    
     //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     //console.log(context)
   };
@@ -58,14 +76,17 @@ return (
         {/* BarCodeSacnner */}
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          on
           style={StyleSheet.absoluteFillObject}
         >
           
         {/* BoundBox */}
-        <BoundBox boxHeight={sizeHeight} boxWidth={sizeWidth} top={boundY} left={boundX}/>
+        <Animated.View style={[{opacity: 0},showBound]}>
+        <BoundBox showBoundingBox boxHeight={sizeHeight} boxWidth={sizeWidth} top={boundY} left={boundX}/>
+        </Animated.View>
 
         </BarCodeScanner>
-        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+        {scanned && <Button title={'Tap to Scan Again'} onPress={() => (setScanned(false), boundValue.value=0)} />}
     
       </View>
 
