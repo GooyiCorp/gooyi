@@ -28,11 +28,11 @@ export default function CategorySelectorCarousel() {
   function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
     if (data.length >= length * 3) setData(prev => prev.slice(length*2))
     if (contentOffset.y <= 20) {
-      setData(prev => [...prev, list])
+      setData(prev => [...prev, ...list])
       infListRef.current.scrollToIndex({animated: false, index: length})
     }
     if (layoutMeasurement.height + contentOffset.y >= contentSize.height - 20 && end) {
-      setData(prev => [...prev, list])
+      setData(prev => [...prev, ...list])
       setEnd(false)
     }
     else {
