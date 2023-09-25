@@ -42,8 +42,10 @@ export default function CategorySelectorCarousel() {
                 },
             }) => {
                 if ( y <= 0) {
-                    setData(prev => {prev.prepend(data)})
-                    // console.log(0)
+                    setData(prev => {
+                      prev.unshift(...data)
+                      return prev
+                    })
                 }
             }}
         />
