@@ -27,11 +27,10 @@ export default function CategorySelectorCarousel() {
 
   function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
     if (data.length >= length * 3) setData(prev => prev.slice(length*2))
-    if (contentOffset.y <= 20) {
-      setData(prev => [...prev, ...list])
-      infListRef.current.scrollToIndex({animated: false, index: length})
+    if (contentOffset.y <= 1) {
+      setData(prev => [...prev, ...list], infListRef.current.scrollToIndex({ animated: false, index: length })) 
     }
-    if (layoutMeasurement.height + contentOffset.y >= contentSize.height - 20 && end) {
+    if (layoutMeasurement.height + contentOffset.y >= contentSize.height - 1 && end) {
       setData(prev => [...prev, ...list])
       setEnd(false)
     }
@@ -53,6 +52,7 @@ export default function CategorySelectorCarousel() {
             decelerationRate={"fast"}
             onScroll={({nativeEvent}) => handleScoll(nativeEvent)}
             showsVerticalScrollIndicator={false}
+            scrollEventThrottle={16}
         />
     </View>
     </>
