@@ -1,10 +1,8 @@
 import { FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState, useRef } from 'react'
-import InfiniteScroll from './Scroll'
 
 import CatergorySelectorIcons from '../atoms/CategorySelectorIcons'
-import { useAnimatedStyle, useSharedValue, interpolate } from 'react-native-reanimated'
-
+import { Timer } from '../../helper/timer'
 
 export default function CategorySelectorCarousel() {
   const list = [
@@ -18,8 +16,9 @@ export default function CategorySelectorCarousel() {
 
   const length = list.length
   const infListRef = useRef(null)
-  const [data, setData] = useState(list)
-    const [end, setEnd] = useState(true)
+  const [data, setData] = useState([...list,...list])
+  const [render, setRender] = useState(true)
+  const timer = useRef(new Timer(0))
     useEffect(() => {
       setData(prev => [...prev, ... prev])
       setTimeout(() => { infListRef.current.scrollToIndex({ animated: false, index: length }) }, 500);
@@ -27,16 +26,30 @@ export default function CategorySelectorCarousel() {
 
   function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
     if (data.length >= length * 3) setData(prev => prev.slice(length*2))
-    if (contentOffset.y <= 1) {
-      setData(prev => [...prev, ...list], infListRef.current.scrollToIndex({ animated: false, index: length })) 
+    if (contentOffset.y <= 0) {
+      if (timer.current.remainingTime() == 0) {
+        setData(prev => {
+        prev.unshift(prev.pop())
+        prev.unshift(prev.pop())
+          return prev
+        })
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 2  }))
+        timer.current = new Timer(100)
+      }
     }
-    if (layoutMeasurement.height + contentOffset.y >= contentSize.height - 1 && end) {
-      setData(prev => [...prev, ...list])
-      setEnd(false)
+    if (layoutMeasurement.height + contentOffset.y >= contentSize.height) {
+      if (timer.current.remainingTime() == 0) {
+        setData(prev => {
+        prev.push(prev.shift())
+        prev.push(prev.shift())
+          return prev
+        })
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 3  }))
+        timer.current = new Timer(100)
+      }
+      
     }
-    else {
-      setEnd(true)
-    }
+
   }
   return (
     <>
