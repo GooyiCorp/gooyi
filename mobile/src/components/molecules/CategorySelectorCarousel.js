@@ -43,7 +43,7 @@ export default function CategorySelectorCarousel() {
             }) => {
                 if ( y <= 0) {
                     setData(prev => {
-                      prev.unshift(...data)
+                      prev.unshift(...data.slice(5))
                       return prev
                     })
                 }
