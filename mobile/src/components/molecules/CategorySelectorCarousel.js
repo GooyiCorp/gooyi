@@ -9,7 +9,7 @@ import { useAnimatedStyle, useSharedValue, interpolate } from 'react-native-rean
 
 
 export default function CategorySelectorCarousel() {
-    
+
     const [data, setData] = useState([
         {id: 1, number: 1},
         {id: 2, number: 2},
@@ -18,6 +18,7 @@ export default function CategorySelectorCarousel() {
         {id: 5, number: 5},
         {id: 6, number: 6},
       ])
+
 
   return (
     <>
@@ -30,10 +31,12 @@ export default function CategorySelectorCarousel() {
             pagingEnabled={true}
             snapToAlignment={'center'}
             decelerationRate={"fast"}
+
             // onEndReached={() => {
             //     if (data.length >= 12) {setData(data.slice(6), console.log(data))}
             //     else {setData(prev => [...prev, ...data]), console.log(data)} 
             // }}
+
             onScroll={({
                 nativeEvent: {contentOffset: { y },
                 },
