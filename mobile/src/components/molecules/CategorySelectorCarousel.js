@@ -6,17 +6,17 @@ import CatergorySelectorIcons from '../atoms/CategorySelectorIcons'
 import { useAnimatedStyle, useSharedValue, interpolate } from 'react-native-reanimated'
 
 
-const [data, setData] = useState([
-    {id: 1, number: 1},
-    {id: 2, number: 2},
-    {id: 3, number: 3},
-    {id: 4, number: 4},
-    {id: 5, number: 5},
-    {id: 6, number: 6},
-  ])
 
-  
+
 export default function CategorySelectorCarousel() {
+  const [data, setData] = useState([
+      {id: 1, number: 1},
+      {id: 2, number: 2},
+      {id: 3, number: 3},
+      {id: 4, number: 4},
+      {id: 5, number: 5},
+      {id: 6, number: 6},
+    ])
 
 
   return (
@@ -30,7 +30,7 @@ export default function CategorySelectorCarousel() {
             pagingEnabled={true}
             snapToAlignment={'center'}
             decelerationRate={"fast"}
-            //onEndReached={() => setData((prev) => {[…prev, data])}
+            onEndReached={() => {setData(prev => [...prev, data])}}
             onScroll={({
                 nativeEvent: {contentOffset: { y },
                 },
