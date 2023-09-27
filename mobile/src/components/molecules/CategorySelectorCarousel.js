@@ -21,32 +21,35 @@ export default function CategorySelectorCarousel() {
   const length = list.length
   const infListRef = useRef(null)
   const [data, setData] = useState([...list,...list])
+  console.log(data)
   const [render, setRender] = useState(true)
   const timer = useRef(new Timer(0))
-    useEffect(() => {
-      setData(prev => [...prev, ... prev])
-      setTimeout(() => { infListRef.current.scrollToIndex({ animated: false, index: length }) }, 500);
-    }, [])
+    // useEffect(() => {
+    //   setData(prev => [...prev, ... prev])
+    //   setTimeout(() => { infListRef.current.scrollToIndex({ animated: false, index: length }) }, 500);
+    // }, [])
 
   function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
-    if (data.length >= length * 3) setData(prev => prev.slice(length*2))
-    if (contentOffset.y <= 0) {
+    //if (data.length >= length * 3) setData(prev => prev.slice(length*2))
+    if (contentOffset.y <= layoutMeasurement.height*3) {
       if (timer.current.remainingTime() == 0) {
         setData(prev => {
         prev.unshift(prev.pop())
-        prev.unshift(prev.pop())
-
+        //prev.unshift(prev.pop())
+        //prev.unshift(prev.pop())
+        
           return prev
         })
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 2  }))
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, viewPosition: 0.5, index: 4}))
         timer.current = new Timer(100)
+        
       }
     }
     if (layoutMeasurement.height + contentOffset.y >= contentSize.height) {
       if (timer.current.remainingTime() == 0) {
         setData(prev => {
         prev.push(prev.shift())
-        prev.push(prev.shift())
+        //prev.push(prev.shift())
 
           return prev
         })
@@ -86,12 +89,13 @@ export default function CategorySelectorCarousel() {
             keyExtractor={(item, id) => id}
             pagingEnabled={true}
             snapToAlignment={'center'}
-            decelerationRate={"fast"}
+            decelerationRate={'fast'}
             onScroll={({nativeEvent}) => handleScoll(nativeEvent)}
             showsVerticalScrollIndicator={false}
             scrollEventThrottle={16}
             onTouchStart={() => transitionVal.value = withTiming( 1, {duration: 300})}
             onTouchEnd={() => transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))}
+            initialScrollIndex={4}
         />
     </View>
     </MaskView>
