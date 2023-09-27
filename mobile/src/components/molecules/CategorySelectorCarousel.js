@@ -3,6 +3,9 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import CatergorySelectorIcons from '../atoms/CategorySelectorIcons'
 import { Timer } from '../../helper/timer'
+import MaskView from '../atoms/MaskedView'
+import MaskElement from '../atoms/MaskElement'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming, interpolate, withDelay, Easing, withSpring } from 'react-native-reanimated'
 
 export default function CategorySelectorCarousel() {
   const list = [
@@ -14,6 +17,7 @@ export default function CategorySelectorCarousel() {
     { id: 6, number: 6 },
   ]
 
+  const [visibility, setVisibility] = useState('visible')
   const length = list.length
   const infListRef = useRef(null)
   const [data, setData] = useState([...list,...list])
@@ -31,6 +35,7 @@ export default function CategorySelectorCarousel() {
         setData(prev => {
         prev.unshift(prev.pop())
         prev.unshift(prev.pop())
+
           return prev
         })
         setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 2  }))
@@ -42,6 +47,7 @@ export default function CategorySelectorCarousel() {
         setData(prev => {
         prev.push(prev.shift())
         prev.push(prev.shift())
+
           return prev
         })
         setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 3  }))
@@ -51,11 +57,29 @@ export default function CategorySelectorCarousel() {
     }
 
   }
+
+        // Value --------------------------------------------------------------- Transition
+        const transitionVal = useSharedValue(0)
+      
+        // UseAnimatedStyle ---------------------------------------------------- Transition
+      
+        const transition = useAnimatedStyle(() => {
+          const translateHeight = interpolate(transitionVal.value, [0,1], [60, 150])
+          const scale = interpolate(transitionVal.value, [0,1], [1, 1.05])
+              return {
+                  height: translateHeight,
+                  transform: [{scale: scale}]
+              }
+          }
+        )
+
   return (
     <>
-    
+    <Animated.View style={[{ height: 150, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
+    <MaskView element={<MaskElement />}>
     <View style={styles.hiddenbox}>
         <FlatList
+            style={{overflow: visibility}}
             ref={infListRef}
             data={data}
             renderItem={({item}) => <CatergorySelectorIcons number={item.number} onPressIn={() => console.log('press')}/>}
@@ -66,8 +90,12 @@ export default function CategorySelectorCarousel() {
             onScroll={({nativeEvent}) => handleScoll(nativeEvent)}
             showsVerticalScrollIndicator={false}
             scrollEventThrottle={16}
+            onTouchStart={() => transitionVal.value = withTiming( 1, {duration: 300})}
+            onTouchEnd={() => transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))}
         />
     </View>
+    </MaskView>
+    </Animated.View>
     </>
   )
 }
@@ -77,9 +105,8 @@ const styles = StyleSheet.create({
     hiddenbox: {
         height: 50,
         width: 50,
-       // justifyContent: 'center',
-        backgroundColor: 'yellow',
-        overflow: 'visible'
+        //backgroundColor: 'yellow',
+        borderRadius: 50,
       }
 
 })

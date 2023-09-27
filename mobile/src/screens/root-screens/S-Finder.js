@@ -23,8 +23,9 @@ export default function FinderScreen({navigation}) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <CategorySelectorCarousel/>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',  }}>
+      
+        <CategorySelectorCarousel />
 
       </View>
 
