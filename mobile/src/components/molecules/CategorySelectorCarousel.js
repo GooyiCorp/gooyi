@@ -31,7 +31,7 @@ export default function CategorySelectorCarousel() {
 
   function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
     //if (data.length >= length * 3) setData(prev => prev.slice(length*2))
-    if (contentOffset.y <= layoutMeasurement.height*3) {
+    if (contentOffset.y <= 0) {
       if (timer.current.remainingTime() == 0) {
         setData(prev => {
         prev.unshift(prev.pop())
@@ -40,8 +40,8 @@ export default function CategorySelectorCarousel() {
         
           return prev
         })
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, viewPosition: 0.5, index: 4}))
-        timer.current = new Timer(100)
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 1}))
+        timer.current = new Timer(200)
         
       }
     }
@@ -53,8 +53,9 @@ export default function CategorySelectorCarousel() {
 
           return prev
         })
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 3  }))
-        timer.current = new Timer(100)
+        //setRender(!render)
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 2}))
+        timer.current = new Timer(200)
       }
       
     }
@@ -95,7 +96,7 @@ export default function CategorySelectorCarousel() {
             scrollEventThrottle={16}
             onTouchStart={() => transitionVal.value = withTiming( 1, {duration: 300})}
             onTouchEnd={() => transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))}
-            initialScrollIndex={4}
+            //initialScrollIndex={6}
         />
     </View>
     </MaskView>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     hiddenbox: {
         height: 50,
         width: 50,
-        //backgroundColor: 'yellow',
+        backgroundColor: 'yellow',
         borderRadius: 50,
       }
 
