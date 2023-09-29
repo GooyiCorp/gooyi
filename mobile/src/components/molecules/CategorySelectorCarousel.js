@@ -1,5 +1,6 @@
 import { FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState, useRef } from 'react'
+import * as Haptics from 'expo-haptics';
 
 import CatergorySelectorIcons from '../atoms/CategorySelectorIcons'
 import { Timer } from '../../helper/timer'
@@ -24,14 +25,14 @@ export default function CategorySelectorCarousel() {
   console.log(data)
   const [render, setRender] = useState(true)
   const timer = useRef(new Timer(0))
-    // useEffect(() => {
-    //   setData(prev => [...prev, ... prev])
-    //   setTimeout(() => { infListRef.current.scrollToIndex({ animated: false, index: length }) }, 500);
-    // }, [])
+    useEffect(() => {
+      setData(prev => [...prev, ... prev])
+      setTimeout(() => { infListRef.current.scrollToIndex({ animated: false, index: length }) }, 500);
+    }, [])
 
   function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
     //if (data.length >= length * 3) setData(prev => prev.slice(length*2))
-    if (contentOffset.y <= 0) {
+    if (contentOffset.y <= layoutMeasurement.height*2.2) {
       if (timer.current.remainingTime() == 0) {
         setData(prev => {
         prev.unshift(prev.pop())
@@ -40,12 +41,13 @@ export default function CategorySelectorCarousel() {
         
           return prev
         })
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 1}))
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 3}))
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
         timer.current = new Timer(200)
         
       }
     }
-    if (layoutMeasurement.height + contentOffset.y >= contentSize.height) {
+    if (layoutMeasurement.height + contentOffset.y >= contentSize.height- layoutMeasurement.height*2) {
       if (timer.current.remainingTime() == 0) {
         setData(prev => {
         prev.push(prev.shift())
@@ -54,7 +56,7 @@ export default function CategorySelectorCarousel() {
           return prev
         })
         //setRender(!render)
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 2}))
+        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 4}))
         timer.current = new Timer(200)
       }
       
@@ -96,7 +98,7 @@ export default function CategorySelectorCarousel() {
             scrollEventThrottle={16}
             onTouchStart={() => transitionVal.value = withTiming( 1, {duration: 300})}
             onTouchEnd={() => transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))}
-            //initialScrollIndex={6}
+            //initialScrollIndex={2}
         />
     </View>
     </MaskView>
