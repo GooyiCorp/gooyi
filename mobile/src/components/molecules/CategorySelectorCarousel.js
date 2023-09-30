@@ -7,15 +7,53 @@ import { Timer } from '../../helper/timer'
 import MaskView from '../atoms/MaskedView'
 import MaskElement from '../atoms/MaskElement'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, interpolate, withDelay, Easing, withSpring } from 'react-native-reanimated'
+import Carousel from 'react-native-reanimated-carousel'
+import {icons} from '../atoms/Icons'
 
 export default function CategorySelectorCarousel() {
   const list = [
-    { id: 1, number: 1 },
-    { id: 2, number: 2 },
-    { id: 3, number: 3 },
-    { id: 4, number: 4 },
-    { id: 5, number: 5 },
-    { id: 6, number: 6 },
+    { 
+      id: 0, 
+      type: icons.MaterialCommunityIcons,
+      ico: 'shield-account',
+      size: 20,
+      bgColor: 'red'
+    },
+    { 
+      id: 1, 
+      type: icons.MaterialCommunityIcons,
+      ico: 'shield-account',
+      size: 20,
+      bgColor: 'yellow'
+    },
+    { 
+      id: 2, 
+      type: icons.MaterialCommunityIcons,
+      ico: 'shield-account',
+      size: 20,
+      bgColor: 'green'
+    },
+    { 
+      id: 3, 
+      type: icons.MaterialCommunityIcons,
+      ico: 'shield-account',
+      size: 20,
+      bgColor: 'blue'
+    },
+    { 
+      id: 4, 
+      type: icons.MaterialCommunityIcons,
+      ico: 'shield-account',
+      size: 20,
+      bgColor: 'magenta'
+    },
+    { 
+      id: 5, 
+      type: icons.MaterialCommunityIcons,
+      ico: 'shield-account',
+      size: 20,
+      bgColor: 'aquamarine'
+    },
   ]
 
   const [visibility, setVisibility] = useState('visible')
@@ -24,44 +62,13 @@ export default function CategorySelectorCarousel() {
   const [data, setData] = useState([...list,...list])
   console.log(data)
   const [render, setRender] = useState(true)
-  const timer = useRef(new Timer(0))
-    useEffect(() => {
-      setData(prev => [...prev, ... prev])
-      setTimeout(() => { infListRef.current.scrollToIndex({ animated: false, index: length }) }, 500);
-    }, [])
+  
 
-  function handleScoll({ layoutMeasurement, contentOffset, contentSize }) {
-    //if (data.length >= length * 3) setData(prev => prev.slice(length*2))
-    if (contentOffset.y <= layoutMeasurement.height*2.2) {
-      if (timer.current.remainingTime() == 0) {
-        setData(prev => {
-        prev.unshift(prev.pop())
-        //prev.unshift(prev.pop())
-        //prev.unshift(prev.pop())
-        
-          return prev
-        })
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: 3}))
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
-        timer.current = new Timer(200)
-        
-      }
-    }
-    if (layoutMeasurement.height + contentOffset.y >= contentSize.height- layoutMeasurement.height*2) {
-      if (timer.current.remainingTime() == 0) {
-        setData(prev => {
-        prev.push(prev.shift())
-        //prev.push(prev.shift())
-
-          return prev
-        })
-        //setRender(!render)
-        setRender(!render, infListRef.current.scrollToIndex({ animated: false, index: data.length - 4}))
-        timer.current = new Timer(200)
-      }
-      
-    }
-
+  function handleTouchEnd() {
+    transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))
+  }
+  function handleTouchStart() {
+    transitionVal.value = withTiming( 1, {duration: 300})
   }
 
         // Value --------------------------------------------------------------- Transition
@@ -83,26 +90,30 @@ export default function CategorySelectorCarousel() {
     <>
     <Animated.View style={[{ height: 150, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
     <MaskView element={<MaskElement />}>
-    <View style={styles.hiddenbox}>
-        <FlatList
-            style={{overflow: visibility}}
-            ref={infListRef}
-            data={data}
-            renderItem={({item}) => <CatergorySelectorIcons number={item.number} onPressIn={() => console.log('press')}/>}
-            keyExtractor={(item, id) => id}
-            pagingEnabled={true}
-            snapToAlignment={'center'}
-            decelerationRate={'fast'}
-            onScroll={({nativeEvent}) => handleScoll(nativeEvent)}
-            showsVerticalScrollIndicator={false}
-            scrollEventThrottle={16}
-            onTouchStart={() => transitionVal.value = withTiming( 1, {duration: 300})}
-            onTouchEnd={() => transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))}
-            //initialScrollIndex={2}
-        />
+    <View style={styles.hiddenbox}
+      onTouchStart={() => handleTouchStart()}
+      onTouchEnd={() => handleTouchEnd()}
+    >
+      <Carousel 
+            style={{overflow: 'visibility'}}
+          vertical
+          loop
+          width={50}
+          height={50}
+          // autoPlay={true}
+          data={list}
+          scrollAnimationDuration={200}
+          onSnapToItem={(index) => handleTouchEnd()}
+          renderItem={({item}) => (
+            <CatergorySelectorIcons type={item.type} ico={item.ico} size={item.size} bgColor={item.bgColor} onPressIn={() => console.log('press')}/>
+          )}
+          
+          //onTouchStart={() => console.log('touch')}
+      />
     </View>
     </MaskView>
     </Animated.View>
+    <View style={[styles.hiddenbox, {position: 'absolute', zIndex: -1}]}/>
     </>
   )
 }
@@ -112,7 +123,7 @@ const styles = StyleSheet.create({
     hiddenbox: {
         height: 50,
         width: 50,
-        backgroundColor: 'yellow',
+        backgroundColor: 'grey',
         borderRadius: 50,
       }
 

@@ -32,13 +32,12 @@ export default function FinderScreen({navigation}) {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',  }}>
-      
-        <CategorySelectorCarousel />
-        <Carousel 
+      <CategorySelectorCarousel/>
+        {/* <Carousel 
             style={{overflow: 'visibility'}}
           vertical
           loop
-          width={width}
+          width={50}
           height={50}
           // autoPlay={true}
           data={list}
@@ -47,7 +46,7 @@ export default function FinderScreen({navigation}) {
           renderItem={({ index }) => (
             <CatergorySelectorIcons number={index} onPressIn={() => console.log('press')}/>
           )}
-      />
+      /> */}
       </View>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

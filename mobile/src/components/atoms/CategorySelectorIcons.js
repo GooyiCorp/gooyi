@@ -1,12 +1,16 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import Icons, {icons} from './Icons'
 
 export default function CatergorySelectorIcons({
-    number
+    type,
+    ico,
+    size,
+    bgColor,
 }) {
   return (
-    <View style={styles.box}>
-      <Text>{number}</Text>
+    <View style={[styles.box,{backgroundColor: bgColor}]}>
+      <Icons icon={type} iconName={ico} iconColor='#ffffff' iconSize={size}/>
     </View>
   )
 }
