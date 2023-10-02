@@ -1,5 +1,5 @@
 import React from 'react'
-import { MaterialCommunityIcons, MaterialIcons, FontAwesome, Ionicons, SimpleLineIcons, Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons, FontAwesome, Ionicons, SimpleLineIcons, Octicons, Foundation, Entypo } from '@expo/vector-icons';
 
 export const icons = {
     MaterialCommunityIcons,
@@ -8,6 +8,8 @@ export const icons = {
     Ionicons, 
     SimpleLineIcons,
     Octicons,
+    Foundation,
+    Entypo,
 }
 
 export default function Icons({

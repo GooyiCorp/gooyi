@@ -17,8 +17,8 @@ export default function CatergorySelectorIcons({
 
 const styles = StyleSheet.create({
     box: {
-        height: 40,
-        width: 40,
+        height: 42,
+        width: 42,
         backgroundColor: 'grey',
         borderRadius: 50,
         justifyContent: 'center',

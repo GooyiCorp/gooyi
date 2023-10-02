@@ -3,6 +3,7 @@ import React from 'react'
 
 import { Avatar } from 'react-native-paper'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -17,6 +18,7 @@ export default function MainHeader({
     onPressQRButton,
     notificationButton,
     onPressNotificationButton,
+    categorySelector,
 }) {
 
     // Right View ------------------------------------------------------------------------------------------
@@ -38,6 +40,11 @@ export default function MainHeader({
             {notificationButton && <TouchableOpacity style={[styles.qrScanButton, {backgroundColor: '#F4F4F4'}]} onPress={onPressNotificationButton}>
                     <MaterialIcons name="notifications-none" size={26} color="black" />
               </TouchableOpacity>}
+
+            {/* Finder Category Selector */}
+            {categorySelector && <View style={{height:52, width: 52, justifyContent: 'center', alignItems: 'center'}}>
+                <CategorySelectorCarousel/> 
+            </View>}
 
         </View>
     )
@@ -105,4 +112,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 5
     },
+
+    bgView: {
+        height: 42,
+        width: 42,
+        backgroundColor: '#c7c7c7',
+        borderRadius: 50,
+      }
 })

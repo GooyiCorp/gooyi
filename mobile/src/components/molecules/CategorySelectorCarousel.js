@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import * as Haptics from 'expo-haptics';
 
 import CatergorySelectorIcons from '../atoms/CategorySelectorIcons'
-import { Timer } from '../../helper/timer'
 import MaskView from '../atoms/MaskedView'
 import MaskElement from '../atoms/MaskElement'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, interpolate, withDelay, Easing, withSpring } from 'react-native-reanimated'
@@ -14,56 +13,50 @@ export default function CategorySelectorCarousel() {
   const list = [
     { 
       id: 0, 
-      type: icons.MaterialCommunityIcons,
-      ico: 'shield-account',
-      size: 20,
-      bgColor: 'red'
+      type: icons.MaterialIcons,
+      ico: 'restaurant',
+      size: 22,
+      bgColor: '#FFB756'
     },
     { 
       id: 1, 
       type: icons.MaterialCommunityIcons,
-      ico: 'shield-account',
-      size: 20,
-      bgColor: 'yellow'
+      ico: 'coffee',
+      size: 23,
+      bgColor: '#D1ABAA'
     },
     { 
       id: 2, 
       type: icons.MaterialCommunityIcons,
-      ico: 'shield-account',
-      size: 20,
-      bgColor: 'green'
+      ico: 'gamepad-square',
+      size: 26,
+      bgColor: '#758a92'
     },
     { 
       id: 3, 
       type: icons.MaterialCommunityIcons,
-      ico: 'shield-account',
-      size: 20,
-      bgColor: 'blue'
+      ico: 'book',
+      size: 24,
+      bgColor: '#da6178'
     },
     { 
       id: 4, 
       type: icons.MaterialCommunityIcons,
-      ico: 'shield-account',
-      size: 20,
-      bgColor: 'magenta'
+      ico: 'shopping',
+      size: 24,
+      bgColor: '#4a6c98'
     },
     { 
       id: 5, 
       type: icons.MaterialCommunityIcons,
-      ico: 'shield-account',
-      size: 20,
-      bgColor: 'aquamarine'
+      ico: 'heart',
+      size: 23,
+      bgColor: '#c52b10'
     },
   ]
 
-  const [visibility, setVisibility] = useState('visible')
-  const length = list.length
-  const infListRef = useRef(null)
   const [data, setData] = useState([...list,...list])
-  console.log(data)
-  const [render, setRender] = useState(true)
   
-
   function handleTouchEnd() {
     transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))
   }
@@ -77,8 +70,8 @@ export default function CategorySelectorCarousel() {
         // UseAnimatedStyle ---------------------------------------------------- Transition
       
         const transition = useAnimatedStyle(() => {
-          const translateHeight = interpolate(transitionVal.value, [0,1], [60, 150])
-          const scale = interpolate(transitionVal.value, [0,1], [1, 1.05])
+          const translateHeight = interpolate(transitionVal.value, [0,1], [60, 156])
+          const scale = interpolate(transitionVal.value, [0,1], [1, 0.85])
               return {
                   height: translateHeight,
                   transform: [{scale: scale}]
@@ -88,7 +81,7 @@ export default function CategorySelectorCarousel() {
 
   return (
     <>
-    <Animated.View style={[{ height: 150, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
+    <Animated.View style={[{ height: 156, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
     <MaskView element={<MaskElement />}>
     <View style={styles.hiddenbox}
       onTouchStart={() => handleTouchStart()}
@@ -98,8 +91,8 @@ export default function CategorySelectorCarousel() {
             style={{overflow: 'visibility'}}
           vertical
           loop
-          width={50}
-          height={50}
+          width={52}
+          height={52}
           // autoPlay={true}
           data={list}
           scrollAnimationDuration={200}
@@ -113,7 +106,7 @@ export default function CategorySelectorCarousel() {
     </View>
     </MaskView>
     </Animated.View>
-    <View style={[styles.hiddenbox, {position: 'absolute', zIndex: -1}]}/>
+    <View style={[styles.bgView, {position: 'absolute', zIndex: -1}]}/>
     </>
   )
 }
@@ -121,10 +114,17 @@ export default function CategorySelectorCarousel() {
 const styles = StyleSheet.create({
 
     hiddenbox: {
-        height: 50,
-        width: 50,
-        backgroundColor: 'grey',
+        height: 52,
+        width: 52,
+        //backgroundColor: 'grey',
         borderRadius: 50,
-      }
+      },
+
+  bgView: {
+    height: 42,
+    width: 42,
+    backgroundColor: '#c7c7c7',
+    borderRadius: 50,
+  }
 
 })

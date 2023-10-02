@@ -3,8 +3,6 @@ import { StyleSheet,View, Text, ScrollView, Button, Dimensions } from 'react-nat
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
-import Carousel from 'react-native-reanimated-carousel'
-import CatergorySelectorIcons from '../../components/atoms/CategorySelectorIcons'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -24,6 +22,10 @@ export default function FinderScreen({navigation}) {
       {/* Main Header */}
       <MainHeader 
         title='Finder'
+        categorySelector
+        qrButton
+        onPressQRButton={() => navigation.navigate('QRScan')}
+        headerContainerStyle={{backgroundColor: 'transparent'}}
       />
 
       {/* Sub Header */}
@@ -32,21 +34,6 @@ export default function FinderScreen({navigation}) {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',  }}>
-      <CategorySelectorCarousel/>
-        {/* <Carousel 
-            style={{overflow: 'visibility'}}
-          vertical
-          loop
-          width={50}
-          height={50}
-          // autoPlay={true}
-          data={list}
-          scrollAnimationDuration={1}
-          onSnapToItem={(index) => console.log('current index:', index)}
-          renderItem={({ index }) => (
-            <CatergorySelectorIcons number={index} onPressIn={() => console.log('press')}/>
-          )}
-      /> */}
       </View>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

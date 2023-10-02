@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
+
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withTiming} from 'react-native-reanimated';
 
 export default function MaskElement ({props}) {
