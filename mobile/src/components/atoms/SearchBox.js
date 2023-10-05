@@ -43,8 +43,8 @@ export default SearchBox
 
 const styles = StyleSheet.create ({
   icon: {
-    width: 30,
-    height: 30,
+    width: 36,
+    height: 36,
     backgroundColor: '#eeeeee',
     borderRadius: 50,
     justifyContent: 'center',

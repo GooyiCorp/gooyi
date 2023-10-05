@@ -13,9 +13,11 @@ export default function SubHeader({
     onPressGoBack,
     userID,
     idNumber,
+    navigateButton,
+    subHeaderContainerStyle
 }) {
   return (
-    <View style={styles.subHeaderContainer}>
+    <View style={[styles.subHeaderContainer, subHeaderContainerStyle]}>
         <View style={styles.subHeaderJustifyView}>
             {search && <SearchBox />}
 
@@ -23,11 +25,25 @@ export default function SubHeader({
                 <Ionicons name="md-chevron-back" size={20} color="black" />
             </TouchableOpacity>}
 
+            {navigateButton && <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                <TouchableOpacity style={{flexDirection: 'row'}} onPress={onPressGoBack}>
+                    <View style={[styles.icon, {backgroundColor: 'rgba(186, 186, 186, 0.2)', paddingTop: 2, paddingRight: 2}]}>
+                        <Ionicons name="ios-navigate" size={20} color='#686868' />   
+                    </View>
+                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#686868', marginRight: 5}}>Standort auswählen</Text>
+                        <Ionicons name='chevron-down' size={16} color="#686868" />
+                    </View>
+                </TouchableOpacity>
+            </View>}
+
+
             {topnavbutton && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
                 <TopNavButton lists={topnavbuttonlists}/>
             </ScrollView>}
 
             {userID && <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>}
+
         </View>
     </View>
   )
@@ -35,8 +51,9 @@ export default function SubHeader({
 
 const styles = StyleSheet.create({
     subHeaderContainer: {
-        height: 50,
+        height: 60,
         backgroundColor: '#fff',
+        //paddingVertical: 5
         
     },
     
@@ -50,13 +67,13 @@ const styles = StyleSheet.create({
     },
 
     icon: {
-        width: 30,
-        height: 30,
-        backgroundColor: '#eeeeee',
+        width: 36,
+        height: 36,
+        backgroundColor: 'rgba(186, 186, 186, 0.2)',
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 5,
+        marginRight: 10,
     },
 
     id: {

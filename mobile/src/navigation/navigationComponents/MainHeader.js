@@ -55,11 +55,18 @@ export default function MainHeader({
             <Text style={[styles.titleDefaultStyle, titleStyle]}>{title}</Text>
         </View>
     )
+
+    const LeftView = () => (
+        <View>
+            
+        </View>
+    )
   
     // Return View -----------------------------------------------------------------------------------------
     return (
         <View style={[styles.headerDefaultContainer, headerContainerStyle]}>
             <View style={styles.headerJustifyView}>
+                {/* <LeftView /> */}
                 <TitleView />
                 <RightView />
             </View>
@@ -92,7 +99,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium', 
         fontSize: 28, 
         fontWeight: 'bold',
-        marginTop: 10,
+        top: 5,
     },
 
     view: {

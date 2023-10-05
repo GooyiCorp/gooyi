@@ -29,11 +29,13 @@ export default function DiscoverScreen( {navigation} ) {
         onPressAvatar={() => navigation.navigate('Profile')}
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
+        navigateButton
       />
 
       {/* Sub Header */} 
       <SubHeader
         search
+        navigateButton
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
