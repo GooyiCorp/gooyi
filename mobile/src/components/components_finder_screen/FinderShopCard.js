@@ -18,7 +18,10 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 16,
         backgroundColor: '#fff',
-        marginTop: 15
+        marginTop: 15,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: 10
     },
 
     imgBox: {

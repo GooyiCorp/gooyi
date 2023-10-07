@@ -32,8 +32,8 @@ export default function StoresScreen({navigation}) {
       <MainHeader 
         title='Stores'
         style={{backgroundColor: 'red', alignItems: 'center'}}
-        avatar
-        onPressAvatar={() => navigation.navigate('Profile')}
+        mapButton
+        onPressMapButton={() => navigation.navigate('Profile')}
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
       />

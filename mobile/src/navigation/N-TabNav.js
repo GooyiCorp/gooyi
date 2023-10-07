@@ -5,8 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import DiscoverStackNav from './navigationStack/N-DiscoverStack';
 import CouponsStackNav from './navigationStack/N-CouponsStack';
-import FinderStackNav from './navigationStack/N-FinderStack';
 import StoresStackNav from './navigationStack/N-StoresStack';
+import ProfileStackNav from './navigationStack/N-ProfileStack';
+import { Feather, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { COLORS } from '../index/constantsindex';
 
 
 
@@ -23,7 +25,7 @@ export default function TabNav() {
   return (
     <>
     <Tab.Navigator
-        initialRouteName='Finder'
+        initialRouteName='Discover'
         screenOptions={{
             headerShown: false,    
             
@@ -34,6 +36,9 @@ export default function TabNav() {
         <Tab.Screen 
             name='Discover' 
             component={DiscoverStackNav}
+            options={{
+                tabBarIcon: () => (<Octicons name="rocket" size={22} color={COLORS.subPrimary} />)
+            }}
 
         />
 
@@ -41,18 +46,27 @@ export default function TabNav() {
         <Tab.Screen 
             name='Coupons' 
             component={CouponsStackNav}
-        />
-
-{/* Screen Finder -------------------------------------------------------- */}
-        <Tab.Screen 
-            name='Finder' 
-            component={FinderStackNav}
+            options={{
+                tabBarIcon: () => (<Feather name="percent" size={26} color={COLORS.subPrimary} />)
+            }}
         />
 
 {/* Screen Stores -------------------------------------------------------- */}
         <Tab.Screen 
             name='Stores' 
             component={StoresStackNav}
+            options={{
+                tabBarIcon: () => (<MaterialCommunityIcons name="storefront-outline" size={26} color={COLORS.subPrimary} />)
+            }}
+        />
+
+{/* Profile Finder -------------------------------------------------------- */}
+        <Tab.Screen 
+            name='Profile' 
+            component={ProfileStackNav}
+            options={{
+                tabBarIcon: () => (<Feather name="user" size={26} color={COLORS.subPrimary} />)
+            }}
         />
 
     </Tab.Navigator>

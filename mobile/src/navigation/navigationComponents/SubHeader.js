@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Pressable} from 'react-native'
 import React from 'react'
 import SearchBox from '../../components/atoms/SearchBox'
 import { TopNavButton } from '../../components/atoms/TopNavButton'
 
 import { Ionicons } from '@expo/vector-icons'
+import { COLORS } from '../../index/constantsindex'
 
 export default function SubHeader({
     search,
@@ -13,7 +14,8 @@ export default function SubHeader({
     onPressGoBack,
     userID,
     idNumber,
-    navigateButton,
+    locateButton,
+    onPressLocate,
     subHeaderContainerStyle
 }) {
   return (
@@ -25,16 +27,16 @@ export default function SubHeader({
                 <Ionicons name="md-chevron-back" size={20} color="black" />
             </TouchableOpacity>}
 
-            {navigateButton && <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <TouchableOpacity style={{flexDirection: 'row'}} onPress={onPressGoBack}>
-                    <View style={[styles.icon, {backgroundColor: 'rgba(186, 186, 186, 0.2)', paddingTop: 2, paddingRight: 2}]}>
-                        <Ionicons name="ios-navigate" size={20} color='#686868' />   
+            {locateButton && <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                <Pressable style={{flexDirection: 'row'}} onPress={onPressLocate}>
+                    <View style={[styles.icon, {backgroundColor: COLORS.subPrimary02, paddingTop: 2, paddingRight: 2}]}>
+                        <Ionicons name="ios-navigate" size={20} color={COLORS.subPrimary} />   
                     </View>
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#686868', marginRight: 5}}>Standort auswählen</Text>
                         <Ionicons name='chevron-down' size={16} color="#686868" />
                     </View>
-                </TouchableOpacity>
+                </Pressable>
             </View>}
 
 

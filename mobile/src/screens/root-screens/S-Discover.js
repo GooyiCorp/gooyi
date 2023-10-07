@@ -25,8 +25,8 @@ export default function DiscoverScreen( {navigation} ) {
       <MainHeader 
         title='Entdecken'
         style={{backgroundColor: 'red', alignItems: 'center'}}
-        avatar
-        onPressAvatar={() => navigation.navigate('Profile')}
+        mapButton
+        onPressMapButton={() => navigation.navigate('Finder')}
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
         navigateButton
@@ -40,7 +40,7 @@ export default function DiscoverScreen( {navigation} ) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-      
+      <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
 
         <PresentationHeader 
@@ -87,6 +87,7 @@ export default function DiscoverScreen( {navigation} ) {
       <NoResults message={'no results found :/'} boxHeight={{height: 253}}/>
 
       </View>
+      </ScrollView>
 
       </View>
 

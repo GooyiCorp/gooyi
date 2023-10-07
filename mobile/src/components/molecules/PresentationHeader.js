@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { height } from '../../constants/size'
+import { COLORS } from '../../index/constantsindex'
 
 export default function PresentationHeader({
     customContainerStyle,
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         height: 30,
         width: 100,
         borderRadius: 50,
-        backgroundColor: 'rgba(184, 64, 88, 0.2)',
+        backgroundColor: COLORS.subPrimary02,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -53,6 +54,6 @@ const styles = StyleSheet.create({
     buttonTitle: {
         fontFamily: 'Roboto-Medium',
         fontSize: 11,
-        color: '#B84058'
+        color: COLORS.subPrimary
     }
 })

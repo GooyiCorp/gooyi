@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React from 'react'
 
-import { Avatar } from 'react-native-paper'
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { Feather, Fontisto, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
+import { COLORS } from '../../index/constantsindex'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -11,8 +11,8 @@ export default function MainHeader({
     title, 
     headerContainerStyle,
     titleStyle, 
-    avatar, 
-    onPressAvatar, 
+    mapButton, 
+    onPressMapButton, 
     rightComponent,
     qrButton,
     onPressQRButton,
@@ -31,14 +31,18 @@ export default function MainHeader({
                   <MaterialCommunityIcons name="qrcode-scan" size={20} color="white" />
               </TouchableOpacity>}
 
-            {/* Avatar Button  */}
-            {avatar && <TouchableOpacity onPress={onPressAvatar}>
-                <Avatar.Text size={42} label="XD" style={{margin: 5}}/>
+            {/* Map Button  */}
+            {mapButton && <TouchableOpacity style={[styles.buttonBackground, {backgroundColor: COLORS.subPrimary}]} onPress={onPressMapButton}>
+                <View style={{height: 24, width: 24, justifyContent: 'center', alignItems: 'center', position: 'absolute', zIndex: 1, right: 2, bottom: 3}}>
+                <MaterialCommunityIcons name='map-marker' size={14} color='#fff' style={{position: 'absolute', zIndex: 1}}/>
+                <Fontisto name='map-marker' size={18} color={COLORS.subPrimary} style={{position: 'absolute'}}/>
+                </View>
+                <Feather name="map" size={20} color="#fff" style={{transform: [{rotateY: '180deg'}]}}/>
             </TouchableOpacity>}
 
             {/* Notification Button  */}
-            {notificationButton && <TouchableOpacity style={[styles.qrScanButton, {backgroundColor: '#F4F4F4'}]} onPress={onPressNotificationButton}>
-                    <MaterialIcons name="notifications-none" size={26} color="black" />
+            {notificationButton && <TouchableOpacity style={[styles.buttonBackground, {backgroundColor: COLORS.subPrimary02}]} onPress={onPressNotificationButton}>
+                    <MaterialIcons name="notifications-none" size={26} color={COLORS.subPrimary} />
               </TouchableOpacity>}
 
             {/* Finder Category Selector */}
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     headerDefaultContainer: {
         height: 110,
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
         justifyContent: 'flex-end',
         //borderRadius: 50,
     },
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     qrScanButton: {
         height: 42,
         width: 42,
-        backgroundColor: '#B84058',
+        backgroundColor: COLORS.primary,
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
@@ -125,5 +129,15 @@ const styles = StyleSheet.create({
         width: 42,
         backgroundColor: '#c7c7c7',
         borderRadius: 50,
-      }
+      },
+
+    buttonBackground: {
+        height: 42,
+        width: 42,
+        backgroundColor: '#B84058',
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5
+    },
 })

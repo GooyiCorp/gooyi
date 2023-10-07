@@ -3,11 +3,14 @@ import { StyleSheet,View, Text, ScrollView, Button, Dimensions, TouchableOpacity
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
-import FinderShopCard from '../../components/molecules/FinderShopCard';
+
+import LocateModal from '../../components/components_universal/LocateModal';
+import { height } from '../../constants/size';
+import FinderShopCard from '../../components/components_finder_screen/FinderShopCard';
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function FinderScreen({navigation}) {
+export default function FinderScreen({navigation, navigation: {goBack}}) {
   const width = Dimensions.get('window').width;
   const list = [
     { id: 1, number: 1 },
@@ -17,29 +20,54 @@ export default function FinderScreen({navigation}) {
     { id: 5, number: 5 },
     { id: 6, number: 6 },
   ]
+
+  // Locate Modal ----------------------------------------------------------------------
+  const [showLocateModal, setShowLocateModal] = useState(false)
+  const onCloseLocateModal = () => {
+        setTimeout(() => {
+            setShowLocateModal(false);
+        }, 300) }
+  const handleLocate = () => {
+          setShowLocateModal(true)
+      }
+
+  // Header Area ------------------------------------------------------------------------
+  const headerArea = React.useMemo( () => (
+    <>
+
+    {/* Main Header */}
+    <MainHeader 
+      title='Finder'
+      categorySelector
+      qrButton
+      onPressQRButton={() => navigation.navigate('QRScan')}
+      headerContainerStyle={{backgroundColor: 'transparent'}}
+    />
+
+    {/* Sub Header */}
+    <SubHeader 
+      locateButton
+      onPressLocate={handleLocate}
+      subHeaderContainerStyle={{backgroundColor: 'transparent'}}
+      goBack
+      onPressGoBack={() => goBack()}
+    />
+
+    </>
+  ), [])
+
   return (
     <View style={{flex: 1}}>
 
-      {/* Main Header */}
-      <MainHeader 
-        title='Finder'
-        categorySelector
-        qrButton
-        onPressQRButton={() => navigation.navigate('QRScan')}
-        headerContainerStyle={{backgroundColor: 'transparent'}}
-      />
+      {showLocateModal && <LocateModal onClose={onCloseLocateModal}/>}
 
-      {/* Sub Header */}
-      <SubHeader 
-        navigateButton
-        subHeaderContainerStyle={{backgroundColor: 'transparent'}}
-        goBack
-      />
+      {headerArea}
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',  }}>
+      <View style={{flex: 1}}>
 
+      <View style={{alignItems: 'center', width: width, height: 0.22*height, position: 'absolute', bottom: 0}}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', paddingHorizontal: 30}}>
           <Text style={{fontFamily: 'Roboto-Medium', fontSize: 22}}>24<Text style={{fontFamily: 'Roboto-Light', fontSize: 17}}> Shops</Text></Text>
           <TouchableOpacity><Text style={{fontFamily: 'Roboto-Medium', fontSize: 11, color: '#B84058'}}>Alle Anzeigen</Text></TouchableOpacity>
@@ -47,6 +75,8 @@ export default function FinderScreen({navigation}) {
         <View>
           <FinderShopCard />
         </View>
+      </View>
+
       </View>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

@@ -10,6 +10,7 @@ import ProfileStackNav from './navigationStack/N-ProfileStack';
 
 import TabNav from './N-TabNav';
 import QRCode from '../screens/root-screens/S-QRCode';
+import FinderStackNav from './navigationStack/N-FinderStack';
 
 
 
@@ -59,8 +60,8 @@ export default function RootNav() {
 
 {/* Screen Profile --------------------------------------------------------- */}
             <Root.Screen 
-                name='Profile' 
-                component={ProfileStackNav}
+                name='Finder' 
+                component={FinderStackNav}
             />
             
         </Root.Navigator>

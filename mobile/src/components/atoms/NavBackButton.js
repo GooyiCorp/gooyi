@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
+import { COLORS } from '../../index/constantsindex'
 
 export default function NavBackButton({
   customStyle,
@@ -18,9 +19,9 @@ export default function NavBackButton({
 
 const styles = StyleSheet.create({
     icon: {
-        width: 30,
-        height: 30,
-        backgroundColor: '#B84058',
+        width: 36,
+        height: 36,
+        backgroundColor: COLORS.primary,
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
