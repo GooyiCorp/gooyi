@@ -88,7 +88,7 @@ export default function CategorySelectorCarousel() {
       onTouchEnd={() => handleTouchEnd()}
     >
       <Carousel 
-            style={{overflow: 'visibility'}}
+            style={{overflow: 'visible'}}
           vertical
           loop
           width={52}
