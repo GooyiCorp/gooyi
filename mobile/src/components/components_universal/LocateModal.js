@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { height, width } from '../../constants/size'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
@@ -76,6 +76,11 @@ export default function LocateModal({
             <View style={styles.line}></View>
             <View style={styles.midSectionContainer}>
 
+            <Text style={styles.titleDefaultStyle}>Standort</Text>
+            <View style={styles.searchBox}>
+            <TextInput style={{width: '85%', margin: 10}} placeholder={'Search something...'}/>
+            </View>
+
             </View>
             <View style={styles.bottomSectionContainer}>
                 <NavBackButton onPressBack={closeButton}/>
@@ -135,5 +140,21 @@ const styles = StyleSheet.create({
         height: (0.4*height)/1.5,
         width: width,
         //backgroundColor: COLORS.subPrimary02
+        marginHorizontal: 30,
+        marginVertical: 10,
+    },
+
+    titleDefaultStyle: {
+        fontFamily: 'Roboto-Medium', 
+        fontSize: 28, 
+        fontWeight: 'bold',
+    },
+
+    searchBox: {
+        height: 42,
+        width: width-60,
+        borderRadius: 50,
+        marginTop: 10,
+        backgroundColor: COLORS.subPrimary02
     },
 })
