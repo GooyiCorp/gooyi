@@ -77,10 +77,10 @@ export default function LocateModal({
             <View style={styles.midSectionContainer}>
 
             <Text style={styles.titleDefaultStyle}>Standort</Text>
-            <View style={styles.searchBox}>
+            {/* <View style={styles.searchBox}>
             <TextInput style={{width: '85%', margin: 10}} placeholder={'Search something...'}/>
-            </View>
-
+            </View> */}
+            <View></View>
             </View>
             <View style={styles.bottomSectionContainer}>
                 <NavBackButton onPressBack={closeButton}/>

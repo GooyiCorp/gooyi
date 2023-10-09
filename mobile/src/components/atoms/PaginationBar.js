@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import { StyleSheet, View, Animated } from 'react-native';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from '../../helper/scale.js';
 import { width } from '../../constants/size';
 
 import welcome from '../../constants/welcome';
@@ -33,7 +33,7 @@ const PaginationBar = ({scrollX}) => {
 const styles= StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: verticalScale(30),
+        bottom: verticalScale(50),
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'center',

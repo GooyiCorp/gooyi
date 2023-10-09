@@ -10,6 +10,7 @@ import NavBackButton from '../../components/atoms/NavBackButton';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 import { height, width } from '../../constants/size';
+import { moderateScale } from '../../helper/scale';
 
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -90,8 +91,8 @@ export default function QRScanStackNav({navigation: {goBack}}) {
 const styles = StyleSheet.create({
   
     cardContainer: {
-      width: 363, 
-      height: 536, 
+      width: moderateScale(363,1), 
+      height: moderateScale(536,1), 
       backgroundColor: '#B84058', 
       borderRadius: 16,
       overflow: 'hidden',

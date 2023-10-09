@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Modal } from 'react-native';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { moderateScale, scale, verticalScale } from '../helper/scale.js';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { api_url } from '../constants/api.js'
-import { height } from '../constants/size.js';
+import { height, width } from '../constants/size.js';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, interpolate, Extrapolate, runOnJS } from 'react-native-reanimated'
 import { RedButton } from '../components/atoms/Button.js';
@@ -178,7 +178,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         borderRadius: 25,
         height: 1.5*height,
-        top: height
+        top: height,
+        width: width
     },
     formContainer: {
         padding: scale(20),
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     formInput: {
-        width: moderateScale(250),
+        width: moderateScale(300),
         height: moderateScale(40),
         fontSize: moderateScale(15),
         justifyContent: 'center',
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: scale(10),
         height: verticalScale(50),
-        width: scale(300),
+        width: moderateScale(350),
         borderColor: '#f4f4f4',
         borderBottomWidth: 2,
     },

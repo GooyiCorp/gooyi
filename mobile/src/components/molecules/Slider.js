@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image, Text, View, StyleSheet, Animated, TouchableOpacity } from "react-native";
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from '../../helper/scale.js';
 
 import { width, height } from "../../constants/size.js";
 import welcome from "../../constants/welcome.js";
@@ -46,8 +46,10 @@ const styles = StyleSheet.create({
         height,
         alignItems: "center",
         justifyContent: "center",
-        flex: 1
+        flex: 1,
+        
     },
+    // justifyContent: 
     image: {
         maxWidth: "80%",
         flex: 0.5,

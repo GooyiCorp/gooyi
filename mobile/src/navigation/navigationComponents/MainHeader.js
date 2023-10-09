@@ -4,6 +4,7 @@ import React from 'react'
 import { Feather, Fontisto, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
 import { COLORS } from '../../index/constantsindex'
+import { moderateScale } from '../../helper/scale'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -28,7 +29,7 @@ export default function MainHeader({
             
             {/* QR Button */}
             {qrButton && <TouchableOpacity style={styles.qrScanButton} onPress={onPressQRButton}>
-                  <MaterialCommunityIcons name="qrcode-scan" size={20} color="white" />
+                  <MaterialCommunityIcons name="qrcode-scan" size={moderateScale(22, 0.25)} color="white" />
               </TouchableOpacity>}
 
             {/* Map Button  */}
@@ -115,8 +116,8 @@ const styles = StyleSheet.create({
     },
 
     qrScanButton: {
-        height: 42,
-        width: 42,
+        height: moderateScale(46,0.2),
+        width: moderateScale(46,0.2),
         backgroundColor: COLORS.primary,
         borderRadius: 50,
         alignItems: 'center',

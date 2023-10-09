@@ -21,7 +21,7 @@ export default function CouponsScreen({ navigation}) {
         title='Coupons'
         style={{backgroundColor: 'red', alignItems: 'center'}}
         mapButton
-        onPressMapButton={() => navigation.navigate('Profile')}
+        onPressMapButton={() => navigation.navigate('Finder')}
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
       />

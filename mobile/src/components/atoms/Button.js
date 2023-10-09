@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { moderateScale, scale, verticalScale } from '../../helper/scale.js';
 
 
 

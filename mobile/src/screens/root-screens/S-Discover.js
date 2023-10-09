@@ -6,8 +6,10 @@ import Category from '../../components/atoms/Category'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
 import NoResults from '../../components/molecules/NoResults'
 import NewOfferBox from '../../components/molecules/NewOfferBox'
+import { icons } from '../../components/atoms/Icons'
 
 import axios from 'axios'
+import RoundButton from '../../components/components_universal/RoundButton'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {navigation} ) {
   const [category, setCategory] = useState([])
@@ -40,6 +42,7 @@ export default function DiscoverScreen( {navigation} ) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+        <RoundButton icon={icons.MaterialCommunityIcons} iconName={'map'} iconSize={20} iconColor={'red'}/>
       <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
 

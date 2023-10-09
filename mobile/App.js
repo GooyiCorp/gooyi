@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, TextInput, Safe
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from './src/helper/scale.js';
 import AppIntroSlider from './src/screens/AppIntroSlider.js';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,8 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { enableFreeze, enableScreens } from "react-native-screens";
 
 import RootNav from './src/navigation/N-RootNav.js';
-
-enableFreeze(true);
+import { width, height } from './src/constants/size.js';
 
 const logo = require('./assets/logo/logo.png');
 
