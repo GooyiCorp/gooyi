@@ -5,6 +5,9 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, { useSharedValue, withSpring, runOnJS, useAnimatedStyle, interpolate, Extrapolate, withTiming, Easing } from 'react-native-reanimated'
 import NavBackButton from '../atoms/NavBackButton'
 import { COLORS } from '../../index/constantsindex'
+import RoundButton from './RoundButton'
+import Icons, { icons } from '../atoms/Icons'
+import { moderateScale } from '../../helper/scale'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -73,18 +76,90 @@ export default function LocateModal({
         
         {/* Modal Container ---------------------------------------------------- */}
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
+
+            {/* -------------------------------------------------------------------- Line */}
             <View style={styles.line}></View>
+            
+            {/* -------------------------------------------------------------------- Close Button */}
+            <View style={styles.closeButtonContainer}>
+                <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'close'}
+                iconSize={moderateScale(22,0.2)}
+                iconColor={COLORS.white}
+                style={{
+                    backgroundColor: COLORS.grey,
+                    height: moderateScale(34,0.2),
+                    width: moderateScale(34,0.2),
+                }}
+                onPressButton={closeButton}
+            />
+            </View>
+            
+            {/* -------------------------------------------------------------------- Top Section */}
+            <View style={styles.topSectionContainer}>
+                <Text style={styles.titleDefaultStyle}>Standort</Text>
+                <View style={{width: width-60, height: 1, backgroundColor: COLORS.subPrimary02}}></View>
+            </View>
+
+
+
             <View style={styles.midSectionContainer}>
 
-            <Text style={styles.titleDefaultStyle}>Standort</Text>
-            {/* <View style={styles.searchBox}>
-            <TextInput style={{width: '85%', margin: 10}} placeholder={'Search something...'}/>
-            </View> */}
-            <View></View>
+            
+
+            {/* <NavBackButton onPressBack={closeButton}/> */}
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', top: 30}}>
+                <View style={styles.iconContainer}>
+                    <RoundButton
+                        icon={icons.Entypo}
+                        iconName={'list'}
+                        iconSize={moderateScale(30,0.2)}
+                        iconColor={COLORS.subPrimary}
+                        style={{
+                            height: 60,
+                            width: 60,
+                            borderRadius: 30,
+                        }}
+                    />
+                    <Text style={styles.descriptionStyle}>Alle Städte {"\n"}durchsuchen</Text>
+                </View>
+
+                <View style={styles.iconContainer}>
+                <RoundButton
+                    icon={icons.Ionicons}
+                    iconName={'ios-navigate'}
+                    iconSize={moderateScale(24,0.2)}
+                    iconColor={COLORS.subPrimary}
+                    style={{
+                        height: 60,
+                        width: 60,
+                        borderRadius: 30
+                    }}
+                />
+                <Text style={styles.descriptionStyle}>Aktuelle Position{"\n"}verwenden</Text>
+                </View>
+                
+                <View style={styles.iconContainer}>
+                <RoundButton
+                    icon={icons.Entypo}
+                    iconName={'plus'}
+                    iconSize={moderateScale(30,0.2)}
+                    iconColor={COLORS.subPrimary}
+                    style={{
+                        height: 60,
+                        width: 60,
+                        borderRadius: 30,
+                    }}
+                />
+                <Text style={styles.descriptionStyle}>Neue Adresse{"\n"}hinzufügen</Text>
+                </View>
+
+
             </View>
-            <View style={styles.bottomSectionContainer}>
-                <NavBackButton onPressBack={closeButton}/>
             </View>
+            
         </Animated.View>
 
         {/* Close Button ------------------------------------------------------- */}
@@ -104,7 +179,7 @@ const styles = StyleSheet.create({
         height: 4,
         backgroundColor: 'grey',
         alignSelf: 'center',
-        marginVertical: 15,
+        marginTop: 15,
         borderRadius: 2
     },
 
@@ -116,8 +191,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: -0.5*height,
         zIndex: 1,
-        justifyContent: 'space-between',
-    
+        justifyContent: 'flex-start',
+        overflow: 'hidden'
     },
 
     bgContainer: {
@@ -129,25 +204,27 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
 
-    bottomSectionContainer: {
-        height: (0.4*height)/2,
+    closeButtonContainer: {
         width: width,
-        // backgroundColor: 'yellow',
-        alignItems: 'center',
+        //backgroundColor: 'yellow',
+        alignItems: 'flex-end',
+        paddingHorizontal: 15,
     },
 
     midSectionContainer: {
-        height: (0.4*height)/1.5,
+        height: (0.4*height)/2,
         width: width,
-        //backgroundColor: COLORS.subPrimary02
-        marginHorizontal: 30,
+        //backgroundColor: COLORS.subPrimary02,
+        //marginHorizontal: 30,
+        paddingHorizontal: 30,
         marginVertical: 10,
     },
 
     titleDefaultStyle: {
         fontFamily: 'Roboto-Medium', 
-        fontSize: 28, 
+        fontSize: 20, 
         fontWeight: 'bold',
+        marginBottom: 10,
     },
 
     searchBox: {
@@ -157,4 +234,27 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: COLORS.subPrimary02
     },
+
+    topSectionContainer: {
+        width: width,
+        // backgroundColor: 'yellow',
+        paddingHorizontal: 30,
+        justifyContent: 'flex-end'
+    },
+
+    iconContainer: {
+        height: 100,
+        width: 100,
+        //backgroundColor: 'yellow',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    descriptionStyle: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: moderateScale(13,0.2), 
+        color: COLORS.subPrimary, 
+        marginTop: moderateScale(5,0.2),
+        textAlign: 'center'
+    }
 })

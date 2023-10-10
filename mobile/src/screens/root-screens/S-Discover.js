@@ -42,7 +42,7 @@ export default function DiscoverScreen( {navigation} ) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-        <RoundButton icon={icons.MaterialCommunityIcons} iconName={'map'} iconSize={20} iconColor={'red'}/>
+    
       <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
 

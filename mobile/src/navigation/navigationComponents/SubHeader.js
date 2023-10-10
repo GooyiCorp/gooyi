@@ -3,8 +3,10 @@ import React from 'react'
 import SearchBox from '../../components/atoms/SearchBox'
 import { TopNavButton } from '../../components/atoms/TopNavButton'
 
-import { Ionicons } from '@expo/vector-icons'
 import { COLORS } from '../../index/constantsindex'
+import RoundButton from '../../components/components_universal/RoundButton'
+import Icons, { icons } from '../../components/atoms/Icons.js'
+import { moderateScale } from '../../helper/scale'
 
 export default function SubHeader({
     search,
@@ -21,20 +23,70 @@ export default function SubHeader({
   return (
     <View style={[styles.subHeaderContainer, subHeaderContainerStyle]}>
         <View style={styles.subHeaderJustifyView}>
+
+            {/* -------------------------------------------------------------------- Search Box Button */}
             {search && <SearchBox />}
 
-            {goBack && <TouchableOpacity style={styles.icon} onPress={onPressGoBack}>
-                <Ionicons name="md-chevron-back" size={20} color="black" />
-            </TouchableOpacity>}
-
-            {locateButton && <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <Pressable style={{flexDirection: 'row'}} onPress={onPressLocate}>
-                    <View style={[styles.icon, {backgroundColor: COLORS.subPrimary02, paddingTop: 2, paddingRight: 2}]}>
-                        <Ionicons name="ios-navigate" size={20} color={COLORS.subPrimary} />   
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#686868', marginRight: 5}}>Standort auswählen</Text>
-                        <Ionicons name='chevron-down' size={16} color="#686868" />
+            {/* -------------------------------------------------------------------- Go Back Button */}
+            {goBack && <RoundButton 
+                icon={icons.Ionicons}
+                iconName={'md-chevron-back'}
+                iconSize={moderateScale(28,0.2)}
+                iconColor={COLORS.white}
+                style={{
+                    backgroundColor: COLORS.grey,
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    marginLeft: 0,
+                }}
+                onPressButton={onPressGoBack}
+            />}
+            
+            {/* -------------------------------------------------------------------- Locate Button */}
+            {locateButton && <View style={{
+                flexDirection: 'row', 
+                justifyContent: 'center', 
+                alignItems: 'center'
+            }}>
+                <Pressable 
+                    style={{flexDirection: 'row'}} 
+                    onPress={onPressLocate}
+                >
+                    <RoundButton 
+                        icon={icons.Ionicons}
+                        iconName={'ios-navigate'}
+                        iconSize={moderateScale(20,0.2)}
+                        iconColor={COLORS.subPrimary}
+                        style={{
+                            backgroundColor: COLORS.subPrimary02,
+                            height: moderateScale(38,0.2),
+                            width: moderateScale(38,0.2),
+                            paddingTop: moderateScale(2,0.2),
+                            paddingRight: moderateScale(2,0.2),
+                        }}
+                        onPressButton={onPressLocate}
+                        activeOpacity={1}
+                    />
+                    <View style={{
+                        flexDirection: 'row', 
+                        justifyContent: 'center', 
+                        alignItems: 'center',
+                        marginHorizontal: 5,
+                    }}>
+                        <Text style={{
+                            fontFamily: 'Roboto-Regular', 
+                            fontSize: moderateScale(13,0.2), 
+                            color: COLORS.subPrimary, 
+                            marginRight: moderateScale(3,0.2)
+                        }}>
+                            Standort auswählen
+                        </Text>
+                        <Icons 
+                            icon={icons.Ionicons}
+                            iconName={'chevron-down'}
+                            iconSize={20}
+                            iconColor={COLORS.subPrimary}
+                        />
                     </View>
                 </Pressable>
             </View>}

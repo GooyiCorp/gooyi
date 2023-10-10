@@ -5,6 +5,8 @@ import { Feather, Fontisto, Foundation, Ionicons, MaterialCommunityIcons, Materi
 import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
 import { COLORS } from '../../index/constantsindex'
 import { moderateScale } from '../../helper/scale'
+import RoundButton from '../../components/components_universal/RoundButton'
+import { icons } from '../../components/atoms/Icons.js'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -22,17 +24,22 @@ export default function MainHeader({
     categorySelector,
 }) {
 
-    // Right View ------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------------- Right View
     const RightView = () => (
         rightComponent ? rightComponent : 
         <View style={[styles.view, styles.rightView]}>
             
-            {/* QR Button */}
-            {qrButton && <TouchableOpacity style={styles.qrScanButton} onPress={onPressQRButton}>
-                  <MaterialCommunityIcons name="qrcode-scan" size={moderateScale(22, 0.25)} color="white" />
-              </TouchableOpacity>}
+            {/* -------------------------------------------------------------------- QR Button */}
+            {qrButton && <RoundButton 
+                icon={icons.MaterialCommunityIcons} 
+                iconName={'qrcode-scan'} 
+                iconColor={COLORS.white} 
+                iconSize={moderateScale(21,0.2)} 
+                style={{backgroundColor: COLORS.primary}}
+                onPressButton={onPressQRButton}
+            />}
 
-            {/* Map Button  */}
+            {/* -------------------------------------------------------------------- Map Button  */}
             {mapButton && <TouchableOpacity style={[styles.buttonBackground, {backgroundColor: COLORS.subPrimary}]} onPress={onPressMapButton}>
                 <View style={{height: 24, width: 24, justifyContent: 'center', alignItems: 'center', position: 'absolute', zIndex: 1, right: 2, bottom: 3}}>
                 <MaterialCommunityIcons name='map-marker' size={14} color='#fff' style={{position: 'absolute', zIndex: 1}}/>
@@ -41,12 +48,17 @@ export default function MainHeader({
                 <Feather name="map" size={20} color="#fff" style={{transform: [{rotateY: '180deg'}]}}/>
             </TouchableOpacity>}
 
-            {/* Notification Button  */}
-            {notificationButton && <TouchableOpacity style={[styles.buttonBackground, {backgroundColor: COLORS.subPrimary02}]} onPress={onPressNotificationButton}>
-                    <MaterialIcons name="notifications-none" size={26} color={COLORS.subPrimary} />
-              </TouchableOpacity>}
+            {/* -------------------------------------------------------------------- Notification Button */}
+            {notificationButton && <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'notifications-none'}
+                iconColor={COLORS.subPrimary}
+                iconSize={moderateScale(26,0.2)}
+                style={{backgroundColor: COLORS.subPrimary02}}
+                onPressButton={onPressNotificationButton}
+            />}
 
-            {/* Finder Category Selector */}
+            {/* -------------------------------------------------------------------- Finder Category Selector */}
             {categorySelector && <View style={{height:52, width: 52, justifyContent: 'center', alignItems: 'center'}}>
                 <CategorySelectorCarousel/> 
             </View>}
@@ -54,24 +66,17 @@ export default function MainHeader({
         </View>
     )
 
-    // Title View ------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------------- Title View
     const TitleView = () => (
         <View>
             <Text style={[styles.titleDefaultStyle, titleStyle]}>{title}</Text>
         </View>
     )
-
-    const LeftView = () => (
-        <View>
-            
-        </View>
-    )
   
-    // Return View -----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     return (
         <View style={[styles.headerDefaultContainer, headerContainerStyle]}>
             <View style={styles.headerJustifyView}>
-                {/* <LeftView /> */}
                 <TitleView />
                 <RightView />
             </View>
@@ -102,7 +107,7 @@ const styles = StyleSheet.create({
 
     titleDefaultStyle: {
         fontFamily: 'Roboto-Medium', 
-        fontSize: 28, 
+        fontSize: moderateScale(30,0.2), 
         fontWeight: 'bold',
         top: 5,
     },
