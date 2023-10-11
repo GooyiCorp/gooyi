@@ -10,8 +10,13 @@ import { icons } from '../../components/atoms/Icons'
 
 import axios from 'axios'
 import RoundButton from '../../components/components_universal/RoundButton'
+import CouponsStackNav from '../../navigation/navigationStack/N-CouponsStack'
+import { height, width } from '../../constants/size'
+import { useNavigation } from '@react-navigation/native'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function DiscoverScreen( {navigation} ) {
+export default function DiscoverScreen(  ) {
+  const navigation = useNavigation()
+  const [test, setTest] = useState(false)
   const [category, setCategory] = useState([])
   const fetchCategory = async () => {
     const response = await axios.get('https://jsonplaceholder.typicode.com/users')
@@ -20,8 +25,10 @@ export default function DiscoverScreen( {navigation} ) {
   useEffect(() => {
     fetchCategory()
   }, [])
+
+  
   return (
-    <View style={{flex: 1}}>
+    <View style={[{flex: 1, position: 'absolute'}]}>
 
       {/* Main Header */} 
       <MainHeader 
@@ -41,8 +48,7 @@ export default function DiscoverScreen( {navigation} ) {
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-    
+      <View style={{height: height}}>
       <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
 
@@ -90,9 +96,12 @@ export default function DiscoverScreen( {navigation} ) {
       <NoResults message={'no results found :/'} boxHeight={{height: 253}}/>
 
       </View>
+     
+      <View style={{height: 300, width: width, backgroundColor: 'white'}}></View>
       </ScrollView>
 
       </View>
+
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

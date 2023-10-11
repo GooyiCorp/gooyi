@@ -16,11 +16,14 @@ import StoreCard from '../../components/molecules/StoreCard'
 import { ScrollView } from 'react-native-gesture-handler'
 import ProfileScreenButton from '../../components/molecules/ProfileScreenButton'
 import {icons} from '../../components/atoms/Icons'
+import { useNavigation } from '@react-navigation/native'
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function ProfileScreen({navigation, navigation: {goBack}}) {
+export default function ProfileScreen() {
+
+  const navigation = useNavigation()
   return (
     <View style={{flex: 1}}>
 

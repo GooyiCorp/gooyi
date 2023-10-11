@@ -11,6 +11,7 @@ import ProfileStackNav from './navigationStack/N-ProfileStack';
 import TabNav from './N-TabNav';
 import QRCode from '../screens/root-screens/S-QRCode';
 import FinderStackNav from './navigationStack/N-FinderStack';
+import MainNav from './N-MainNav';
 
 
 
@@ -55,7 +56,7 @@ export default function RootNav() {
 {/* Screen Discover -------------------------------------------------------- */}
             <Root.Screen 
                 name='Main' 
-                component={TabNav}
+                component={MainNav}
             />
 
 {/* Screen Profile --------------------------------------------------------- */}

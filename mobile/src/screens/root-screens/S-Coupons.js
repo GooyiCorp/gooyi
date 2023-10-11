@@ -4,14 +4,16 @@ import { StyleSheet,View, Text , ScrollView} from 'react-native'
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
 import SortByShop from '../../components/molecules/SortByShop'
+import { useNavigation } from '@react-navigation/native'
 
 
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function CouponsScreen({ navigation}) {
+export default function CouponsScreen() {
 
+  const navigation = useNavigation()
 
   return (
     <View style={{flex: 1}}>

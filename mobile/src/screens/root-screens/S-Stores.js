@@ -8,10 +8,13 @@ import StoreCard from '../../components/molecules/StoreCard'
 import OfferBoxS from '../../components/molecules/OfferBoxS'
 
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function StoresScreen({navigation}) {
+export default function StoresScreen() {
+
+  const navigation = useNavigation()
   const [fetchedData, setFetchedData] = useState([]);
     const getData = async () => {
       try {
