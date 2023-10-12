@@ -54,7 +54,7 @@ export default function SubHeader({
             {/* -------------------------------------------------------------------- Search Box Button */}
             {search && <RoundButton 
                         icon={icons.Ionicons}
-                        iconName={iconState? 'close': 'search'}
+                        iconName={'search'}
                         iconSize={moderateScale(22,0.2)}
                         iconColor={COLORS.subPrimary}
                         style={{

@@ -11,10 +11,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { enableFreeze, enableScreens } from "react-native-screens";
 
 import RootNav from './src/navigation/N-RootNav.js';
-import { width, height } from './src/constants/size.js';
-
+import {Platform} from 'react-native';
 const logo = require('./assets/logo/logo.png');
-
+console.log(Platform.isPad);
 export default function App() {
   const [showSplash, setShowSplash] = useState(false);
   const [showHomePage, setShowHomePage] = useState(true);

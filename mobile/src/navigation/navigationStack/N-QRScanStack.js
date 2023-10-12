@@ -74,7 +74,7 @@ export default function QRScanStackNav({navigation: {goBack}}) {
         </View>
 
             {/* Back Button */}
-            <View style={{height: 70, width: 363, position: 'absolute', bottom: 0, justifyContent: 'flex-start', alignItems: 'center'}}>
+            <View style={{height: moderateScale(70,1), width: moderateScale(363,1), position: 'absolute', bottom: 0, justifyContent: 'flex-start', alignItems: 'center'}}>
                 <NavBackButton onPressBack={() => goBack()}/>
             </View>
 
@@ -100,29 +100,29 @@ const styles = StyleSheet.create({
 
     },
   
-    selector: {
-      height: 48,
-      width: 363,
-      //backgroundColor: 'yellow',
-      position: 'absolute',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      zIndex: 1,
-    },
+    // selector: {
+    //   height: 48,
+    //   width: 363,
+    //   backgroundColor: 'yellow',
+    //   position: 'absolute',
+    //   flexDirection: 'row',
+    //   justifyContent: 'space-between',
+    //   zIndex: 1,
+    // },
   
     selectorButton: {
-      height: 48,
-      width: 181.5,
-      //backgroundColor: 'green',
-      opacity: 0.5,
-      justifyContent: 'center',
-      alignItems: 'center',
+      height: moderateScale(48,0),
+      width: moderateScale(181.5,1),
+    //   backgroundColor: 'green',
+    //   opacity: 0.5,
+    //   justifyContent: 'center',
+    //   alignItems: 'center',
     },
   
     contentContainer: {
-      height: 488,
-      width: 363,
-      backgroundColor: '#ffffff',
+      height: moderateScale(488,1),
+      width: moderateScale(363,1),
+      backgroundColor: 'green',
     },
   
   })

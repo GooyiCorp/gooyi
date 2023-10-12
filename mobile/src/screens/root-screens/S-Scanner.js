@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { BarCodeScanner} from 'expo-barcode-scanner';
 import BoundBox from '../../components/atoms/BoundBox';
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withTiming, withSpring, withSequence, withDelay, Easing} from 'react-native-reanimated';
+import { moderateScale } from '../../helper/scale';
 
 export default function Scanner() {
 
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
   },
 
   mainContainer: {
-    height: 320,
+    height: moderateScale(320,1),
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

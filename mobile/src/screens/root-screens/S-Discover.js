@@ -43,7 +43,7 @@ export default function DiscoverScreen(  ) {
   const onCloseSearchModal = () => {
         setTimeout(() => {
           setShowSearchModal(false);
-        }, 0) }
+        }, 300) }
   const handleSearch = () => {
           setShowSearchModal(true)
       }

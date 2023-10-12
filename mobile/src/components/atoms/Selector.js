@@ -1,6 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withTiming, Easing, interpolateColor } from 'react-native-reanimated'
+import { moderateScale } from '../../helper/scale'
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -12,7 +13,6 @@ export default function Selector({
     // Value --------------------------------------------------------------- Transition
 
     const transitionValue = useSharedValue(0)
-    const translateValue = 363-181
 
     // withTiming ---------------------------------------------------------- Transition
 
@@ -106,8 +106,8 @@ export default function Selector({
 const styles = StyleSheet.create({
 
     selectorContainer: {
-        height: 48,
-        width: 363,
+        height: moderateScale(48,0),
+        width: moderateScale(363,1),
         overflow: 'hidden',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     },
 
     selectorLeftBar: {
-        height: 48,
-        width: 181,
+        height: moderateScale(48,0),
+        width: moderateScale(181,1),
         backgroundColor: '#fff',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
@@ -126,19 +126,19 @@ const styles = StyleSheet.create({
     },
 
     selectorLeftBarOverlay: {
-        height: 60,
-        width: 60,
+        height: moderateScale(60,1),
+        width: moderateScale(60,1),
         backgroundColor: '#fff',
         position: 'absolute',
         zIndex: 1,
         transform: [{rotate: '-15deg'}],
-        left: 130,
-        top: 20,
+        left: moderateScale(130,1),
+        top: moderateScale(20,0),
     },
 
     selectorRightBar: {
-        height: 48,
-        width: 181,
+        height: moderateScale(48,0),
+        width: moderateScale(181,1),
         backgroundColor: '#fff',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
@@ -147,19 +147,19 @@ const styles = StyleSheet.create({
     },
 
     selectorRightBarOverlay: {
-        height: 60,
-        width: 60,
+        height: moderateScale(60,1),
+        width: moderateScale(60,1),
         backgroundColor: '#fff',
         position: 'absolute',
         zIndex: 1,
         transform: [{rotate: '15deg'}],
-        right: 130,
-        top: 20,
+        right: moderateScale(130,1),
+        top: moderateScale(20,0),
     },
 
     selectorTitleContainer: {
-        height: 48,
-        width: 181.5,
+        height: moderateScale(48,0),
+        width: moderateScale(181.5,1),
         //backgroundColor: 'green',
 
         justifyContent: 'center',
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     title: {
         color: 'black',
         fontFamily: 'Roboto-Medium',
-        fontSize: 15,
+        fontSize: moderateScale(15,1),
     },
 
 })

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity, Image, Pressable } from 'react-native'
 import React from 'react'
 import  {default as QR} from 'react-native-qrcode-svg';
+import { moderateScale } from '../../helper/scale';
 
 
 
@@ -25,7 +26,7 @@ export default function QRCode() {
         <View style={styles.qrCodeContainer}>          
           <QR
             value={userID}
-            size={250}
+            size={moderateScale(250,1)}
             color="black"
             backgroundColor="white"
           />
@@ -38,7 +39,7 @@ export default function QRCode() {
 
       {/* Direction Container -------------------------------------------- */}
       <View style={styles.directionContainer}>
-        <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, textAlign: 'center'}}>{`Lasse teilnehmenden Partnern diesen QR-Code
+        <Text style={{fontFamily: 'Roboto-Regular', fontSize: moderateScale(12,1), textAlign: 'center'}}>{`Lasse teilnehmenden Partnern diesen QR-Code
 scannen, um Punkte zu sammeln.`}</Text>
       </View>
 
@@ -49,16 +50,16 @@ scannen, um Punkte zu sammeln.`}</Text>
 const styles = StyleSheet.create({
   
   userNameContainer: {
-    height: 80,
+    height: moderateScale(80,1),
     width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingBottom: moderateScale(10,1),
     // backgroundColor: 'green',
   },
 
   mainContainer: {
-    height: 290,
+    height: moderateScale(290,1),
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   
   directionContainer: {
-    height: 60,
+    height: moderateScale(60,1),
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,21 +75,21 @@ const styles = StyleSheet.create({
   },
 
   contentContainer: {
-    height: 488,
-    width: 363,
-    backgroundColor: '#ffffff',
+    height: moderateScale(488,1),
+    width: moderateScale(363,1),
+    backgroundColor: 'yellow',
   },
 
   userNameStyle: {
     fontFamily: 'Roboto-Medium', 
-    fontSize: 28, 
+    fontSize: moderateScale(28,1), 
     fontWeight: 'bold',
   },
   
   qrCodeContainer: {
-    height: 252,
-    width: 252,
-    marginBottom: 15,
+    height: moderateScale(252,1),
+    width: moderateScale(252,1),
+    marginBottom: moderateScale(15,1),
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: '#eeeeee',
@@ -96,7 +97,6 @@ const styles = StyleSheet.create({
 
   id: {
     fontFamily: 'Roboto-Bold',
-    fontSize: 15,
-    marginLeft: 15,
+    fontSize: moderateScale(15,1),
   }
 })
