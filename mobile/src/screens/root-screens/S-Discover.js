@@ -13,6 +13,8 @@ import RoundButton from '../../components/components_universal/RoundButton'
 import CouponsStackNav from '../../navigation/navigationStack/N-CouponsStack'
 import { height, width } from '../../constants/size'
 import { useNavigation } from '@react-navigation/native'
+import LocateModal from '../../components/components_universal/LocateModal'
+import SearchModal from '../../components/components_universal/SearchModal'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen(  ) {
   const navigation = useNavigation()
@@ -26,10 +28,30 @@ export default function DiscoverScreen(  ) {
     fetchCategory()
   }, [])
 
+  // Locate Modal ----------------------------------------------------------------------
+  const [showLocateModal, setShowLocateModal] = useState(false)
+  const onCloseLocateModal = () => {
+        setTimeout(() => {
+          setShowLocateModal(false);
+        }, 300) }
+  const handleLocate = () => {
+          setShowLocateModal(true)
+      }
+
+  // Search Modal ----------------------------------------------------------------------
+  const [showSearchModal, setShowSearchModal] = useState(false)
+  const onCloseSearchModal = () => {
+        setTimeout(() => {
+          setShowSearchModal(false);
+        }, 0) }
+  const handleSearch = () => {
+          setShowSearchModal(true)
+      }
   
   return (
-    <View style={[{flex: 1, position: 'absolute'}]}>
-
+    <View style={[{height: height, width: width}]}>
+    {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
+    {showLocateModal && <LocateModal onClose={onCloseLocateModal}/>}
       {/* Main Header */} 
       <MainHeader 
         title='Entdecken'
@@ -44,12 +66,15 @@ export default function DiscoverScreen(  ) {
       {/* Sub Header */} 
       <SubHeader
         search
-        navigateButton
+        onPressSearch={handleSearch}
+        locateButton
+        onPressLocate={handleLocate}
+        iconState={showSearchModal}
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      <View style={{height: height}}>
-      <ScrollView>
+      <View >
+      {/* <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
 
         <PresentationHeader 
@@ -57,13 +82,6 @@ export default function DiscoverScreen(  ) {
           showAllButton={category.length > 5 ? true : false}
         />
 
-        {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{paddingLeft: 30, flexDirection: 'row'}}>
-          <Category title={'Sushi'} number={12}/>
-          <Category title={'Sushi'} number={12}/>
-          <Category title={'Sushi'} number={12}/>
-          <Category title={'Sushi'} number={12}/>
-          <Category title={'Sushi'} number={12}/>
-        </ScrollView> */}
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -82,7 +100,7 @@ export default function DiscoverScreen(  ) {
         />
         <NewOfferBox />
 
-        {/* <NoResults message={'no results found :/'} boxHeight={{height: 253}}/> */}
+
 
       </View>
 
@@ -97,15 +115,15 @@ export default function DiscoverScreen(  ) {
 
       </View>
      
-      <View style={{height: 300, width: width, backgroundColor: 'white'}}></View>
-      </ScrollView>
+
+      </ScrollView> */}
 
       </View>
 
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-
+      
 
     </View>
   )

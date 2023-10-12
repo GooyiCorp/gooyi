@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Pressable} from 'react-native'
-import React from 'react'
-import SearchBox from '../../components/atoms/SearchBox'
+import React, { useState } from 'react'
+
 import { TopNavButton } from '../../components/atoms/TopNavButton'
 
 import { COLORS } from '../../index/constantsindex'
 import RoundButton from '../../components/components_universal/RoundButton'
 import Icons, { icons } from '../../components/atoms/Icons.js'
 import { moderateScale } from '../../helper/scale'
+import SearchBox from '../../components/components_universal/SearchBox'
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 export default function SubHeader({
     search,
@@ -18,14 +20,52 @@ export default function SubHeader({
     idNumber,
     locateButton,
     onPressLocate,
-    subHeaderContainerStyle
+    subHeaderContainerStyle,
+    onPressSearch,
+    iconState,
 }) {
+
+    const transition = useSharedValue(0)
+    const [showInputBox, setShowInputBox] = useState(1)
+
+    const handlePress = () => {
+        setShowInputBox(showInputBox == 1? 0 : 1)
+        if (showInputBox == 1) {
+            transition.value = withTiming(1, {duration: 300})
+        } else {
+            transition.value = withDelay(300,withTiming(0, {duration: 300}))
+        }
+        console.log(showInputBox)
+    }
+
+    const hideComponents = useAnimatedStyle( () => {
+        const opacity = interpolate(transition.value, [0, 1], [1, 0])
+        const scale = interpolate(transition.value, [0, 1], [1, 0])
+        return {
+            transform: [{scale: scale}],
+            opacity: opacity,
+        }
+    })
+
   return (
     <View style={[styles.subHeaderContainer, subHeaderContainerStyle]}>
         <View style={styles.subHeaderJustifyView}>
 
             {/* -------------------------------------------------------------------- Search Box Button */}
-            {search && <SearchBox />}
+            {search && <RoundButton 
+                        icon={icons.Ionicons}
+                        iconName={iconState? 'close': 'search'}
+                        iconSize={moderateScale(22,0.2)}
+                        iconColor={COLORS.subPrimary}
+                        style={{
+                            backgroundColor: COLORS.subPrimary02,
+                            height: moderateScale(38,0.2),
+                            width: moderateScale(38,0.2),
+                            marginLeft: 0
+                        }}
+                        onPressButton={onPressSearch}
+                        activeOpacity={1}
+                    />}
 
             {/* -------------------------------------------------------------------- Go Back Button */}
             {goBack && <RoundButton 
@@ -43,11 +83,13 @@ export default function SubHeader({
             />}
             
             {/* -------------------------------------------------------------------- Locate Button */}
-            {locateButton && <View style={{
+            {locateButton && <Animated.View style={[{
                 flexDirection: 'row', 
                 justifyContent: 'center', 
-                alignItems: 'center'
-            }}>
+                alignItems: 'center',
+            },
+                hideComponents
+            ]}>
                 <Pressable 
                     style={{flexDirection: 'row'}} 
                     onPress={onPressLocate}
@@ -89,7 +131,7 @@ export default function SubHeader({
                         />
                     </View>
                 </Pressable>
-            </View>}
+            </Animated.View>}
 
 
             {topnavbutton && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>

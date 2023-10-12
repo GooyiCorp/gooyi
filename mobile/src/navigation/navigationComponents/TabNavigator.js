@@ -123,7 +123,7 @@ export default function TabNavigator({
             </Animated.View>
             <Text style={[ styles.labelStyle, { color: profileFocussed == 1 ? COLORS.primary: COLORS.grey } ]}>Profil</Text>
         </Pressable>
-        
+
         </View>
 
     )
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     tabNavigationContainer: {
         height: 100,
         width: width,
-        backgroundColor: COLORS.white05,
+        backgroundColor: COLORS.white,
         bottom: 0,
         position: 'absolute', 
         zIndex: 2,

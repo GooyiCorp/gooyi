@@ -22,8 +22,9 @@ import { useNavigation } from '@react-navigation/native'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function ProfileScreen() {
-
+  
   const navigation = useNavigation()
+
   return (
     <View style={{flex: 1}}>
 
@@ -38,8 +39,6 @@ export default function ProfileScreen() {
 
       {/* Sub Header */}
       <SubHeader
-        goBack
-        onPressGoBack={() => goBack()}
         userID
         idNumber={'400 121 9613'}
       /> 
