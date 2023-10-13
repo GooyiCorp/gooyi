@@ -1,22 +1,41 @@
 import React, { useState } from 'react'
-import { StyleSheet,View, Text , ScrollView} from 'react-native'
+import { StyleSheet,View, Text , ScrollView, Button} from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
 import SortByShop from '../../components/molecules/SortByShop'
 import { useNavigation } from '@react-navigation/native'
+import { height, width } from '../../constants/size'
+import SearchModal from '../../components/components_universal/SearchModal'
 
 
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function CouponsScreen() {
+export default function CouponsScreen({
+  hideTabNav,
+  showTabNav,
+}) {
 
   const navigation = useNavigation()
 
+  // Search Modal ----------------------------------------------------------------------
+  const [showSearchModal, setShowSearchModal] = useState(false)
+  const onCloseSearchModal = () => {
+        showTabNav()
+        setTimeout(() => {
+          setShowSearchModal(false);
+        }, 500) }
+  const handleSearch = () => {
+          setShowSearchModal(true)
+          hideTabNav()
+        }
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{height: height, width: width}}>
+
+      {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
 
       {/* Main Header */}
       <MainHeader 
@@ -31,6 +50,7 @@ export default function CouponsScreen() {
       {/* Sub Header */}
       <SubHeader
         search
+        onPressSearch={handleSearch}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Merkliste'},
@@ -40,7 +60,7 @@ export default function CouponsScreen() {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       
-      <View style={{width: '100%', paddingVertical: 15}}>
+      {/* <View style={{width: '100%', paddingVertical: 15}}>
 
         <PresentationHeader
           title={'Sortieren nach'}
@@ -56,7 +76,7 @@ export default function CouponsScreen() {
             ]}/>
 
 
-      </View>
+      </View> */}
 
 
       </View>

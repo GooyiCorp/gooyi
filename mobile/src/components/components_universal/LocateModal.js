@@ -6,7 +6,7 @@ import Animated, { useSharedValue, withSpring, runOnJS, useAnimatedStyle, interp
 import NavBackButton from '../atoms/NavBackButton'
 import { COLORS } from '../../index/constantsindex'
 import RoundButton from './RoundButton'
-import Icons, { icons } from '../atoms/Icons'
+import Icons, { icons } from './Icons'
 import { moderateScale } from '../../helper/scale'
 
 
@@ -34,7 +34,7 @@ export default function LocateModal({
     })
     .onUpdate((event) => {
         translateY.value = event.translationY + context.value.y 
-        translateY.value = Math.max(translateY.value, -0.5*height)
+        translateY.value = Math.max(translateY.value, -0.4*height)
     })
     .onEnd(() => {
         if (translateY.value > -(0.5*height)/2.5) {

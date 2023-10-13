@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 
-import Icons, { icons } from '../../components/atoms/Icons'
+import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
 import { width } from '../../constants/size'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated'

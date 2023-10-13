@@ -10,4 +10,6 @@ export default {
     default: '#eee',
     grey: '#686868',
 
+    bgTransparencyDark: 'rgba(0, 0, 0, 0.2)',
+
 }

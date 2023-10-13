@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Pressable} from 'react-native'
 import React, { useState } from 'react'
 
-import { TopNavButton } from '../../components/atoms/TopNavButton'
+
 
 import { COLORS } from '../../index/constantsindex'
 import RoundButton from '../../components/components_universal/RoundButton'
-import Icons, { icons } from '../../components/atoms/Icons.js'
+import Icons, { icons } from '../../components/components_universal/Icons.js'
 import { moderateScale } from '../../helper/scale'
 import SearchBox from '../../components/components_universal/SearchBox'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+import { TopNavButton } from '../../components/components_universal/TopNavButton'
 
 export default function SubHeader({
     search,
@@ -22,30 +23,7 @@ export default function SubHeader({
     onPressLocate,
     subHeaderContainerStyle,
     onPressSearch,
-    iconState,
 }) {
-
-    const transition = useSharedValue(0)
-    const [showInputBox, setShowInputBox] = useState(1)
-
-    const handlePress = () => {
-        setShowInputBox(showInputBox == 1? 0 : 1)
-        if (showInputBox == 1) {
-            transition.value = withTiming(1, {duration: 300})
-        } else {
-            transition.value = withDelay(300,withTiming(0, {duration: 300}))
-        }
-        console.log(showInputBox)
-    }
-
-    const hideComponents = useAnimatedStyle( () => {
-        const opacity = interpolate(transition.value, [0, 1], [1, 0])
-        const scale = interpolate(transition.value, [0, 1], [1, 0])
-        return {
-            transform: [{scale: scale}],
-            opacity: opacity,
-        }
-    })
 
   return (
     <View style={[styles.subHeaderContainer, subHeaderContainerStyle]}>
@@ -53,19 +31,19 @@ export default function SubHeader({
 
             {/* -------------------------------------------------------------------- Search Box Button */}
             {search && <RoundButton 
-                        icon={icons.Ionicons}
-                        iconName={'search'}
-                        iconSize={moderateScale(22,0.2)}
-                        iconColor={COLORS.subPrimary}
-                        style={{
-                            backgroundColor: COLORS.subPrimary02,
-                            height: moderateScale(38,0.2),
-                            width: moderateScale(38,0.2),
-                            marginLeft: 0
-                        }}
-                        onPressButton={onPressSearch}
-                        activeOpacity={1}
-                    />}
+                icon={icons.Ionicons}
+                iconName={'search'}
+                iconSize={moderateScale(22,0.2)}
+                iconColor={COLORS.subPrimary}
+                style={{
+                    backgroundColor: COLORS.subPrimary02,
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    marginLeft: 0
+                }}
+                onPressButton={onPressSearch}
+                activeOpacity={1}
+            />}
 
             {/* -------------------------------------------------------------------- Go Back Button */}
             {goBack && <RoundButton 
@@ -83,13 +61,11 @@ export default function SubHeader({
             />}
             
             {/* -------------------------------------------------------------------- Locate Button */}
-            {locateButton && <Animated.View style={[{
+            {locateButton && <View style={{
                 flexDirection: 'row', 
                 justifyContent: 'center', 
                 alignItems: 'center',
-            },
-                hideComponents
-            ]}>
+            }}>
                 <Pressable 
                     style={{flexDirection: 'row'}} 
                     onPress={onPressLocate}
@@ -131,14 +107,19 @@ export default function SubHeader({
                         />
                     </View>
                 </Pressable>
-            </Animated.View>}
+            </View>}
 
-
-            {topnavbutton && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection: 'row'}}>
+            {/* -------------------------------------------------------------------- Nav Button */}
+            {topnavbutton && <View style={{flexDirection: 'row', marginLeft: 5}}>
                 <TopNavButton lists={topnavbuttonlists}/>
-            </ScrollView>}
+            </View>}
 
-            {userID && <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>}
+            {/* -------------------------------------------------------------------- ID Text */}
+            {userID && <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{height: 38, width: 38, backgroundColor: 'rgb(37, 6, 83)', borderRadius: 50, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}><Text style={{color: 'white', fontSize: 15, fontFamily: 'Roboto-Bold'}}>AS</Text></View>
+                <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>
+            </View>}
+            
 
         </View>
     </View>
@@ -174,7 +155,6 @@ const styles = StyleSheet.create({
 
     id: {
         fontFamily: 'Roboto-Bold',
-        fontSize: 12,
-        marginLeft: 15,
+        fontSize: 13,
     }
 })

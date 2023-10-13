@@ -17,6 +17,8 @@ export default function MainNav() {
 
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
     
+    // ---------------------------------------------------------------------- Screens Transition
+
     const showDiscover = useSharedValue(1)
     const showCoupons = useSharedValue(0)
     const showStores = useSharedValue(0)
@@ -115,37 +117,57 @@ export default function MainNav() {
         }
     )
 
+    // ---------------------------------------------------------------------- Bottom Tab Transition
+
+    const bottomTabTransition = useSharedValue(1)
+
+    const showBottomTab = () => {
+        bottomTabTransition.value = withTiming(1, {duration: 300})
+    }
+    const hideBottomTab = () => {
+        bottomTabTransition.value = withTiming(0, {duration: 300})
+    }
+
+    const animateBottomTab = useAnimatedStyle( () => {
+        const opacity = interpolate(bottomTabTransition.value, [0,1], [0, 1])
+            return {
+                opacity: opacity
+            }
+        }
+    )
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     return (
 
     <View style={{flex:1}}>
-
         {/* -------------------------------------------------------------------- Tab Navigation */}
-        <TabNavigator
-            onPressDiscover={handleShowDiscover}
-            onPressCoupons={handleShowCoupons}
-            onPressStores={handleShowStores}
-            onPressProfile={handleShowProfile}
-            discoverFocussed={indexDiscover}
-            couponsFocussed={indexCoupons}
-            storesFocussed={indexStores}
-            profileFocussed={indexProfile}
-        />
+        <Animated.View style={[{zIndex: 2, position: 'absolute', bottom: 0}, animateBottomTab]}>
+            <TabNavigator
+                onPressDiscover={handleShowDiscover}
+                onPressCoupons={handleShowCoupons}
+                onPressStores={handleShowStores}
+                onPressProfile={handleShowProfile}
+                discoverFocussed={indexDiscover}
+                couponsFocussed={indexCoupons}
+                storesFocussed={indexStores}
+                profileFocussed={indexProfile}
+            />
+        </Animated.View>
 
         {/* -------------------------------------------------------------------- Discover */}
         <Animated.View style={[styles.screenContainer, transitionDiscover]}>
-            <DiscoverScreen/>
+            <DiscoverScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab} />
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Coupons */}
         <Animated.View style={[styles.screenContainer, transitionCoupons]}>
-            <CouponsScreen/>
+            <CouponsScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Stores */}
         <Animated.View style={[styles.screenContainer, transitionStores]}>
-            <StoresScreen/>
+            <StoresScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Profile */}
@@ -167,7 +189,7 @@ const styles = StyleSheet.create({
         width: width,
         position: 'absolute',
         zIndex: 0,
-        backgroundColor: COLORS.white
+        backgroundColor: COLORS.white,
     },
 
 })

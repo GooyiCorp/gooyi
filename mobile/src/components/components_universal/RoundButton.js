@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { moderateScale, scale, verticalScale } from '../../helper/scale.js';
-import Icons from '../atoms/Icons.js'
+import Icons from './Icons.js'
 import { COLORS } from '../../index/constantsindex.js';
 
 const iconSide = moderateScale(44,0.2)

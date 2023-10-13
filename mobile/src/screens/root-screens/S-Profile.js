@@ -15,8 +15,9 @@ import AccordionContainer from '../../components/molecules/AccordionContainer'
 import StoreCard from '../../components/molecules/StoreCard'
 import { ScrollView } from 'react-native-gesture-handler'
 import ProfileScreenButton from '../../components/molecules/ProfileScreenButton'
-import {icons} from '../../components/atoms/Icons'
+import {icons} from '../../components/components_universal/Icons'
 import { useNavigation } from '@react-navigation/native'
+import { height, width } from '../../constants/size'
 
 
 
@@ -26,7 +27,7 @@ export default function ProfileScreen() {
   const navigation = useNavigation()
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{height: height, width: width}}>
 
       {/* Main Header */}
       <MainHeader 
@@ -47,7 +48,7 @@ export default function ProfileScreen() {
 
       <View style={{flex: 1, backgroundColor: '#ffffff', alignItems: 'center'}}>
 
-      <View style={{width: '100%', paddingVertical: 15}}>
+      {/* <View style={{width: '100%', paddingVertical: 15}}>
 
         <PresentationHeader 
           title={'Meine Stores'}
@@ -79,16 +80,16 @@ export default function ProfileScreen() {
         />
         <AccordionContainer />
 
-      </View > 
+      </View >  */}
       
 
       {/* <NewShopsBox /> */}
 
       {/* <CouponCard /> */}
 
-      <TouchableOpacity style={{marginTop: 30}}>
+      {/* <TouchableOpacity style={{marginTop: 30}}>
         <Text style={{fontFamily: 'Roboto-Medium', fontSize: 15, color: '#B84058'}}>Abmelden</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       </View>
 

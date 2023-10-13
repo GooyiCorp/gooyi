@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Button, FlatList, ScrollView, StyleSheet,View, Text } from 'react-native'
+import { Button, FlatList, ScrollView, StyleSheet,View, Text, Pressable } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import Category from '../../components/atoms/Category'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
 import NoResults from '../../components/molecules/NoResults'
 import NewOfferBox from '../../components/molecules/NewOfferBox'
-import { icons } from '../../components/atoms/Icons'
+import { icons } from '../../components/components_universal/Icons'
 
 import axios from 'axios'
 import RoundButton from '../../components/components_universal/RoundButton'
@@ -16,7 +16,10 @@ import { useNavigation } from '@react-navigation/native'
 import LocateModal from '../../components/components_universal/LocateModal'
 import SearchModal from '../../components/components_universal/SearchModal'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function DiscoverScreen(  ) {
+export default function DiscoverScreen( {
+  hideTabNav,
+  showTabNav,
+} ) {
   const navigation = useNavigation()
   const [test, setTest] = useState(false)
   const [category, setCategory] = useState([])
@@ -31,27 +34,33 @@ export default function DiscoverScreen(  ) {
   // Locate Modal ----------------------------------------------------------------------
   const [showLocateModal, setShowLocateModal] = useState(false)
   const onCloseLocateModal = () => {
+        showTabNav()
         setTimeout(() => {
           setShowLocateModal(false);
         }, 300) }
   const handleLocate = () => {
           setShowLocateModal(true)
+          hideTabNav()
       }
 
   // Search Modal ----------------------------------------------------------------------
   const [showSearchModal, setShowSearchModal] = useState(false)
   const onCloseSearchModal = () => {
+        showTabNav()
         setTimeout(() => {
           setShowSearchModal(false);
-        }, 300) }
+        }, 500) }
   const handleSearch = () => {
           setShowSearchModal(true)
+          hideTabNav()
       }
   
   return (
     <View style={[{height: height, width: width}]}>
-    {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
-    {showLocateModal && <LocateModal onClose={onCloseLocateModal}/>}
+      
+      {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
+      {showLocateModal && <LocateModal onClose={onCloseLocateModal}/>}
+
       {/* Main Header */} 
       <MainHeader 
         title='Entdecken'
@@ -74,6 +83,9 @@ export default function DiscoverScreen(  ) {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
+        
+        
+        {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
 

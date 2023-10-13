@@ -9,10 +9,15 @@ import OfferBoxS from '../../components/molecules/OfferBoxS'
 
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native'
+import { height, width } from '../../constants/size'
+import SearchModal from '../../components/components_universal/SearchModal'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function StoresScreen() {
+export default function StoresScreen({
+  showTabNav,
+  hideTabNav,
+}) {
 
   const navigation = useNavigation()
   const [fetchedData, setFetchedData] = useState([]);
@@ -27,9 +32,23 @@ export default function StoresScreen() {
         console.log(error)
       }
     }  
+
+  // Search Modal ----------------------------------------------------------------------
+  const [showSearchModal, setShowSearchModal] = useState(false)
+  const onCloseSearchModal = () => {
+        showTabNav()
+        setTimeout(() => {
+          setShowSearchModal(false);
+        }, 500) }
+  const handleSearch = () => {
+          setShowSearchModal(true)
+          hideTabNav()
+        }
     
   return (
-    <View style={{flex: 1}}>
+    <View style={{height: height, width: width}}>
+
+      {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
       
       {/* Main Header */} 
       <MainHeader 
@@ -44,6 +63,7 @@ export default function StoresScreen() {
       {/* Sub Header */} 
       <SubHeader 
         search
+        onPressSearch={handleSearch}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Alle'},
@@ -52,10 +72,11 @@ export default function StoresScreen() {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View style={{flex: 1, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center'}}>
-       <StoreCard />
+      <Button onPress={()=> navigation.navigate('Store')} title='move'></Button>
+       {/* <StoreCard />
        <OfferBoxS />
        <Text>{fetchedData}</Text>
-       <Button title='next' onPress={getData}/>
+       <Button title='next' onPress={getData}/> */}
        </View>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

@@ -2,12 +2,12 @@ import { FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'r
 import React, { useEffect, useState, useRef } from 'react'
 import * as Haptics from 'expo-haptics';
 
-import CatergorySelectorIcons from '../atoms/CategorySelectorIcons'
+import CatergorySelectorIcons from './CategorySelectorIcons'
 import MaskView from '../atoms/MaskedView'
 import MaskElement from '../atoms/MaskElement'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, interpolate, withDelay, Easing, withSpring } from 'react-native-reanimated'
 import Carousel from 'react-native-reanimated-carousel'
-import {icons} from '../atoms/Icons'
+import {icons} from '../components_universal/Icons'
 
 export default function CategorySelectorCarousel() {
   const list = [
@@ -70,7 +70,7 @@ export default function CategorySelectorCarousel() {
         // UseAnimatedStyle ---------------------------------------------------- Transition
       
         const transition = useAnimatedStyle(() => {
-          const translateHeight = interpolate(transitionVal.value, [0,1], [60, 156])
+          const translateHeight = interpolate(transitionVal.value, [0,1], [62, 162])
           const scale = interpolate(transitionVal.value, [0,1], [1, 0.85])
               return {
                   height: translateHeight,
@@ -81,7 +81,7 @@ export default function CategorySelectorCarousel() {
 
   return (
     <>
-    <Animated.View style={[{ height: 156, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
+    <Animated.View style={[{ height: 162, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
     <MaskView element={<MaskElement />}>
     <View style={styles.hiddenbox}
       onTouchStart={() => handleTouchStart()}
@@ -91,8 +91,8 @@ export default function CategorySelectorCarousel() {
             style={{overflow: 'visible'}}
           vertical
           loop
-          width={52}
-          height={52}
+          width={54}
+          height={54}
           // autoPlay={true}
           data={list}
           scrollAnimationDuration={200}
@@ -113,16 +113,16 @@ export default function CategorySelectorCarousel() {
 
 const styles = StyleSheet.create({
 
-    hiddenbox: {
-        height: 52,
-        width: 52,
-        //backgroundColor: 'grey',
-        borderRadius: 50,
-      },
+  hiddenbox: {
+      height: 54,
+      width: 54,
+      //backgroundColor: 'grey',
+      borderRadius: 50,
+  },
 
   bgView: {
-    height: 42,
-    width: 42,
+    height: 44,
+    width: 44,
     backgroundColor: '#c7c7c7',
     borderRadius: 50,
   }

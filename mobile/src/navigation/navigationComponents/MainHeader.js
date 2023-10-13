@@ -2,11 +2,11 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React from 'react'
 
 import { Feather, Fontisto, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
+import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelectorCarousel'
 import { COLORS } from '../../index/constantsindex'
 import { moderateScale } from '../../helper/scale'
 import RoundButton from '../../components/components_universal/RoundButton'
-import { icons } from '../../components/atoms/Icons.js'
+import { icons } from '../../components/components_universal/Icons.js'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -22,6 +22,8 @@ export default function MainHeader({
     notificationButton,
     onPressNotificationButton,
     categorySelector,
+    quickSelection,
+    onPressQuickSelection
 }) {
 
     // ------------------------------------------------------------------------------------------------------------------------- Right View
@@ -62,6 +64,16 @@ export default function MainHeader({
             {categorySelector && <View style={{height:52, width: 52, justifyContent: 'center', alignItems: 'center'}}>
                 <CategorySelectorCarousel/> 
             </View>}
+
+            {/* -------------------------------------------------------------------- Quick Selection Button */}
+            {quickSelection && <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'more-vert'}
+                iconColor={COLORS.subPrimary}
+                iconSize={moderateScale(26,0.2)}
+                style={{backgroundColor: COLORS.white05}}
+                onPressButton={onPressQuickSelection}
+            />}
 
         </View>
     )
@@ -118,16 +130,6 @@ const styles = StyleSheet.create({
 
     rightView: {
         justifyContent: 'flex-end',
-    },
-
-    qrScanButton: {
-        height: moderateScale(46,0.2),
-        width: moderateScale(46,0.2),
-        backgroundColor: COLORS.primary,
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 5
     },
 
     bgView: {

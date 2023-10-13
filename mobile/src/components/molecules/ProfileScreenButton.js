@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import Icons, {icons} from '../atoms/Icons'
+import Icons, {icons} from '../components_universal/Icons'
 
 export default function ProfileScreenButton({
     type,

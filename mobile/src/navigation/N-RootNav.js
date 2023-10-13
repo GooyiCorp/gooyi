@@ -12,6 +12,8 @@ import TabNav from './N-TabNav';
 import QRCode from '../screens/root-screens/S-QRCode';
 import FinderStackNav from './navigationStack/N-FinderStack';
 import MainNav from './N-MainNav';
+import DiscoverStackNav from './navigationStack/N-DiscoverStack';
+import StoresStackNav from './navigationStack/N-StoresStack';
 
 
 
@@ -53,16 +55,22 @@ export default function RootNav() {
                 }}
             />
 
-{/* Screen Discover -------------------------------------------------------- */}
+{/* Screen Main -------------------------------------------------------- */}
             <Root.Screen 
                 name='Main' 
                 component={MainNav}
             />
 
-{/* Screen Profile --------------------------------------------------------- */}
+{/* Screen Finder --------------------------------------------------------- */}
             <Root.Screen 
                 name='Finder' 
                 component={FinderStackNav}
+            />
+
+{/* Screen Finder --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Store' 
+                component={StoresStackNav}
             />
             
         </Root.Navigator>

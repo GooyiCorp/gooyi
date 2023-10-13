@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { StyleSheet,View, Text, ScrollView, Button, Dimensions, TouchableOpacity } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
-import CategorySelectorCarousel from '../../components/molecules/CategorySelectorCarousel'
+import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelectorCarousel'
 
 import LocateModal from '../../components/components_universal/LocateModal';
 import { height } from '../../constants/size';

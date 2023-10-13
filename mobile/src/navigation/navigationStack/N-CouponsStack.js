@@ -9,6 +9,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { width, height } from '../../constants/size'
 
 import CouponsScreen from '../../screens/root-screens/S-Coupons';
+import { Test3, Test4 } from '../../screens/sub-screens/PlaceholderScreen';
 
 
 
@@ -69,8 +70,13 @@ export default function CouponsStackNav() {
         
             {/* Nesting Stack Screens */}
             <CouponsStack.Screen 
-                name='Coupons1'
-                component={CouponsScreen}
+                name='Test3'
+                component={Test3}
+            />
+
+            <CouponsStack.Screen 
+                name='Test4'
+                component={Test4}
             />
     
         </CouponsStack.Navigator>

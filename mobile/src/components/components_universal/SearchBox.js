@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import RoundButton from './RoundButton';
-import { icons } from '../atoms/Icons';
+import { icons } from './Icons';
 import { COLORS } from '../../index/constantsindex';
 import { moderateScale } from '../../helper/scale';
 import { height, width } from '../../constants/size';

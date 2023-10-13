@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import Animated, { measure, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming, runOnUI, interpolate } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
-import Icons, {icons} from '../atoms/Icons'
+import Icons, {icons} from '../components_universal/Icons'
 import { useNavigation } from '@react-navigation/native'
 
 // ---------------------------------------------------------------------------------------------------------------------

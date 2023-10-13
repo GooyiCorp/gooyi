@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Accordion from './Accordion'
-import {icons} from '../atoms/Icons'
+import {icons} from '../components_universal/Icons'
 
 const data = [
     {
