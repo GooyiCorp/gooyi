@@ -15,6 +15,7 @@ import { height, width } from '../../constants/size'
 import { useNavigation } from '@react-navigation/native'
 import LocateModal from '../../components/components_universal/LocateModal'
 import SearchModal from '../../components/components_universal/SearchModal'
+import InputBox from '../../components/components_LogIn/InputBox'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -84,6 +85,7 @@ export default function DiscoverScreen( {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
         
+        <InputBox />
         
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>

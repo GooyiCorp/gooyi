@@ -106,7 +106,7 @@ export default function SearchModal({
               <View style={[styles.searchContainer]}>
                   
                   <TextInput
-                    style={{paddingHorizontal: 20, flex: 1}} 
+                    style={{paddingHorizontal: 20, height: '100%', flex: 1}} 
                     //placeholderTextColor={COLORS.grey}
                     autoFocus={true}
                     placeholder={'Geschäfte und Restaurants durchsuchen'}
