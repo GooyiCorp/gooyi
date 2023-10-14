@@ -21,7 +21,7 @@ export default function LogIn({}) {
         />
         <BigButton title={'Mit Telefonnumer Anmelden'}/>
 
-        <Text style={{fontFamily: 'Roboto-Light', fontSize: 11.5, margin: 30}}>In unsere <Text onPress={console.log('press Datenschutz')} style={{fontFamily: 'Roboto-Medium', fontSize: 11, color: COLORS.primary}}>Datenschutzerklärung</Text> findest du alle wichtige Informationen über die Speicherung und Verarbeitung personenbezogener Daten, Bitte liest Sie sorgfältig durch.</Text>
+        <Text style={{fontFamily: 'Roboto-Light', fontSize: 12, margin: 30}}>Über die Speicherung und Verarbeitung personenbezogener {"\n"}Daten findest du in unsere <Text onPress={console.log('press Datenschutz')} style={{fontFamily: 'Roboto-Medium', fontSize: 12, color: COLORS.primary}}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
     </View>
   )
 }
