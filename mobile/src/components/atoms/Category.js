@@ -43,6 +43,7 @@ export default function Category({
 // ---------------------------------------------------------------------------------------------------------------------
 
   return (
+
     <Pressable onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 400}), transitionVal.value = withTiming(1, {duration: 100}) ) } onPressOut={ () => (flashValue.value = withTiming(2, {duration: 400}, (finished) => (flashValue.value = 0)), transitionVal.value = withTiming(0, {duration: 100}) ) }>
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
