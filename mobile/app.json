@@ -32,6 +32,14 @@
       "eas": {
         "projectId": "61a53c6c-7f7c-4770-875d-ef6aec16feb0"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
+      ]
+    ]
   }
 }

@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React from 'react'
 
-import { Avatar } from 'react-native-paper'
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { Feather, Fontisto, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelectorCarousel'
+import { COLORS } from '../../index/constantsindex'
+import { moderateScale } from '../../helper/scale'
+import RoundButton from '../../components/components_universal/RoundButton'
+import { icons } from '../../components/components_universal/Icons.js'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -10,46 +14,78 @@ export default function MainHeader({
     title, 
     headerContainerStyle,
     titleStyle, 
-    avatar, 
-    onPressAvatar, 
+    mapButton, 
+    onPressMapButton, 
     rightComponent,
     qrButton,
     onPressQRButton,
     notificationButton,
     onPressNotificationButton,
+    categorySelector,
+    quickSelection,
+    onPressQuickSelection
 }) {
 
-    // Right View ------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------------- Right View
     const RightView = () => (
         rightComponent ? rightComponent : 
         <View style={[styles.view, styles.rightView]}>
             
-            {/* QR Button */}
-            {qrButton && <TouchableOpacity style={styles.qrScanButton} onPress={onPressQRButton}>
-                  <MaterialCommunityIcons name="qrcode-scan" size={20} color="white" />
-              </TouchableOpacity>}
+            {/* -------------------------------------------------------------------- QR Button */}
+            {qrButton && <RoundButton 
+                icon={icons.MaterialCommunityIcons} 
+                iconName={'qrcode-scan'} 
+                iconColor={COLORS.white} 
+                iconSize={moderateScale(21,0.2)} 
+                style={{backgroundColor: COLORS.primary}}
+                onPressButton={onPressQRButton}
+            />}
 
-            {/* Avatar Button  */}
-            {avatar && <TouchableOpacity onPress={onPressAvatar}>
-                <Avatar.Text size={42} label="XD" style={{margin: 5}}/>
+            {/* -------------------------------------------------------------------- Map Button  */}
+            {mapButton && <TouchableOpacity style={[styles.buttonBackground, {backgroundColor: COLORS.subPrimary}]} onPress={onPressMapButton}>
+                <View style={{height: 24, width: 24, justifyContent: 'center', alignItems: 'center', position: 'absolute', zIndex: 1, right: 2, bottom: 3}}>
+                <MaterialCommunityIcons name='map-marker' size={14} color='#fff' style={{position: 'absolute', zIndex: 1}}/>
+                <Fontisto name='map-marker' size={18} color={COLORS.subPrimary} style={{position: 'absolute'}}/>
+                </View>
+                <Feather name="map" size={20} color="#fff" style={{transform: [{rotateY: '180deg'}]}}/>
             </TouchableOpacity>}
 
-            {/* Notification Button  */}
-            {notificationButton && <TouchableOpacity style={[styles.qrScanButton, {backgroundColor: '#F4F4F4'}]} onPress={onPressNotificationButton}>
-                    <MaterialIcons name="notifications-none" size={26} color="black" />
-              </TouchableOpacity>}
+            {/* -------------------------------------------------------------------- Notification Button */}
+            {notificationButton && <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'notifications-none'}
+                iconColor={COLORS.subPrimary}
+                iconSize={moderateScale(26,0.2)}
+                style={{backgroundColor: COLORS.subPrimary02}}
+                onPressButton={onPressNotificationButton}
+            />}
+
+            {/* -------------------------------------------------------------------- Finder Category Selector */}
+            {categorySelector && <View style={{height:52, width: 52, justifyContent: 'center', alignItems: 'center'}}>
+                <CategorySelectorCarousel/> 
+            </View>}
+
+            {/* -------------------------------------------------------------------- Quick Selection Button */}
+            {quickSelection && <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'more-vert'}
+                iconColor={COLORS.subPrimary}
+                iconSize={moderateScale(26,0.2)}
+                style={{backgroundColor: COLORS.white05}}
+                onPressButton={onPressQuickSelection}
+            />}
 
         </View>
     )
 
-    // Title View ------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------------- Title View
     const TitleView = () => (
         <View>
             <Text style={[styles.titleDefaultStyle, titleStyle]}>{title}</Text>
         </View>
     )
   
-    // Return View -----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     return (
         <View style={[styles.headerDefaultContainer, headerContainerStyle]}>
             <View style={styles.headerJustifyView}>
@@ -66,7 +102,7 @@ const styles = StyleSheet.create({
     headerDefaultContainer: {
         height: 110,
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
         justifyContent: 'flex-end',
         //borderRadius: 50,
     },
@@ -83,9 +119,9 @@ const styles = StyleSheet.create({
 
     titleDefaultStyle: {
         fontFamily: 'Roboto-Medium', 
-        fontSize: 28, 
+        fontSize: moderateScale(30,0.2), 
         fontWeight: 'bold',
-        marginTop: 10,
+        top: 5,
     },
 
     view: {
@@ -96,10 +132,17 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
 
-    qrScanButton: {
+    bgView: {
         height: 42,
         width: 42,
-        backgroundColor: 'red',
+        backgroundColor: '#c7c7c7',
+        borderRadius: 50,
+      },
+
+    buttonBackground: {
+        height: 42,
+        width: 42,
+        backgroundColor: '#B84058',
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',

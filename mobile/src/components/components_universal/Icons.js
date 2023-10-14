@@ -1,14 +1,19 @@
 import React from 'react'
-import { MaterialCommunityIcons, MaterialIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons, FontAwesome, Ionicons, SimpleLineIcons, Octicons, Foundation, Entypo, Feather } from '@expo/vector-icons';
 
 export const icons = {
     MaterialCommunityIcons,
     MaterialIcons,
-    FontAwesome5, 
+    FontAwesome, 
     Ionicons, 
+    SimpleLineIcons,
+    Octicons,
+    Foundation,
+    Entypo,
+    Feather,
 }
 
-export default function NavIcons({
+export default function Icons({
     icon,
     iconName,
     iconSize,

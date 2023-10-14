@@ -1,25 +1,48 @@
 import React, { useState } from 'react'
-import { StyleSheet,View, Text , ScrollView} from 'react-native'
+import { StyleSheet,View, Text , ScrollView, Button} from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
+import PresentationHeader from '../../components/molecules/PresentationHeader'
+import SortByShop from '../../components/molecules/SortByShop'
+import { useNavigation } from '@react-navigation/native'
+import { height, width } from '../../constants/size'
+import SearchModal from '../../components/components_universal/SearchModal'
 
 
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function CouponsScreen({ navigation}) {
+export default function CouponsScreen({
+  hideTabNav,
+  showTabNav,
+}) {
 
+  const navigation = useNavigation()
+
+  // Search Modal ----------------------------------------------------------------------
+  const [showSearchModal, setShowSearchModal] = useState(false)
+  const onCloseSearchModal = () => {
+        showTabNav()
+        setTimeout(() => {
+          setShowSearchModal(false);
+        }, 500) }
+  const handleSearch = () => {
+          setShowSearchModal(true)
+          hideTabNav()
+        }
 
   return (
-    <View style={{flex: 1, backgroundColor: 'yellow'}}>
+    <View style={{height: height, width: width}}>
+
+      {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
 
       {/* Main Header */}
       <MainHeader 
         title='Coupons'
         style={{backgroundColor: 'red', alignItems: 'center'}}
-        avatar
-        onPressAvatar={() => navigation.navigate('Profile')}
+        mapButton
+        onPressMapButton={() => navigation.navigate('Finder')}
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
       />
@@ -27,6 +50,7 @@ export default function CouponsScreen({ navigation}) {
       {/* Sub Header */}
       <SubHeader
         search
+        onPressSearch={handleSearch}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Merkliste'},
@@ -34,14 +58,28 @@ export default function CouponsScreen({ navigation}) {
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+      
+      {/* <View style={{width: '100%', paddingVertical: 15}}>
 
-        <ScrollView>
-            <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-            <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-            <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-            <View style={{width:200, height: 200, backgroundColor:'blue'}}></View>
-            <View style={{width:200, height: 200, backgroundColor:'red'}}></View>
-        </ScrollView>
+        <PresentationHeader
+          title={'Sortieren nach'}
+          //showAllButton  
+        />
+
+
+          <SortByShop lists={[
+                {id: 1, number: '1'},
+                {id: 2, number: '5'},
+                {id: 3, number: '3'},
+                {id: 4, number: '3'}
+            ]}/>
+
+
+      </View> */}
+
+
+      </View>
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

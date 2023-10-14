@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
+import { COLORS } from '../../index/constantsindex'
 
 
 
@@ -14,9 +15,9 @@ export const TopNavButton = ({lists}) => {
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}} >
     {lists.map((list) => (
-    <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? '#eeeeee': 'rgba(238, 238, 238, 0)'}]} 
+    <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? COLORS.subPrimary02 : COLORS.white}]} 
     onPress={() => handleColor(list)}>
-        <Text style={[styles.topNavTitle, {fontFamily: list.id === selected? 'Roboto-Bold': 'Roboto-Medium'}]}>{list.title}</Text>
+        <Text style={[styles.topNavTitle, {fontFamily: list.id === selected? 'Roboto-Bold': 'Roboto-Regular'}]}>{list.title}</Text>
     </TouchableOpacity>
     ))}
     </View>
@@ -28,14 +29,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 15,
-        height: 30,
-        marginHorizontal: 5,
+        height: 36,
         borderRadius: 50,
     },
     topNavTitle: {
-        color: 'black',
+        color: COLORS.subPrimary,
         fontFamily: 'Roboto-Medium',
-        fontSize: 11,
+        fontSize: 13,
         textAlign: 'center',
     },
 })

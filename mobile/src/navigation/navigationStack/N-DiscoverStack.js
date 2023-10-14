@@ -7,6 +7,7 @@ import Animated, { interpolate, useSharedValue, withTiming, useAnimatedStyle, us
 
 import { useIsFocused } from '@react-navigation/native';
 import { width, height } from '../../constants/size'
+import { Test1, Test2 } from '../../screens/sub-screens/PlaceholderScreen';
 
 
 
@@ -39,10 +40,10 @@ export default function DiscoverStackNav() {
            const scaleScreen = interpolate(transitionValue.value, [0,1], [1.1, 1])
            const opacityScreen = interpolate(transitionValue.value, [0,1], [0,1])
                return {
-                   transform:[
-                       {scale: scaleScreen}
-                   ],
-                   opacity: opacityScreen
+                //    transform:[
+                //        {scale: scaleScreen}
+                //    ],
+                //    opacity: opacityScreen
            
                }
            }
@@ -64,11 +65,16 @@ export default function DiscoverStackNav() {
         >
         
         {/* Nesting Stack Screens */}
-          <DiscoverStack.Screen 
-            name='Discover1'
-            component={DiscoverScreen}
-          />
-    
+        <DiscoverStack.Screen 
+            name='Test1'
+            component={Test1}
+        />
+
+        <DiscoverStack.Screen 
+            name='Test2'
+            component={Test2}
+        />
+        
         </DiscoverStack.Navigator>
         
         {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}

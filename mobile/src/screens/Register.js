@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Modal, ScrollView, Alert, Pressable } from 'react-native';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { moderateScale, scale, verticalScale } from '../helper/scale.js';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import { api_url } from '../constants/api.js'
@@ -8,6 +8,9 @@ import { height, width } from '../constants/size.js';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, interpolate, Extrapolate, runOnJS, color } from 'react-native-reanimated'
 import { GreyButton, RedButton, WhiteButton } from '../components/atoms/Button.js';
+import RoundButton from '../components/components_universal/RoundButton.js';
+import { COLORS } from '../index/constantsindex.js';
+import { icons } from '../components/components_universal/Icons.js';
 
 const Register = ({ onClose, homepage }) => {
     // -- Form handling ------------------------------------------------------------------
@@ -92,13 +95,31 @@ const Register = ({ onClose, homepage }) => {
     }, [])
     return (
     <GestureDetector gesture={gesture}>
+
+        {/* Modal Container ---------------------------------------------------- */}
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
-            <View style={styles.line} />
-            <Text style={styles.title}>Registrieren</Text>
-            <TouchableOpacity onPress={closeButton} style={styles.closeButton}>
-                <Ionicons name="close" size={moderateScale(24)} color="#4A4A4A" />
-            </TouchableOpacity>
-            <View style={styles.container}>
+
+            {/* -------------------------------------------------------------------- Line */}
+            <View style={styles.line}></View>
+
+            {/* -------------------------------------------------------------------- Close Button */}
+            <View style={styles.headerContainer}>
+                <Text style={styles.title}>Registrieren</Text>
+                <RoundButton 
+                    icon={icons.MaterialIcons}
+                    iconName={'close'}
+                    iconSize={moderateScale(22,0.2)}
+                    iconColor={COLORS.white}
+                    style={{
+                        backgroundColor: COLORS.grey,
+                        height: moderateScale(34,0.2),
+                        width: moderateScale(34,0.2),
+                    }}
+                    onPressButton={closeButton}
+                />
+            </View>
+
+            {/* <View style={styles.container}>
                 <View style={styles.indexContainer}>
                     <TouchableOpacity onPress={() => handleJump(0)}>
                         <Text style={[styles.index, slideIndex == 0 && styles.activeIndex]}>1</Text>
@@ -163,7 +184,7 @@ const Register = ({ onClose, homepage }) => {
                      </View>
                      
                 </ScrollView>
-            </View>
+            </View> */}
         </Animated.View>
     </GestureDetector>
     )
@@ -191,9 +212,6 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'Roboto-Medium',
         fontSize: moderateScale(26),
-        marginLeft: moderateScale(30),
-        marginTop: moderateScale(30),
-        alignSelf: 'flex-start',
     },
     closeButton: {
         width: moderateScale(30),
@@ -261,7 +279,17 @@ const styles = StyleSheet.create({
     redTerm: {
         fontFamily: 'Roboto-Bold',
         color: '#c83356'
-    }
+    },
+    headerContainer: {
+        width: width,
+        //backgroundColor: 'yellow',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 30,
+        marginTop: 0.1*height,
+        marginBottom: 50,
+      },
 });
 
 

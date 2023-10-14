@@ -5,10 +5,16 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Onboarding from '../screens/root-screens/S-Onboarding';
 import Loading from '../screens/root-screens/S-Loading';
-import QRScan from '../screens/root-screens/S-QRScan';
+import QRScanStackNav from './navigationStack/N-QRScanStack';
 import ProfileStackNav from './navigationStack/N-ProfileStack';
 
 import TabNav from './N-TabNav';
+import QRCode from '../screens/root-screens/S-QRCode';
+import FinderStackNav from './navigationStack/N-FinderStack';
+import MainNav from './N-MainNav';
+import DiscoverStackNav from './navigationStack/N-DiscoverStack';
+import StoresStackNav from './navigationStack/N-StoresStack';
+import s_logIn from '../screens/root-screens/s_LogIn';
 
 
 
@@ -44,26 +50,39 @@ export default function RootNav() {
 {/* Screen QR Scan --------------------------------------------------------- */}
             <Root.Screen 
                 name='QRScan' 
-                component={QRScan}
+                component={QRScanStackNav}
                 options={{
                     presentation: 'transparentModal',
-                    animation: 'fade',
                 }}
             />
 
-{/* Screen Profile --------------------------------------------------------- */}
-            <Root.Screen 
-                name='Profile' 
-                component={ProfileStackNav}
-            />
-
-{/* Screen Discover -------------------------------------------------------- */}
+{/* Screen Main -------------------------------------------------------- */}
             <Root.Screen 
                 name='Main' 
-                component={TabNav}
+                component={MainNav}
             />
 
+{/* Screen Finder --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Finder' 
+                component={FinderStackNav}
+            />
+
+{/* Screen Finder --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Store' 
+                component={StoresStackNav}
+            />
+
+{/* Screen LogIn --------------------------------------------------------- */}
+            {/* <Root.Screen 
+                name='LogIn' 
+                component={s_logIn}
+            /> */}
+            
         </Root.Navigator>
+
+
     </>
   )
 }

@@ -11,7 +11,7 @@ import SignIn from "./SignIn.js";
 import Register from "./Register.js";
 
 import { RedButton } from "../components/atoms/Button.js";
-import { verticalScale } from "react-native-size-matters";
+import { verticalScale } from "../helper/scale.js";
 import { width } from "../constants/size.js";
 const AppIntroSlider = ( {setShowHomePage}) => {
     const timerId = useRef(null);
@@ -114,7 +114,7 @@ const AppIntroSlider = ( {setShowHomePage}) => {
             />
             { slideIndex != welcome.length -1 && 
             <Animated.View style={{opacity: opacity}}>
-                <RedButton title="Los geht's" onPress={scrollToEnd} style={{position: 'absolute', bottom: verticalScale(70), alignSelf: 'center' }} />
+                <RedButton title="Los geht's" onPress={scrollToEnd} style={{position: 'absolute', bottom: verticalScale(120), alignSelf: 'center' }} />
             </Animated.View>
             }
             <PaginationBar scrollX={scrollX} currentIndex={slideIndex} />
