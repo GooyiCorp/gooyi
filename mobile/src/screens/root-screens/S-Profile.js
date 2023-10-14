@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet,View, Text, TouchableOpacity } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
@@ -18,6 +18,7 @@ import ProfileScreenButton from '../../components/molecules/ProfileScreenButton'
 import {icons} from '../../components/components_universal/Icons'
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
+import LogIn from './s_LogIn'
 
 
 
@@ -26,9 +27,12 @@ export default function ProfileScreen() {
   
   const navigation = useNavigation()
 
+  const [logIn, setLogIn] = useState(true)
+
   return (
     <View style={{height: height, width: width}}>
-
+       
+      {logIn && <LogIn/>}
       {/* Main Header */}
       <MainHeader 
         title='Moin Thanh'

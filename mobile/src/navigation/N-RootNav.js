@@ -14,6 +14,7 @@ import FinderStackNav from './navigationStack/N-FinderStack';
 import MainNav from './N-MainNav';
 import DiscoverStackNav from './navigationStack/N-DiscoverStack';
 import StoresStackNav from './navigationStack/N-StoresStack';
+import s_logIn from '../screens/root-screens/s_LogIn';
 
 
 
@@ -72,6 +73,12 @@ export default function RootNav() {
                 name='Store' 
                 component={StoresStackNav}
             />
+
+{/* Screen LogIn --------------------------------------------------------- */}
+            {/* <Root.Screen 
+                name='LogIn' 
+                component={s_logIn}
+            /> */}
             
         </Root.Navigator>
 
