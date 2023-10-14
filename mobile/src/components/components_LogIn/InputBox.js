@@ -1,5 +1,5 @@
 import { Keyboard, StyleSheet, Text, View, Pressable, Button } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { TextInput } from 'react-native'
@@ -9,6 +9,9 @@ import Animated, { interpolate, interpolateColor, runOnJS, runOnUI, useAnimatedS
 
 export default function InputBox({
     style,
+    label,
+    dismiss,
+    setDismiss
 }) {
     const [data, setData] = useState('')
     const [index, setIndex] = useState(2)
@@ -20,17 +23,31 @@ export default function InputBox({
         borderTransitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
         setIndex(0)
     }
-    const handleClose = () => {
-        if (!data) {
+
+    useEffect(() => {
+        if (!data && dismiss) {
             transitionVal.value = withTiming(0, {duration: 200})
             console.log('done')
             setTimeout(() => {
                 setIndex(2)
             }, 200)
+            console.log(1)
         }
         borderTransitionVal.value = withTiming(0, {duration: 200})
         Keyboard.dismiss()
-    }
+        }, [dismiss]);
+
+    // const handleClose = () => {
+    //     if (!data) {
+    //         transitionVal.value = withTiming(0, {duration: 200})
+    //         console.log('done')
+    //         setTimeout(() => {
+    //             setIndex(2)
+    //         }, 200)
+    //     }
+    //     borderTransitionVal.value = withTiming(0, {duration: 200})
+    //     Keyboard.dismiss()
+    // }
 
     const handleClear = () => {
         setData('')
@@ -90,8 +107,9 @@ export default function InputBox({
 
   return (
     <>
-    <View style={[styles.boxContainer, style]}
-    >
+    <View style={[styles.boxContainer, style]}>
+
+        {/* -------------------------------------------------------------------- Input Container */}
         <Animated.View style={[styles.inputContainer, inputTransition]}>
             <TextInput 
                 style={[styles.input]} 
@@ -100,10 +118,14 @@ export default function InputBox({
                 onChangeText={(e) => {setData(e)}}
             />
         </Animated.View>
+
+        {/* -------------------------------------------------------------------- Label */}
         <Animated.View style={[styles.labelContainer, labelContainerTransition]}>
-            <Animated.Text style={[styles.label, labelTransition]}>E-mail Adresse</Animated.Text>
+            <Animated.Text style={[styles.label, labelTransition]}>{label}</Animated.Text>
             <Animated.View style={[styles.labelBg, labelBgTransition]}></Animated.View>
         </Animated.View>
+
+        {/* -------------------------------------------------------------------- Delete Button */}
         <Animated.View style={[{position: 'absolute', right: 0}, buttonTransition]}>
             <RoundButton 
                 icon={icons.Ionicons}
@@ -114,8 +136,9 @@ export default function InputBox({
                 onPressButton={handleClear}
             />
         </Animated.View>
+
     </View>
-    <Pressable style={{height: height, width: width}} onPressIn={handleClose}></Pressable>
+    {/* <Pressable style={{height: height, width: width, zIndex: -1, position: 'absolute', backgroundColor: 'yellow'}} onPressIn={handleClose}></Pressable> */}
     </>
   )
 }
@@ -139,7 +162,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 1,
         borderColor: COLORS.subPrimary02,
-        zIndex:2
+        zIndex:2,
     },
 
     label: {

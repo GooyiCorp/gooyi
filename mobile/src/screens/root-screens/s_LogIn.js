@@ -4,8 +4,10 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { moderateScale } from '../../helper/scale'
 import BigButton from '../../components/components_LogIn/BigButton'
+import { useNavigation } from '@react-navigation/native'
 
 export default function LogIn({}) {
+    const navigation = useNavigation()
   return (
     <View style={{ height: height, width: width, backgroundColor: COLORS.white}}>
         {/* <View style={{height: 300, width: 300, backgroundColor: COLORS.default, position: 'absolute', alignSelf: 'center', top: 100, justifyContent: 'center', alignItems: 'center'}}><Text>Image Container</Text></View> */}
@@ -18,6 +20,7 @@ export default function LogIn({}) {
             title={'Mit E-Mail Anmelden'} 
             bgStyle={{backgroundColor: COLORS.primary}}
             titleStyle={{color: COLORS.white, fontFamily: 'Roboto-Medium'}}
+            onPress={() => navigation.navigate('RegisterEmail')}
         />
         <BigButton title={'Mit Telefonnumer Anmelden'}/>
 
