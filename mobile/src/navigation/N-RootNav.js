@@ -15,6 +15,7 @@ import MainNav from './N-MainNav';
 import DiscoverStackNav from './navigationStack/N-DiscoverStack';
 import StoresStackNav from './navigationStack/N-StoresStack';
 import s_logIn from '../screens/root-screens/s_LogIn';
+import RegisterEMailStack from './navigationStack/n_RegisterEMailStack';
 
 
 
@@ -74,11 +75,11 @@ export default function RootNav() {
                 component={StoresStackNav}
             />
 
-{/* Screen LogIn --------------------------------------------------------- */}
-            {/* <Root.Screen 
-                name='LogIn' 
-                component={s_logIn}
-            /> */}
+{/* Screen Register Email --------------------------------------------------------- */}
+            <Root.Screen 
+                name='RegisterEmail' 
+                component={RegisterEMailStack}
+            />
             
         </Root.Navigator>
 

@@ -23,6 +23,15 @@ export default function App() {
     'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
     'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
     'Roboto-Black': require('./assets/fonts/Roboto/Roboto-Black.ttf'),
+
+    'RH-Bold': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'), 
+    'RH-Black': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-Black.ttf'), 
+    'RH-ExtraBold': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-ExtraBold.ttf'), 
+    'RH-Regular': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-Regular.ttf'), 
+    'RH-Light': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-Light.ttf'), 
+    'RH-Medium': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-Medium.ttf'), 
+    'RH-SemiBold': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-SemiBold.ttf'), 
+    
   });
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -7,9 +7,10 @@ export default function BigButton({
     title,
     bgStyle,
     titleStyle,
+    onPress,
 }) {
   return (
-    <TouchableOpacity style={[styles.buttonContainer, bgStyle]}>
+    <TouchableOpacity style={[styles.buttonContainer, bgStyle]} onPress={onPress}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
     </TouchableOpacity>
   )
