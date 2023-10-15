@@ -10,7 +10,7 @@ import BigButton from '../../../components/components_LogIn/BigButton'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
 import { moderateScale } from '../../../helper/scale'
-import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
 
 export default function EnterEmail() {
 
@@ -19,13 +19,15 @@ export default function EnterEmail() {
   const [dismiss, setDismiss] = useState(false)
 
   const transitionButtonVal = useSharedValue(0)
+  const buttonOpacity = useSharedValue(1)
 
   const handleButtonTransitionUp = () => {
-    transitionButtonVal.value = withDelay(50 ,withTiming(1,{duration: 250, easing: Easing.bezier(0.1, 0.76, 0.55, 0.9)}))
+    transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+
   }
 
   const handleButtonTransitionDown = () => {
-    transitionButtonVal.value = withTiming(0)
+    transitionButtonVal.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
   }
 
   const transitionButton = useAnimatedStyle(() => {
@@ -33,7 +35,8 @@ export default function EnterEmail() {
     return {
       transform: [{
         translateY: translateY
-      }]
+      }],
+      opacity: buttonOpacity.value
     }
   })
 
