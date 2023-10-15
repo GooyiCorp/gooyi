@@ -24,7 +24,7 @@ userRoute.post("/email-login", async (req, res) => {
     const { email } = req.body
     const error = email_validate(email)
     if (error) return sendError(res, error)
-    email = email.toLowerCase()
+    // email = email.toLowerCase()
     try {
         const user = await User.findOne({ where: { email: email}})
         if (user) {
@@ -60,7 +60,7 @@ userRoute.post("/email-login", async (req, res) => {
                 from: "Gooooooyi",
                 to: email,
                 subject: '[noreply - Gooyi] Log in ',
-                html: `<p>log in ${accessToken}</p>`
+                html: `<a href="exp://192.168.0.224:19000">Sign in by this link</a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -72,7 +72,7 @@ userRoute.post("/email-login", async (req, res) => {
                 from: "Gooooooyi",
                 to: email,
                 subject: '[Gooyi] Register',
-                html: ``
+                html: `<a href="google.com"></a>`
             }
             return sendSuccess(res, "Register Email sent successfully")
         }

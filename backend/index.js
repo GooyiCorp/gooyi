@@ -30,7 +30,11 @@ app.use(morgan('[:date] :method :url :status :res[content-length] - :response-ti
 
 
 app.use("/api/user", userRoute)
-
+app.use("/api/test", (req, res) => {
+    res.send({
+        "message": "ok",
+    })
+})
 
 
 const PORT = process.env.PORT || 8000
