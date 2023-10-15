@@ -11,7 +11,8 @@ export default function InputBox({
     style,
     label,
     dismiss,
-    setDismiss
+    onFocusInput,
+    onLeaveFocus,
 }) {
     const [data, setData] = useState('')
     const [index, setIndex] = useState(2)
@@ -19,6 +20,7 @@ export default function InputBox({
     const borderTransitionVal = useSharedValue(0)
 
     const handleTransition = () => {
+        onFocusInput()
         transitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
         borderTransitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
         setIndex(0)
@@ -26,12 +28,10 @@ export default function InputBox({
 
     useEffect(() => {
         if (!data && dismiss) {
-            transitionVal.value = withTiming(0, {duration: 200})
-            console.log('done')
+            transitionVal.value = withTiming(0, {duration: 100})
             setTimeout(() => {
                 setIndex(2)
             }, 200)
-            console.log(1)
         }
         borderTransitionVal.value = withTiming(0, {duration: 200})
         Keyboard.dismiss()
@@ -54,6 +54,7 @@ export default function InputBox({
         transitionVal.value = withTiming(0, {duration: 200})
         borderTransitionVal.value = withTiming(0, {duration: 200})
         Keyboard.dismiss()
+        onLeaveFocus()
         setTimeout(() => {
             setIndex(2)
         }, 200)

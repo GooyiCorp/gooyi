@@ -12,7 +12,7 @@ export default function LogIn({}) {
     <View style={{ height: height, width: width, backgroundColor: COLORS.white}}>
         {/* <View style={{height: 300, width: 300, backgroundColor: COLORS.default, position: 'absolute', alignSelf: 'center', top: 100, justifyContent: 'center', alignItems: 'center'}}><Text>Image Container</Text></View> */}
         <View style={styles.headerSection}>
-            <Text style={styles.title}>Ready {"\n"}to <Text style={{fontFamily: 'Roboto-Bold', fontSize: 48,color: COLORS.primary}}>goooooooyi</Text>?</Text>
+            <Text style={styles.title}>Ready {"\n"}to <Text style={{fontFamily: 'RH-Black', fontSize: 44,color: COLORS.primary}}>goooooooyi</Text>?</Text>
             <Text style={styles.subHeaderStyle}>Bereit, loszulegen? {"\n"}{"\n"}Tippe auf eine der folgenden Optionen, um {"\n"}zu starten!</Text>
         </View>
 
@@ -24,16 +24,16 @@ export default function LogIn({}) {
         />
         <BigButton title={'Mit Telefonnumer Anmelden'}/>
 
-        <Text style={{fontFamily: 'Roboto-Light', fontSize: 12, margin: 30}}>Über die Speicherung und Verarbeitung personenbezogener {"\n"}Daten findest du in unsere <Text onPress={console.log('press Datenschutz')} style={{fontFamily: 'Roboto-Medium', fontSize: 12, color: COLORS.primary}}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
+        <Text style={{fontFamily: 'Roboto-Light', fontSize: 12, margin: 30}}>Über die Speicherung und Verarbeitung personenbezogener {"\n"}Daten findest du in unsere <Text onPress={() => console.log('press Datenschutz')} style={{fontFamily: 'Roboto-Medium', fontSize: 12, color: COLORS.primary}}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
     title: {
-        fontFamily: 'Roboto-Regular', 
-        fontSize: moderateScale(45,0.2), 
-        lineHeight: 45,
+        fontFamily: 'RH-Regular', 
+        fontSize: moderateScale(44,0.2), 
+        lineHeight: 44,
         color: COLORS.subPrimary,
         letterSpacing: 1
     },
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         marginTop: 0.4*height,
         marginBottom: 40,
+        
     },
 
     subHeaderStyle: {
