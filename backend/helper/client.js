@@ -1,4 +1,5 @@
-import express from 'express';
+import NodeMailer from "nodemailer"
+
 
 export const sendSuccess = (res, message, data = null) => {
     let responseJson = {
@@ -21,3 +22,21 @@ export const sendServerError = res =>
         success: false,
         message: 'Server Interval Error.'
     })
+
+export const sendAutoMail = async (options) => {
+    const service = process.env.MAIL_SERVICE
+    const transport = NodeMailer.createTransport({
+        service: service,
+        auth: {
+            user: process.env.MAIL_HOST,
+            pass: process.env.PASS_MAIL_HOST
+        }
+    })
+    try {
+        await transport.sendMail(options)
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}

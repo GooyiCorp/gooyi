@@ -7,5 +7,5 @@ const {
     password,
     port
 } = db_config
-const sequelize = new Sequelize(`postgres://${user}:${password}@${host}:${port}/${database}`)
+const sequelize = new Sequelize(`postgres://${user}:${password}@${host}:${port}/${database}`, {logging: false})
 export default sequelize 

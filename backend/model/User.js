@@ -19,11 +19,9 @@ const User = sequelize.define('User', {
     phone: {
     type: DataTypes.TEXT
     },
-    verified: {
-    type: DataTypes.BOOLEAN
-    },
     active: {
-    type: DataTypes.BOOLEAN
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
     }
 }, {
     freezeTableName: true,
