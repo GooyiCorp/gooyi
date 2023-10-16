@@ -7,7 +7,6 @@ import path from "path"
 export const __dirname = path.resolve(path.dirname(''))
 dotenv.config()
 
-import sequelize from "./model/index.js";
 import userRoute from "./router/user.js";
 
 
@@ -15,6 +14,7 @@ export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
 export const ACTIVE_USER = new Set()
 import { clearTokenList } from "./helper/jwt.js"
+import sequelize from "./model/index.js";
 try {
     await sequelize.authenticate();
     console.log('Connection to database has been established successfully.');
@@ -29,7 +29,8 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(morgan('[:date] :method :url :status :res[content-length] - :response-time ms'))
+import { morgan_log } from "./config/morgan.js";
+app.use(morgan(morgan_log))
 
 
 app.use("/api/user", userRoute)
