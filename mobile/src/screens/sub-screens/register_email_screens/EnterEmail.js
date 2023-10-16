@@ -51,7 +51,7 @@ export default function EnterEmail() {
       })
       console.log(response.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
     }
   }
   return (

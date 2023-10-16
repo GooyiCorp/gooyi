@@ -3,6 +3,8 @@ import dotenv from "dotenv"
 import cors from "cors"
 import morgan from "morgan";
 import bodyParser from "body-parser"
+import path from "path"
+export const __dirname = path.resolve(path.dirname(''))
 dotenv.config()
 
 import sequelize from "./model/index.js";

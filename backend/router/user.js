@@ -6,7 +6,8 @@ import User from "../model/User.js";
 import { USER } from "../constant/role.js";
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../constant/jwt.js";
 import { TOKEN_LIST } from "../index.js";
-
+import path from 'path';
+import { __dirname } from "../index.js";
 const userRoute = express.Router();
 
 userRoute.post("/create", async (req, res) => {
@@ -59,8 +60,8 @@ userRoute.post("/email-login", async (req, res) => {
             const options = {
                 from: "Gooooooyi",
                 to: email,
-                subject: '[noreply - Gooyi] Log in ',
-                html: `<a href="exp://192.168.0.224:19000">Sign in by this link</a>`
+                subject: '[Gooyi] Log in ',
+                html: `<a href="https://piglet-together-wasp.ngrok-free.app/api/user/redirect"> Sign in </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -123,6 +124,10 @@ userRoute.post('/register', async(req, res) => {
 
     return sendSuccess(res, "Register successfully", response)
 })
+
+userRoute.get("/redirect", function(req, res) {
+    res.sendFile(path.join(__dirname, '/template/login.html'));
+});
 
 
 export default userRoute
