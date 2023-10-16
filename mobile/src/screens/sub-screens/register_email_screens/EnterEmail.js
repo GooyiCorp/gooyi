@@ -1,11 +1,11 @@
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { height, width } from '../../../constants/size'
-import { MainHeader, SubHeader } from '../../../index/navIndex'
+
 import { useNavigation } from '@react-navigation/native'
 import { COLORS } from '../../../index/constantsindex'
 import InputBox from '../../../components/components_LogIn/InputBox'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+
 import BigButton from '../../../components/components_LogIn/BigButton'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
@@ -13,25 +13,32 @@ import { moderateScale } from '../../../helper/scale'
 import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
 import axios from 'axios'
 import { api_url } from '../../../constants/api'
+import ErrorModal from '../../../components/components_LogIn/ErrorModal'
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterEmail() {
 
+  // {/* -------------------------------------------------------------------- Navigation */}
   const navigation = useNavigation()
 
+  // {/* -------------------------------------------------------------------- Value */}
   const [dismiss, setDismiss] = useState(false)
   const [error, setError] = useState(false)
 
   const transitionButtonVal = useSharedValue(0)
   const errorFeedback = useSharedValue(0)
 
+  // {/* -------------------------------------------------------------------- handle Transition */}
   const handleButtonTransitionUp = () => {
     transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
   }
 
   const handleButtonTransitionDown = () => {
+    checkEmail()
     transitionButtonVal.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
   }
 
+  // {/* -------------------------------------------------------------------- Animated Style */}
   const transitionButton = useAnimatedStyle(() => {
     const translateY = interpolate(transitionButtonVal.value, [0,1], [0,-330])
     return {
@@ -46,9 +53,26 @@ export default function EnterEmail() {
       opacity: errorFeedback.value
     }
   })
-  // --Log in --
+
+  // {/* -------------------------------------------------------------------- handle Log In */}
   const [email, setEmail] = useState("");
+  const checkEmail = () => {
+    const regEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if (!regEX.test(email)) return false
+    return true
+    
+  }
   const handleLogin = async () => {
+    if (!email) {
+      setError(true)
+      errorFeedback.value = withDelay(100, withTiming(1, {duration: 200})) 
+      return; 
+    } else if (!checkEmail()) {
+      setError(true)
+      errorFeedback.value = withDelay(100, withTiming(1, {duration: 200})) 
+      return;
+    }
+    errorFeedback.value = 0
     const url = api_url + 'user/email-login/'
     try {
       const response = await axios.post(url, {
@@ -56,18 +80,41 @@ export default function EnterEmail() {
       })
       console.log(response.data);
       setError(false)
-      errorFeedback.value = withTiming(0, {duration: 100})
     } catch (error) {
-      console.log(error.response.data);
       setError(true)
-      errorFeedback.value = withTiming(1, {duration: 100})
+      console.log(error.response.data);
+      // handleError()
     }
   }
+
+  const onChangeText = (e) => {
+    setError(false)
+    setEmail(e)
+    errorFeedback.value = 0 
+
+  }
+
+  //  Modal ----------------------------------------------------------------------
+  const [showErrorModal, setShowErrorModal] = useState(true)
+  const onCloseErrorModal = () => {
+        setTimeout(() => {
+            setShowErrorModal(false);
+        }, 300) }
+  const handleError = () => {
+            
+        setShowErrorModal(true)
+
+          
+      }
+
+  // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     
   <View style={{height: height, width: width, backgroundColor: 'white'}}>
 
-    {/* Go Back Buttom */}
+    {/* {showErrorModal && <ErrorModal onClose={onCloseErrorModal}/>} */}
+
+    {/* -------------------------------------------------------------------- Go Back Button */}
     <RoundButton
       icon={icons.Ionicons}
       iconName={'md-chevron-back'}
@@ -83,12 +130,12 @@ export default function EnterEmail() {
       }}
       onPressButton={() => navigation.navigate('Main')}
     />
-  <View>
 
+    {/* -------------------------------------------------------------------- Header, SubHeader */}
     <Text style={[styles.title]}>Anmelden ganz{"\n"}ohne Passwort!</Text>
-  </View>
     <Text style={styles.subHeaderStyle}>Wir senden dir an deine E-Mail-Adresse einen {"\n"}Link zu, der dich sofort anmeldet.</Text>
 
+    {/* -------------------------------------------------------------------- InputBox */}
     <InputBox 
       label={'E-Mail'}
       dismiss={dismiss}
@@ -101,13 +148,17 @@ export default function EnterEmail() {
       onLeaveFocus={handleButtonTransitionDown}
       setOutput={setEmail}
       error={error}
-      deleteError={() => errorFeedback.value = withTiming(0)}
+      setError={setError}
+      deleteError={() => errorFeedback.value = withTiming(0, {duration: 0})}
+      onChangeText={onChangeText}
     />
 
+    {/* -------------------------------------------------------------------- Error Message */}
     <Animated.View style={[styles.errorContainer, errorMessage]}>
-      <Text style={styles.error}>Die eingegebene E-Mail-Addresse ist ungültig!</Text>
+      <Text style={styles.error}>{error && email? 'Die eingegebene E-Mail-Addresse ist ungültig!' : 'test'}</Text>
     </Animated.View>
 
+    {/* -------------------------------------------------------------------- Send Link Button */}
     <Animated.View style={[styles.button, transitionButton]}>
       <BigButton
         title={'Link senden'}
@@ -122,7 +173,9 @@ export default function EnterEmail() {
       />
     </Animated.View>
 
+    {/* --------------------------------------------------------------------  handle Outside Input */}
     <Pressable style={{height: height, width: width, zIndex: 1, position: 'absolute'}} onPressIn={() => {setDismiss(true)}} onPressOut={() => {setDismiss(false)}} onPress={() => !dismiss? handleButtonTransitionUp() : handleButtonTransitionDown()}></Pressable>
+  
   </View>
   
   )

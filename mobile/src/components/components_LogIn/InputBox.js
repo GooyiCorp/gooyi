@@ -15,28 +15,36 @@ export default function InputBox({
     onLeaveFocus,
     setOutput, 
     error,
-    deleteError
+    onChangeText,
+    deleteError,
+
 }) {
+
+    // {/* -------------------------------------------------------------------- Value */}
     const [data, setData] = useState('')
     const [index, setIndex] = useState(2)
     const transitionVal = useSharedValue(0)
     const borderTransitionVal = useSharedValue(0)
 
+    // {/* -------------------------------------------------------------------- handle Transition Start */}
     const handleTransition = () => {
         onFocusInput()
         transitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
-        borderTransitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
+        if (!error) {
+            borderTransitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
+        }
         setIndex(0)
     }
 
-    // useEffect(() => {
-    //     if (error) {
-    //         borderTransitionVal.value = withTiming(-1, {duration: 0})
-    //     } else {
-    //         borderTransitionVal.value = withTiming(0, {duration: 0})
-    //     }
-    // }, [error])
+    useEffect(() => {
+        if (error) {
+            borderTransitionVal.value = withTiming(2, {duration: 200})
+        } else {
+            borderTransitionVal.value = withTiming(0, {duration: 0})
+        }
+    }, [dismiss, error])
 
+    // {/* -------------------------------------------------------------------- handle lost Focus */}
     useEffect(() => {
         if (!data && dismiss) {
             transitionVal.value = withTiming(0, {duration: 100})
@@ -52,6 +60,7 @@ export default function InputBox({
         Keyboard.dismiss()
         }, [dismiss]);
 
+    // {/* -------------------------------------------------------------------- handle Clear Button */}
     const handleClear = () => {
         setData('')
         setOutput('')
@@ -102,7 +111,7 @@ export default function InputBox({
     })
 
     const inputTransition = useAnimatedStyle(() => {
-        const color = interpolateColor(borderTransitionVal.value, [-1,0,1], [COLORS.primary, COLORS.subPrimary02, COLORS.subPrimary])
+        const color = interpolateColor(borderTransitionVal.value, [0,1,2], [ COLORS.subPrimary02, COLORS.subPrimary, COLORS.primary])
         return {
             borderColor: color,
             zIndex: index
@@ -119,7 +128,7 @@ export default function InputBox({
                 style={[styles.input]} 
                 onFocus={handleTransition}
                 value={data}
-                onChangeText={(e) => {setData(e), setOutput(e)}}
+                onChangeText={(e) => {onChangeText(e), setData(e)}}
                 onEndEditing={() => {onLeaveFocus(), borderTransitionVal.value = withTiming(0, {duration: 200})}}
             />
         </Animated.View>
