@@ -13,6 +13,7 @@ export default function InputBox({
     dismiss,
     onFocusInput,
     onLeaveFocus,
+    setOutput
 }) {
     const [data, setData] = useState('')
     const [index, setIndex] = useState(2)
@@ -51,6 +52,7 @@ export default function InputBox({
 
     const handleClear = () => {
         setData('')
+        setOutput('')
         transitionVal.value = withTiming(0, {duration: 200})
         borderTransitionVal.value = withTiming(0, {duration: 200})
         Keyboard.dismiss()
@@ -116,7 +118,7 @@ export default function InputBox({
                 style={[styles.input]} 
                 onFocus={handleTransition}
                 value={data}
-                onChangeText={(e) => {setData(e)}}
+                onChangeText={(e) => {setData(e), setOutput(e)}}
             />
         </Animated.View>
 

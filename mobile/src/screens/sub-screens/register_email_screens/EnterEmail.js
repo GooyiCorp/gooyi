@@ -11,6 +11,8 @@ import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
 import { moderateScale } from '../../../helper/scale'
 import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
+import axios from 'axios'
+import { api_url } from '../../../constants/api'
 
 export default function EnterEmail() {
 
@@ -39,7 +41,19 @@ export default function EnterEmail() {
       opacity: buttonOpacity.value
     }
   })
-
+  // --Log in --
+  const [email, setEmail] = useState("");
+  const handleLogin = async () => {
+    const url = api_url + 'user/email-login/'
+    try {
+      const response = await axios.post(url, {
+        "email": email.toLowerCase()
+      })
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
   return (
     
   <>
@@ -74,6 +88,7 @@ export default function EnterEmail() {
       }}
       onFocusInput={handleButtonTransitionUp}
       onLeaveFocus={handleButtonTransitionDown}
+      setOutput={setEmail}
     />
 
     <Animated.View style={[styles.button, transitionButton]}>
@@ -86,6 +101,7 @@ export default function EnterEmail() {
           color: COLORS.white, 
           fontFamily: 'Roboto-Medium',
         }}
+        onPress={handleLogin}
       />
     </Animated.View>
 
