@@ -19,13 +19,13 @@ export default function EnterEmail() {
   const navigation = useNavigation()
 
   const [dismiss, setDismiss] = useState(false)
+  const [error, setError] = useState(false)
 
   const transitionButtonVal = useSharedValue(0)
-  const buttonOpacity = useSharedValue(1)
+  const errorFeedback = useSharedValue(0)
 
   const handleButtonTransitionUp = () => {
     transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
-
   }
 
   const handleButtonTransitionDown = () => {
@@ -38,7 +38,12 @@ export default function EnterEmail() {
       transform: [{
         translateY: translateY
       }],
-      opacity: buttonOpacity.value
+    }
+  })
+
+  const errorMessage = useAnimatedStyle(() => {
+    return {
+      opacity: errorFeedback.value
     }
   })
   // --Log in --
@@ -50,13 +55,17 @@ export default function EnterEmail() {
         "email": email.toLowerCase()
       })
       console.log(response.data);
+      setError(false)
+      errorFeedback.value = withTiming(0, {duration: 100})
     } catch (error) {
       console.log(error.response.data);
+      setError(true)
+      errorFeedback.value = withTiming(1, {duration: 100})
     }
   }
   return (
     
-  <>
+  <View style={{height: height, width: width, backgroundColor: 'white'}}>
 
     {/* Go Back Buttom */}
     <RoundButton
@@ -69,7 +78,8 @@ export default function EnterEmail() {
         height: moderateScale(38,0.2),
         width: moderateScale(38,0.2),
         marginLeft: 30,
-        marginTop: 60
+        marginTop: 60,
+        zIndex: 2,
       }}
       onPressButton={() => navigation.navigate('Main')}
     />
@@ -84,12 +94,19 @@ export default function EnterEmail() {
       dismiss={dismiss}
       setDismiss={setDismiss}
       style={{
-        marginTop: 30
+        marginTop: 30,
+        zIndex:2
       }}
       onFocusInput={handleButtonTransitionUp}
       onLeaveFocus={handleButtonTransitionDown}
       setOutput={setEmail}
+      error={error}
+      deleteError={() => errorFeedback.value = withTiming(0)}
     />
+
+    <Animated.View style={[styles.errorContainer, errorMessage]}>
+      <Text style={styles.error}>Die eingegebene E-Mail-Addresse ist ungültig!</Text>
+    </Animated.View>
 
     <Animated.View style={[styles.button, transitionButton]}>
       <BigButton
@@ -105,8 +122,8 @@ export default function EnterEmail() {
       />
     </Animated.View>
 
-    <Pressable style={{height: height, width: width, zIndex: -1, position: 'absolute', backgroundColor: 'white'}} onPressIn={() => {setDismiss(true)}} onPressOut={() => {setDismiss(false)}} onPress={() => !dismiss? handleButtonTransitionUp() : handleButtonTransitionDown()}></Pressable>
-  </>
+    <Pressable style={{height: height, width: width, zIndex: 1, position: 'absolute'}} onPressIn={() => {setDismiss(true)}} onPressOut={() => {setDismiss(false)}} onPress={() => !dismiss? handleButtonTransitionUp() : handleButtonTransitionDown()}></Pressable>
+  </View>
   
   )
 }
@@ -116,7 +133,8 @@ const styles = StyleSheet.create({
   button: {
     bottom: 30,
     position: 'absolute',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    zIndex: 2
   },
 
   title: {
@@ -137,5 +155,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     alignSelf: 'center',
     textAlign: 'center'
+  },
+
+  error: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 11,
+    color: COLORS.primary
+  },
+
+  errorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    margin: 10,
+    borderRadius: 50,
+    backgroundColor: COLORS.primary02,
   }
 })

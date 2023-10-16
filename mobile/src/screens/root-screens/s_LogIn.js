@@ -13,7 +13,7 @@ export default function LogIn({}) {
         {/* <View style={{height: 300, width: 300, backgroundColor: COLORS.default, position: 'absolute', alignSelf: 'center', top: 100, justifyContent: 'center', alignItems: 'center'}}><Text>Image Container</Text></View> */}
         <View style={styles.headerSection}>
             <Text style={styles.title}>Ready {"\n"}to <Text style={{fontFamily: 'RH-Black', fontSize: 44,color: COLORS.primary}}>goooooooyi</Text>?</Text>
-            <Text style={styles.subHeaderStyle}>Bereit, loszulegen? {"\n"}{"\n"}Tippe auf eine der folgenden Optionen, um {"\n"}zu starten!</Text>
+            <Text style={styles.subHeaderStyle}>Bist du bereit? {"\n"}{"\n"}Tippe auf eine der folgenden Optionen, um {"\n"}loszulegen!</Text>
         </View>
 
         <BigButton 
