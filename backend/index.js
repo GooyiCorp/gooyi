@@ -13,7 +13,8 @@ import userRoute from "./router/user.js";
 
 export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
-
+export const ACTIVE_USER = new Set()
+import { clearTokenList } from "./helper/jwt.js"
 try {
     await sequelize.authenticate();
     console.log('Connection to database has been established successfully.');
@@ -43,3 +44,7 @@ const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
     console.log("Listening on port 8000");
 })
+
+setInterval(() => {
+    clearTokenList(TOKEN_BLACKLIST)
+}, 3600000)

@@ -18,3 +18,11 @@ export function register_validate(data) {
 
     return error.get()
 }
+export function redirect_validate(data) {
+    const error = new Error()
+    .isRequired(data.exp, "Expired time")
+    .isRequired(data.accessToken, "Access token")
+    .isRequired(data.refreshToken, "Refresh token")
+
+    return error.get()
+}
