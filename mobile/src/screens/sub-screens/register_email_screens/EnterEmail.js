@@ -78,16 +78,19 @@ export default function EnterEmail() {
 
   // handle onPress Send-Link-Button
   const handleLogin = async () => {
-
     // Case 1: Data = null -> (return Error Message)
     if (!inputData) {
       handleErrorMessage()
+      setExitInput(true)
+      handleButtonTransitionDown()
       return; 
     } 
 
     // Case 2: Data, CheckEmail = failed -> (return Error Message)
     else if (!checkEmail()) {
       handleErrorMessage()
+      setExitInput(true)
+      handleButtonTransitionDown()
       return;
     }
 
@@ -121,6 +124,11 @@ export default function EnterEmail() {
     setError(false)
     setInputData(e)
     hideErrorMessage()
+  }
+
+  // -------------------------------------------------------------------- handle Send Link Button Transition
+  const handleSendLinkButtonTransition = () => {
+    !exitInput? handleButtonTransitionUp() : handleButtonTransitionDown()
   }
 
   // -------------------------------------------------------------------- Animated Style
@@ -190,12 +198,13 @@ export default function EnterEmail() {
       setInputData={setInputData}
 
       // Call hide Error Message function
-      deleteError={() => {if (exitInput == false) {setExitInput(true)} hideErrorMessage()}}
+      deleteError={hideErrorMessage}
 
       // onChangeText
       onChangeText={onChangeText}
 
-      // setExit={() => setExitInput(true)}
+      // Call handle onPress Submit
+      onSubmit={handleLogin}
     />
 
     {/* -------------------------------------------------------------------- Error Message */}
@@ -239,7 +248,7 @@ export default function EnterEmail() {
       //onPressOut={() => {setExitInput(false)}} 
 
       // handle Transition Send-Link-Button
-      onPress={() => !exitInput? handleButtonTransitionUp() : handleButtonTransitionDown()} 
+      onPress={handleSendLinkButtonTransition} 
 
     />
   

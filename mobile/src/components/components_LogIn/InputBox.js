@@ -25,7 +25,7 @@ export default function InputBox({
     exitInput,
     error,
 
-    setExit,
+    onSubmit,
 
 }) {
 
@@ -119,8 +119,6 @@ export default function InputBox({
         // translate Send-Link-Button to default Position - (p)
         onLeaveFocus()
 
-        // setExit()
-
     }
 
     // -------------------------------------------------------------------- Core Transition
@@ -189,6 +187,9 @@ export default function InputBox({
 
                 // Call handle Transition 
                 onFocus={handleTransition}
+
+                // Call handle onPress Keyboard Submit
+                onSubmitEditing={onSubmit}
 
                 onChangeText={(e) => {onChangeText(e), setData(e)}}
                 //onEndEditing={() => {onLeaveFocus(), borderTransitionVal.value = withTiming(0, {duration: 200})}}
