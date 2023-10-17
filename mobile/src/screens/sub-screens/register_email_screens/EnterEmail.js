@@ -81,16 +81,20 @@ export default function EnterEmail() {
     // Case 1: Data = null -> (return Error Message)
     if (!inputData) {
       handleErrorMessage()
-      setExitInput(true)
-      handleButtonTransitionDown()
+      setTimeout(() => {
+        setExitInput(true)
+        handleButtonTransitionDown()
+      }, 300)
       return; 
     } 
 
     // Case 2: Data, CheckEmail = failed -> (return Error Message)
     else if (!checkEmail()) {
       handleErrorMessage()
-      setExitInput(true)
-      handleButtonTransitionDown()
+      setTimeout(() => {
+        setExitInput(true)
+        handleButtonTransitionDown()
+      }, 300)
       return;
     }
 
