@@ -15,6 +15,7 @@ export default function RegisterEMailStack() {
 
     <>
         <RegisterEmailStack.Navigator
+            initialRouteName='CheckEmail'
             screenOptions={{
                 headerShown: false
             }}

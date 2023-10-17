@@ -4,6 +4,7 @@ import RoundButton from '../../../components/components_universal/RoundButton'
 import { COLORS } from '../../../index/constantsindex'
 import { moderateScale } from '../../../helper/scale'
 import { icons } from '../../../components/components_universal/Icons'
+import AnimatedSuccessIcon from '../../../components/components_universal/AnimatedSuccessIcon'
 
 export default function CheckEmail({navigation}) {
   return (
@@ -23,6 +24,8 @@ export default function CheckEmail({navigation}) {
         }}
         onPressButton={() => navigation.navigate('Register1')}
         />
+
+        
 
         <Text style={[styles.title]}>Checke deine E-Mails</Text>
 

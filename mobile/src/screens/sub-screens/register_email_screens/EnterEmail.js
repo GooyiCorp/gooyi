@@ -136,8 +136,9 @@ export default function EnterEmail() {
   }
 
   // -------------------------------------------------------------------- Animated Style
+  // Send Link Button Transition
   const transitionButton = useAnimatedStyle(() => {
-    const translateY = interpolate(transitionButtonVal.value, [0,1], [0,-330])
+    const translateY = interpolate(transitionButtonVal.value, [0,1], [0, -330])
     return {
       transform: [{
         translateY: translateY
