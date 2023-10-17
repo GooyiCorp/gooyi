@@ -18,27 +18,110 @@ import ErrorModal from '../../../components/components_LogIn/ErrorModal'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterEmail() {
 
-  // {/* -------------------------------------------------------------------- Navigation */}
+  // -------------------------------------------------------------------- Navigation
   const navigation = useNavigation()
 
-  // {/* -------------------------------------------------------------------- Value */}
-  const [dismiss, setDismiss] = useState(false)
-  const [error, setError] = useState(false)
+  // -------------------------------------------------------------------- Value
+  const [exitInput, setExitInput] = useState(true)
 
-  const transitionButtonVal = useSharedValue(0)
+  // -------------------------------------------------------------------- Modal
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  
+  const onCloseErrorModal = () => {
+        setTimeout(() => {
+            setShowErrorModal(false);
+        }, 300) }
+  const handleErrorModal = () => {      
+        setShowErrorModal(true)
+      }
+
+  // -------------------------------------------------------------------- handle Error Message
+  const [error, setError] = useState(false)
   const errorFeedback = useSharedValue(0)
 
-  // {/* -------------------------------------------------------------------- handle Transition */}
-  const handleButtonTransitionUp = () => {
-    transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+    // show Error Message
+    const handleErrorMessage = () => {
+      setError(true)
+      errorFeedback.value = 1
+    }
+
+    // hide Error Message
+    const hideErrorMessage = () => {
+      setError(false)
+      errorFeedback.value = 0
+      console.log(exitInput)
+    }
+
+  // -------------------------------------------------------------------- handle Send-Link-Button Transition
+  const transitionButtonVal = useSharedValue(0)
+
+    // translate up
+    const handleButtonTransitionUp = () => {
+      transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+    }
+
+    // translate down
+    const handleButtonTransitionDown = () => {
+      transitionButtonVal.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+    }
+
+  // -------------------------------------------------------------------- handle Log In
+  const [inputData, setInputData] = useState('');
+
+  // Check Data Validity - E-Mail
+  const checkEmail = () => {
+    const regEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if (!regEX.test(inputData)) return false
+    return true   
   }
 
-  const handleButtonTransitionDown = () => {
-    checkEmail()
-    transitionButtonVal.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+  // handle onPress Send-Link-Button
+  const handleLogin = async () => {
+
+    // Case 1: Data = null -> (return Error Message)
+    if (!inputData) {
+      handleErrorMessage()
+      return; 
+    } 
+
+    // Case 2: Data, CheckEmail = failed -> (return Error Message)
+    else if (!checkEmail()) {
+      handleErrorMessage()
+      return;
+    }
+
+    // Case 3: no Error -> (send request)
+      // hide Error Message 
+      hideErrorMessage()
+
+      // server request
+      const url = api_url + 'user/email-login/'
+      try {
+        const response = await axios.post(url, {
+          "email": inputData.toLowerCase()
+        })
+
+        // success
+        console.log(response.data);
+        setError(false)
+        setExitInput(true)
+      } 
+        // error
+      catch (error) {
+        setError(true)
+        console.log(error.response.data);
+        handleErrorModal()
+      }
   }
 
-  // {/* -------------------------------------------------------------------- Animated Style */}
+  // -------------------------------------------------------------------- handle onChangeText
+  const onChangeText = (e) => {
+    setError(false)
+    setInputData(e)
+    hideErrorMessage()
+  }
+
+  // -------------------------------------------------------------------- Animated Style
   const transitionButton = useAnimatedStyle(() => {
     const translateY = interpolate(transitionButtonVal.value, [0,1], [0,-330])
     return {
@@ -48,71 +131,21 @@ export default function EnterEmail() {
     }
   })
 
+  // Error Message
   const errorMessage = useAnimatedStyle(() => {
     return {
       opacity: errorFeedback.value
     }
   })
 
-  // {/* -------------------------------------------------------------------- handle Log In */}
-  const [email, setEmail] = useState("");
-  const checkEmail = () => {
-    const regEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-    if (!regEX.test(email)) return false
-    return true
-    
-  }
-  const handleLogin = async () => {
-    if (!email) {
-      setError(true)
-      errorFeedback.value = withDelay(100, withTiming(1, {duration: 200})) 
-      return; 
-    } else if (!checkEmail()) {
-      setError(true)
-      errorFeedback.value = withDelay(100, withTiming(1, {duration: 200})) 
-      return;
-    }
-    errorFeedback.value = 0
-    const url = api_url + 'user/email-login/'
-    try {
-      const response = await axios.post(url, {
-        "email": email.toLowerCase()
-      })
-      console.log(response.data);
-      setError(false)
-    } catch (error) {
-      setError(true)
-      console.log(error.response.data);
-      // handleError()
-    }
-  }
+  
 
-  const onChangeText = (e) => {
-    setError(false)
-    setEmail(e)
-    errorFeedback.value = 0 
-
-  }
-
-  //  Modal ----------------------------------------------------------------------
-  const [showErrorModal, setShowErrorModal] = useState(true)
-  const onCloseErrorModal = () => {
-        setTimeout(() => {
-            setShowErrorModal(false);
-        }, 300) }
-  const handleError = () => {
-            
-        setShowErrorModal(true)
-
-          
-      }
-
-  // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     
   <View style={{height: height, width: width, backgroundColor: 'white'}}>
 
-    {/* {showErrorModal && <ErrorModal onClose={onCloseErrorModal}/>} */}
+    {showErrorModal && <ErrorModal onClose={onCloseErrorModal}/>}
 
     {/* -------------------------------------------------------------------- Go Back Button */}
     <RoundButton
@@ -138,29 +171,44 @@ export default function EnterEmail() {
     {/* -------------------------------------------------------------------- InputBox */}
     <InputBox 
       label={'E-Mail'}
-      dismiss={dismiss}
-      setDismiss={setDismiss}
       style={{
         marginTop: 30,
         zIndex:2
       }}
+      
+      // Condition
+      exitInput={exitInput}
+      error={error}
+
+      // handle Send-Link-Button Transition
       onFocusInput={handleButtonTransitionUp}
       onLeaveFocus={handleButtonTransitionDown}
-      setOutput={setEmail}
-      error={error}
-      setError={setError}
-      deleteError={() => errorFeedback.value = withTiming(0, {duration: 0})}
+
+      // transfer Input Data
+      setInputData={setInputData}
+
+      // Call hide Error Message function
+      deleteError={() => {if (exitInput == false) {setExitInput(true)} hideErrorMessage()}}
+
+      // onChangeText
       onChangeText={onChangeText}
     />
 
     {/* -------------------------------------------------------------------- Error Message */}
     <Animated.View style={[styles.errorContainer, errorMessage]}>
-      <Text style={styles.error}>{error && email? 'Die eingegebene E-Mail-Addresse ist ungültig!' : 'test'}</Text>
+
+      <Text style={styles.error}>
+        {error && inputData? 'Die eingegebene E-Mail-Addresse ist ungültig!' : 'Das Feld darf nicht leer sein!'}
+      </Text>
+
     </Animated.View>
 
     {/* -------------------------------------------------------------------- Send Link Button */}
     <Animated.View style={[styles.button, transitionButton]}>
+
       <BigButton
+
+        // Base
         title={'Link senden'}
         bgStyle={{
           backgroundColor: COLORS.primary
@@ -169,18 +217,34 @@ export default function EnterEmail() {
           color: COLORS.white, 
           fontFamily: 'Roboto-Medium',
         }}
+
+        // Call handleLogIn
         onPress={handleLogin}
+
       />
+
     </Animated.View>
 
-    {/* --------------------------------------------------------------------  handle Outside Input */}
-    <Pressable style={{height: height, width: width, zIndex: 1, position: 'absolute'}} onPressIn={() => {setDismiss(true)}} onPressOut={() => {setDismiss(false)}} onPress={() => !dismiss? handleButtonTransitionUp() : handleButtonTransitionDown()}></Pressable>
+    {/* --------------------------------------------------------------------  handle onBlur Input */}
+    <Pressable 
+
+      style={{height: height, width: width, zIndex: 1, position: 'absolute',}} 
+      
+      // handle Exit Input Box
+      onPressIn={() => {setExitInput(true)}} 
+      onPressOut={() => {setExitInput(false)}} 
+
+      // handle Transition Send-Link-Button
+      onPress={() => !exitInput? handleButtonTransitionUp() : handleButtonTransitionDown()} 
+
+    />
   
   </View>
   
   )
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
 
   button: {

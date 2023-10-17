@@ -10,77 +10,128 @@ import Animated, { interpolate, interpolateColor, runOnJS, runOnUI, useAnimatedS
 export default function InputBox({
     style,
     label,
-    dismiss,
+    
+    deleteError,
+    onChangeText,
+
+    // Send-Link-Button Transition
     onFocusInput,
     onLeaveFocus,
-    setOutput, 
+
+    // Input Data transfer
+    setInputData, 
+    
+    // Condition
+    exitInput,
     error,
-    onChangeText,
-    deleteError,
 
 }) {
 
-    // {/* -------------------------------------------------------------------- Value */}
+    // Input
     const [data, setData] = useState('')
-    const [index, setIndex] = useState(2)
-    const transitionVal = useSharedValue(0)
-    const borderTransitionVal = useSharedValue(0)
+    
 
-    // {/* -------------------------------------------------------------------- handle Transition Start */}
+    // -------------------------------------------------------------------- handle Transition
+
+    // handle onFocus
     const handleTransition = () => {
-        onFocusInput()
+        
+        // handle Core-Transition 
         transitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
+        setIndex(0)
+        
+        // handle Border-Color
         if (!error) {
             borderTransitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
         }
-        setIndex(0)
+        
+        // translate Send-Link-Button up - (p)
+        onFocusInput()
+    
     }
 
+    // handle Border Color 
     useEffect(() => {
+        // Error
         if (error) {
-            borderTransitionVal.value = withTiming(2, {duration: 200})
-        } else {
-            borderTransitionVal.value = withTiming(0, {duration: 0})
+            borderTransitionVal.value = 2
+        } 
+        // no Error but onLayout
+        else if (!exitInput) {
+            borderTransitionVal.value = 1
+        } 
+        // exit Layout
+        else {
+            borderTransitionVal.value = 0
         }
-    }, [dismiss, error])
+    }, [error])
 
-    // {/* -------------------------------------------------------------------- handle lost Focus */}
     useEffect(() => {
-        if (!data && dismiss) {
+
+        if (!data && exitInput && error) {
             transitionVal.value = withTiming(0, {duration: 100})
             setTimeout(() => {
                 setIndex(2)
-            }, 200)}
-        //     console.log('test')
-        // } else if (data && error) {
-        //     borderTransitionVal.value = withTiming(-1, {duration: 200})
-        // } else {
-        //     borderTransitionVal.value = withTiming(0, {duration: 200})
-        // }
+            }, 200)
+            borderTransitionVal.value = 2
+        } else if (data && exitInput && error) {
+            borderTransitionVal.value = 2
+        } else if (data && exitInput && !error) {
+            borderTransitionVal.value = 0
+        } else if (!data && exitInput) {
+                transitionVal.value = withTiming(0, {duration: 100})
+                setTimeout(() => {
+                    setIndex(2)
+                }, 200)
+                deleteError()
+                borderTransitionVal.value = 0
+        }
         Keyboard.dismiss()
-        }, [dismiss]);
 
-    // {/* -------------------------------------------------------------------- handle Clear Button */}
+    }, [exitInput])
+
+    // handle Clear-Button
     const handleClear = () => {
+
+        // Clear Input Data && Transfer Data
         setData('')
-        setOutput('')
+        setInputData('')
+
+        // Set Core Transition to default State 
         transitionVal.value = withTiming(0, {duration: 200})
-        borderTransitionVal.value = withTiming(0, {duration: 200})
-        Keyboard.dismiss()
-        onLeaveFocus()
         setTimeout(() => {
             setIndex(2)
         }, 200)
+
+        // Set Border Color to default 
+        borderTransitionVal.value = 0
+
+        // Hide Keyboard
+        Keyboard.dismiss()
+
+        // Clear Error Message - (p)
         deleteError()
+        
+        // translate Send-Link-Button to default Position - (p)
+        onLeaveFocus()
+
     }
 
+    // -------------------------------------------------------------------- Core Transition
+
+    const transitionVal = useSharedValue(0)
+    const borderTransitionVal = useSharedValue(0)
+
+    const [index, setIndex] = useState(2)
+
+    // Clear Button
     const buttonTransition = useAnimatedStyle(() => {
             const opacity = interpolate(transitionVal.value, [0,1], [0,1])
             return {
                 opacity: opacity
             }
     })
-
+    // Label 
     const labelTransition = useAnimatedStyle(() => {
             const translateY = interpolate(transitionVal.value, [0,1], [0,20])
             return {
@@ -110,6 +161,7 @@ export default function InputBox({
         }
     })
 
+    // Border Color
     const inputTransition = useAnimatedStyle(() => {
         const color = interpolateColor(borderTransitionVal.value, [0,1,2], [ COLORS.subPrimary02, COLORS.subPrimary, COLORS.primary])
         return {
@@ -118,6 +170,7 @@ export default function InputBox({
         }
     })
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     <>
     <View style={[styles.boxContainer, style]}>
@@ -126,10 +179,13 @@ export default function InputBox({
         <Animated.View style={[styles.inputContainer, inputTransition]}>
             <TextInput 
                 style={[styles.input]} 
-                onFocus={handleTransition}
                 value={data}
+
+                // Call handle Transition 
+                onFocus={handleTransition}
+
                 onChangeText={(e) => {onChangeText(e), setData(e)}}
-                onEndEditing={() => {onLeaveFocus(), borderTransitionVal.value = withTiming(0, {duration: 200})}}
+                //onEndEditing={() => {onLeaveFocus(), borderTransitionVal.value = withTiming(0, {duration: 200})}}
             />
         </Animated.View>
 
@@ -139,7 +195,7 @@ export default function InputBox({
             <Animated.View style={[styles.labelBg, labelBgTransition]}></Animated.View>
         </Animated.View>
 
-        {/* -------------------------------------------------------------------- Delete Button */}
+        {/* -------------------------------------------------------------------- Clear Button */}
         <Animated.View style={[{position: 'absolute', right: 0}, buttonTransition]}>
             <RoundButton 
                 icon={icons.Ionicons}
@@ -147,12 +203,14 @@ export default function InputBox({
                 iconSize={30}
                 iconColor={COLORS.grey}
                 style={{backgroundColor: 'transparent'}}
+
+                // Call handleClear
                 onPressButton={handleClear}
             />
         </Animated.View>
 
     </View>
-    {/* <Pressable style={{height: height, width: width, zIndex: -1, position: 'absolute', backgroundColor: 'yellow'}} onPressIn={handleClose}></Pressable> */}
+
     </>
   )
 }
