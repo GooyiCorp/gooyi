@@ -25,11 +25,12 @@ export default function InputBox({
     exitInput,
     error,
 
+    setExit,
+
 }) {
 
     // Input
     const [data, setData] = useState('')
-    
 
     // -------------------------------------------------------------------- handle Transition
 
@@ -86,7 +87,10 @@ export default function InputBox({
                 deleteError()
                 borderTransitionVal.value = 0
         }
-        Keyboard.dismiss()
+
+        if (exitInput) {
+            Keyboard.dismiss()
+        }
 
     }, [exitInput])
 
@@ -114,6 +118,8 @@ export default function InputBox({
         
         // translate Send-Link-Button to default Position - (p)
         onLeaveFocus()
+
+        // setExit()
 
     }
 

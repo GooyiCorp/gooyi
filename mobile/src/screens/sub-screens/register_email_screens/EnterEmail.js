@@ -49,7 +49,6 @@ export default function EnterEmail() {
     const hideErrorMessage = () => {
       setError(false)
       errorFeedback.value = 0
-      console.log(exitInput)
     }
 
   // -------------------------------------------------------------------- handle Send-Link-Button Transition
@@ -57,11 +56,13 @@ export default function EnterEmail() {
 
     // translate up
     const handleButtonTransitionUp = () => {
+      setExitInput(false)
       transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
     }
 
     // translate down
     const handleButtonTransitionDown = () => {
+      setExitInput(true)
       transitionButtonVal.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
     }
 
@@ -105,6 +106,7 @@ export default function EnterEmail() {
         console.log(response.data);
         setError(false)
         setExitInput(true)
+        navigation.navigate('CheckEmail')
       } 
         // error
       catch (error) {
@@ -192,6 +194,8 @@ export default function EnterEmail() {
 
       // onChangeText
       onChangeText={onChangeText}
+
+      // setExit={() => setExitInput(true)}
     />
 
     {/* -------------------------------------------------------------------- Error Message */}
@@ -232,7 +236,7 @@ export default function EnterEmail() {
       
       // handle Exit Input Box
       onPressIn={() => {setExitInput(true)}} 
-      onPressOut={() => {setExitInput(false)}} 
+      //onPressOut={() => {setExitInput(false)}} 
 
       // handle Transition Send-Link-Button
       onPress={() => !exitInput? handleButtonTransitionUp() : handleButtonTransitionDown()} 
