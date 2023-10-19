@@ -86,8 +86,6 @@ export default function DiscoverScreen( {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
         
-        <AnimatedSuccessIcon/>
-        
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>

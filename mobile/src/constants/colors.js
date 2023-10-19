@@ -11,6 +11,9 @@ export default {
     default: '#eee',
     grey: '#686868',
 
+    green: '#00c500',
+    lightGreen: '#46ce37',
+
     bgTransparencyDark: 'rgba(0, 0, 0, 0.2)',
 
 }

@@ -1,15 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { COLORS } from '../../../index/constantsindex'
 import { moderateScale } from '../../../helper/scale'
 import { icons } from '../../../components/components_universal/Icons'
 import AnimatedSuccessIcon from '../../../components/components_universal/AnimatedSuccessIcon'
+import { height, width } from '../../../constants/size'
+import BigButton from '../../../components/components_LogIn/BigButton'
 
-export default function CheckEmail({navigation}) {
+export default function CheckEmail({navigation, route}) {
+    const {returnEmail} = route.params;
   return (
-    <>
-        {/* Go Back Buttom */}
+    <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
+
+        {/* -------------------------------------------------------------------- Go Back Button */}
         <RoundButton
         icon={icons.Ionicons}
         iconName={'md-chevron-back'}
@@ -25,12 +29,57 @@ export default function CheckEmail({navigation}) {
         onPressButton={() => navigation.navigate('Register1')}
         />
 
+        {/* -------------------------------------------------------------------- Animated Check Icon */}
+        <AnimatedSuccessIcon styleContainer={{marginTop: 50}}/>
+
+        {/* -------------------------------------------------------------------- Main Content */}
+        <Text style={[styles.title]}>Checke deine {"\n"} E-Mails</Text>
+
+        <Text style={styles.subHeaderStyle}>Wir haben dir an deine E-Mail-Adresse:</Text>
+
+        {/* E-Mail Return */}
+        <View style={styles.emailContainer}>
+            <Text style={styles.email}>{returnEmail}</Text>
+        </View>
+
+        <Text style={[styles.subHeaderStyle, {marginTop: 0}]}>einen Link gesendet. Tippe den Link an, {"\n"}um dich anzumelden.</Text>
+
+        {/* -------------------------------------------------------------------- Open Mail App */}
+        <BigButton
+
+        // Base
+        title={'Zu E-Mail Programm wechseln'}
+        bgStyle={{
+          backgroundColor: COLORS.primary,
+          position: 'absolute',
+          bottom: 90
+        }}                
+        titleStyle={{
+          color: COLORS.white, 
+          fontFamily: 'Roboto-Medium',
+        }}
+
+        // Call handle
+        onPress={console.log('open Mail App')}
         
+        />
 
-        <Text style={[styles.title]}>Checke deine E-Mails</Text>
+        {/* -------------------------------------------------------------------- Open Mail App */}
+        <BigButton
 
-        <Text style={styles.subHeaderStyle}>Wir haben dir an deine E-Mail-Adresse einen {"\n"}Link gesendet. Tippe den Link an, um dich anzumelden.</Text>
-    </>
+        // Base
+        title={'Link erneut zusenden'}
+        bgStyle={{
+          position: 'absolute',
+          bottom: 30
+        }}                
+
+        // Call handle
+        onPress={console.log('send new Link')}
+      
+        />
+
+    </View>
   )
 }
 
@@ -43,7 +92,7 @@ const styles = StyleSheet.create({
         lineHeight: 44,
         marginHorizontal: 30,
         alignSelf: 'center',
-        marginTop: 100,
+        marginTop: 50,
         textAlign: 'center'
     },
     
@@ -54,6 +103,36 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
         alignSelf: 'center',
         textAlign: 'center'
+    },
+
+    email: {
+        fontFamily: 'Roboto-Light',
+        fontSize: 15,
+        color: COLORS.subPrimary,
+        alignSelf: 'center',
+        marginVertical: 5,
+        marginHorizontal: 30,
+    },
+
+    emailContainer: {
+        backgroundColor: COLORS.subPrimary02,
+        borderRadius: 50,
+        // borderBottomColor: COLORS.subPrimary, borderBottomWidth: 0.5, 
+        alignSelf: 'center', 
+        marginVertical: 10,
+    },
+
+    sendNewLink: {
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 100,
+        
+    },
+
+    sendNewLinkLabel: {
+        fontFamily: 'Roboto-Medium',
+        fontSize: 15,
+        color: COLORS.primary,
     }
 
 })

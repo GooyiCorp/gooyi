@@ -113,7 +113,10 @@ export default function EnterEmail() {
         console.log(response.data);
         setError(false)
         setExitInput(true)
-        navigation.navigate('CheckEmail')
+        handleButtonTransitionDown()
+        setTimeout(() => {
+          navigation.navigate('CheckEmail', {returnEmail: inputData})
+        }, 300)
       } 
         // error
       catch (error) {
