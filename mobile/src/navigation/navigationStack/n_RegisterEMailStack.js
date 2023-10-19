@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import EnterEmail from '../../screens/sub-screens/register_email_screens/EnterEmail'
 import CheckEmail from '../../screens/sub-screens/register_email_screens/CheckEmail'
 import MultipleLogIn from '../../screens/sub-screens/register_email_screens/MultipleLogIn'
+import EnterUserInformation from '../../screens/sub-screens/register_email_screens/EnterUserInformation'
 
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -34,6 +35,11 @@ export default function RegisterEMailStack() {
             <RegisterEmailStack.Screen
                 name='MultipleLogInError'
                 component={MultipleLogIn}
+            />
+
+            <RegisterEmailStack.Screen
+                name='EnterUserInformation'
+                component={EnterUserInformation}
             />
 
         </RegisterEmailStack.Navigator>

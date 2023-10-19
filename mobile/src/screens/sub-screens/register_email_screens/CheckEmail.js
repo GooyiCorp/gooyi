@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { COLORS } from '../../../index/constantsindex'
@@ -44,19 +44,39 @@ export default function CheckEmail({navigation, route}) {
 
         <Text style={[styles.subHeaderStyle, {marginTop: 0}]}>einen Link gesendet. Tippe den Link an, {"\n"}um dich anzumelden.</Text>
 
+        {/* -------------------------------------------------------------------- Send New Link */}
+        <BigButton
+
+        // Base
+        title={'Link erneut zusenden'}
+        bgStyle={{
+            backgroundColor: 'transparent',
+        }}
+        titleStyle={{
+            color: COLORS.primary,
+            fontFamily: 'Roboto-Medium'
+        }}                
+
+        // Call handle
+        onPress={console.log('send new Link')}
+
+        />
+
+<Button title='test Button (skip Link)' onPress={() => navigation.navigate('EnterUserInformation')}/>
+
         {/* -------------------------------------------------------------------- Open Mail App */}
         <BigButton
 
         // Base
         title={'Zu E-Mail Programm wechseln'}
         bgStyle={{
-          backgroundColor: COLORS.primary,
-          position: 'absolute',
-          bottom: 90
+            backgroundColor: COLORS.primary,
+            position: 'absolute',
+            bottom: 30
         }}                
         titleStyle={{
-          color: COLORS.white, 
-          fontFamily: 'Roboto-Medium',
+            color: COLORS.white, 
+            fontFamily: 'Roboto-Medium',
         }}
 
         // Call handle
@@ -64,20 +84,6 @@ export default function CheckEmail({navigation, route}) {
         
         />
 
-        {/* -------------------------------------------------------------------- Open Mail App */}
-        <BigButton
-
-        // Base
-        title={'Link erneut zusenden'}
-        bgStyle={{
-          position: 'absolute',
-          bottom: 30
-        }}                
-
-        // Call handle
-        onPress={console.log('send new Link')}
-      
-        />
 
     </View>
   )
