@@ -17,6 +17,8 @@ import LocateModal from '../../components/components_universal/LocateModal'
 import SearchModal from '../../components/components_universal/SearchModal'
 import InputBox from '../../components/components_LogIn/InputBox'
 import AnimatedSuccessIcon from '../../components/components_universal/AnimatedSuccessIcon'
+import SendNewLinkButton from '../../components/components_LogIn/SendNewLinkButton'
+import LoadingCircle from '../../components/components_universal/LoadingCircle'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -86,6 +88,9 @@ export default function DiscoverScreen( {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
         
+
+        <LoadingCircle/>
+        {/* <SendNewLinkButton /> */}
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>
       <View style={{width: '100%', paddingVertical: 15}}>
