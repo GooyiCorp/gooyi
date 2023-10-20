@@ -27,6 +27,7 @@ export default function InputBox({
 
     onSubmit,
 
+    hideKeyboard,
 }) {
 
     // Input
@@ -88,11 +89,11 @@ export default function InputBox({
                 borderTransitionVal.value = 0
         }
 
-        if (exitInput) {
+        if (exitInput && hideKeyboard) {
             Keyboard.dismiss()
         }
 
-    }, [exitInput])
+    }, [exitInput, hideKeyboard])
 
     // handle Clear-Button
     const handleClear = () => {

@@ -23,6 +23,7 @@ export default function EnterEmail() {
 
   // -------------------------------------------------------------------- Value
   const [exitInput, setExitInput] = useState(true)
+  const [hideKeyboard, setHideKeyboard] = useState(true)
 
   // -------------------------------------------------------------------- Modal
   const [showErrorModal, setShowErrorModal] = useState(false)
@@ -213,6 +214,9 @@ export default function EnterEmail() {
 
       // Call handle onPress Submit
       onSubmit={handleLogin}
+
+      // hide Keyboard
+      hideKeyboard={hideKeyboard}
     />
 
     {/* -------------------------------------------------------------------- Error Message */}
@@ -252,7 +256,7 @@ export default function EnterEmail() {
       style={{height: height, width: width, zIndex: 1, position: 'absolute',}} 
       
       // handle Exit Input Box
-      onPressIn={() => {setExitInput(true)}} 
+      onPressIn={() => {setHideKeyboard(true), setExitInput(true)}} 
       //onPressOut={() => {setExitInput(false)}} 
 
       // handle Transition Send-Link-Button
