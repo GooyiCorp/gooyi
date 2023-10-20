@@ -1,1 +1,1 @@
-export const api_url = "http://85.215.55.6:8000/api/"
+export const api_url = "http://gooyi.de:8000/api/"
