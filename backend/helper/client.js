@@ -26,7 +26,11 @@ export const sendServerError = res =>
 export const sendAutoMail = async (options) => {
     const service = process.env.MAIL_SERVICE
     const transport = NodeMailer.createTransport({
+        name: "gooyi.de",
+        // host: "smtp.ionos.de",
         service: service,
+        // port: 587,
+        // tls: true,
         auth: {
             user: process.env.MAIL_HOST,
             pass: process.env.PASS_MAIL_HOST

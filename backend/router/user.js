@@ -56,7 +56,7 @@ userRoute.post("/email-login", async (req, res) => {
             
             // Email
             const options = {
-                from: "Gooooooyi",
+                from: "gooyi.de",
                 to: email,
                 subject: '[Gooyi] Log in ',
                 html: `<a href="https://piglet-together-wasp.ngrok-free.app/api/user/redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`

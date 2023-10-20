@@ -1,1 +1,1 @@
-export const api_url = "https://piglet-together-wasp.ngrok-free.app/api/"
+export const api_url = "http://85.215.55.6:8000/api/"
