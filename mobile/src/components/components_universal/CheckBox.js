@@ -16,12 +16,12 @@ style
 
     const handlePressIn = () => {
         if (!check) {
-            border.value = withTiming(1, {duration: 300})
-            checkBox.value = withDelay(400, withTiming(1, {duration: 200}))
+            border.value = withTiming(1, {duration: 100})
+            checkBox.value = withDelay(200, withTiming(1, {duration: 100}))
             setCheck(true)
         } else {
-            border.value = withTiming(0, {duration: 300})
-            checkBox.value = withDelay(400, withTiming(0, {duration: 200}))
+            border.value = withTiming(0, {duration: 100})
+            checkBox.value = withDelay(200, withTiming(0, {duration: 100}))
             setCheck(false)
         }
         console.log(border.value)

@@ -20,6 +20,7 @@ import AnimatedSuccessIcon from '../../components/components_universal/AnimatedS
 import SendNewLinkButton from '../../components/components_LogIn/SendNewLinkButton'
 import LoadingCircle from '../../components/components_universal/LoadingCircle'
 import CheckBox from '../../components/components_universal/CheckBox'
+import NewInput from '../../components/components_LogIn/NewInput'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -88,6 +89,22 @@ export default function DiscoverScreen( {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
+
+        <NewInput 
+
+          // State
+          errorState={true}
+          submitState={false}
+
+          // show: Button / Icon
+          clearButton
+
+          // error Message
+          errorMessageCaseEmpty={'Darf nicht leer sein!'}
+          errorMessageDataValidity={'falsche Eingabe'}
+
+          checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+        />
         
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>
