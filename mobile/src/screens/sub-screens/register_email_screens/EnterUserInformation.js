@@ -9,11 +9,66 @@ import { useNavigation } from '@react-navigation/native'
 import InputBox from '../../../components/components_LogIn/InputBox'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import BigButton from '../../../components/components_LogIn/BigButton'
+import CheckBox from '../../../components/components_universal/CheckBox'
 
 export default function EnterUserInformation() {
     const navigation = useNavigation()
 
     const [hideKeyboard, setHideKeyboard] = useState(true)
+
+ // ----------------------------------------------------------------------------------------------- First Name Input
+ const [emailInputData, setEmailInputData] = useState('');
+ const [emailError, setEmailError] = useState(false)
+ const [exitEmailInput, setExitEmailInput] = useState(true)
+ const emailErrorFeedback = useSharedValue(0)
+ 
+// -------------------------------------------------------------------- handle onChangeText
+const onChangeTextEmailInput = (e) => {
+ setEmailError(false)
+ setEmailInputData(e)
+ hideErrorMessageEmailInput()
+}
+
+  // show Error Message
+  const handleErrorMessageEmailInput = () => {
+   setEmailError(true)
+   emailErrorFeedback.value = 1
+ }
+
+ // hide Error Message
+ const hideErrorMessageEmailInput = () => {
+   setEmailError(false)
+   emailErrorFeedback.value = 0
+ }
+
+const handleCheckEmail = () => {
+ // Case 1: Data = null -> (return Error Message)
+ if (!firstNameInputData) {
+   handleErrorMessageFirstNameInput()
+   setTimeout(() => {
+     setExitEmailInput(true)
+   }, 300)
+   return; 
+ } 
+
+ // Case 3: no Error -> (send request)
+   // hide Error Message 
+   hideErrorMessageFirstNameInput()
+}
+
+const emailErrorMessage = useAnimatedStyle(() => {
+ return {
+   opacity: emailErrorFeedback.value,
+   transform: [
+     {scale: emailErrorFeedback.value}
+   ],
+   margin: interpolate(emailErrorFeedback.value, [0,1], [0,10]),
+   paddingVertical: interpolate(emailErrorFeedback.value, [0,1], [0,5])
+ }
+})
+
+const handleOnFocusEmailInput = () => {
+}
     
     // ----------------------------------------------------------------------------------------------- First Name Input
     const [firstNameInputData, setFirstNameInputData] = useState('');
@@ -83,14 +138,14 @@ export default function EnterUserInformation() {
   })
 
   const handleOnFocusFirstNameInput = () => {
-    setHideKeyboard(false)
+    //setHideKeyboard(false)
     setExitFirstNameInput(false)
-    // setTimeout(() => {
-    // }, 100)
-    setExitLastNameInput(true)
+    setTimeout(() => {
+      setExitLastNameInput(true)
+    }, 100)
   }
 
-  // ----------------------------------------------------------------------------------------------- First Name Input
+  // ----------------------------------------------------------------------------------------------- Last Name Input
   const [lastNameInputData, setLastNameInputData] = useState('');
   const [lastNameError, setLastNameError] = useState(false)
   const [exitLastNameInput, setExitLastNameInput] = useState(true)
@@ -158,16 +213,24 @@ export default function EnterUserInformation() {
   })
 
   const handleOnFocusLastNameInput = () => {
-    setHideKeyboard(false)
+    //setHideKeyboard(false)
     setExitLastNameInput(false)
-    // setTimeout(() => {
-    // }, 100)
-    setExitFirstNameInput(true)
+    setTimeout(() => {
+      setExitFirstNameInput(true)
+    }, 100)
   }
 
 
   return (
     <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
+  
+    {/* --------------------------------------------------------------------  handle onBlur Input */}
+    <Pressable 
+      style={{height: height, width: width, zIndex: 1, position: 'absolute'}} 
+
+      // handle Exit Input Box
+      onTouchStart={() => {setHideKeyboard(true), setExitFirstNameInput(true), setExitLastNameInput(true)}} 
+    > 
 
         {/* -------------------------------------------------------------------- Go Back Button */}
         <RoundButton
@@ -189,12 +252,32 @@ export default function EnterUserInformation() {
         {/* -------------------------------------------------------------------- Header, SubHeader */}
         <View style={styles.headerContainer}>
           <Text style={styles.title}>Profilangaben</Text>
-          <Text style={styles.subHeaderStyle}>Fast geschafft!</Text>
-          <Text style={styles.infoText}>Vervollständige noch einige Angaben zu deinem {"\n"}Profil und anschließend kannst du loslegen!</Text>
+          <Text style={styles.subHeaderStyle}>Anmeldung erfolgreich!</Text>
+          <Text style={styles.infoText}>Vervollständige noch einige Angaben zu deinem Profil, {"\n"}um die Anmeldung abzuschließen!</Text>
         </View>
 
+        {/* ------------------------------------------------------------------------------------------------------------------------------------- Input Section */}
         <View style={styles.inputContainer}>
-          
+          <InputBox 
+            label={'E-Mail'}
+            style={{
+              zIndex:2,
+              marginBottom: 30
+            }}
+            error={emailError}
+            setInputData={setEmailInputData}
+            onChangeText={onChangeTextEmailInput}
+            exitInput={exitEmailInput}
+            onSubmit={handleCheckEmail}
+            onFocusInput={()=>{}}
+            onLeaveFocus={() => {setExitEmailInput(true)}}
+            deleteError={hideErrorMessageEmailInput}
+            //hideKeyboard={hideKeyboard}
+            isEditable={false}
+            fixData={'return.email@gmail.com'}
+            lock
+          />
+
           {/* -------------------------------------------------------------------- Input Box: First Name */}
           <InputBox 
             label={'Vorname'}
@@ -210,6 +293,8 @@ export default function EnterUserInformation() {
             onLeaveFocus={() => {setExitFirstNameInput(true)}}
             deleteError={hideErrorMessageFirstNameInput}
             hideKeyboard={hideKeyboard}
+            isEditable={true}
+            clearButton
           />
 
           {/* -------------------------------------------------------------------- Error Message: First Name */}
@@ -233,6 +318,8 @@ export default function EnterUserInformation() {
             onFocusInput={handleOnFocusLastNameInput}
             onLeaveFocus={() => {setExitLastNameInput(true)}}
             deleteError={hideErrorMessageLastNameInput}
+            isEditable={true}
+            clearButton
           />
 
           {/* -------------------------------------------------------------------- Error Message: First Name */}
@@ -242,6 +329,34 @@ export default function EnterUserInformation() {
             </Text>
           </Animated.View>
 
+        </View>
+
+        {/* ------------------------------------------------------------------------------------------------------------------------------------- Check Box Section */}
+        {/* Werbe Berechtigung */}
+        <View style={[styles.checkBoxContainer, {marginTop: 8}]}>
+            <CheckBox/>
+            <View style={{width: width-100}}>
+              <Text style={[styles.infoText, {marginTop: 6}]}>Ich möchte über Neuigkeiten, Angebote sowie Aktionen per E-Mail informiert werden. Mir ist bewusst, dass diese Zustimmung jederzeit in der App-Einstellung oder über den Abmeldelink im Newsletter wiederufen werden kann.</Text>
+              <Text style={styles.noticeText}>Mehr Informationen</Text>
+            </View>
+        </View>
+
+        {/* Nutzungs- und Verkaufsbedingungen */}
+        <View style={[styles.checkBoxContainer]}>
+            <CheckBox/>
+            <View style={{width: width-100}}>
+              <Text style={[styles.infoText, {marginTop: 6}]}>Ich habe die Nutzungs- und Verkaufsbedingungen der Gooyi Platform gelesen und akzeptiere sie.</Text>
+              <Text style={styles.noticeText}>Erforderlich, um fortzufahren!</Text>
+            </View>
+        </View>
+
+        {/* Datenverarbeitung */}
+        <View style={[styles.checkBoxContainer]}>
+            <CheckBox/>
+            <View style={{width: width-100}}>
+              <Text style={[styles.infoText, {marginTop: 6}]}>Mir ist bekannt, dass meine Daten in Übereinstimmung mit der Datenschutzerklärung von Gooyi verarbeitet werden.</Text>
+              <Text style={styles.noticeText}>Mehr erfahren</Text>
+            </View>
         </View>
 
         {/* -------------------------------------------------------------------- Open Mail App */}
@@ -260,23 +375,11 @@ export default function EnterUserInformation() {
         }}
 
         // Call handle
-        onPress={console.log('open Mail App')}
+        onPress={() => console.log('open Mail App')}
         
         />
 
-            {/* --------------------------------------------------------------------  handle onBlur Input */}
-        <Pressable 
-
-          style={{height: height, width: width, zIndex: 1, position: 'absolute'}} 
-
-          // handle Exit Input Box
-          onPressIn={() => {setHideKeyboard(true), setExitFirstNameInput(true), setExitLastNameInput(true)}} 
-          //onPressOut={() => {setExitInput(false)}} 
-
-          // handle Transition Send-Link-Button
-          //onPress={handleSendLinkButtonTransition} 
-
-        />
+    </Pressable>
 
     </View>
   )
@@ -293,23 +396,26 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: 'RH-SemiBold', 
-    fontSize: moderateScale(35,0.2), 
-    color: COLORS.subPrimary,
+    fontFamily: 'RH-Black', 
+    fontSize: moderateScale(30,0.2), 
+    color: COLORS.primary,
     lineHeight: 44,
     marginTop: 15,
+    // textAlign: 'center'
   },
 
   subHeaderStyle: {
     marginTop: 10,
-    fontFamily: 'RH-Medium',
+    fontFamily: 'RH-Bold',
+    color: COLORS.black,
     fontSize: 15,
+    // textAlign: 'center'
   },
 
   infoText: {
     marginTop: 10,
     fontFamily: 'RH-Regular',
-    fontSize: 15,
+    fontSize: 14,
   },
 
   inputContainer: {
@@ -336,5 +442,20 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 50,
     backgroundColor: COLORS.primary02,
+  },
+
+  checkBoxContainer: {
+    width: width-60,
+    marginHorizontal: 30,
+    flexDirection: 'row',
+    zIndex: 2,
+    marginTop: 15
+  },
+
+  noticeText: {
+    fontFamily: 'RH-Bold',
+    fontSize: 14,
+    color: COLORS.primary,
+    marginTop: 5,
   }
 })

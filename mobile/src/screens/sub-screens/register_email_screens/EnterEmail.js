@@ -23,7 +23,7 @@ export default function EnterEmail() {
 
   // -------------------------------------------------------------------- Value
   const [exitInput, setExitInput] = useState(true)
-  const [hideKeyboard, setHideKeyboard] = useState(true)
+  const [hideKeyboard, setHideKeyboard] = useState(false)
 
   // -------------------------------------------------------------------- Modal
   const [showErrorModal, setShowErrorModal] = useState(false)
@@ -217,6 +217,9 @@ export default function EnterEmail() {
 
       // hide Keyboard
       hideKeyboard={hideKeyboard}
+
+      isEditable={true}
+      clearButton
     />
 
     {/* -------------------------------------------------------------------- Error Message */}
@@ -280,7 +283,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: 'RH-Black', 
+    fontFamily: 'RH-Bold', 
     fontSize: moderateScale(40,0.2), 
     color: COLORS.subPrimary,
     lineHeight: 44,
@@ -292,7 +295,7 @@ const styles = StyleSheet.create({
 
   subHeaderStyle: {
     marginTop: 20,
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'RH-Medium',
     fontSize: 15,
     marginHorizontal: 30,
     alignSelf: 'center',

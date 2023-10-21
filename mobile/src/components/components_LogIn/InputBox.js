@@ -4,7 +4,7 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { TextInput } from 'react-native'
 import RoundButton from '../components_universal/RoundButton'
-import { icons } from '../components_universal/Icons'
+import Icons, { icons } from '../components_universal/Icons'
 import Animated, { interpolate, interpolateColor, runOnJS, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 export default function InputBox({
@@ -28,10 +28,18 @@ export default function InputBox({
     onSubmit,
 
     hideKeyboard,
+
+    fixData,
+
+    clearButton,
+
+    isEditable,
+
+    lock,
 }) {
 
     // Input
-    const [data, setData] = useState('')
+    const [data, setData] = useState(fixData? fixData : '')
 
     // -------------------------------------------------------------------- handle Transition
 
@@ -51,6 +59,14 @@ export default function InputBox({
         onFocusInput()
     
     }
+
+    // Case Fix Data
+    useEffect(() => {
+        if (data) {
+            transitionVal.value = withDelay(0, withTiming(1, {duration: 200}))
+            setIndex(0)
+        }
+    })
 
     // handle Border Color 
     useEffect(() => {
@@ -93,7 +109,7 @@ export default function InputBox({
             Keyboard.dismiss()
         }
 
-    }, [exitInput, hideKeyboard])
+    }, [exitInput])
 
     // handle Clear-Button
     const handleClear = () => {
@@ -168,7 +184,7 @@ export default function InputBox({
 
     // Border Color
     const inputTransition = useAnimatedStyle(() => {
-        const color = interpolateColor(borderTransitionVal.value, [0,1,2], [ COLORS.subPrimary02, COLORS.subPrimary, COLORS.primary])
+        const color = interpolateColor(borderTransitionVal.value, [0,1,2], [ COLORS.borderGrey , COLORS.subPrimary, COLORS.primary])
         return {
             borderColor: color,
             zIndex: index
@@ -183,7 +199,7 @@ export default function InputBox({
         {/* -------------------------------------------------------------------- Input Container */}
         <Animated.View style={[styles.inputContainer, inputTransition]}>
             <TextInput 
-                style={[styles.input]} 
+                style={[styles.input, {color: !isEditable? '#999999' : COLORS.black}]} 
                 value={data}
 
                 // Call handle Transition 
@@ -194,29 +210,39 @@ export default function InputBox({
 
                 onChangeText={(e) => {onChangeText(e), setData(e)}}
                 //onEndEditing={() => {onLeaveFocus(), borderTransitionVal.value = withTiming(0, {duration: 200})}}
+
+                editable={isEditable}
             />
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Label */}
         <Animated.View style={[styles.labelContainer, labelContainerTransition]}>
-            <Animated.Text style={[styles.label, labelTransition]}>{label}</Animated.Text>
+            <Animated.Text style={[styles.label, {color: !isEditable? '#999999' : COLORS.black} ,labelTransition]}>{label}</Animated.Text>
             <Animated.View style={[styles.labelBg, labelBgTransition]}></Animated.View>
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Clear Button */}
-        <Animated.View style={[{position: 'absolute', right: 0}, buttonTransition]}>
+        {clearButton && <Animated.View style={[{position: 'absolute', right: 0}, buttonTransition]}>
             <RoundButton 
                 icon={icons.Ionicons}
                 iconName={'close'}
                 iconSize={30}
-                iconColor={COLORS.grey}
+                iconColor={COLORS.subPrimary}
                 style={{backgroundColor: 'transparent'}}
 
                 // Call handleClear
                 onPressButton={handleClear}
             />
-        </Animated.View>
+        </Animated.View>}
 
+        {lock && <View style={{position: 'absolute', right: 18}}>
+            <Icons
+                icon={icons.Ionicons}
+                iconName={'ios-lock-closed-outline'}
+                iconSize={20}
+                iconColor={'#999999'}
+            />
+        </View>}
     </View>
 
     </>
@@ -234,7 +260,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: width-60,
         borderRadius: 16,
-        //backgroundColor: 'yellow',
+        //backgroundColor: COLORS.white,
         paddingHorizontal: 20,
     },
 
@@ -243,6 +269,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLORS.subPrimary02,
         zIndex:2,
+        //backgroundColor: COLORS.white
     },
 
     label: {
@@ -269,8 +296,9 @@ const styles = StyleSheet.create({
     labelBg: {
         width: '100%',
         height: 20,
-        backgroundColor: 'white',
+        backgroundColor: COLORS.white,
         position: 'absolute',
-        bottom: -20
+        bottom: -20,
+        borderRadius: 5,
     }
 })

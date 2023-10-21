@@ -10,6 +10,8 @@ export default {
     white05: 'rgba(255, 255, 255, 0.8)',
     default: '#eee',
     grey: '#686868',
+    borderGrey: '#bbbbbb',
+    notEditableBorder: '#e5e5e5',
 
     green: '#00c500',
     lightGreen: '#46ce37',
