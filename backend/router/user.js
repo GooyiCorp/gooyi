@@ -132,16 +132,17 @@ userRoute.get("/redirect", async (req, res) => {
         refreshToken
     } = req.query
     const now = new Date().getTime()
-    if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {error: 'expired'}))
-    if (refreshToken in TOKEN_LIST) return res.send(render(path.join(__dirname, '/template/login.html'), {error: 'used'}))
+    const app = process.env.APP_SCHEMA
+    if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
+    if (refreshToken in TOKEN_LIST) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app, error: 'used'}))
     const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
-    if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(path.join(__dirname, '/template/login.html'), {error: 'loggedIn'}))
+    if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'loggedIn'}))
     const response = {
         accessToken, refreshToken
     }
     TOKEN_LIST[refreshToken] = response
     ACTIVE_USER.add(payload.user.user_id)
-    return res.send(render(path.join(__dirname, '/template/login.html'), {error: 'false', accessToken, refreshToken}))
+    return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
 });
 
 userRoute.post("/logout", verifyToken, (req, res) => {
