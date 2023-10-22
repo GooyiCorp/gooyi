@@ -9,7 +9,7 @@ export default class Error {
         return this
     }
     isOnlyRequiredOneOf(lstFieldAndName) {
-        if (!lstFieldAndName.some(ele => ele.field != null)) {
+        if (!lstFieldAndName.some(ele => ele.field != null && ele.field != '')) {
             let errorlog = ''
             lstFieldAndName.forEach((ele, idx) => {
                 if (idx < lstFieldAndName.length - 1)
