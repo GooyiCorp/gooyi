@@ -110,6 +110,7 @@ export default function DiscoverScreen( {
           // fix Data 
           fixData={'test'}
           isEditable={false}
+          lock
         />
         
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}

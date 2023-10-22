@@ -169,7 +169,7 @@ export default function NewInput({
         >
 
             {/* --------------------- Input View */}
-            <TextInput style={[styles.input]}
+            <TextInput style={[styles.input, {color: !isEditable? COLORS.borderGrey : COLORS.black}]}
 
                 // Input Data
                 value={data}
