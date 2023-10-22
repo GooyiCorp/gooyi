@@ -5580,6 +5580,11 @@ react-native-codegen@^0.71.6:
     jscodeshift "^0.14.0"
     nullthrows "^1.1.1"
 
+react-native-email-link@^1.14.7:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.7.tgz#5f7cb10f6eb0e8e0f642306484542c5c8bc6d833"
+  integrity sha512-BHhakcPGkVgYeSXd/j/OICC9nGFHe0RFv7b3+PvNhstOyjXoUHBX+qftuUzNqFeeMcktfGMlzl2CacA6nKUvKQ==
+
 react-native-gesture-handler@~2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz#2f63812e523c646f25b9ad660fc6f75948e51241"

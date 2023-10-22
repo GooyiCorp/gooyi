@@ -10,6 +10,7 @@ import InputBox from '../../../components/components_LogIn/InputBox'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import BigButton from '../../../components/components_LogIn/BigButton'
 import CheckBox from '../../../components/components_universal/CheckBox'
+import NewInput from '../../../components/components_LogIn/NewInput'
 
 export default function EnterUserInformation() {
     const navigation = useNavigation()
@@ -257,26 +258,36 @@ const handleOnFocusEmailInput = () => {
         </View>
 
         {/* ------------------------------------------------------------------------------------------------------------------------------------- Input Section */}
+        <NewInput 
+
+style={{
+  marginTop: 25,
+}}
+
+// State
+// submitState={submit}
+// focusState={focus}
+
+// show: Button / Icon
+lock
+
+// error Message
+errorMessageCaseEmpty={'Das Feld darf nicht leer sein!'}
+errorMessageDataValidity={'Die eingegebene E-Mail-Addresse ist ungültig!'}
+
+// constant
+checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+label={'E-Mail'}
+
+// handle
+onLeaveInput={() => null}
+onFocusInput={() => null}
+
+fixData={'testemail@gmail.com'}
+isEditable={false}
+
+/>
         <View style={styles.inputContainer}>
-          <InputBox 
-            label={'E-Mail'}
-            style={{
-              zIndex:2,
-              marginBottom: 30
-            }}
-            error={emailError}
-            setInputData={setEmailInputData}
-            onChangeText={onChangeTextEmailInput}
-            exitInput={exitEmailInput}
-            onSubmit={handleCheckEmail}
-            onFocusInput={()=>{}}
-            onLeaveFocus={() => {setExitEmailInput(true)}}
-            deleteError={hideErrorMessageEmailInput}
-            //hideKeyboard={hideKeyboard}
-            isEditable={false}
-            fixData={'return.email@gmail.com'}
-            lock
-          />
 
           {/* -------------------------------------------------------------------- Input Box: First Name */}
           <InputBox 

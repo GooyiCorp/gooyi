@@ -38,6 +38,12 @@ export default function NewInput({
     fixData,
     isEditable,
 
+    // server request
+    activateServerRequest,
+
+    //setExternData
+    setInputData,
+
 }) {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -83,7 +89,7 @@ export default function NewInput({
     })
    
     // --------------------------------------- Check Validity
-    const checkValidity = async () => {
+    const checkValidity = () => {
         const check = checkAlgorithm
 
         if (!check.test(data)) {
@@ -95,6 +101,9 @@ export default function NewInput({
             setError(false)
             setSubmit(false)
             onLeaveInput()
+
+            // handle request
+            activateServerRequest()
             return
         }   
         
@@ -173,7 +182,7 @@ export default function NewInput({
 
                 // Input Data
                 value={data}
-                onChangeText={(e) => {setData(e)}}
+                onChangeText={(e) => {setData(e), setInputData(e)}}
 
                 // onFocus Input
                 onFocus={handleOnFocus}
@@ -191,13 +200,7 @@ export default function NewInput({
             {/* --------------------- Right View */}
             <View 
                 style={[
-                    styles.rightView, 
-                    {
-                        opacity: focus? 1 : 0, 
-                        transform: [
-                            {scaleX: focus? 1 : 0}
-                        ]
-                    }
+                    styles.rightView,
                 ]}
             >
 
@@ -210,6 +213,10 @@ export default function NewInput({
                     style={{
                         backgroundColor: 'transparent',
                         margin: 0,
+                        opacity: focus? 1 : 0, 
+                        transform: [
+                            {scaleX: focus? 1 : 0}
+                        ]
                     }}
 
                     // handle Clear

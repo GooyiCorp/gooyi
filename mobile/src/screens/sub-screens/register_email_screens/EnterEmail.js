@@ -25,6 +25,8 @@ export default function EnterEmail() {
   // -------------------------------------------------------------------- Value
   const [focus, setFocus] = useState(false)
   const [submit, setSubmit] = useState(false)
+  const [inputData, setInputData] = useState('')
+  
   
   const transitionButtonVal = useSharedValue(0)
 
@@ -70,38 +72,11 @@ export default function EnterEmail() {
 
   // -------------------------------------------------------------------- handle Log In
 
-
-  // handle onPress Send-Link-Button
-  const handleLogin = async () => {
-    // Case 1: Data = null -> (return Error Message)
-    // if (!inputData) {
-    //   handleErrorMessage()
-    //   setTimeout(() => {
-    //     setExitInput(true)
-    //     handleButtonTransitionDown()
-    //   }, 300)
-    //   return; 
-    // } 
-
-    // Case 2: Data, CheckEmail = failed -> (return Error Message)
-    // else if (!checkEmail()) {
-    //   handleErrorMessage()
-    //   setTimeout(() => {
-    //     setExitInput(true)
-    //     handleButtonTransitionDown()
-    //   }, 300)
-    //   return;
-    // }
-
-    // Case 3: no Error -> (send request)
-      // hide Error Message 
-      // hideErrorMessage()
-
-      // server request
-      const url = api_url + 'user/email-login/'
+  const handleServerRequest = async () => {
+    const url = api_url + 'user/email-login/'
       try {
         const response = await axios.post(url, {
-          //"email": inputData.toLowerCase()
+          "email": inputData.toLowerCase()
         })
 
         // success
@@ -113,7 +88,6 @@ export default function EnterEmail() {
         // error
       catch (error) {
         console.log(error.response.data);
-        handleErrorModal()
       }
   }
 
@@ -192,6 +166,11 @@ export default function EnterEmail() {
         onLeaveInput={handleButtonTransitionDown}
         onFocusInput={handleButtonTransitionUp}
 
+        isEditable={true}
+
+        activateServerRequest={handleServerRequest}
+
+        setInputData={setInputData}
       />
 
     {/* -------------------------------------------------------------------- Send Link Button */}

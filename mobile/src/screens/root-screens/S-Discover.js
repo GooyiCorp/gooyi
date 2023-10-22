@@ -90,28 +90,7 @@ export default function DiscoverScreen( {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
 
-        <NewInput 
-
-          // State
-          errorState={true}
-          submitState={false}
-
-          // show: Button / Icon
-          clearButton
-
-          // error Message
-          errorMessageCaseEmpty={'Darf nicht leer sein!'}
-          errorMessageDataValidity={'falsche Eingabe'}
-
-          // constant
-          checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
-          label={'E-Mail'}
-
-          // fix Data 
-          fixData={'test'}
-          isEditable={false}
-          lock
-        />
+        <SendNewLinkButton />
         
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>
