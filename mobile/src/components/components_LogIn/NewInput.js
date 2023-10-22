@@ -4,13 +4,18 @@ import { COLORS } from '../../index/constantsindex'
 import { width } from '../../constants/size'
 import RoundButton from '../components_universal/RoundButton'
 import Icons, { icons } from '../components_universal/Icons'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+import axios from 'axios'
+import { api_url } from '../../constants/api'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function NewInput({
+    
+    // extern styling
+    style,
 
     // State
-    errorState,
+    focusState,
     submitState,
 
     // hide / show
@@ -21,12 +26,24 @@ export default function NewInput({
     errorMessageCaseEmpty,
     errorMessageDataValidity,
 
+    // constant
     checkAlgorithm,
+    label,
+
+    // extern handle
+    onLeaveInput,
+    onFocusInput,
+
+    // not Editable
+    fixData,
+    isEditable,
 
 }) {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    const [data, setData] = useState('')
+    const [data, setData] = useState(fixData? fixData : '')
+
+    // Main State
     const [error, setError] = useState(false)
     const [focus, setFocus] = useState(false)
     const [submit, setSubmit] = useState(false)
@@ -35,15 +52,52 @@ export default function NewInput({
     const focusInput = useSharedValue(0)
 
     // --------------------------------------- Animation
+    // Label 
+    const labelTransition = useAnimatedStyle(() => {
+        const translateY = interpolate(focusInput.value, [0,1], [0,20])
+        return {
+            transform: [
+                {translateY: translateY},
+            ]
+        }
+    })
+
+    const labelContainerTransition = useAnimatedStyle(() => {
+        const translateY = interpolate(focusInput.value, [0,1], [0,7])
+        const scale = interpolate(focusInput.value, [0,1], [1,0.8])
+        return {
+            transform: [
+                {translateY: translateY},
+                {scale: scale},
+            ]
+        }
+    })
+
+    const labelBgTransition = useAnimatedStyle(() => {
+        const scaleX = interpolate(focusInput.value, [0,1], [0,1])
+        return {
+            transform: [
+                {scaleX: scaleX},
+            ]
+        }
+    })
    
     // --------------------------------------- Check Validity
-    const checkValidity = () => {
+    const checkValidity = async () => {
         const check = checkAlgorithm
+
         if (!check.test(data)) {
             setError(true)
+            setSubmit(false)
+            onLeaveInput()
+            return
         } else {
             setError(false)
-        } 
+            setSubmit(false)
+            onLeaveInput()
+            return
+        }   
+        
       }
 
     // --------------------------------------- handle Clear Button
@@ -51,15 +105,21 @@ export default function NewInput({
         setData('')
         setError(false)
         setFocus(false)
-        //focusInput.value = withTiming(0)
+        focusInput.value = withDelay(0, withTiming(0, {duration: 200}))
 
         Keyboard.dismiss()
+
+        // onLeaveInput
+        onLeaveInput()
     }
 
     // --------------------------------------- handle Clear Button
     const handleOnFocus = () => {
         setFocus(true)
-        //focusInput.value = withTiming(1)
+        focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
+
+        // onFocusInput
+        onFocusInput()
     }
 
     // --------------------------------------- handle onChangeText
@@ -72,15 +132,28 @@ export default function NewInput({
     useEffect(() => {
         // Check Validity when submit is true, return error false or true
         submit? checkValidity() : null
-        // Check Error
-        if (!error) {
-            setFocus(false)
-            setSubmit(false)
-            Keyboard.dismiss()
-        } else {
-            console.log('ok')
-        }
     }, [submit])
+
+    // --------------------------------------- handle extern Button
+    // Extern Submit
+    useEffect(() => {
+        // Check extern Submit Button is pressed? if true start intern handle Submit Function
+        submitState? setSubmit(true) : null
+        Keyboard.dismiss()
+    }, [submitState])
+
+    // Extern Pressable Background
+    useEffect(() => {
+        // Check extern Background Pressable is pressed? if true setFocus to false and hide Keyboard, Check Data for reset Label position
+        focusState? null : (setFocus(false), Keyboard.dismiss(), data? null : focusInput.value = withDelay(0, withTiming(0, {duration: 200})))    
+    }, [focusState])
+
+    // --------------------------------------- handle Fix Data
+    useEffect(() => {
+        if (data) {
+            focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
+        }
+    })
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
   return (
@@ -90,12 +163,13 @@ export default function NewInput({
         <View 
             style={[
                 styles.inputContainer,
-                {borderColor: error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.default)},
+                {borderColor: error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)},
+                style
             ]}
         >
 
             {/* --------------------- Input View */}
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input]}
 
                 // Input Data
                 value={data}
@@ -109,13 +183,21 @@ export default function NewInput({
 
                 // Pass Data
                 onSubmitEditing={() => setSubmit(true)}
+
+                // Editable
+                editable={isEditable}
             />
 
             {/* --------------------- Right View */}
             <View 
                 style={[
                     styles.rightView, 
-                    {opacity: focus? 1 : 0}
+                    {
+                        opacity: focus? 1 : 0, 
+                        transform: [
+                            {scaleX: focus? 1 : 0}
+                        ]
+                    }
                 ]}
             >
 
@@ -145,9 +227,9 @@ export default function NewInput({
 
             </View>
             {/* --------------------- Right View */}
-            <Animated.View style={[styles.labelContainer]}>
-                <Animated.Text style={[styles.label]}>Test</Animated.Text>
-                <Animated.View style={[styles.labelBg]}></Animated.View>
+            <Animated.View style={[styles.labelContainer, labelContainerTransition]}>
+                <Animated.Text style={[styles.label, {color: isEditable? COLORS.grey : COLORS.borderGrey},labelTransition]}>{label}</Animated.Text>
+                <Animated.View style={[styles.labelBg, labelBgTransition]}></Animated.View>
             </Animated.View>
 
         </View>
@@ -195,7 +277,7 @@ const styles = StyleSheet.create({
         width: '15%',
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: COLORS.subPrimary02,
+        backgroundColor: 'transparent',
         position: 'absolute',
         right: 0,
         zIndex: 2,
@@ -232,19 +314,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         fontFamily: 'RH-Medium',
         fontSize: 15,
+        zIndex: 1,
     },
 
     labelContainer: {
         position: 'absolute',
         left: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     labelBg: {
         width: '100%',
         height: 20,
-        backgroundColor: COLORS.subPrimary,
+        backgroundColor: COLORS.white,
         position: 'absolute',
         bottom: -20,
         borderRadius: 5,

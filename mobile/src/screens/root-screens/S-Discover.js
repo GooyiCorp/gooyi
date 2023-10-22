@@ -103,7 +103,13 @@ export default function DiscoverScreen( {
           errorMessageCaseEmpty={'Darf nicht leer sein!'}
           errorMessageDataValidity={'falsche Eingabe'}
 
+          // constant
           checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+          label={'E-Mail'}
+
+          // fix Data 
+          fixData={'test'}
+          isEditable={false}
         />
         
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
