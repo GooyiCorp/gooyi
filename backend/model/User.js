@@ -14,10 +14,12 @@ const User = sequelize.define('User', {
     type: DataTypes.TEXT
     },
     email: {
-    type: DataTypes.TEXT
+    type: DataTypes.TEXT,
+    unique: true
     },
     phone: {
-    type: DataTypes.TEXT
+    type: DataTypes.TEXT,
+    unique: true
     },
     active: {
     type: DataTypes.BOOLEAN,
