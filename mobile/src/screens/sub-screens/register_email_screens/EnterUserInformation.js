@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View, ViewComponent } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
 import { moderateScale } from '../../../helper/scale'
@@ -11,11 +11,14 @@ import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-n
 import BigButton from '../../../components/components_LogIn/BigButton'
 import CheckBox from '../../../components/components_universal/CheckBox'
 import NewInput from '../../../components/components_LogIn/NewInput'
-
+import * as Linking from "expo-linking";
+import { api_url } from '../../../constants/api'
+import axios from 'axios'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation() {
     const navigation = useNavigation()
 
+    const [testData, setTestData] = useState('')
     // const [hideKeyboard, setHideKeyboard] = useState(true)
 
   // ----------------------------------------------------------------------------------------------- First Name Input Value
@@ -37,6 +40,7 @@ export default function EnterUserInformation() {
       setSubmitFN(false);
       setSubmitLN(false);
     }, 300)
+    
   }
 
   // Leave Input Layout First Name
@@ -61,6 +65,38 @@ export default function EnterUserInformation() {
     handleLeaveInputLN()
   }
 
+  const url = Linking.useURL()
+  useEffect(() => {
+    if (url) {
+      const { hostname, path, queryParams } = Linking.parse(url);
+      // if (queryParams.error == 'expired')
+      
+      // else 
+      setTestData(queryParams.data)
+    }
+  }, [url])
+  
+  const handleSubmit = async () => {
+    const api = api_url + '/user/register'
+    try {
+      const response = await axios.post(api, {
+        first_name: inputDataFN,
+        last_name: inputDataLN,
+        email: testData
+      })
+      // success
+
+      // nhay vao cai nao day 
+      // navigation.navigate()
+
+      console.log(response.data);
+    } catch (error) {
+      console.log();(error.response.error)
+    }
+  }
+  
+  // useEffect(() => {
+  // }, [url])
 //  const [emailInputData, setEmailInputData] = useState('');
 //  const [emailError, setEmailError] = useState(false)
 //  const [exitEmailInput, setExitEmailInput] = useState(true)
@@ -329,7 +365,7 @@ export default function EnterUserInformation() {
           onLeaveInput={() => null}
           onFocusInput={() => null}
 
-          fixData={'testemail@gmail.com'}
+          fixData={testData}
           isEditable={false}
 
         />
@@ -362,7 +398,7 @@ export default function EnterUserInformation() {
 
           isEditable={true}
 
-          activateServerRequest={() => null}
+          activateServerRequest={handleSubmit}
 
           setInputData={setInputDataFN}
 
@@ -503,7 +539,7 @@ export default function EnterUserInformation() {
 
         // Call handle
         onPress={handleSendLink}
-        
+        //handleSendLink
         />
 
     </Pressable>

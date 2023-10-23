@@ -46,8 +46,8 @@ export default function NewInput({
 
 }) {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [data, setData] = useState(fixData? fixData : '')
+    const [testdata, setTestData] = useState('')
+    const [data, setData] = useState('')
 
     // Main State
     const [error, setError] = useState(false)
@@ -158,11 +158,20 @@ export default function NewInput({
     }, [focusState])
 
     // --------------------------------------- handle Fix Data
+    // useEffect(() => {
+        
+    // }, [])
+
     useEffect(() => {
-        if (data) {
+        if (!data) {
+            setData(fixData)
+            console.log('1')
+            
+        }
+        if (fixData) {
             focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
         }
-    })
+    }, [fixData])
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
   return (
