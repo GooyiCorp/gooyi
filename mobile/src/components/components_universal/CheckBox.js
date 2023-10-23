@@ -4,7 +4,7 @@ import { COLORS } from '../../index/constantsindex'
 import Animated, { Easing, interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import Icons, { icons } from './Icons'
 
-const boxEdge = 23
+const boxEdge = 20
 
 export default function CheckBox({
 style
@@ -24,14 +24,13 @@ style
             checkBox.value = withDelay(200, withTiming(0, {duration: 100}))
             setCheck(false)
         }
-        console.log(border.value)
     }
 
     const transitionBoxContainer = useAnimatedStyle(() => {
         return {
-            transform: [
-                {scale: interpolate(border.value, [0,0.5,1], [1,0.8,1])}
-            ],
+            // transform: [
+            //     {scale: interpolate(border.value, [0,0.5,1], [1,0.8,1])}
+            // ],
             borderColor: interpolateColor(checkBox.value, [0,1], [COLORS.black, COLORS.primary])
         }
     })
@@ -72,19 +71,17 @@ const styles = StyleSheet.create({
         width: boxEdge+10,
         justifyContent: 'center',
         alignItems: 'center',
+        top: -5,
         left: -5,
-        // alignSelf: 'center',
-        // backgroundColor: 'grey',
-        // zIndex: 1,
     },
 
     boxContainer: {
         height: boxEdge,
         width: boxEdge,
-        //backgroundColor: 'grey',
-        borderRadius: 0.2*boxEdge,
-        borderWidth: 1.5,
-        borderColor: COLORS.black,
+        backgroundColor: COLORS.white,
+        borderRadius: 0.3*boxEdge,
+        borderWidth: 1,
+        borderColor: COLORS.borderGrey,
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',

@@ -8,7 +8,8 @@ import Animated, {
   interpolate,
   interpolateColor,
   withSpring,
-  Easing} from "react-native-reanimated";
+  Easing,
+  withSequence} from "react-native-reanimated";
 import RoundButton from "./RoundButton";
 import { icons } from "./Icons";
 import { COLORS } from "../../index/constantsindex";
@@ -35,7 +36,7 @@ const Ring = ({
     });
 
     useEffect(() => {
-        ring.value = withDelay(delay, withTiming(1, {duration: 300, easing: Easing.bezier(0.09, 0.71, 0.71, 1.14)}) )
+        ring.value = withSequence(withDelay(delay, withTiming(1, {duration: 300, easing: Easing.bezier(0.09, 0.71, 0.71, 1.14)}) ), withDelay(2000, withTiming(0)))
     }, []);
 
     // Return -----------------------------------------------------------------------------------------------------------
@@ -59,7 +60,7 @@ export default function AnimatedSuccessIcon({
     })
 
     useEffect(() => {
-        check.value = withDelay(500, withSpring(1))
+        check.value = withSequence(withDelay(500, withSpring(1)), withDelay(2000, withTiming(0)))
     }, [])
 
     // Return -----------------------------------------------------------------------------------------------------------
