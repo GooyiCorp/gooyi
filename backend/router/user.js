@@ -10,6 +10,7 @@ import path from 'path';
 import { __dirname } from "../index.js";
 import { render } from "../template/index.js";
 import { verifyToken } from "../middleware/index.js";
+import { Op } from "sequelize";
 const userRoute = express.Router();
 
 userRoute.post("/create", async (req, res) => {
@@ -94,6 +95,8 @@ userRoute.post('/register', async(req, res) => {
     } = req.body
     const err = register_validate({first_name, last_name, email, phone})
     if (err) return sendError(res, err)
+    const user = await User.findOne({where: {[Op.or]: [{email: email, phone: phone}]}})
+    if (user) return sendError(res, "This user already exists")
     try {
         const user = await User.create({first_name, last_name, email, phone, active: true})
         const userData = {
@@ -140,25 +143,37 @@ userRoute.get("/login-redirect", async (req, res) => {
         accessToken,
         refreshToken
     } = req.query
-    const now = new Date().getTime()
-    const app = process.env.APP_SCHEMA
-    if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
-    if (refreshToken in TOKEN_LIST) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app, error: 'used'}))
-    const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
-    if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'loggedIn'}))
-    const response = {
-        accessToken, refreshToken
+    try {
+        const now = new Date().getTime()
+        const app = process.env.APP_SCHEMA
+        if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
+        if (refreshToken in TOKEN_LIST) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app, error: 'used'}))
+        const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
+        if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'loggedIn'}))
+        const response = {
+            accessToken, refreshToken
+        }
+        TOKEN_LIST[refreshToken] = response
+        ACTIVE_USER.add(payload.user.user_id)
+        return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
+    } catch (err) {
+        console.log(err);
+        sendServerError(res)
     }
-    TOKEN_LIST[refreshToken] = response
-    ACTIVE_USER.add(payload.user.user_id)
-    return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
 });
 userRoute.get('/register-redirect', async (req, res) => {
     const { exp, email } = req.query
-    const now = new Date().getTime()
-    if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
-    const app = process.env.APP_SCHEMA + "/--/register"
-    return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false',data: email}))
+    try {
+        const user = await User.findOne({where: {email: email}})
+        if (user) return res.send("This user is already registered")
+        const now = new Date().getTime()
+        const app = process.env.APP_SCHEMA + "/--/register/enterinfo"
+        if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
+        return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false',data: email}))
+    } catch (err) {
+        console.log(err);
+        return sendServerError(res)
+    }
 })
 userRoute.post("/logout", verifyToken, (req, res) => {
     const { refreshToken } = req.body
