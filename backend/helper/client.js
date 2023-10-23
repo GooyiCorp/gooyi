@@ -27,14 +27,11 @@ export const sendAutoMail = async (options) => {
     const transport = NodeMailer.createTransport({
         host: "smtp.ionos.de",
         port: 587,
-        tls: {
-            rejectUnauthorized: false,
-        },
         secure: false,
         auth: {
             user: process.env.MAIL_HOST,
             pass: process.env.PASS_MAIL_HOST
-        }
+        },
     })
     try {
         await transport.sendMail(options)

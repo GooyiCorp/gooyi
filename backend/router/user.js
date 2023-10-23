@@ -56,7 +56,7 @@ userRoute.post("/email-login", async (req, res) => {
             
             // Email
             const options = {
-                from: "gooyi.de",
+                from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Log in ',
                 html: `<a href="http://gooyi.de:8000/api/user/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
@@ -68,7 +68,7 @@ userRoute.post("/email-login", async (req, res) => {
         }
         else {
             const options = {
-                from: "gooyi.de",
+                from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Registration',
                 html: `<a href="http://gooyi.de:8000/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}"> Registration </a>`
