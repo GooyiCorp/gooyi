@@ -71,8 +71,10 @@ userRoute.post("/email-login", async (req, res) => {
                 from: "gooyi.de",
                 to: email,
                 subject: '[Gooyi] Registration',
-                html: `<a href="http://gooyi.de:8000/api/user/register-redirect?exp=${new Date().getTime()}"> Registration </a>`
+                html: `<a href="http://gooyi.de:8000/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}"> Registration </a>`
             }
+            const sendmail = await sendAutoMail(options)
+            if (!sendmail) return sendError(res, "Send mail failed")
             return sendSuccess(res, "Register Email sent successfully")
         }
 
@@ -152,11 +154,11 @@ userRoute.get("/login-redirect", async (req, res) => {
     return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
 });
 userRoute.get('/register-redirect', async (req, res) => {
-    const { exp } = req.query
+    const { exp, email } = req.query
     const now = new Date().getTime()
     if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
     const app = process.env.APP_SCHEMA + "/--/register"
-    return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false'}))
+    return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false',data: email}))
 })
 userRoute.post("/logout", verifyToken, (req, res) => {
     const { refreshToken } = req.body
