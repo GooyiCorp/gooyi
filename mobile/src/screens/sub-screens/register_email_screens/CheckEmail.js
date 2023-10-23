@@ -8,7 +8,6 @@ import AnimatedSuccessIcon from '../../../components/components_universal/Animat
 import { height, width } from '../../../constants/size'
 import BigButton from '../../../components/components_LogIn/BigButton'
 import { openInbox } from "react-native-email-link";
-import { color } from 'react-native-reanimated'
 import SendNewLinkButton from '../../../components/components_LogIn/SendNewLinkButton'
 
 export default function CheckEmail({navigation, route}) {
@@ -76,7 +75,7 @@ export default function CheckEmail({navigation, route}) {
         onPress={openInbox}
         
         />
-        
+
     </View>
   )
 }

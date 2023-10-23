@@ -215,13 +215,6 @@ const styles = StyleSheet.create({
     zIndex: 2
   },
 
-
-  fontFamily: 'RH-Black', 
-    fontSize: moderateScale(30,0.2), 
-    color: COLORS.primary,
-    lineHeight: 44,
-    marginTop: 15,
-
   title: {
     fontFamily: 'RH-Bold', 
     fontSize: moderateScale(30,0.2), 

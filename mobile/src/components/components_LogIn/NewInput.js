@@ -172,13 +172,13 @@ export default function NewInput({
         <View 
             style={[
                 styles.inputContainer,
-                {borderColor: error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)},
+                {borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : COLORS.notEditableBorder},
                 style
             ]}
         >
 
             {/* --------------------- Input View */}
-            <TextInput style={[styles.input, {color: !isEditable? COLORS.borderGrey : COLORS.black}]}
+            <TextInput style={[styles.input, {color: !isEditable? COLORS.grey : COLORS.black}]}
 
                 // Input Data
                 value={data}
@@ -228,21 +228,21 @@ export default function NewInput({
                     icon={icons.Ionicons}
                     iconName={'ios-lock-closed-outline'}
                     iconSize={20}
-                    iconColor={'#999999'}
+                    iconColor={COLORS.black}
                 />}
 
 
             </View>
             {/* --------------------- Right View */}
             <Animated.View style={[styles.labelContainer, labelContainerTransition]}>
-                <Animated.Text style={[styles.label, {color: isEditable? COLORS.grey : COLORS.borderGrey},labelTransition]}>{label}</Animated.Text>
+                <Animated.Text style={[styles.label, {color: isEditable? COLORS.black : COLORS.grey},labelTransition]}>{label}</Animated.Text>
                 <Animated.View style={[styles.labelBg, labelBgTransition]}></Animated.View>
             </Animated.View>
 
         </View>
 
         {/* --------------------------------------- Error Message */}
-        <View style={styles.errorMessageContainer}>
+        <View style={[styles.errorMessageContainer, {marginVertical: error? 5 : 0}]}>
 
             {/* Icon */}
             {error && <Icons
