@@ -3,12 +3,13 @@ import React from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { COLORS } from '../../../index/constantsindex'
 import { moderateScale } from '../../../helper/scale'
-import { icons } from '../../../components/components_universal/Icons'
+import Icons, { icons } from '../../../components/components_universal/Icons'
 import AnimatedSuccessIcon from '../../../components/components_universal/AnimatedSuccessIcon'
 import { height, width } from '../../../constants/size'
 import BigButton from '../../../components/components_LogIn/BigButton'
 import { openInbox } from "react-native-email-link";
 import { color } from 'react-native-reanimated'
+import SendNewLinkButton from '../../../components/components_LogIn/SendNewLinkButton'
 
 export default function CheckEmail({navigation, route}) {
     const {returnEmail} = route.params;
@@ -47,23 +48,12 @@ export default function CheckEmail({navigation, route}) {
         <Text style={[styles.infoText, {marginTop: 0}]}>einen Link gesendet. Tippe auf diesen  {"\n"}Link, um dich anzumelden.</Text>
 
         {/* -------------------------------------------------------------------- Send New Link */}
-        <BigButton
-
-        // Base
-        title={'Link erneut zusenden'}
-        bgStyle={{
-            marginTop: 30,
-            backgroundColor: COLORS.white03,
-            width: 0.5*width
-        }}
-        titleStyle={{
-            color: COLORS.white,
-            fontFamily: 'Roboto-Medium'
-        }}                
-
-        // Call handle
-        onPress={console.log('send new Link')}
-
+        <SendNewLinkButton 
+            handleOnPress={() => console.log('send new Link')}
+            counterValue={20}
+            style={{
+                marginTop: 30
+            }}
         />
 
 
@@ -86,8 +76,7 @@ export default function CheckEmail({navigation, route}) {
         onPress={openInbox}
         
         />
-
-
+        
     </View>
   )
 }
@@ -151,6 +140,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium',
         fontSize: 15,
         color: COLORS.primary,
-    }
+    },
 
 })
