@@ -14,105 +14,110 @@ import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDe
 import axios from 'axios'
 import { api_url } from '../../../constants/api'
 import ErrorModal from '../../../components/components_LogIn/ErrorModal'
+import NewInput from '../../../components/components_LogIn/NewInput'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterEmail() {
 
-  // {/* -------------------------------------------------------------------- Navigation */}
+  // -------------------------------------------------------------------- Navigation
   const navigation = useNavigation()
 
-  // {/* -------------------------------------------------------------------- Value */}
-  const [dismiss, setDismiss] = useState(false)
-  const [error, setError] = useState(false)
-
+  // -------------------------------------------------------------------- Value
+  const [focus, setFocus] = useState(false)
+  const [submit, setSubmit] = useState(false)
+  const [inputData, setInputData] = useState('')
+  
+  
   const transitionButtonVal = useSharedValue(0)
-  const errorFeedback = useSharedValue(0)
 
-  // {/* -------------------------------------------------------------------- handle Transition */}
+  // -------------------------------------------------------------------- handle extern Submit
+  // Send Link Button
+  const handleSendLink = () => {
+    setSubmit(true)
+    setTimeout(() => {
+      setSubmit(false);
+    }, 300)
+  }
+
+  // Leave Input Layout
+  const handleLeaveInput = () => {
+    setFocus(false)
+    handleButtonTransitionDown()
+    setTimeout(() => {
+      setFocus(true);
+    }, 300)
+  }
+
+  // -------------------------------------------------------------------- Modal
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  
+  const onCloseErrorModal = () => {
+        setTimeout(() => {
+            setShowErrorModal(false);
+        }, 300) }
+  const handleErrorModal = () => {      
+        setShowErrorModal(true)
+      }
+
+  // -------------------------------------------------------------------- handle Send-Link-Button Transition
+  // translate Button up
   const handleButtonTransitionUp = () => {
     transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
   }
 
+  // translate Button down
   const handleButtonTransitionDown = () => {
-    checkEmail()
-    transitionButtonVal.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+    transitionButtonVal.value = withDelay(20, withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)}) )
   }
 
-  // {/* -------------------------------------------------------------------- Animated Style */}
+  // -------------------------------------------------------------------- handle Log In
+
+  const handleServerRequest = async () => {
+    const url = api_url + 'user/email-login/'
+      try {
+        const response = await axios.post(url, {
+          "email": inputData.toLowerCase()
+        })
+
+        // success
+        console.log(response.data);
+        setTimeout(() => {
+          navigation.navigate('CheckEmail', {returnEmail: inputData})
+        }, 300)
+      } 
+        // error
+      catch (error) {
+        console.log(error.response.data);
+      }
+  }
+
+  // -------------------------------------------------------------------- Animated Style
+  // Send Link Button Transition
   const transitionButton = useAnimatedStyle(() => {
-    const translateY = interpolate(transitionButtonVal.value, [0,1], [0,-330])
+    const translateY = interpolate(transitionButtonVal.value, [0,1], [0, -330])
     return {
       transform: [{
         translateY: translateY
       }],
     }
   })
-
-  const errorMessage = useAnimatedStyle(() => {
-    return {
-      opacity: errorFeedback.value
-    }
-  })
-
-  // {/* -------------------------------------------------------------------- handle Log In */}
-  const [email, setEmail] = useState("");
-  const checkEmail = () => {
-    const regEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-    if (!regEX.test(email)) return false
-    return true
-    
-  }
-  const handleLogin = async () => {
-    if (!email) {
-      setError(true)
-      errorFeedback.value = withDelay(100, withTiming(1, {duration: 200})) 
-      return; 
-    } else if (!checkEmail()) {
-      setError(true)
-      errorFeedback.value = withDelay(100, withTiming(1, {duration: 200})) 
-      return;
-    }
-    errorFeedback.value = 0
-    const url = api_url + 'user/email-login/'
-    try {
-      const response = await axios.post(url, {
-        "email": email.toLowerCase()
-      })
-      console.log(response.data);
-      setError(false)
-    } catch (error) {
-      setError(true)
-      console.log(error.response.data);
-      // handleError()
-    }
-  }
-
-  const onChangeText = (e) => {
-    setError(false)
-    setEmail(e)
-    errorFeedback.value = 0 
-
-  }
-
-  //  Modal ----------------------------------------------------------------------
-  const [showErrorModal, setShowErrorModal] = useState(true)
-  const onCloseErrorModal = () => {
-        setTimeout(() => {
-            setShowErrorModal(false);
-        }, 300) }
-  const handleError = () => {
-            
-        setShowErrorModal(true)
-
-          
-      }
-
-  // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     
   <View style={{height: height, width: width, backgroundColor: 'white'}}>
 
-    {/* {showErrorModal && <ErrorModal onClose={onCloseErrorModal}/>} */}
+    {showErrorModal && <ErrorModal onClose={onCloseErrorModal}/>}
+    {/* -------------------------------------------------------------------- onLeaveLayout - Background Pressable */}
+    <Pressable 
+      style={{
+        height: height, 
+        width: width, 
+        zIndex: 1, 
+        position: 'absolute',
+      }} 
+      onTouchStart={handleLeaveInput} 
+    >
 
     {/* -------------------------------------------------------------------- Go Back Button */}
     <RoundButton
@@ -132,35 +137,48 @@ export default function EnterEmail() {
     />
 
     {/* -------------------------------------------------------------------- Header, SubHeader */}
-    <Text style={[styles.title]}>Anmelden ganz{"\n"}ohne Passwort!</Text>
-    <Text style={styles.subHeaderStyle}>Wir senden dir an deine E-Mail-Adresse einen {"\n"}Link zu, der dich sofort anmeldet.</Text>
+    <Text style={[styles.title]}>Passwortlose Authentisierung</Text>
+    <Text style={styles.infoText}>Wir senden dir an deine E-Mail-Adresse einen Link zu. Klicke den Link an, um dich anzumelden.</Text>
 
     {/* -------------------------------------------------------------------- InputBox */}
-    <InputBox 
-      label={'E-Mail'}
-      dismiss={dismiss}
-      setDismiss={setDismiss}
-      style={{
-        marginTop: 30,
-        zIndex:2
-      }}
-      onFocusInput={handleButtonTransitionUp}
-      onLeaveFocus={handleButtonTransitionDown}
-      setOutput={setEmail}
-      error={error}
-      setError={setError}
-      deleteError={() => errorFeedback.value = withTiming(0, {duration: 0})}
-      onChangeText={onChangeText}
-    />
+      <NewInput 
 
-    {/* -------------------------------------------------------------------- Error Message */}
-    <Animated.View style={[styles.errorContainer, errorMessage]}>
-      <Text style={styles.error}>{error && email? 'Die eingegebene E-Mail-Addresse ist ungültig!' : 'test'}</Text>
-    </Animated.View>
+        style={{
+          marginTop: 25,
+        }}
+      
+        // State
+        submitState={submit}
+        focusState={focus}
+
+        // show: Button / Icon
+        clearButton
+
+        // error Message
+        errorMessageCaseEmpty={'Das Feld darf nicht leer sein!'}
+        errorMessageDataValidity={'Die eingegebene E-Mail-Addresse ist ungültig!'}
+
+        // constant
+        checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+        label={'E-Mail'}
+
+        // handle
+        onLeaveInput={handleButtonTransitionDown}
+        onFocusInput={handleButtonTransitionUp}
+
+        isEditable={true}
+
+        activateServerRequest={handleServerRequest}
+
+        setInputData={setInputData}
+      />
 
     {/* -------------------------------------------------------------------- Send Link Button */}
     <Animated.View style={[styles.button, transitionButton]}>
+
       <BigButton
+
+        // Base
         title={'Link senden'}
         bgStyle={{
           backgroundColor: COLORS.primary
@@ -169,18 +187,25 @@ export default function EnterEmail() {
           color: COLORS.white, 
           fontFamily: 'Roboto-Medium',
         }}
-        onPress={handleLogin}
+
+        // onPress Send Link
+        onPress={handleSendLink}
+
       />
+
     </Animated.View>
 
-    {/* --------------------------------------------------------------------  handle Outside Input */}
-    <Pressable style={{height: height, width: width, zIndex: 1, position: 'absolute'}} onPressIn={() => {setDismiss(true)}} onPressOut={() => {setDismiss(false)}} onPress={() => !dismiss? handleButtonTransitionUp() : handleButtonTransitionDown()}></Pressable>
+    {/* --------------------------------------------------------------------  handle onBlur Input */}
+
+
+    </Pressable>
   
   </View>
   
   )
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
 
   button: {
@@ -191,23 +216,20 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: 'RH-Black', 
-    fontSize: moderateScale(40,0.2), 
-    color: COLORS.subPrimary,
-    lineHeight: 44,
+    fontFamily: 'RH-Bold', 
+    fontSize: moderateScale(30,0.2), 
+    color: COLORS.primary,
     marginHorizontal: 30,
-    alignSelf: 'center',
-    marginTop: 100,
-    textAlign: 'center'
+    //alignSelf: 'center',
+    marginTop: 15,
+    //textAlign: 'center'
   },
 
-  subHeaderStyle: {
-    marginTop: 20,
-    fontFamily: 'Roboto-Medium',
+  infoText: {
+    marginTop: 10,
+    fontFamily: 'RH-Medium',
     fontSize: 15,
-    marginHorizontal: 30,
-    alignSelf: 'center',
-    textAlign: 'center'
+    marginHorizontal: 30
   },
 
   error: {

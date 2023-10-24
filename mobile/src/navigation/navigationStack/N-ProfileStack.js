@@ -56,6 +56,8 @@ export default function ProfileStackNav( {navigation} ) {
             }}
         />
 
+        
+
     </ProfileStack.Navigator>
   )
 }

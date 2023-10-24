@@ -4,19 +4,19 @@ import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 
 import { scale, verticalScale, moderateScale } from './src/helper/scale.js';
-import AppIntroSlider from './src/screens/AppIntroSlider.js';
-
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { enableFreeze, enableScreens } from "react-native-screens";
+import * as Linking from "expo-linking";
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 import RootNav from './src/navigation/N-RootNav.js';
 import {Platform} from 'react-native';
+import { Delete, Save } from './src/helper/store.js';
 const logo = require('./assets/logo/logo.png');
-console.log(Platform.isPad);
+const prefix = Linking.createURL('/', {scheme: 'exp'})
+
 export default function App() {
-  const [showSplash, setShowSplash] = useState(false);
-  const [showHomePage, setShowHomePage] = useState(true);
+
+  // const navigation = useNavigation()
+  const [showSplash, setShowSplash] = useState(true);
   const [fontsLoaded] = useFonts({
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
@@ -37,10 +37,23 @@ export default function App() {
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
-
+  
+  const linking = {
+    prefixes: [prefix],
+    config: {
+      screens: {
+        RegisterEmail: {
+          path: "register",
+          screens: {
+            EnterUserInformation: 'enterinfo',
+          }, 
+        },
+      },
+    }
+  }
+  
   if (showSplash) {
     return (
       <View style={styles.splashScreen}>
@@ -51,15 +64,10 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  if (!showHomePage) {
-    return (
-      <GestureHandlerRootView style={{flex: 1}}>
-        <AppIntroSlider setShowHomePage={setShowHomePage} />
-      </GestureHandlerRootView>
-    )
-  }
+
+ 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <RootNav />
     </NavigationContainer>
   );
