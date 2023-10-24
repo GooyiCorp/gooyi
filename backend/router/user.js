@@ -11,6 +11,7 @@ import { __dirname } from "../index.js";
 import { render } from "../template/index.js";
 import { verifyToken } from "../middleware/index.js";
 import { Op } from "sequelize";
+import { logger } from "../helper/logger.js";
 const userRoute = express.Router();
 
 userRoute.post("/create", async (req, res) => {
@@ -80,7 +81,7 @@ userRoute.post("/email-login", async (req, res) => {
         }
 
     } catch (err) {
-        console.error(err);
+        logger.info(err);
         sendServerError(res)
     }
 
@@ -129,7 +130,7 @@ userRoute.post('/register', async(req, res) => {
         return sendSuccess(res, "Register successfully", response)
     }
     catch (err) {
-        console.log(err);
+        logger.info(err);
         return sendServerError(res)
     }
     
@@ -157,7 +158,7 @@ userRoute.get("/login-redirect", async (req, res) => {
         ACTIVE_USER.add(payload.user.user_id)
         return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
     } catch (err) {
-        console.log(err);
+        logger.info(err);
         sendServerError(res)
     }
 });
@@ -171,7 +172,7 @@ userRoute.get('/register-redirect', async (req, res) => {
         if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
         return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false',data: email}))
     } catch (err) {
-        console.log(err);
+        logger.info(err);
         return sendServerError(res)
     }
 })
