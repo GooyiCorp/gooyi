@@ -16,7 +16,7 @@ const prefix = Linking.createURL('/', {scheme: 'exp'})
 export default function App() {
 
   // const navigation = useNavigation()
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
   const [fontsLoaded] = useFonts({
     'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
     'Roboto-Light': require('./assets/fonts/Roboto/Roboto-Light.ttf'),
