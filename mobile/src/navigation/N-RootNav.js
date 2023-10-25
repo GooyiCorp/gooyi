@@ -40,6 +40,9 @@ export default function RootNav() {
             <Root.Screen 
                 name='Onboard' 
                 component={Onboarding}
+                options={{
+                    gestureEnabled: false,
+                }}
             />
 
 {/* Screen Loading --------------------------------------------------------- */}

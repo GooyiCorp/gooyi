@@ -79,21 +79,23 @@ export default function EnterUserInformation() {
   }, [url])
   
   const handleSubmit = async () => {
-    const api = api_url + '/user/register'
+    const api = api_url + 'user/register'
     try {
       const response = await axios.post(api, {
         first_name: inputDataFN,
         last_name: inputDataLN,
-        email: testData
+        email: testData,
       })
       // success
 
-      // nhay vao cai nao day 
       navigation.navigate('Onboard')
-
+      // nhay vao cai nao day 
+      console.log('send')
       console.log(response.data);
     } catch (error) {
-      console.log();(error.response.error)
+      console.log(error)
+      console.log('fail')
+      console.log(inputDataLN)
     }
   }
   

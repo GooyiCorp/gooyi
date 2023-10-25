@@ -11,7 +11,18 @@ import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, wit
 
 export default function Onboarding({navigation}) {
 
+  const animation = useSharedValue(0)
 
+  const fade = useAnimatedStyle(() => {
+    return {
+      opacity: animation.value,
+      height: interpolate(animation.value, [0,1], [0,350])
+    }
+  })
+
+  useEffect(() => {
+    animation.value = withDelay(500, withTiming(1))
+  }, [])
 
   return (
   <Pressable onPress={() => navigation.navigate('Main')}>
@@ -25,13 +36,13 @@ export default function Onboarding({navigation}) {
       />
     </View>
 
-    <View style={styles.imageBox}>
+    <Animated.View style={[styles.imageBox, fade]}>
       <Image 
         source={require('../../../assets/image/foxSlide1.png')}
         resizeMode='contain'
         style={styles.image}
       />   
-    </View>
+    </Animated.View>
 
     <Text style={styles.h1}>Moin moin!</Text>
     <Text style={[styles.h5]}>Tippe zum Start auf dem Bildschirm.</Text>
