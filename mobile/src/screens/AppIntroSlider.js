@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, Animated } from "react-native";
+import { FlatList, Animated, View, StyleSheet } from "react-native";
 
 
 import welcome from "../constants/welcome.js";
@@ -12,7 +12,8 @@ import Register from "./Register.js";
 
 import { RedButton } from "../components/atoms/Button.js";
 import { verticalScale } from "../helper/scale.js";
-import { width } from "../constants/size.js";
+import { height, width } from "../constants/size.js";
+import { COLORS } from "../index/constantsindex.js";
 const AppIntroSlider = ( {setShowHomePage}) => {
     const timerId = useRef(null);
     const active = useRef(true);
@@ -89,11 +90,8 @@ const AppIntroSlider = ( {setShowHomePage}) => {
     // -------------------------------------------------------------------------
 
     return (
-        
-        <LinearGradient
-            colors={['rgb(187,95,113)', 'rgba(211,128,145,1)', 'rgba(239,151,171,1)', 'rgba(229,150,167,1)', 'rgba(206,120,138,1)', 'rgba(182,87,107,1)']}
-            locations={[0, 0.14, 0.24, 0.6, 0.74, 1]}
-        >
+        <View style={styles.screen}>
+
             <FlatList
                 ref={listRef}
                 data={welcome}
@@ -112,18 +110,38 @@ const AppIntroSlider = ( {setShowHomePage}) => {
                 onScroll={handleScroll}
                 onViewableItemsChanged={handleGetIndex}
             />
-            { slideIndex != welcome.length -1 && 
+            {/* { slideIndex != welcome.length -1 && 
             <Animated.View style={{opacity: opacity}}>
                 <RedButton title="Los geht's" onPress={scrollToEnd} style={{position: 'absolute', bottom: verticalScale(120), alignSelf: 'center' }} />
             </Animated.View>
-            }
+            } */}
             <PaginationBar scrollX={scrollX} currentIndex={slideIndex} />
-            {showSignIn && <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />}
-            {showRegister && <Register onClose={onCloseRegister} homepage={setShowHomePage}/>}
+            {/* {showSignIn && <SignIn onClose={onCloseSignIn} homepage={setShowHomePage} />}
+            {showRegister && <Register onClose={onCloseRegister} homepage={setShowHomePage}/>} */}
             {/* <Register /> */}
-
-        </LinearGradient>
+            {/* <View style={styles.circle}></View> */}
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        height: height,
+        width: width,
+        backgroundColor: 'white'
+    },
+
+    circle: {
+        height: height*3,
+        width: height*3,
+        borderRadius: 1.5*height,
+        backgroundColor: COLORS.primary,
+        position: 'absolute',
+        alignSelf: 'center',
+        bottom: -2.6*height,
+        left: -2.5*width,
+        zIndex: -1,
+    }
+})
 
 export default AppIntroSlider;

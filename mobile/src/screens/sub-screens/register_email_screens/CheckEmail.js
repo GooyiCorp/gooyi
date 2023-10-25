@@ -9,9 +9,31 @@ import { height, width } from '../../../constants/size'
 import BigButton from '../../../components/components_LogIn/BigButton'
 import { openInbox } from "react-native-email-link";
 import SendNewLinkButton from '../../../components/components_LogIn/SendNewLinkButton'
+import { api_url } from '../../../constants/api'
+import axios from 'axios'
 
 export default function CheckEmail({navigation, route}) {
+
     const {returnEmail} = route.params;
+    console.log(returnEmail)
+
+    const handleSendNewLink = async () => {
+        const url = api_url + 'user/email-login/'
+            try {
+                const response = await axios.post(url, {
+                "email": returnEmail.toLowerCase()
+                })
+        
+                // success
+                console.log(response.data);
+            
+            } 
+                // error
+            catch (error) {
+                console.log(error.response.data);
+            }
+         }
+
   return (
     <View style={{width: width, height: height, backgroundColor: COLORS.primary}}>
 
@@ -48,7 +70,7 @@ export default function CheckEmail({navigation, route}) {
 
         {/* -------------------------------------------------------------------- Send New Link */}
         <SendNewLinkButton 
-            handleOnPress={() => console.log('send new Link')}
+            handleOnPress={handleSendNewLink}
             counterValue={20}
             style={{
                 marginTop: 30

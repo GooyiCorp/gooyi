@@ -46,7 +46,6 @@ export default function NewInput({
 
 }) {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    const [testdata, setTestData] = useState('')
     const [data, setData] = useState('')
 
     // Main State
@@ -165,6 +164,7 @@ export default function NewInput({
     useEffect(() => {
         if (!data) {
             setData(fixData)
+            console.log(fixData)
             console.log('1')
             
         }
