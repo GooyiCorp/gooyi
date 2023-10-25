@@ -103,7 +103,7 @@ export default function EnterUserInformation() {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
-    <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
+    url && <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
   
     {/* -------------------------------------------------------------------- onLeaveLayout - Background Pressable */}
     <Pressable 
