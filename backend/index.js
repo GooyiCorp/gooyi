@@ -40,9 +40,22 @@ app.use("/api/test", (req, res) => {res.send({"message": "ok",})})
 app.use("/api/logs", (req, res) => {
     try {
         const result = readLog();
-        return sendSuccess(res, "Get Logs", result)
+        res.type("text/plain")
+        return res.send(result);
     } catch (err) {
-        logger.info(err);
+        logger.error(err);
+        return sendServerError(res)
+    }
+})
+export var debuggerHost = process.env.APP_SCHEMA
+app.get("/api/change-host", (req, res) => {
+    const {host} = req.query
+    try {
+        debuggerHost = host
+        logger.info(`Change host : ${host}`)
+        return sendSuccess(res, "Change Host", debuggerHost)
+    } catch (err) {
+        logger.error(err)
         return sendServerError(res)
     }
 })

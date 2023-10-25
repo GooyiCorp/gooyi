@@ -5,7 +5,7 @@ import { email_validate, redirect_validate, register_validate } from "../validat
 import User from "../model/User.js";
 import { USER } from "../constant/role.js";
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../constant/jwt.js";
-import { ACTIVE_USER, TOKEN_LIST, TOKEN_BLACKLIST } from "../index.js";
+import { ACTIVE_USER, TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../index.js";
 import path from 'path';
 import { __dirname } from "../index.js";
 import { render } from "../template/index.js";
@@ -81,7 +81,7 @@ userRoute.post("/email-login", async (req, res) => {
         }
 
     } catch (err) {
-        logger.info(err);
+        logger.error(err);
         sendServerError(res)
     }
 
@@ -130,7 +130,7 @@ userRoute.post('/register', async(req, res) => {
         return sendSuccess(res, "Register successfully", response)
     }
     catch (err) {
-        logger.info(err);
+        logger.error(err);
         return sendServerError(res)
     }
     
@@ -146,7 +146,7 @@ userRoute.get("/login-redirect", async (req, res) => {
     } = req.query
     try {
         const now = new Date().getTime()
-        const app = process.env.APP_SCHEMA
+        const app = debuggerHost
         if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
         if (refreshToken in TOKEN_LIST) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app, error: 'used'}))
         const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
@@ -158,7 +158,7 @@ userRoute.get("/login-redirect", async (req, res) => {
         ACTIVE_USER.add(payload.user.user_id)
         return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
     } catch (err) {
-        logger.info(err);
+        logger.error(err);
         sendServerError(res)
     }
 });
@@ -168,11 +168,11 @@ userRoute.get('/register-redirect', async (req, res) => {
         const user = await User.findOne({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
-        const app = process.env.APP_SCHEMA + "/--/register/enterinfo"
+        const app = debuggerHost + "/--/register/enterinfo"
         if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
         return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false',data: email}))
     } catch (err) {
-        logger.info(err);
+        logger.error(err);
         return sendServerError(res)
     }
 })
