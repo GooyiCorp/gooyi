@@ -73,6 +73,8 @@ export default function EnterUserInformation() {
       
       // else 
       setTestData(queryParams.data)
+      console.log(queryParams)
+      console.log('aaa')
     }
   }, [url])
   
@@ -87,7 +89,7 @@ export default function EnterUserInformation() {
       // success
 
       // nhay vao cai nao day 
-      // navigation.navigate()
+      navigation.navigate('Onboard')
 
       console.log(response.data);
     } catch (error) {

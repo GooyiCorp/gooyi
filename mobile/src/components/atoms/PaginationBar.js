@@ -33,7 +33,7 @@ const PaginationBar = ({scrollX}) => {
 const styles= StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: verticalScale(50),
+        bottom: verticalScale(150),
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'center',
