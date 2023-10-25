@@ -96,8 +96,8 @@ userRoute.post('/register', async(req, res) => {
     } = req.body
     const err = register_validate({first_name, last_name, email, phone})
     if (err) return sendError(res, err)
-    const user = await User.findOne({where: {[Op.or]: [{email: email, phone: phone}]}})
-    if (user) return sendError(res, "This user already exists")
+    // const user = await User.findOne({where: {[Op.or]: [{email: email, phone: phone}]}})
+    // if (user) return sendError(res, "This user already exists")
     try {
         const user = await User.create({first_name, last_name, email, phone, active: true})
         const userData = {
