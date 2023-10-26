@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -10,6 +10,11 @@ export default function SettingHeader({
     goBack,
     onPressGoBack,
     userID,
+    close,
+    buttonText2,
+    buttonText1,
+    editButton,
+    onPressClose,
 }) {
   return (
     <View style={styles.container}>
@@ -30,11 +35,35 @@ export default function SettingHeader({
                         onPressButton={onPressGoBack}
                     />}
 
+            {/* -------------------------------------------------------------------- Go Back Button */}
+            {close && <RoundButton 
+                        icon={icons.MaterialIcons}
+                        iconName={'close'}
+                        iconSize={moderateScale(28,0.2)}
+                        iconColor={COLORS.mainBackground}
+                        style={{
+                            backgroundColor: COLORS.grey,
+                            height: moderateScale(38,0.2),
+                            width: moderateScale(38,0.2),
+                        }}
+                        onPressButton={onPressClose}
+                    />}
+
             {/* -------------------------------------------------------------------- User ID */}
             {userID && <View style={{flexDirection: 'row'}}>
                     <Text style={[styles.label]}>Nutzer ID</Text>
                     <Text style={[styles.label, {fontFamily: 'RH-Medium'}]}>1226.1238.23</Text>
             </View>}
+            
+            {/* -------------------------------------------------------------------- Edit Button */}
+            {editButton && <Pressable style={{backgroundColor: 'yellow', height: 38, justifyContent: 'center', alignItems: 'flex-end'}}>
+                <Text style={[styles.label, {fontFamily: 'RH-Medium', color: COLORS.primary, position: 'absolute'}]}>{buttonText1}</Text>
+                <Text style={[styles.label, {fontFamily: 'RH-Medium', color: COLORS.primary, position: 'absolute'}]}>{buttonText2}</Text>
+            </Pressable>
+            
+            
+            
+            }
 
         </View>
 

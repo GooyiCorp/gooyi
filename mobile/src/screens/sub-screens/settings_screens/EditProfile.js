@@ -15,7 +15,15 @@ export default function EditProfile({
   return (
     <View style={styles.screen}>
 
-    <View style={styles.headerContainer}>  
+      <SettingHeader 
+          onPressClose={() => navigation.goBack()}
+          close
+          buttonText1={'Bearbeiten'}
+          buttonText2={'Fertig'}
+          editButton
+      />
+
+    {/* <View style={styles.headerContainer}>  
 
       <Text style={styles.h2}>Profil bearbeiten</Text>
 
@@ -33,7 +41,7 @@ export default function EditProfile({
         onPressButton={() => navigation.goBack()}
       />
      
-    </View>
+    </View> */}
 
     </View>
   )
