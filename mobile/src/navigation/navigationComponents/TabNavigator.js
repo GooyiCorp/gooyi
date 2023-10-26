@@ -17,6 +17,7 @@ export default function TabNavigator({
     couponsFocussed,
     storesFocussed,
     profileFocussed,
+    style,
 }) {
 
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
@@ -67,7 +68,7 @@ export default function TabNavigator({
 
     return (
 
-        <View style={styles.tabNavigationContainer}>
+        <View style={[styles.tabNavigationContainer, style]}>
 
         {/* -------------------------------------------------------------------- Discover */}
         <Pressable style={styles.navIconContainer} onPress={onPressDiscover}>

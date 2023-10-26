@@ -152,6 +152,7 @@ export default function MainNav() {
                 couponsFocussed={indexCoupons}
                 storesFocussed={indexStores}
                 profileFocussed={indexProfile}
+                style={{ backgroundColor: 'transparent'}}
             />
         </Animated.View>
 

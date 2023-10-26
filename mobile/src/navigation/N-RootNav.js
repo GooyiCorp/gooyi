@@ -83,6 +83,12 @@ export default function RootNav() {
                 name='RegisterEmail' 
                 component={RegisterEMailStack}
             />
+
+{/* Screen Register Email --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Profile' 
+                component={ProfileStackNav}
+            />
             
         </Root.Navigator>
 

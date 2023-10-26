@@ -3,10 +3,16 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { ROUTES } from '../../index/constantsindex'
-import ProfileScreen from '../../screens/root-screens/S-Profile';
-import EditProfile from '../../screens/sub-screens/SP-EditProfile';
-import AccountSetting from '../../screens/sub-screens/SP-AccountSetting';
-import Notification from '../../screens/sub-screens/SP-Notification';
+
+import SettingOverview from '../../screens/sub-screens/settings_screens/SettingOverview';
+import EditProfile from '../../screens/sub-screens/settings_screens/EditProfile';
+import ChangePIN from '../../screens/sub-screens/settings_screens/ChangePIN';
+import FaceID from '../../screens/sub-screens/settings_screens/FaceID';
+import PaymentData from '../../screens/sub-screens/settings_screens/PaymentData';
+import TermsCondition from '../../screens/sub-screens/settings_screens/TermsCondition';
+import About from '../../screens/sub-screens/settings_screens/About';
+import Support from '../../screens/sub-screens/settings_screens/Support';
+import Notification from '../../screens/sub-screens/profile_screens/Notification';
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -17,44 +23,70 @@ const ProfileStack = createStackNavigator();
 export default function ProfileStackNav( {navigation} ) {
   return (
     <ProfileStack.Navigator
-        initialRouteName='Profile1'
         screenOptions={{
             headerShown: false
         }}
     >
-
-{/* Screen Profile 1 ------------------------------------------- */}
+{/* Screen Setting Main ------------------------------------------- */}
         <ProfileStack.Screen 
-            name='Profile1'
-            component={ProfileScreen}
+            name='Setting'
+            component={SettingOverview}
+            // options={{
+            //   presentation: 'transparentModal'
+            // }}
         />
 
-{/* Screen Edit Profile ------------------------------------------- */}
+{/* Screen Profile Edit ------------------------------------------- */}
         <ProfileStack.Screen 
-            name='Profile2'
+            name='EditProfile'
             component={EditProfile}
-            options={{
-              presentation: 'transparentModal'
-            }}
         />
 
-{/* Screen Setting ------------------------------------------- */}
+{/* Screen Change PIN ------------------------------------------- */}
         <ProfileStack.Screen 
-            name='Profile3'
-            component={AccountSetting}
-            options={{
-              presentation: 'transparentModal'
-            }}
+            name='ChangePin'
+            component={ChangePIN}
         />
+
+{/* Screen Face ID Setting ------------------------------------------- */}
+        <ProfileStack.Screen 
+            name='FaceID'
+            component={FaceID}
+        />
+
+{/* Screen Payment Data ------------------------------------------- */}
+        <ProfileStack.Screen 
+            name='Payment'
+            component={PaymentData}
+        />
+
+{/* Screen Terms and Conditions ------------------------------------------- */}
+        <ProfileStack.Screen 
+            name='Terms'
+            component={TermsCondition}
+        />
+
+{/* Screen About ------------------------------------------- */}
+        <ProfileStack.Screen 
+            name='About'
+            component={About}
+        />
+
+{/* Screen Help and Support ------------------------------------------- */}
+        <ProfileStack.Screen 
+            name='Support'
+            component={Support}
+        />  
 
 {/* Screen Notification ------------------------------------------- */}
 <ProfileStack.Screen 
-            name='Profile4'
+            name='Notification'
             component={Notification}
             options={{
               presentation: 'transparentModal'
             }}
         />
+
 
         
 

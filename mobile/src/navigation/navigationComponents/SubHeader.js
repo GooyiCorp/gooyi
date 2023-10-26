@@ -23,6 +23,7 @@ export default function SubHeader({
     onPressLocate,
     subHeaderContainerStyle,
     onPressSearch,
+    onPressSetting,
 }) {
 
   return (
@@ -116,7 +117,20 @@ export default function SubHeader({
 
             {/* -------------------------------------------------------------------- ID Text */}
             {userID && <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{height: 38, width: 38, backgroundColor: 'rgb(37, 6, 83)', borderRadius: 50, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}><Text style={{color: 'white', fontSize: 15, fontFamily: 'Roboto-Bold'}}>AS</Text></View>
+                <RoundButton 
+                    icon={icons.AntDesign}
+                    iconName={'setting'}
+                    iconSize={moderateScale(29,0.2)}
+                    iconColor={COLORS.subPrimary}
+                    style={{
+                        backgroundColor: COLORS.subPrimary02,
+                        height: moderateScale(38,0.2),
+                        width: moderateScale(38,0.2),
+                        marginLeft: 0,
+                    }}
+                    onPressButton={onPressSetting}
+                />
+
                 <Text style={styles.id}>Nutzer ID: <Text style={{fontFamily: 'Roboto-Light'}}>{idNumber}</Text></Text>
             </View>}
             

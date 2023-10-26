@@ -19,6 +19,7 @@ import {icons} from '../../components/components_universal/Icons'
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
 import LogIn from './s_LogIn'
+import UserCard from '../../components/components_profile_screen/UserCard'
 
 
 
@@ -27,31 +28,35 @@ export default function ProfileScreen() {
   
   const navigation = useNavigation()
 
-  const [logIn, setLogIn] = useState(true)
+  const [logIn, setLogIn] = useState(false)
 
   return (
-    <View style={{height: height, width: width}}>
+    <View style={{height: height, width: width, backgroundColor: '#f2eeeb'}}>
        
       {logIn && <LogIn/>}
       {/* Main Header */}
       <MainHeader 
-        title='Moin Thanh'
+        title='Übersicht'
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
         notificationButton
-        onPressNotificationButton={() => navigation.navigate('Profile4')}
+        onPressNotificationButton={() => navigation.navigate('Profile', {screen: 'Notification'})}
+        headerContainerStyle={{backgroundColor: 'transparent'}}
       />
 
       {/* Sub Header */}
       <SubHeader
         userID
         idNumber={'400 121 9613'}
+        subHeaderContainerStyle={{backgroundColor: 'transparent'}}
+        onPressSetting={() => navigation.navigate('Profile', {screen: 'Setting'})}
       /> 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <View style={{flex: 1, backgroundColor: '#ffffff', alignItems: 'center'}}>
+      <View style={{flex: 1, backgroundColor: '#f2eeeb', alignItems: 'center'}}>
 
+      <UserCard/>
       {/* <View style={{width: '100%', paddingVertical: 15}}>
 
         <PresentationHeader 
