@@ -30,20 +30,39 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 import { morgan_log } from "./config/morgan.js";
+import { logger, readLog } from "./helper/logger.js";
+import { sendServerError, sendSuccess } from "./helper/client.js";
 app.use(morgan(morgan_log))
 
 
 app.use("/api/user", userRoute)
-app.use("/api/test", (req, res) => {
-    res.send({
-        "message": "ok",
-    })
+app.use("/api/test", (req, res) => {res.send({"message": "ok",})})
+app.use("/api/logs", (req, res) => {
+    try {
+        const result = readLog();
+        res.type("text/plain")
+        return res.send(result);
+    } catch (err) {
+        logger.error(err);
+        return sendServerError(res)
+    }
 })
-
+export var debuggerHost = process.env.APP_SCHEMA
+app.get("/api/change-host", (req, res) => {
+    const {host} = req.query
+    try {
+        debuggerHost = host
+        logger.info(`Change host : ${host}`)
+        return sendSuccess(res, "Change Host", debuggerHost)
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
+})
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
-    console.log("Listening on port 8000");
+    logger.info("Listening on port 8000");
 })
 
 setInterval(() => {
