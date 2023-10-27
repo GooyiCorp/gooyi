@@ -11,7 +11,7 @@ import RootNav from './src/navigation/N-RootNav.js';
 import {Platform} from 'react-native';
 import { Delete, Save } from './src/helper/store.js';
 const logo = require('./assets/logo/logo.png');
-const prefix = Linking.createURL('/', {scheme: 'exp'})
+const prefix = Linking.createURL('/')
 
 export default function App() {
 
@@ -50,6 +50,9 @@ export default function App() {
             EnterUserInformation: 'enterinfo',
           }, 
         },
+        Main: {
+          path: "main"
+        }
       },
     }
   }

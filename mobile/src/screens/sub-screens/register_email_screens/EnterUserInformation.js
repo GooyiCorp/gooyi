@@ -14,6 +14,7 @@ import NewInput from '../../../components/components_LogIn/NewInput'
 import * as Linking from "expo-linking";
 import { api_url } from '../../../constants/api'
 import axios from 'axios'
+import { Save } from '../../../helper/store'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation() {
     const navigation = useNavigation()
@@ -69,12 +70,13 @@ export default function EnterUserInformation() {
   useEffect(() => {
     if (url) {
       const { hostname, path, queryParams } = Linking.parse(url);
-      // if (queryParams.error == 'expired')
+      if (queryParams.error == 'expired') {
+        alert('Loi het han link')
+      }
       
-      // else 
-      setTestData(queryParams.data)
-      console.log(queryParams)
-      console.log('aaa')
+      else {
+        if (queryParams.data) setTestData(queryParams.data)
+      } 
     }
   }, [url])
   
@@ -87,15 +89,17 @@ export default function EnterUserInformation() {
         email: testData,
       })
       // success
-
+      console.log(response.data.data);
+      Save("accessToken", response.data.data.accessToken)
+      Save("refreshToken", response.data.data.refreshToken)
+      Save("email", response.data.data.userData.email)
+      Save("phone", response.data.data.userData.phone)
+      Save("id", response.data.data.userData.id)
+      // set log ing lai di
       navigation.navigate('Onboard')
       // nhay vao cai nao day 
-      console.log('send')
-      console.log(response.data);
     } catch (error) {
       console.log(error)
-      console.log('fail')
-      console.log(inputDataLN)
     }
   }
   
@@ -103,7 +107,7 @@ export default function EnterUserInformation() {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
-    url && <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
+    <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
   
     {/* -------------------------------------------------------------------- onLeaveLayout - Background Pressable */}
     <Pressable 

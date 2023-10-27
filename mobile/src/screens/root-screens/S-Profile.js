@@ -28,7 +28,7 @@ export default function ProfileScreen() {
   
   const navigation = useNavigation()
 
-  const [logIn, setLogIn] = useState(false)
+  const [logIn, setLogIn] = useState(true)
 
   return (
     <View style={{height: height, width: width, backgroundColor: '#f2eeeb'}}>

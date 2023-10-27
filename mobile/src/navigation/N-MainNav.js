@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 import { height, width } from '../constants/size'
@@ -10,13 +10,26 @@ import TabNavigator from './navigationComponents/TabNavigator'
 import StoresScreen from '../screens/root-screens/S-Stores'
 import ProfileScreen from '../screens/root-screens/S-Profile'
 import { COLORS } from '../index/constantsindex'
+import * as Linking from "expo-linking";
+import { Save } from '../helper/store'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav() {
 
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
-    
+    const url = Linking.useURL()
+    useEffect(() => {
+        if (url) {
+          const { hostname, path, queryParams } = Linking.parse(url);
+          if (queryParams.error == 'expired') {
+            // alert('Loi')
+          }
+          else {
+            console.log(queryParams);
+          } 
+        }
+      }, [url])
     // ---------------------------------------------------------------------- Screens Transition
 
     const showDiscover = useSharedValue(1)

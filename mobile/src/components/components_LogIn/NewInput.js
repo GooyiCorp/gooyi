@@ -164,9 +164,6 @@ export default function NewInput({
     useEffect(() => {
         if (!data) {
             setData(fixData)
-            console.log(fixData)
-            console.log('1')
-            
         }
         if (fixData) {
             focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
