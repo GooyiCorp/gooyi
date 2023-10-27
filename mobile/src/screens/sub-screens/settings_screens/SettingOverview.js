@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     screen: {
         height: height,
         width: width,
-        backgroundColor: COLORS.mainBackground,
+        backgroundColor: COLORS.white,
         // justifyContent: 'center',
         // alignItems: 'center'
     },
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: width-60,
         marginHorizontal: 30,
-        marginTop: 120,
+        //marginTop: 120,
       },
     
       title: {

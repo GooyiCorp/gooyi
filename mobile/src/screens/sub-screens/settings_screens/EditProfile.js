@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { height, width } from '../../../constants/size'
 import { COLORS } from '../../../index/constantsindex'
 import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
@@ -7,41 +7,57 @@ import { useNavigation } from '@react-navigation/native'
 import { moderateScale } from '../../../helper/scale'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
+import NewInput from '../../../components/components_LogIn/NewInput'
+import SettingInput from '../../../components/components_profile_screen/SettingInput'
+
 
 export default function EditProfile({
 }) {
 
   const navigation = useNavigation()
+
+    // ----------------------------------------------------------------------------------------------- First Name Input Value
+    const [submitFN, setSubmitFN] = useState(false)
+    const [focusFN, setFocusFN] = useState(false)
+    const [inputDataFN, setInputDataFN] = useState('')
   return (
     <View style={styles.screen}>
 
       <SettingHeader 
-          onPressClose={() => navigation.goBack()}
-          close
-          buttonText1={'Bearbeiten'}
-          buttonText2={'Fertig'}
-          editButton
+        onPressClose={() => navigation.goBack()}
+        close
+        buttonText1={'Bearbeiten'}
+        buttonText2={'Abbrechen'}
+        editButton
       />
 
-    {/* <View style={styles.headerContainer}>  
+      <View>
+        {/* Label */}
+        <Text style={styles.h2}>Persönliche Daten</Text>
+        {/* Input Box */}
+        <SettingInput 
+          clearButton
+          isEditable={true}
+          setInputData={() => null}
+          checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+          label={'Vorname'}
+          // error Message
+          errorMessageCaseEmpty={'Das Feld darf nicht leer sein!'}
+          errorMessageDataValidity={'Die eingegebene E-Mail-Addresse ist ungültig!'}
+        />
 
-      <Text style={styles.h2}>Profil bearbeiten</Text>
+        <SettingInput 
+          clearButton
+          isEditable={true}
+          setInputData={() => null}
+          checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+          label={'Nachname'}
+          // error Message
+          errorMessageCaseEmpty={'Das Feld darf nicht leer sein!'}
+          errorMessageDataValidity={'Die eingegebene E-Mail-Addresse ist ungültig!'}
+        />
+      </View>
 
-      <RoundButton
-        icon={icons.MaterialIcons}
-        iconName={'close'}
-        iconSize={moderateScale(22,0.2)}
-        iconColor={COLORS.white}
-        style={{
-          backgroundColor: COLORS.grey,
-          height: moderateScale(38,0.2),
-          width: moderateScale(38,0.2),
-          marginHorizontal: 0,
-        }}
-        onPressButton={() => navigation.goBack()}
-      />
-     
-    </View> */}
 
     </View>
   )
@@ -51,26 +67,19 @@ const styles = StyleSheet.create({
     screen: {
         height: height,
         width: width,
-        backgroundColor: COLORS.mainBackground,
+        backgroundColor: COLORS.white,
         // justifyContent: 'center',
         // alignItems: 'center',
     },
 
-    headerContainer: {
-      width: width,
-      paddingHorizontal: 30,
-      paddingTop: 60,
-      paddingBottom: 20,
-      //backgroundColor: COLORS.primary,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-
-    },
-  
     h2: {
       fontFamily: 'RH-Bold',
       fontSize: 20,
       color: COLORS.grey,
+      paddingHorizontal: 30,
+      marginTop: 15,
+      marginBottom: 20,
     },
+
+
 })

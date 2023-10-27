@@ -21,6 +21,8 @@ import SendNewLinkButton from '../../components/components_LogIn/SendNewLinkButt
 import LoadingCircle from '../../components/components_universal/LoadingCircle'
 import CheckBox from '../../components/components_universal/CheckBox'
 import NewInput from '../../components/components_LogIn/NewInput'
+import SettingInput from '../../components/components_profile_screen/SettingInput'
+import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -91,6 +93,22 @@ export default function DiscoverScreen( {
       <View >
 
         <Button title='Onboarding' onPress={() => navigation.navigate('Onboard')}/>
+
+        <SettingInput 
+          clearButton
+          isEditable={true}
+          setInputData={() => null}
+          checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+          label={'Vorname'}
+          // error Message
+          errorMessageCaseEmpty={'Das Feld darf nicht leer sein!'}
+          errorMessageDataValidity={'Die eingegebene E-Mail-Addresse ist ungültig!'}
+        />
+
+        <CloseSaveButton 
+          handleSave={() => console.log('save')}
+          handleClose={() => console.log('close')}
+        />
         
 
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}

@@ -1,10 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
+import BigButton from '../../components/components_LogIn/BigButton'
+import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
 
 export default function SettingHeader({
     goBack,
@@ -16,6 +18,13 @@ export default function SettingHeader({
     editButton,
     onPressClose,
 }) {
+
+    const [edit, setEdit] = useState(false)
+
+    const handeEdit = () => {
+        setEdit(!edit)
+    }
+    
   return (
     <View style={styles.container}>
         
@@ -26,7 +35,7 @@ export default function SettingHeader({
                         icon={icons.Ionicons}
                         iconName={'md-chevron-back'}
                         iconSize={moderateScale(28,0.2)}
-                        iconColor={COLORS.mainBackground}
+                        iconColor={COLORS.white}
                         style={{
                             backgroundColor: COLORS.grey,
                             height: moderateScale(38,0.2),
@@ -36,18 +45,13 @@ export default function SettingHeader({
                     />}
 
             {/* -------------------------------------------------------------------- Go Back Button */}
-            {close && <RoundButton 
-                        icon={icons.MaterialIcons}
-                        iconName={'close'}
-                        iconSize={moderateScale(28,0.2)}
-                        iconColor={COLORS.mainBackground}
-                        style={{
-                            backgroundColor: COLORS.grey,
-                            height: moderateScale(38,0.2),
-                            width: moderateScale(38,0.2),
-                        }}
-                        onPressButton={onPressClose}
-                    />}
+            {close && 
+                <CloseSaveButton
+                    handleSave={() => console.log('save')}
+                    handleClose={onPressClose}
+                    edit={edit}
+                />
+            }
 
             {/* -------------------------------------------------------------------- User ID */}
             {userID && <View style={{flexDirection: 'row'}}>
@@ -56,9 +60,11 @@ export default function SettingHeader({
             </View>}
             
             {/* -------------------------------------------------------------------- Edit Button */}
-            {editButton && <Pressable style={{backgroundColor: 'yellow', height: 38, justifyContent: 'center', alignItems: 'flex-end'}}>
-                <Text style={[styles.label, {fontFamily: 'RH-Medium', color: COLORS.primary, position: 'absolute'}]}>{buttonText1}</Text>
-                <Text style={[styles.label, {fontFamily: 'RH-Medium', color: COLORS.primary, position: 'absolute'}]}>{buttonText2}</Text>
+            {editButton && <Pressable 
+                style={{paddingVertical: 10}}
+                onPress={handeEdit}
+            >
+                <Text style={[styles.label]}>{edit? buttonText2 : buttonText1}</Text>
             </Pressable>
             
             
@@ -76,8 +82,8 @@ const styles = StyleSheet.create({
         width: width,
         height: 120,
         //backgroundColor: COLORS.white05,
-        position: 'absolute',
-        top: 0,
+        //position: 'absolute',
+        //top: 0,
         // paddingHorizontal: 30,
         // paddingBottom: 10,
         justifyContent: 'flex-end'
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: 'RH-Bold',
         fontSize: 15,
-        color: COLORS.black,
+        color: COLORS.primary,
         marginRight: 5,
         textAlign: 'center'
     },
