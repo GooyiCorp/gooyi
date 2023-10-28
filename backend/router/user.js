@@ -148,17 +148,18 @@ userRoute.get("/login-redirect", async (req, res) => {
     } = req.query
     try {
         const now = new Date().getTime()
-        const app = debuggerHost
-        if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
-        if (refreshToken in TOKEN_LIST) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app, error: 'used'}))
+        const link = debuggerHost + "/main"
+        const redirect_page = path.join(__dirname, '/template/redirect.html')
+        if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link+"?error=expired"}))
+        if (refreshToken in TOKEN_LIST) return res.send(render(redirect_page, {redirect_link: link+"?error=used"}))
         const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
-        if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'loggedIn'}))
+        if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(redirect_page, {redirect_link: link+"?error=logged_in"}))
         const response = {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
         ACTIVE_USER.add(payload.user.user_id)
-        return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false', accessToken, refreshToken}))
+        return res.send(render(redirect_page, {redirect_link: link + `?accessToken=${accessToken}&refreshToken=${refreshToken}`}))
     } catch (err) {
         logger.error(err);
         sendServerError(res)
@@ -170,9 +171,10 @@ userRoute.get('/register-redirect', async (req, res) => {
         const user = await User.findOne({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
-        const app = debuggerHost + "/--/register/enterinfo"
-        if (now - exp >= 600000) return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app ,error: 'expired'}))
-        return res.send(render(path.join(__dirname, '/template/login.html'), {app_chema:app,error: 'false',data: email}))
+        const link = debuggerHost + "/--/register/enterinfo"
+        const redirect_page = path.join(__dirname, '/template/redirect.html')
+        if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link + "?error=expired"}))
+        return res.send(render(path.join(__dirname, '/template/login.html'), {redirect_link: link + `?email=${email}`}))
     } catch (err) {
         logger.error(err);
         return sendServerError(res)
