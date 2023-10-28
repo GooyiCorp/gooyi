@@ -127,7 +127,9 @@ userRoute.post('/register', async(req, res) => {
         const response = {
             accessToken, refreshToken
         }
-        return sendSuccess(res, "Register successfully", response)
+        TOKEN_LIST[refreshToken] = response
+        ACTIVE_USER.add(payload.user.user_id)
+        return sendSuccess(res, "Register successfully", {accessToken, refreshToken, userData})
     }
     catch (err) {
         logger.error(err);
