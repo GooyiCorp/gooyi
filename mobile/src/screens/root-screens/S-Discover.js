@@ -23,6 +23,9 @@ import CheckBox from '../../components/components_universal/CheckBox'
 import NewInput from '../../components/components_LogIn/NewInput'
 import SettingInput from '../../components/components_profile_screen/SettingInput'
 import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
+import { useDispatch } from 'react-redux'
+import { store } from '../../redux/store'
+import userSlice, { setLoggedOut, setLoggedIn } from '../../redux/slices/userSlice'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -38,6 +41,9 @@ export default function DiscoverScreen( {
   useEffect(() => {
     fetchCategory()
   }, [])
+
+  const dispatch = useDispatch();
+
 
   // Locate Modal ----------------------------------------------------------------------
   const [showLocateModal, setShowLocateModal] = useState(false)
@@ -92,7 +98,7 @@ export default function DiscoverScreen( {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
 
-        <Button title='Onboarding' onPress={() => navigation.navigate('Onboard')}/>
+        <Button title='set log out' onPress={() => dispatch(setLoggedIn())}/>
 
         <SettingInput 
           clearButton

@@ -75,7 +75,7 @@ export default function EnterUserInformation() {
       }
       
       else {
-        if (queryParams.data) setTestData(queryParams.data)
+        if (queryParams.email) setTestData(queryParams.email)
       } 
     }
   }, [url])
@@ -89,12 +89,14 @@ export default function EnterUserInformation() {
         email: testData,
       })
       // success
+      // Luu thong tin
       console.log(response.data.data);
       Save("accessToken", response.data.data.accessToken)
       Save("refreshToken", response.data.data.refreshToken)
       Save("email", response.data.data.userData.email)
       Save("phone", response.data.data.userData.phone)
       Save("id", response.data.data.userData.id)
+      // ------
       // set log ing lai di
       navigation.navigate('Onboard')
       // nhay vao cai nao day 

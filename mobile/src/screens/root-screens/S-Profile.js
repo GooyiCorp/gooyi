@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet,View, Text, TouchableOpacity } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
@@ -20,15 +20,22 @@ import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
 import LogIn from './s_LogIn'
 import UserCard from '../../components/components_profile_screen/UserCard'
+import { Get } from '../../helper/store'
+import { store } from '../../redux/store'
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function ProfileScreen() {
-  
+  useEffect(() => {
+    Get('accessToken')
+    setLogIn(store.getState().user.isLoggedIn)
+  }, [])
   const navigation = useNavigation()
 
   const [logIn, setLogIn] = useState(true)
+
+  
 
   return (
     <View style={{height: height, width: width, backgroundColor: '#f2eeeb'}}>
