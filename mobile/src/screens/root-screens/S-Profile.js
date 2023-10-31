@@ -22,19 +22,21 @@ import LogIn from './s_LogIn'
 import UserCard from '../../components/components_profile_screen/UserCard'
 import { Get } from '../../helper/store'
 import { store } from '../../redux/store'
+import { useSelector } from 'react-redux'
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function ProfileScreen() {
+  const navigation = useNavigation()
+  
+  //const [logIn, setLogIn] = useState(store.getState().user.isLoggedIn)
+  
+  const logIn = useSelector((state) => state.user.isLoggedIn)
+  
   useEffect(() => {
     Get('accessToken')
-    setLogIn(store.getState().user.isLoggedIn)
   }, [])
-  const navigation = useNavigation()
-
-  const [logIn, setLogIn] = useState(true)
-
   
 
   return (

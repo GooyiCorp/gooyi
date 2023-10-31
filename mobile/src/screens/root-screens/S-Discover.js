@@ -68,6 +68,16 @@ export default function DiscoverScreen( {
           setShowSearchModal(true)
           hideTabNav()
       }
+
+  const handleTestPress = () => {
+    dispatch(setLoggedIn())
+    console.log(store.getState().user.isLoggedIn)
+  }
+
+  const handleLogOut = () => {
+    dispatch(setLoggedOut())
+    console.log(store.getState().user.isLoggedIn)
+  }
   
   return (
     <View style={[{height: height, width: width}]}>
@@ -98,7 +108,9 @@ export default function DiscoverScreen( {
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <View >
 
-        <Button title='set log out' onPress={() => dispatch(setLoggedIn())}/>
+        <Button title='set log in' onPress={handleTestPress}/>
+
+        <Button title='set log out' onPress={handleLogOut}/>
 
         <SettingInput 
           clearButton

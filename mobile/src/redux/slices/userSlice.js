@@ -10,7 +10,7 @@ export const userSlice = createSlice({
 
     reducers: {
 
-        setLogedIn: (state, action) => {
+        setLoggedIn: (state, action) => {
             state.isLoggedIn = true
         },
 
@@ -22,7 +22,7 @@ export const userSlice = createSlice({
 })
 
 export const {
-    setLogedIn,
+    setLoggedIn,
     setLoggedOut,
  } = userSlice.actions;
  
