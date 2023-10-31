@@ -174,7 +174,7 @@ userRoute.get('/register-redirect', async (req, res) => {
         const link = debuggerHost + "/--/register/enterinfo"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link + "?error=expired"}))
-        return res.send(render(path.join(__dirname, '/template/login.html'), {redirect_link: link + `?email=${email}`}))
+        return res.send(render(path.join(__dirname, '/template/redirect.html'), {redirect_link: link + `?email=${email}`}))
     } catch (err) {
         logger.error(err);
         return sendServerError(res)
