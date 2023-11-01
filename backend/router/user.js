@@ -96,8 +96,18 @@ userRoute.post('/register', async(req, res) => {
     } = req.body
     const err = register_validate({first_name, last_name, email, phone})
     if (err) return sendError(res, err)
-    // const user = await User.findOne({where: {[Op.or]: [{email: email, phone: phone}]}})
-    // if (user) return sendError(res, "This user already exists")
+    try {
+        if (email) {
+            const user = await User.findOne({where: {email: email}})
+            if (user) return sendError(res, "This user already exists")
+        } else {
+            const user = await User.findOne({where: {phone: phone}})
+            if (user) return sendError(res, "This user already exists")
+        }
+    } catch(err) {
+        logger.error(err)
+        sendServerError(res)
+    }
     try {
         const user = await User.create({first_name, last_name, email, phone, active: true})
         const userData = {
@@ -148,7 +158,7 @@ userRoute.get("/login-redirect", async (req, res) => {
     } = req.query
     try {
         const now = new Date().getTime()
-        const link = debuggerHost + "/main"
+        const link = debuggerHost + "/--/main"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link+"?error=expired"}))
         if (refreshToken in TOKEN_LIST) return res.send(render(redirect_page, {redirect_link: link+"?error=used"}))
