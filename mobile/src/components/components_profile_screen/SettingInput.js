@@ -119,6 +119,8 @@ export default function SettingInput({
                 // Editable
                 editable={isEditable}
 
+                onBlur={() => setFocus(false)}
+
             />
 
             {/* --------------------- Right View */}

@@ -17,14 +17,21 @@ export default function SettingHeader({
     buttonText1,
     editButton,
     onPressClose,
+    onPressEdit,
+    onPressSave,
 }) {
 
     const [edit, setEdit] = useState(false)
 
     const handeEdit = () => {
         setEdit(!edit)
+        onPressEdit()
     }
     
+    const handleSave = () => {
+        setEdit(false)
+        onPressSave()
+    }
   return (
     <View style={styles.container}>
         
@@ -47,7 +54,7 @@ export default function SettingHeader({
             {/* -------------------------------------------------------------------- Go Back Button */}
             {close && 
                 <CloseSaveButton
-                    handleSave={() => console.log('save')}
+                    handleSave={handleSave}
                     handleClose={onPressClose}
                     edit={edit}
                 />

@@ -20,6 +20,13 @@ export default function EditProfile({
     const [submitFN, setSubmitFN] = useState(false)
     const [focusFN, setFocusFN] = useState(false)
     const [inputDataFN, setInputDataFN] = useState('')
+
+    const [editable, setEditable] = useState(false)
+
+    const handleSave = () => {
+      setEditable(false)
+    }
+ 
   return (
     <View style={styles.screen}>
 
@@ -29,6 +36,8 @@ export default function EditProfile({
         buttonText1={'Bearbeiten'}
         buttonText2={'Abbrechen'}
         editButton
+        onPressEdit={() => setEditable(!editable)}
+        onPressSave={handleSave}
       />
 
       <View>
@@ -36,8 +45,9 @@ export default function EditProfile({
         <Text style={styles.h2}>Persönliche Daten</Text>
         {/* Input Box */}
         <SettingInput 
-          clearButton
-          isEditable={true}
+          clearButton={editable}
+          isEditable={editable}
+          lock={!editable}
           setInputData={() => null}
           checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           label={'Vorname'}
@@ -47,8 +57,9 @@ export default function EditProfile({
         />
 
         <SettingInput 
-          clearButton
-          isEditable={true}
+          clearButton={editable}
+          isEditable={editable}
+          lock={!editable}
           setInputData={() => null}
           checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           label={'Nachname'}

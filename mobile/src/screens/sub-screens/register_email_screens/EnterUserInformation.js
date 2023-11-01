@@ -15,9 +15,13 @@ import * as Linking from "expo-linking";
 import { api_url } from '../../../constants/api'
 import axios from 'axios'
 import { Save } from '../../../helper/store'
+import { useDispatch } from 'react-redux'
+import { setLoggedIn, setToken } from '../../../redux/slices/userSlice'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation() {
     const navigation = useNavigation()
+
+    const dispatch = useDispatch()
 
     const [testData, setTestData] = useState('')
     // const [hideKeyboard, setHideKeyboard] = useState(true)
@@ -61,19 +65,20 @@ export default function EnterUserInformation() {
   }
 
   // handle Leave Input Background Pressable
-  const handleLeaveInput = () => {
+  const handleLeaveInput = () => { 
     handleLeaveInputFN()
     handleLeaveInputLN()
   }
 
   const url = Linking.useURL()
   useEffect(() => {
+    
     if (url) {
       const { hostname, path, queryParams } = Linking.parse(url);
+      console.log('QP', queryParams)
       if (queryParams.error == 'expired') {
         alert('Loi het han link')
-      }
-      
+      } 
       else {
         if (queryParams.email) setTestData(queryParams.email)
       } 
@@ -91,13 +96,16 @@ export default function EnterUserInformation() {
       // success
       // Luu thong tin
       console.log(response.data.data);
-      Save("accessToken", response.data.data.accessToken)
-      Save("refreshToken", response.data.data.refreshToken)
-      Save("email", response.data.data.userData.email)
-      Save("phone", response.data.data.userData.phone)
-      Save("id", response.data.data.userData.id)
+      dispatch(setLoggedIn())
+      dispatch(setToken(response.data.data.accessToken))
+      // Save("accessToken", response.data.data.accessToken)
+      // Save("refreshToken", response.data.data.refreshToken)
+      // Save("email", response.data.data.userData.email)
+      // Save("phone", response.data.data.userData.phone)
+      // Save("id", response.data.data.userData.id)
       // ------
       // set log ing lai di
+      console.log('sucess')
       navigation.navigate('Onboard')
       // nhay vao cai nao day 
     } catch (error) {
