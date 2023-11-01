@@ -1,5 +1,5 @@
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { height, width } from '../../../constants/size'
 
 import { useNavigation } from '@react-navigation/native'
@@ -26,6 +26,8 @@ export default function EnterEmail() {
   const [focus, setFocus] = useState(false)
   const [submit, setSubmit] = useState(false)
   const [inputData, setInputData] = useState('')
+
+  const [checkSuccess, setCheckSuccess] = useState(false)
   
   
   const transitionButtonVal = useSharedValue(0)
@@ -71,6 +73,13 @@ export default function EnterEmail() {
   }
 
   // -------------------------------------------------------------------- handle Log In
+
+  useEffect(() => {
+    if (checkSuccess == true) {
+      console.log('send request')
+      handleServerRequest()
+    }
+  }, [checkSuccess])
 
   const handleServerRequest = async () => {
     const url = api_url + 'user/email-login/'
@@ -168,7 +177,8 @@ export default function EnterEmail() {
 
         isEditable={true}
 
-        activateServerRequest={handleServerRequest}
+        checkSuccess={() => setCheckSuccess(true)}
+        checkFailed={() => setCheckSuccess(false)}
 
         setInputData={setInputData}
       />

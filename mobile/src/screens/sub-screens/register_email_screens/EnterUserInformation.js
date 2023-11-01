@@ -19,55 +19,37 @@ import { useDispatch } from 'react-redux'
 import { setLoggedIn, setToken } from '../../../redux/slices/userSlice'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation() {
-    const navigation = useNavigation()
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
 
-    const dispatch = useDispatch()
+  const [testData, setTestData] = useState('')
 
-    const [testData, setTestData] = useState('')
-    // const [hideKeyboard, setHideKeyboard] = useState(true)
+  const [submit, setSubmit] = useState(false)
+  const [focus, setFocus] = useState(false)
 
   // ----------------------------------------------------------------------------------------------- First Name Input Value
-  const [submitFN, setSubmitFN] = useState(false)
-  const [focusFN, setFocusFN] = useState(false)
   const [inputDataFN, setInputDataFN] = useState('')
+  const [checkSuccessFN, setCheckSuccessFN] = useState(false)
 
   // ----------------------------------------------------------------------------------------------- Last Name Input Value
-  const [submitLN, setSubmitLN] = useState(false)
-  const [focusLN, setFocusLN] = useState(false)
   const [inputDataLN, setInputDataLN] = useState('')
+  const [checkSuccessLN, setCheckSuccessLN] = useState(false)
 
   // -------------------------------------------------------------------- handle extern Submit
   // Send Link Button
   const handleSendLink = () => {
-    setSubmitFN(true)
-    setSubmitLN(true)
+    setSubmit(true)
     setTimeout(() => {
-      setSubmitFN(false);
-      setSubmitLN(false);
+      setSubmit(false)
     }, 300)
-    
   }
 
   // Leave Input Layout First Name
-  const handleLeaveInputFN = () => {
-    setFocusFN(false)
+  const handleLeaveFocus = () => {
+    setFocus(false)
     setTimeout(() => {
-      setFocusFN(true);
+      setFocus(true);
     }, 300)
-  }
-
-  // Leave Input Layout Last Name
-  const handleLeaveInputLN = () => {
-    setFocusLN(false)
-    setTimeout(() => {
-      setFocusLN(true);
-    }, 300)
-  }
-
-  // handle Leave Input Background Pressable
-  const handleLeaveInput = () => { 
-    handleLeaveInputFN()
-    handleLeaveInputLN()
   }
 
   const url = Linking.useURL()
@@ -75,7 +57,7 @@ export default function EnterUserInformation() {
     
     if (url) {
       const { hostname, path, queryParams } = Linking.parse(url);
-      console.log('QP', queryParams)
+      //console.log(queryParams)
       if (queryParams.error == 'expired') {
         alert('Loi het han link')
       } 
@@ -84,6 +66,14 @@ export default function EnterUserInformation() {
       } 
     }
   }, [url])
+
+  // handle Server Request
+  useEffect(() => {
+    if (checkSuccessFN && checkSuccessLN == true) {
+      console.log('send request')
+      handleSubmit()
+    }
+  }, [checkSuccessFN && checkSuccessLN])
   
   const handleSubmit = async () => {
     const api = api_url + 'user/register'
@@ -127,7 +117,7 @@ export default function EnterUserInformation() {
         zIndex: 1, 
         position: 'absolute',
       }} 
-      onTouchStart={handleLeaveInput} 
+      onTouchStart={handleLeaveFocus} 
     >
 
         {/* -------------------------------------------------------------------- Go Back Button */}
@@ -163,7 +153,6 @@ export default function EnterUserInformation() {
 
           // State
           // submitState={submit}
-          // focusState={focus}
 
           // show: Button / Icon
           lock
@@ -193,8 +182,8 @@ export default function EnterUserInformation() {
           }}
 
           // State
-          submitState={submitFN}
-          focusState={focusFN}
+          submitState={submit}
+          focusState={focus}
 
           // show: Button / Icon
           clearButton
@@ -209,11 +198,12 @@ export default function EnterUserInformation() {
 
           // handle
           onLeaveInput={() => null}
-          onFocusInput={() => null}
+          //onFocusInput={() => null}
 
           isEditable={true}
 
-          activateServerRequest={handleSubmit}
+          checkSuccess={() => setCheckSuccessFN(true)}
+          checkFailed={() => setCheckSuccessFN(false)}
 
           setInputData={setInputDataFN}
 
@@ -227,8 +217,8 @@ export default function EnterUserInformation() {
           }}
 
           // State
-          submitState={submitLN}
-          focusState={focusLN}
+          submitState={submit}
+          focusState={focus}
 
           // show: Button / Icon
           clearButton
@@ -241,13 +231,14 @@ export default function EnterUserInformation() {
           checkAlgorithm={/^[a-zA-Z ]+$/}
           label={'Nachname'}
 
-          // handle
+          // handle (Extern UI)
           onLeaveInput={() => null}
           onFocusInput={() => null}
 
           isEditable={true}
 
-          activateServerRequest={() => null}
+          checkSuccess={() => setCheckSuccessLN(true)}
+          checkFailed={() => setCheckSuccessLN(false)}
 
           setInputData={setInputDataLN}
 

@@ -38,8 +38,9 @@ export default function NewInput({
     fixData,
     isEditable,
 
-    // server request
-    activateServerRequest,
+    // check Status
+    checkSuccess,
+    checkFailed,
 
     //setExternData
     setInputData,
@@ -51,7 +52,6 @@ export default function NewInput({
     // Main State
     const [error, setError] = useState(false)
     const [focus, setFocus] = useState(false)
-    const [submit, setSubmit] = useState(false)
 
     // Animated Value
     const focusInput = useSharedValue(0)
@@ -91,18 +91,27 @@ export default function NewInput({
     const checkValidity = () => {
         const check = checkAlgorithm
 
+        // Case: failed -> Error
         if (!check.test(data)) {
             setError(true)
-            setSubmit(false)
-            onLeaveInput()
-            return
-        } else {
-            setError(false)
-            setSubmit(false)
+
+            // (Extern UI)
             onLeaveInput()
 
-            // handle request
-            activateServerRequest()
+            // Check Failed State
+            checkFailed()
+            return
+        } 
+        // Case: success -> handle ServerRequest
+        else {
+            setError(false)
+
+            // (Extern UI)
+            onLeaveInput()
+
+            // Check Success State
+            checkSuccess()
+
             return
         }   
         
@@ -110,24 +119,30 @@ export default function NewInput({
 
     // --------------------------------------- handle Clear Button
     const handleClear = () => {
+        // clear Data, Errors
         setData('')
         setError(false)
-        setFocus(false)
-        focusInput.value = withDelay(0, withTiming(0, {duration: 200}))
-
+        
+        handleOnBlur()
         Keyboard.dismiss()
 
-        // onLeaveInput
+        // onLeaveInput (extern UI) 
         onLeaveInput()
     }
 
-    // --------------------------------------- handle Clear Button
+    // --------------------------------------- handle Focus/Blur
+    // onFocus
     const handleOnFocus = () => {
         setFocus(true)
         focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
 
-        // onFocusInput
         onFocusInput()
+    }
+
+    // onBlur
+    const handleOnBlur = () => {
+        setFocus(false)
+        data? focusInput.value = 1 : focusInput.value = withDelay(0, withTiming(0, {duration: 200}))
     }
 
     // --------------------------------------- handle onChangeText
@@ -136,18 +151,19 @@ export default function NewInput({
         setData(e)
       }
 
-    // --------------------------------------- handle submit
-    useEffect(() => {
-        // Check Validity when submit is true, return error false or true
-        submit? checkValidity() : null
-    }, [submit])
+    // --------------------------------------- handle Press Input Submit
+    const handleInputSubmit = () => {
+        !data? (setError(true), checkFailed()) : checkValidity()
+    }
 
     // --------------------------------------- handle extern Button
     // Extern Submit
     useEffect(() => {
         // Check extern Submit Button is pressed? if true start intern handle Submit Function
-        submitState? setSubmit(true) : null
-        Keyboard.dismiss()
+        if (submitState == true) {
+            handleInputSubmit()
+            Keyboard.dismiss()
+        }
     }, [submitState])
 
     // Extern Pressable Background
@@ -157,9 +173,6 @@ export default function NewInput({
     }, [focusState])
 
     // --------------------------------------- handle Fix Data
-    // useEffect(() => {
-        
-    // }, [])
 
     useEffect(() => {
         if (!data) {
@@ -190,14 +203,15 @@ export default function NewInput({
                 value={data}
                 onChangeText={(e) => {setData(e), setInputData(e)}}
 
-                // onFocus Input
+                // onFocus/onBlur
                 onFocus={handleOnFocus}
+                onBlur={handleOnBlur}
 
                 // onChangeText 
                 onChange={handleOnChangeText}
 
                 // Pass Data
-                onSubmitEditing={() => setSubmit(true)}
+                onSubmitEditing={handleInputSubmit}
 
                 // Editable
                 editable={isEditable}
