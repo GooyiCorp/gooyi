@@ -5,7 +5,7 @@ export const userSlice = createSlice({
     name: 'user',
     
     initialState: {
-        isLoggedIn: false,
+        isLoggedIn: true,
         accessToken: ''
     },
 

@@ -3,7 +3,7 @@ import { StyleSheet,View, Text, TouchableOpacity } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
-import { ROUTES } from '../../index/constantsindex'
+import { COLORS, ROUTES } from '../../index/constantsindex'
 import PresentationHeader from '../../components/molecules/PresentationHeader'
 import NewOfferBox from '../../components/molecules/NewOfferBox'
 import NewShopsBox from '../../components/molecules/NewShopsBox'
@@ -22,6 +22,8 @@ import LogIn from './s_LogIn'
 import UserCard from '../../components/components_profile_screen/UserCard'
 import { Get } from '../../helper/store'
 import { useSelector } from 'react-redux'
+import ProfileInformation from '../../components/components_profile_screen/ProfileInformation'
+
 
 
 
@@ -39,12 +41,12 @@ export default function ProfileScreen() {
   
 
   return (
-    <View style={{height: height, width: width, backgroundColor: '#f2eeeb'}}>
+    <View style={{height: height, width: width, backgroundColor: COLORS.white}}>
        
       {logIn && <LogIn/>}
       {/* Main Header */}
       <MainHeader 
-        title='Übersicht'
+        title='Thanh Nguyen'
         qrButton
         onPressQRButton={() => navigation.navigate('QRScan')}
         notificationButton
@@ -53,17 +55,18 @@ export default function ProfileScreen() {
       />
 
       {/* Sub Header */}
-      <SubHeader
-        userID
+      {/* <SubHeader
+        //userID
         idNumber={'400 121 9613'}
         subHeaderContainerStyle={{backgroundColor: 'transparent'}}
-        onPressSetting={() => navigation.navigate('Profile', {screen: 'Setting'})}
-      /> 
+        //onPressSetting={() => navigation.navigate('Profile', {screen: 'Setting'})}
+      />  */}
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <View style={{flex: 1, backgroundColor: '#f2eeeb', alignItems: 'center'}}>
-
+      <View style={{flex: 1, backgroundColor: COLORS.white, alignItems: 'center'}}>
+      
+      <ProfileInformation/>
       <UserCard/>
       {/* <View style={{width: '100%', paddingVertical: 15}}>
 
