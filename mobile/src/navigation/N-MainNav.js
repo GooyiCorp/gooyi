@@ -22,12 +22,24 @@ export default function MainNav() {
     useEffect(() => {
         if (url) {
           const { hostname, path, queryParams } = Linking.parse(url);
-          if (queryParams.error == 'expired') {
-            // alert('Loi')
-          }
-          else {
+          if (queryParams.error) {
+            switch (queryParams.error) {
+                case 'expired':
+                    console.log('het han');
+                    // lam gi day
+                    break
+                case 'logged_in':
+                    console.log('da dang nhap');
+                    // lam gi day
+                    break
+                case 'used':
+                    console.log('da dung');
+                    break
+            }
+          } else {
+            // dang nhap thanh cong
             console.log(queryParams);
-          } 
+          }
         }
       }, [url])
     // ---------------------------------------------------------------------- Screens Transition

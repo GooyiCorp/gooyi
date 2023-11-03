@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
 import { TOKEN_LIST, TOKEN_BLACKLIST } from "../index.js"
+import { sendError } from "../helper/client.js"
 
 export const verifyToken = async (req, res, next) => {
     try {
