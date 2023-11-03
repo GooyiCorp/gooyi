@@ -41,7 +41,7 @@ export default function ProfileScreen() {
   
 
   return (
-    <View style={{height: height, width: width, backgroundColor: COLORS.white}}>
+    <View style={{height: height, width: width, backgroundColor: COLORS.mainBackground}}>
        
       {logIn && <LogIn/>}
       {/* Main Header */}
@@ -64,10 +64,9 @@ export default function ProfileScreen() {
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <View style={{flex: 1, backgroundColor: COLORS.white, alignItems: 'center'}}>
+      <View style={{flex: 1, backgroundColor: COLORS.mainBackground, alignItems: 'center'}}>
       
       <ProfileInformation/>
-      <UserCard/>
       {/* <View style={{width: '100%', paddingVertical: 15}}>
 
         <PresentationHeader 
