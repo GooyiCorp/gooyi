@@ -12,8 +12,19 @@ import { render } from "../template/index.js";
 import { verifyToken } from "../middleware/index.js";
 import { Op } from "sequelize";
 import { logger } from "../helper/logger.js";
+
 const userRoute = express.Router();
 
+userRoute.get('/info', verifyToken, async (req, res) => {
+    const id = req.user.id
+    try {
+        const user = await User.findOne({where: {user_id: id}})
+        if (!user) return sendError(res, 'User not found')
+        return sendSuccess(res, 'Get user info', user)
+    } catch (err) {
+        logger.error(err)
+    }
+})
 userRoute.post("/create", async (req, res) => {
     const {
         first_name,
@@ -138,7 +149,7 @@ userRoute.post('/register', async(req, res) => {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
-        ACTIVE_USER.add(payload.user.user_id)
+        ACTIVE_USER.add(userData.id)
         return sendSuccess(res, "Register successfully", {accessToken, refreshToken, userData})
     }
     catch (err) {
@@ -205,6 +216,33 @@ userRoute.post("/logout", verifyToken, (req, res) => {
     ACTIVE_USER.delete(payload.user.user_id)
 
     return sendSuccess(res, "Logged out successfully")
+})
+userRoute.put("/update", verifyToken, async (req, res) => {
+    const {first_name, last_name} = req.body
+    const id = req.user.id
+    try {
+        const user = await User.findOne({where: {user_id:id}})
+        if (!user) return sendError(res, 'User not found')
+        if (first_name) user.first_name = first_name
+        if (last_name) user.last_name = last_name
+        await user.save()
+        return sendSuccess(res, 'User updated successfully')
+    } catch (err) {
+        logger.error(err)
+        sendServerError(res)
+    }
+})
+userRoute.delete("/delete", verifyToken, async (req, res) => {
+    try {
+        const id = req.user.id
+        const user = await User.findOne({where: {user_id: id }})
+        if (!user) return sendError(res, 'User not found')
+        await user.destroy()
+        return sendSuccess("User deleted successfully")
+    } catch (err) {
+        logger.error(err)
+        sendServerError(res)
+    }
 })
 
 export default userRoute
