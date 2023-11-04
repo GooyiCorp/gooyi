@@ -38,7 +38,7 @@ export default function MainNav() {
             }
           } else {
             // dang nhap thanh cong
-            console.log(queryParams);
+            // console.log(queryParams);
           }
         }
       }, [url])
