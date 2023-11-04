@@ -55,7 +55,7 @@ export default function EnterUserInformation() {
   const url = Linking.useURL()    
   if (url) {
     const { hostname, path, queryParams } = Linking.parse(url);
-    //console.log(queryParams)
+    console.log(queryParams, path, hostname)
     if (queryParams.error == 'expired') {
       alert('Loi het han link')
     } 
@@ -195,7 +195,7 @@ export default function EnterUserInformation() {
 
           // handle
           onLeaveInput={() => null}
-          //onFocusInput={() => null}
+          onFocusInput={() => null}
 
           isEditable={true}
 
