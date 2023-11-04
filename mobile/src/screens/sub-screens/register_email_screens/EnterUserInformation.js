@@ -53,15 +53,17 @@ export default function EnterUserInformation() {
   }
   
   const url = Linking.useURL()
-  if (url) {
-    const { hostname, path, queryParams } = Linking.parse(url);
-    if (queryParams.error == 'expired') {
-      alert('Loi het han link')
-    } 
-    else {
-      if (queryParams.email && queryParams.email != testData) setTestData(queryParams.email)
-    } 
-  }
+  useEffect(() => {
+    if (url) {
+      const { hostname, path, queryParams } = Linking.parse(url);
+      if (queryParams.error == 'expired') {
+        alert('Loi het han link')
+      } 
+      else {
+        if (queryParams.email && queryParams.email != testData) setTestData(queryParams.email)
+      } 
+    }
+  }, [url])
 
   // handle Server Request
   useEffect(() => {
