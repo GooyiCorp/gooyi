@@ -34,6 +34,8 @@ export default function ProfileScreen() {
   
   // Global State, userSlide - LogIn required? show/hide
   const logIn = !useSelector((state) => state.user.isLoggedIn)
+  const token = useSelector((state) => state.user.accessToken)
+  console.log(token)
   
   useEffect(() => {
     Get('accessToken')

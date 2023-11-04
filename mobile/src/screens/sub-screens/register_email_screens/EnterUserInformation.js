@@ -196,7 +196,7 @@ export default function EnterUserInformation() {
 
           // handle
           onLeaveInput={() => null}
-          //onFocusInput={() => null}
+          onFocusInput={() => null}
 
           isEditable={true}
 

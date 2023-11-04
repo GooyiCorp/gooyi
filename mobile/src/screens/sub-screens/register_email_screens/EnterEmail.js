@@ -78,6 +78,7 @@ export default function EnterEmail() {
     if (checkSuccess == true) {
       console.log('send request')
       handleServerRequest()
+      setCheckSuccess(false)
     }
   }, [checkSuccess])
 
