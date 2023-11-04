@@ -52,20 +52,17 @@ export default function EnterUserInformation() {
     }, 300)
   }
 
-  const url = Linking.useURL()
-  useEffect(() => {
-    
-    if (url) {
-      const { hostname, path, queryParams } = Linking.parse(url);
-      //console.log(queryParams)
-      if (queryParams.error == 'expired') {
-        alert('Loi het han link')
-      } 
-      else {
-        if (queryParams.email) setTestData(queryParams.email)
-      } 
-    }
-  }, [url])
+  const url = Linking.useURL()    
+  if (url) {
+    const { hostname, path, queryParams } = Linking.parse(url);
+    //console.log(queryParams)
+    if (queryParams.error == 'expired') {
+      alert('Loi het han link')
+    } 
+    else {
+      if (queryParams.email != testData) setTestData(queryParams.email)
+    } 
+  }
 
   // handle Server Request
   useEffect(() => {
