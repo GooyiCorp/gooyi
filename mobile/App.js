@@ -46,12 +46,6 @@ export default function App() {
     prefixes: [prefix],
     config: {
       screens: {
-        RegisterEmail: {
-          path: "register",
-          screens: {
-            EnterUserInformation: 'enterinfo',
-          }, 
-        },
         Main: {
           path: "main"
         }

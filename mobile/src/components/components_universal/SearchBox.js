@@ -11,7 +11,6 @@ import { height, width } from '../../constants/size';
 
 
 const SearchBox = ({onPressSearch, transitionVal}) => {
-  console.log(transitionVal)
   const animation = useSharedValue(0);
 
   animation.value = withTiming(transitionVal, {duration: 500})

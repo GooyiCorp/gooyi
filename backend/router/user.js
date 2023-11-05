@@ -192,7 +192,7 @@ userRoute.get('/register-redirect', async (req, res) => {
         const user = await User.findOne({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
-        const link = debuggerHost + "/--/register/enterinfo"
+        const link = debuggerHost + "/--/main"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link + "?error=expired"}))
         return res.send(render(redirect_page, {redirect_link: link + `?email=${email}`}))
