@@ -23,10 +23,12 @@ import CheckBox from '../../components/components_universal/CheckBox'
 import NewInput from '../../components/components_LogIn/NewInput'
 import SettingInput from '../../components/components_profile_screen/SettingInput'
 import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
-import userSlice, { setLoggedOut, setLoggedIn, setToken } from '../../redux/slices/userSlice'
+import userSlice, { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
+import { Delete } from '../../helper/store'
+import Request, { api_url } from '../../constants/api'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -75,10 +77,23 @@ export default function DiscoverScreen( {
     //console.log(store.getState().user.isLoggedIn)
     //console.log(store.getState().user.accessToken)
   }
-
-  const handleLogOut = () => {
+  const accessToken = useSelector((state) => state.user.accessToken)
+  const refreshToken = useSelector((state) => state.user.refreshToken)
+  const handleLogOut = async () => {
+    console.log(accessToken);
+    console.log(refreshToken);
+    try {
+      const response = await axios.post(api_url + 'user/logout', {refreshToken: refreshToken}, {headers: {Authorization: `Bearer ${accessToken}`}})
+      console.log(response.data);
+    } catch (err) {
+      console.log(err.response.data);
+    }
     dispatch(setLoggedOut())
-    //console.log(store.getState().user.isLoggedIn)
+    dispatch(setToken(''))
+    dispatch(setRefreshToken(''))
+    await Delete('accessToken')
+    await Delete('refreshToken')
+    console.log(store.getState().user.accessToken)
   }
   
   return (

@@ -12,14 +12,31 @@ import ProfileScreen from '../screens/root-screens/S-Profile'
 import { COLORS } from '../index/constantsindex'
 import * as Linking from "expo-linking";
 import { Get, Save } from '../helper/store'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setLoggedIn, setRefreshToken, setToken } from '../redux/slices/userSlice'
+import { store } from '../redux/store'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav() {
 
+    const navigation = useNavigation()
 
+    const checkLogin = async () => {
+        const accessToken = await Get('accessToken')
+        const refreshToken = await Get('refreshToken')
+        if (accessToken && refreshToken) {
+          dispatch(setLoggedIn())
+          dispatch(setToken(accessToken))
+          dispatch(setRefreshToken(refreshToken))
+          console.log(store.getState().user.accessToken)
+          return true
+        } else return false
+    }
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
-    const url = Linking.useURL()
+    const dispatch = useDispatch()
+    var url = Linking.useURL()
     useEffect(() => {
         if (url) {
           const { hostname, path, queryParams } = Linking.parse(url);
@@ -38,11 +55,22 @@ export default function MainNav() {
                     break
             }
           } else {
-            // dang nhap thanh cong
-            // console.log(queryParams);
+            if (queryParams.email) {
+                navigation.navigate('RegisterEmail', {screen: 'EnterUserInformation', params: { email: queryParams.email }})
+            }
+            console.log(queryParams);
+
+            if (queryParams.accessToken && queryParams.refreshToken) {
+                dispatch(setLoggedIn())
+                dispatch(setToken(queryParams.accessToken))
+                dispatch(setRefreshToken(queryParams.refreshToken))
+                Save('accessToken', queryParams.accessToken)
+                Save('refreshToken', queryParams.refreshToken)
+            }
           }
         }
-      }, [url])
+        
+    }, [url])
     // ---------------------------------------------------------------------- Screens Transition
 
     const showDiscover = useSharedValue(1)

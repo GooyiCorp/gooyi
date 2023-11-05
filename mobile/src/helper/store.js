@@ -8,7 +8,7 @@ export async function Get(key) {
   let result = await SecureStore.getItemAsync(key);
   if (result) return result;
   else {
-    console.log("No values stored)")
+    console.log("No ", key)
     return null;
   }
 }

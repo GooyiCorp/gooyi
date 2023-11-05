@@ -18,11 +18,13 @@ import { Get, Save } from '../../../helper/store'
 import { useDispatch } from 'react-redux'
 import { setLoggedIn, setRefreshToken, setToken } from '../../../redux/slices/userSlice'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function EnterUserInformation() {
+export default function EnterUserInformation({route}) {
+  const {email} = route.params;
+  console.log(email)
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const [testData, setTestData] = useState('')
+  // const [userEmail, setUserEmail] = useState('')
 
   const [submit, setSubmit] = useState(false)
   const [focus, setFocus] = useState(false)
@@ -30,7 +32,7 @@ export default function EnterUserInformation() {
   // ----------------------------------------------------------------------------------------------- First Name Input Value
   const [inputDataFN, setInputDataFN] = useState('')
   const [checkSuccessFN, setCheckSuccessFN] = useState(false)
-
+  
   // ----------------------------------------------------------------------------------------------- Last Name Input Value
   const [inputDataLN, setInputDataLN] = useState('')
   const [checkSuccessLN, setCheckSuccessLN] = useState(false)
@@ -52,19 +54,19 @@ export default function EnterUserInformation() {
     }, 300)
   }
   
-  const url = Linking.useURL()
-  useEffect(() => {
-    if (url) {
-      const { hostname, path, queryParams } = Linking.parse(url);
-      console.log(queryParams)
-      if (queryParams.error == 'expired') {
-        alert('Loi het han link')
-      } 
-      else {
-        if (queryParams.email && queryParams.email != testData) setTestData(queryParams.email)
-      } 
-    }
-  }, [url])
+  // const url = Linking.useURL()
+  // useEffect(() => {
+  //   if (url) {
+  //     const { hostname, path, queryParams } = Linking.parse(url);
+  //     console.log(queryParams)
+  //     if (queryParams.error == 'expired') {
+  //       alert('Loi het han link')
+  //     } 
+  //     else {
+  //       if (queryParams.email && queryParams.email != testData) setTestData(queryParams.email)
+  //     } 
+  //   }
+  // }, [url])
 
   // handle Server Request
   useEffect(() => {
@@ -80,17 +82,17 @@ export default function EnterUserInformation() {
       const response = await axios.post(api, {
         first_name: inputDataFN,
         last_name: inputDataLN,
-        email: testData,
+        email: email,
       })
       // success
       // Luu thong tin
       console.log(response.data.data);
       dispatch(setLoggedIn())
-      // dispatch(setToken(response.data.data.accessToken))
-      // dispatch(setRefreshToken(response.data.data.refreshToken))
+      dispatch(setToken(response.data.data.accessToken))
+      dispatch(setRefreshToken(response.data.data.refreshToken))
       Save("accessToken", response.data.data.accessToken)
+      Save("refreshToken", response.data.data.refreshToken)
       //console.log(Get("accessToken"))
-      // Save("refreshToken", response.data.data.refreshToken)
       // Save("email", response.data.data.userData.email)
       // Save("phone", response.data.data.userData.phone)
       // Save("id", response.data.data.userData.id)
@@ -170,7 +172,7 @@ export default function EnterUserInformation() {
           onLeaveInput={() => null}
           onFocusInput={() => null}
 
-          fixData={testData}
+          fixData={email}
           isEditable={false}
 
         />

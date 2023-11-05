@@ -9,7 +9,6 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 import RootNav from './src/navigation/N-RootNav.js';
 import {Platform} from 'react-native';
-import { Delete, Save } from './src/helper/store.js';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store.js';
 const logo = require('./assets/logo/logo.png');
