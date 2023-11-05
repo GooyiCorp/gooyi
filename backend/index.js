@@ -12,7 +12,7 @@ import userRoute from "./router/user.js";
 
 export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
-export const ACTIVE_USER = new Set()
+export const ACTIVE_USER = {}
 import { clearTokenList } from "./helper/jwt.js"
 import sequelize from "./model/index.js";
 try {
@@ -32,34 +32,15 @@ app.use(bodyParser.json())
 import { morgan_log } from "./config/morgan.js";
 import { logger, readLog } from "./helper/logger.js";
 import { sendServerError, sendSuccess } from "./helper/client.js";
+import adminRoute from "./router/admin/index.js";
 app.use(morgan(morgan_log))
 
 
+app.use("/api/admin", adminRoute)
 app.use("/api/user", userRoute)
-app.use("/api/test", (req, res) => {res.send({"message": "ok",})})
-app.use("/api/logs", (req, res) => {
-    try {
-        const result = readLog();
-        res.type("text/plain")
-        return res.send(result);
-    } catch (err) {
-        logger.error(err);
-        return sendServerError(res)
-    }
-})
-export var debuggerHost = process.env.APP_SCHEMA
-app.get("/api/change-host", (req, res) => {
-    const {host} = req.query
-    try {
-        debuggerHost = host
-        logger.info(`Change host : ${host}`)
-        return sendSuccess(res, "Change Host", debuggerHost)
-    } catch (err) {
-        logger.error(err)
-        return sendServerError(res)
-    }
-})
 
+export var debuggerHost = process.env.APP_SCHEMA
+export function changeHost(host) {debuggerHost = host}
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
     logger.info("Listening on port 8000");

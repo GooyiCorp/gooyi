@@ -44,8 +44,10 @@ userRoute.post("/email-login", async (req, res) => {
         const user = await User.findOne({ where: { email: email}})
         if (user) {
             const userData = {
-                id : user.user_id,
-                email: user.email,
+                id: user.user_id,
+                email: user.email || null,
+                phone: user.phone || null,
+                name: user.first_name + ' ' + user.last_name,
                 role: USER
             }
             const accessToken = jwt.sign(
@@ -77,7 +79,7 @@ userRoute.post("/email-login", async (req, res) => {
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
 
-            return sendSuccess(res, "Login email sent successfully")
+            return sendSuccess(res, "Login email sent successfully", { accessToken, refreshToken})
         }
         else {
             const options = {
@@ -125,6 +127,7 @@ userRoute.post('/register', async(req, res) => {
             id: user.user_id,
             email: user.email || null,
             phone: user.phone || null,
+            name: user.first_name + ' ' + user.last_name,
             role: USER
         }
         const accessToken = jwt.sign(
@@ -149,7 +152,7 @@ userRoute.post('/register', async(req, res) => {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
-        ACTIVE_USER.add(userData.id)
+        ACTIVE_USER[userData.id] = {name : userData.name}
         return sendSuccess(res, "Register successfully", {accessToken, refreshToken, userData})
     }
     catch (err) {
@@ -174,12 +177,12 @@ userRoute.get("/login-redirect", async (req, res) => {
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link+"?error=expired"}))
         if (refreshToken in TOKEN_LIST) return res.send(render(redirect_page, {redirect_link: link+"?error=used"}))
         const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
-        if (ACTIVE_USER.has(payload.user.user_id)) return res.send(render(redirect_page, {redirect_link: link+"?error=logged_in"}))
+        // if (ACTIVE_USER[payload.user.id]) return res.send(render(redirect_page, {redirect_link: link+"?error=logged_in"}))
         const response = {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
-        ACTIVE_USER.add(payload.user.user_id)
+        ACTIVE_USER[payload.user.id] = {name: payload.user.name}
         return res.send(render(redirect_page, {redirect_link: link + `?accessToken=${accessToken}&refreshToken=${refreshToken}`}))
     } catch (err) {
         logger.error(err);
@@ -213,7 +216,7 @@ userRoute.post("/logout", verifyToken, (req, res) => {
         TOKEN_BLACKLIST[req.verifyToken] = req.verifyToken
         clearTokenList(TOKEN_BLACKLIST)
     } catch (error) { }
-    ACTIVE_USER.delete(payload.user.user_id)
+    delete ACTIVE_USER[payload.user.id]
 
     return sendSuccess(res, "Logged out successfully")
 })
