@@ -26,6 +26,7 @@ import CloseSaveButton from '../../components/components_profile_screen/CloseSav
 import { useDispatch } from 'react-redux'
 import { store } from '../../redux/store'
 import userSlice, { setLoggedOut, setLoggedIn, setToken } from '../../redux/slices/userSlice'
+import IconLabelButton from '../../components/components_universal/IconLabelButton'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -71,7 +72,6 @@ export default function DiscoverScreen( {
 
   const handleTestPress = () => {
     dispatch(setLoggedIn())
-    dispatch(setToken('test123'))
     //console.log(store.getState().user.isLoggedIn)
     //console.log(store.getState().user.accessToken)
   }
@@ -129,7 +129,7 @@ export default function DiscoverScreen( {
           handleSave={() => console.log('save')}
           handleClose={() => console.log('close')}
         />
-        
+
 
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>

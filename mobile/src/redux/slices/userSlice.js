@@ -5,12 +5,15 @@ export const userSlice = createSlice({
     name: 'user',
     
     initialState: {
-        isLoggedIn: true,
-        accessToken: ''
+        isLoggedIn: false,
+        accessToken: '',
+        refreshToken: '',
     },
 
+    // ----------------------------------------------------------------------------------- Reducers
     reducers: {
 
+        // ------------------------------------------- logIn / LogOut
         setLoggedIn: (state, action) => {
             state.isLoggedIn = true
         },
@@ -19,22 +22,36 @@ export const userSlice = createSlice({
             state.isLoggedIn = false
         },
 
+        // ------------------------------------------- AccessToken
         setToken: (state, action) => {
             state.accessToken = action.payload
         },
 
         deleteToken: (state, action) => {
             state.accessToken = ''
-        }
+        },
+
+        // ------------------------------------------- RefreshToken
+        setRefreshToken: (state, action) => {
+            state.refreshToken = action.payload
+        },
+
+        deleteRefreshToken: (state, action) => {
+            state.refreshToken = ''
+        },
 
     }
 })
 
 export const {
+
     setLoggedIn,
     setLoggedOut,
     setToken,
     deleteToken,
+    setRefreshToken,
+    deleteRefreshToken,
+
  } = userSlice.actions;
  
  export default userSlice.reducer;

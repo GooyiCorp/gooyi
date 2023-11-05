@@ -14,9 +14,9 @@ import NewInput from '../../../components/components_LogIn/NewInput'
 import * as Linking from "expo-linking";
 import { api_url } from '../../../constants/api'
 import axios from 'axios'
-import { Save } from '../../../helper/store'
+import { Get, Save } from '../../../helper/store'
 import { useDispatch } from 'react-redux'
-import { setLoggedIn, setToken } from '../../../redux/slices/userSlice'
+import { setLoggedIn, setRefreshToken, setToken } from '../../../redux/slices/userSlice'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation() {
   const navigation = useNavigation()
@@ -56,6 +56,7 @@ export default function EnterUserInformation() {
   useEffect(() => {
     if (url) {
       const { hostname, path, queryParams } = Linking.parse(url);
+      console.log(queryParams)
       if (queryParams.error == 'expired') {
         alert('Loi het han link')
       } 
@@ -85,8 +86,10 @@ export default function EnterUserInformation() {
       // Luu thong tin
       console.log(response.data.data);
       dispatch(setLoggedIn())
-      dispatch(setToken(response.data.data.accessToken))
-      // Save("accessToken", response.data.data.accessToken)
+      // dispatch(setToken(response.data.data.accessToken))
+      // dispatch(setRefreshToken(response.data.data.refreshToken))
+      Save("accessToken", response.data.data.accessToken)
+      //console.log(Get("accessToken"))
       // Save("refreshToken", response.data.data.refreshToken)
       // Save("email", response.data.data.userData.email)
       // Save("phone", response.data.data.userData.phone)

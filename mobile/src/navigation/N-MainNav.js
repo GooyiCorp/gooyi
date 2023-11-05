@@ -11,11 +11,12 @@ import StoresScreen from '../screens/root-screens/S-Stores'
 import ProfileScreen from '../screens/root-screens/S-Profile'
 import { COLORS } from '../index/constantsindex'
 import * as Linking from "expo-linking";
-import { Save } from '../helper/store'
+import { Get, Save } from '../helper/store'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav() {
+
 
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
     const url = Linking.useURL()

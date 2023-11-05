@@ -118,9 +118,8 @@ const styles = StyleSheet.create({
     },
 
     titleDefaultStyle: {
-        fontFamily: 'Roboto-Medium', 
+        fontFamily: 'RH-Medium', 
         fontSize: moderateScale(30,0.2), 
-        fontWeight: 'bold',
         top: 5,
     },
 
