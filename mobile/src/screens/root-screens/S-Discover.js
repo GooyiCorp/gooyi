@@ -28,7 +28,8 @@ import { store } from '../../redux/store'
 import userSlice, { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
 import { Delete } from '../../helper/store'
-import Request, { api_url } from '../../constants/api'
+import { api_url } from '../../constants/api'
+import Request from '../../helper/request'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -82,12 +83,8 @@ export default function DiscoverScreen( {
   const handleLogOut = async () => {
     console.log(accessToken);
     console.log(refreshToken);
-    try {
-      const response = await axios.post(api_url + 'user/logout', {refreshToken: refreshToken}, {headers: {Authorization: `Bearer ${accessToken}`}})
-      console.log(response.data);
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    const response = await Request("user/logout", "POST", {refreshToken}, true)
+    console.log(response);
     dispatch(setLoggedOut())
     dispatch(setToken(''))
     dispatch(setRefreshToken(''))
