@@ -7,13 +7,13 @@ import path from "path"
 export const __dirname = path.resolve(path.dirname(''))
 dotenv.config()
 
-import userRoute from "./router/user.js";
 
-
+// Token 
 export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
 export const ACTIVE_USER = {}
 import { clearTokenList } from "./helper/jwt.js"
+// Database connection
 import sequelize from "./model/index.js";
 try {
     await sequelize.authenticate();
@@ -23,7 +23,7 @@ try {
 } catch (error) {
     console.error('Unable to connect to the database:', error);
 }
-
+// Server initialization
 const app = express();
 app.use(express.json())
 app.use(cors())
@@ -32,11 +32,15 @@ app.use(bodyParser.json())
 import { morgan_log } from "./config/morgan.js";
 import { logger, readLog } from "./helper/logger.js";
 import { sendServerError, sendSuccess } from "./helper/client.js";
-import adminRoute from "./router/admin/index.js";
 app.use(morgan(morgan_log))
 
+// Server Route Configuration
+import adminRoute from "./router/admin/index.js";
+import authRoute from "./router/auth.js";
+import userRoute from "./router/user.js";
 
 app.use("/api/admin", adminRoute)
+app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
 
 export var debuggerHost = process.env.APP_SCHEMA
