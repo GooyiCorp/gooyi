@@ -15,6 +15,8 @@ import axios from 'axios'
 import { api_url } from '../../../constants/api'
 import ErrorModal from '../../../components/components_LogIn/ErrorModal'
 import NewInput from '../../../components/components_LogIn/NewInput'
+import { H1, H3, T1 } from '../../../constants/text-style'
+import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterEmail() {
@@ -130,31 +132,24 @@ export default function EnterEmail() {
     >
 
     {/* -------------------------------------------------------------------- Go Back Button */}
-    <RoundButton
-      icon={icons.Ionicons}
-      iconName={'md-chevron-back'}
-      iconSize={moderateScale(28,0.2)}
-      iconColor={COLORS.white}
-      style={{
-        backgroundColor: COLORS.grey,
-        height: moderateScale(38,0.2),
-        width: moderateScale(38,0.2),
-        marginLeft: 30,
-        marginTop: 60,
-        zIndex: 2,
-      }}
-      onPressButton={() => navigation.navigate('Main')}
-    />
+        
+      <SettingHeader 
+        goBack
+        onPressGoBack={() => navigation.navigate('Main')}
+      />
+
 
     {/* -------------------------------------------------------------------- Header, SubHeader */}
-    <Text style={[styles.title]}>Passwortlose Authentisierung</Text>
-    <Text style={styles.infoText}>Wir senden dir an deine E-Mail-Adresse einen Link zu. Klicke den Link an, um dich anzumelden.</Text>
+    <Text style={[H3, {marginHorizontal: 30, marginBottom: 10}]}>Passwortlose Authentisierung</Text>
+    <Text style={[T1, {paddingHorizontal: 30}]}>Wir senden dir an deine E-Mail-Adresse einen Link zu. Klicke den Link an, um dich anzumelden.</Text>
 
     {/* -------------------------------------------------------------------- InputBox */}
+    <View style={styles.inputSaveArea}>
+
       <NewInput 
 
         style={{
-          marginTop: 25,
+          marginTop: 20,
         }}
       
         // State
@@ -183,6 +178,8 @@ export default function EnterEmail() {
 
         setInputData={setInputData}
       />
+      
+    </View>
 
     {/* -------------------------------------------------------------------- Send Link Button */}
     <Animated.View style={[styles.button, transitionButton]}>
@@ -258,5 +255,24 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 50,
     backgroundColor: COLORS.primary02,
+  },
+
+  justifyLayer: {
+    height: 38,
+    width: '100%',
+    // backgroundColor: 'green',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    top: 0,
+    paddingHorizontal: 25,
+    marginTop: 60,
+    //position: 'absolute',
+},
+
+  inputSaveArea: {
+    padding: 30,
+    backgroundColor: 'yellow',
+    overflow: 'hidden'
   }
 })
