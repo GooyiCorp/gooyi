@@ -8,8 +8,8 @@ async function getRefreshToken() {
     return await Get("refreshToken")
 }
 
-async function Request(url, method, data, token = false) {
-    url = api_url + url
+async function Request(path, method, data, token = false) {
+    const url = api_url + path
     const access_token = token ? await getToken() : null
     try {
         const res = await axios.request({
@@ -20,7 +20,6 @@ async function Request(url, method, data, token = false) {
             method,
             data
         })
-        console.log(res.data)
         return res.data
     } catch (error) {
         const err = {
@@ -29,23 +28,19 @@ async function Request(url, method, data, token = false) {
             message: error.response.data.message
         }
         if (err.message == "jwt expired.") {
-            console.log("Refresh token");
-            let requireLogin = false
             const accessToken = await getToken()
             const refreshToken = await getRefreshToken()
-            if (!(accessToken && refreshToken)) requireLogin = true
+            if (!(accessToken && refreshToken)) return {error: "NEW_LOGIN_REQUIRED"}
             try {
                 const res = await axios.post(api_url + "auth/verify-token",{accessToken, refreshToken})
-                await Save("access_token", res.data.data.accessToken)
-                return Request(url, method, data, token=true)
+                await Save("accessToken", res.data.data.accessToken)
+                return Request(path, method, data, token=true)
             } catch (error) {
                 if (error.response.data.message == "Unauthorzied.") {
-                    requireLogin = true
+                    return {error: "NEW_LOGIN_REQUIRED"}
                 }
             }
         }
-        if (requireLogin) return {error: "NEW_LOGIN_REQUIRED"}
-        console.log(err)
         return err
     }
 }
