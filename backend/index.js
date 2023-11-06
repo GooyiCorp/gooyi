@@ -7,13 +7,13 @@ import path from "path"
 export const __dirname = path.resolve(path.dirname(''))
 dotenv.config()
 
-import userRoute from "./router/user.js";
 
-
+// Token 
 export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
-export const ACTIVE_USER = new Set()
+export const ACTIVE_USER = {}
 import { clearTokenList } from "./helper/jwt.js"
+// Database connection
 import sequelize from "./model/index.js";
 try {
     await sequelize.authenticate();
@@ -23,7 +23,7 @@ try {
 } catch (error) {
     console.error('Unable to connect to the database:', error);
 }
-
+// Server initialization
 const app = express();
 app.use(express.json())
 app.use(cors())
@@ -34,32 +34,17 @@ import { logger, readLog } from "./helper/logger.js";
 import { sendServerError, sendSuccess } from "./helper/client.js";
 app.use(morgan(morgan_log))
 
+// Server Route Configuration
+import adminRoute from "./router/admin/index.js";
+import authRoute from "./router/auth.js";
+import userRoute from "./router/user.js";
 
+app.use("/api/admin", adminRoute)
+app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
-app.use("/api/test", (req, res) => {res.send({"message": "ok",})})
-app.use("/api/logs", (req, res) => {
-    try {
-        const result = readLog();
-        res.type("text/plain")
-        return res.send(result);
-    } catch (err) {
-        logger.error(err);
-        return sendServerError(res)
-    }
-})
-export var debuggerHost = process.env.APP_SCHEMA
-app.get("/api/change-host", (req, res) => {
-    const {host} = req.query
-    try {
-        debuggerHost = host
-        logger.info(`Change host : ${host}`)
-        return sendSuccess(res, "Change Host", debuggerHost)
-    } catch (err) {
-        logger.error(err)
-        return sendServerError(res)
-    }
-})
 
+export var debuggerHost = process.env.APP_SCHEMA
+export function changeHost(host) {debuggerHost = host}
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
     logger.info("Listening on port 8000");
