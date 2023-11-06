@@ -71,6 +71,8 @@ export default function MainNav() {
         }
         
     }, [url])
+
+    useEffect(() => {}, )
     // ---------------------------------------------------------------------- Screens Transition
 
     const showDiscover = useSharedValue(1)
@@ -206,7 +208,10 @@ export default function MainNav() {
                 couponsFocussed={indexCoupons}
                 storesFocussed={indexStores}
                 profileFocussed={indexProfile}
-                style={{ backgroundColor: 'transparent'}}
+                style={{ 
+                    backgroundColor: 'transparent'
+
+                }}
             />
         </Animated.View>
 
@@ -227,7 +232,7 @@ export default function MainNav() {
 
         {/* -------------------------------------------------------------------- Profile */}
         <Animated.View style={[styles.screenContainer, transitionProfile]}>
-            <ProfileScreen/>
+            <ProfileScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
     </View>

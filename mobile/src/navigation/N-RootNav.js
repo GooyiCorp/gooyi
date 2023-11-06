@@ -8,13 +8,10 @@ import Loading from '../screens/root-screens/S-Loading';
 import QRScanStackNav from './navigationStack/N-QRScanStack';
 import ProfileStackNav from './navigationStack/N-ProfileStack';
 
-import TabNav from './N-TabNav';
-import QRCode from '../screens/root-screens/S-QRCode';
+
 import FinderStackNav from './navigationStack/N-FinderStack';
 import MainNav from './N-MainNav';
-import DiscoverStackNav from './navigationStack/N-DiscoverStack';
 import StoresStackNav from './navigationStack/N-StoresStack';
-import s_logIn from '../screens/root-screens/s_LogIn';
 import RegisterEMailStack from './navigationStack/n_RegisterEMailStack';
 
 

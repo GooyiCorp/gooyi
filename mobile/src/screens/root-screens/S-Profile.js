@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet,View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet,View, Text, TouchableOpacity, Image } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
@@ -9,17 +9,23 @@ import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
 import LogIn from './s_LogIn'
 import { Get } from '../../helper/store'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import RoundButton from '../../components/components_universal/RoundButton'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
 import TapButton from '../../components/components_universal/TapButton'
+import ActivityHistoryModal from '../../components/components_profile_screen/ActivityHistoryModal'
+import { setHideActivityHistoryModal, setShowActivityHistoryModal } from '../../redux/slices/showModalSlice'
+
 
 
 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function ProfileScreen() {
+export default function ProfileScreen({
+  hideTabNav,
+  showTabNav,
+}) {
 
   // ------------------------------------------ Get API
   const userName = 'Thanh Nguyen'
@@ -29,16 +35,26 @@ export default function ProfileScreen() {
   const couponsShortValidity = 5
   
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+
   
   // Global State, userSlide - LogIn required? show/hide
   const logIn = !useSelector((state) => state.user.isLoggedIn)
   // const token = useSelector((state) => state.user.accessToken)
   // console.log('token:', token)
   
+  // Locate Modal ----------------------------------------------------------------------
+  const showActivityHistoryModal = useSelector((state) => state.showModal.activityHistoryModal)
+  
+  useEffect(() => {
+    showActivityHistoryModal? hideTabNav() : showTabNav()
+  }, [showActivityHistoryModal])
 
   return (
     <View style={{height: height, width: width}}>
-       
+
+      {!logIn && <ActivityHistoryModal/>}
       {logIn && <LogIn/>}
       {/* Main Header */}
       <MainHeader 
@@ -154,6 +170,7 @@ export default function ProfileScreen() {
             borderRadius: 10,
             marginRight: 10,
           }}
+
         />
 
         {/* Update */}
@@ -165,10 +182,13 @@ export default function ProfileScreen() {
 
         </View>
 
+        <View style={{height: 100, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', zIndex: 2, bottom: 0}}></View>
 
+        {!logIn && <View style={{width: 200,height: 300, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 60, zIndex: -1, left: 20}}>
+          <Image source={require('../../../assets/image/fox2d01.png')} style={{resizeMode: 'contain', maxWidth: '100%'}}/>
+        </View>}
 
       </View>
-       {/* <ProfileInformation /> */}
 
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
