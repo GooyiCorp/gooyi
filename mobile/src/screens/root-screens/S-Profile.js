@@ -15,6 +15,7 @@ import IconLabelButton from '../../components/components_universal/IconLabelButt
 import TapButton from '../../components/components_universal/TapButton'
 import ActivityHistoryModal from '../../components/components_profile_screen/ActivityHistoryModal'
 import { setHideActivityHistoryModal, setShowActivityHistoryModal } from '../../redux/slices/showModalSlice'
+import { T1, T2 } from '../../constants/text-style'
 
 
 
@@ -86,7 +87,7 @@ export default function ProfileScreen({
             paddingRight: 9,
             paddingVertical: 2,
           }}>ID</Text>
-          <Text style={styles.t1}>{userID}</Text>
+          <Text style={T1}>{userID}</Text>
         </View>
 
         {/* Create Date */}
@@ -98,7 +99,7 @@ export default function ProfileScreen({
             iconColor={COLORS.grey}
             iconStyle={{marginRight: 5}}
           />
-          <Text style={styles.t2}>Aktiv, seit {entryDate}</Text>
+          <Text style={T2}>Aktiv, seit {entryDate}</Text>
         </View>
 
         {/* Statistic */}
@@ -120,7 +121,7 @@ export default function ProfileScreen({
               }}
             />
               <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey ,fontSize: 35, lineHeight: 40}}>{couponsAvailable}</Text>
-              <Text style={[styles.t2, {fontFamily: 'RH-Light', lineHeight: 14}]}>Nicht eingelöst</Text>
+              <Text style={[T2, {fontFamily: 'RH-Light', lineHeight: 15}]}>Nicht eingelöst</Text>
           </View>
 
           {/* Short Validity Coupons */}
@@ -137,7 +138,7 @@ export default function ProfileScreen({
               }}
             />
               <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey ,fontSize: 35, lineHeight: 40}}>{couponsShortValidity}</Text>
-              <Text style={[styles.t2, {fontFamily: 'RH-Light', lineHeight: 14}]}>Kurze Gültigkeit</Text>
+              <Text style={[T2, {fontFamily: 'RH-Light', lineHeight: 15}]}>Kurze Gültigkeit</Text>
           </View>
         </View>
         
@@ -205,12 +206,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: 30,
-  },
-
-  // Text Style
-  t1: {
-    fontFamily: 'RH-Regular',
-    fontSize: 16
   },
 
   t2: {

@@ -3,6 +3,7 @@ import React from 'react'
 import Icons, { icons } from '../components_universal/Icons'
 import Switch from '../components_universal/Switch'
 import { COLORS } from '../../index/constantsindex'
+import { T1, T2 } from '../../constants/text-style'
 
 export default function SettingButton({
     label,
@@ -13,10 +14,11 @@ export default function SettingButton({
     disabled,
     logout,
     labelStyle,
-    style
+    style,
+    lock,
 }) {
   return (
-    <TouchableOpacity style={[styles.container, style]} onPress={onPress} disabled={disabled}>
+    <TouchableOpacity style={[styles.container, style]} onPress={lock? null : onPress} disabled={disabled} activeOpacity={lock? 1 : 0.2}>
 
         {/* Label */}
         <View style={{flexDirection: 'row'}}>
@@ -29,7 +31,13 @@ export default function SettingButton({
                     marginRight: 10
                 }}
             />}
-            <Text style={[styles.label, labelStyle]}>{label}</Text>
+            <Text style={[
+                T2, 
+                {
+                    color: lock? COLORS.borderGrey : COLORS.black
+                },
+                labelStyle
+                ]}>{label}</Text>
         </View>
 
         {/* Chevron */}
@@ -38,6 +46,14 @@ export default function SettingButton({
             iconName={'md-chevron-forward'}
             iconSize={18}
             iconColor={COLORS.grey}
+        />}
+
+        {/* lock */}
+        {lock && <Icons 
+            icon={icons.Ionicons}
+            iconName={'ios-lock-closed'}
+            iconSize={18}
+            iconColor={COLORS.borderGrey}
         />}
 
         {/* Switch */}

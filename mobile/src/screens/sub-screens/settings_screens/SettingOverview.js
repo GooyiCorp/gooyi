@@ -9,6 +9,8 @@ import { moderateScale } from '../../../helper/scale'
 import { COLORS } from '../../../index/constantsindex'
 import SettingButton from '../../../components/components_profile_screen/SettingButton'
 import Switch from '../../../components/components_universal/Switch'
+import IconLabelButton from '../../../components/components_universal/IconLabelButton'
+import { T1, T2 } from '../../../constants/text-style'
 
 export default function SettingOverview() {
     const navigation = useNavigation()
@@ -18,19 +20,18 @@ export default function SettingOverview() {
         <SettingHeader 
             goBack
             onPressGoBack={() => navigation.navigate('Main')}
-            userID
         />
         
         {/* -------------------------------------------------------------------- Header, SubHeader */}
         <View style={styles.headerContainer}>
           <Text style={styles.title}>App Einstellungen</Text>
-          <Text style={styles.infoText}>Hier kannst du deine Daten sowie Einwilligungen einsehen und aktualisieren!</Text>
+          <Text style={[T1, {marginTop: 10}]}>Hier kannst du deine bei uns hinterlegte Daten einsehen und aktualisieren!</Text>
         </View>
 
         {/* -------------------------------------------------------------------- General Setting */}
-        <View style={[styles.box, {marginTop: 30}]}>
+        <View style={[styles.box, {marginTop: 25}]}>
             {/* Label */}
-            <Text style={styles.h2}>ALLGEMEIN</Text>
+            <Text style={styles.h3}>Allgemein</Text>
             {/* Setting */}
             <View>
                 {/* Edit Profile */}
@@ -43,21 +44,21 @@ export default function SettingOverview() {
                 {/* Change PIN */}
                 <SettingButton 
                     label={'PIN ändern'} 
-                    chevron
+                    lock
                     onPress={() => navigation.navigate('ChangePin')}
                 />
                 <View style={styles.line}></View>
                 {/* Face ID */}
                 <SettingButton 
                     label={'Face ID aktivieren'} 
-                    chevron
+                    lock
                     onPress={() => navigation.navigate('FaceID')}
                 />
                 <View style={styles.line}></View>
                 {/* Face ID */}
                 <SettingButton 
                     label={'Zahlungsdaten'} 
-                    chevron
+                    lock
                     onPress={() => navigation.navigate('Payment')}
                 />
             </View>
@@ -66,7 +67,7 @@ export default function SettingOverview() {
         {/* -------------------------------------------------------------------- Notification Setting */}
         <View style={styles.box}>
             {/* Label */}
-            <Text style={styles.h2}>BENACHRICHTIGUNGEN</Text>
+            <Text style={styles.h3}>Benachrichtigungen</Text>
             {/* Setting */}
             <View>
                 {/* Edit Profile */}
@@ -82,7 +83,7 @@ export default function SettingOverview() {
         {/* -------------------------------------------------------------------- Terms and Support */}
         <View style={styles.box}>
             {/* Label */}
-            <Text style={styles.h2}>RECHTLICHES & SUPPORT</Text>
+            <Text style={styles.h3}>Rechtliches und Support</Text>
             {/* Setting */}
             <View>
                 {/* Edit Profile */}
@@ -109,24 +110,23 @@ export default function SettingOverview() {
         </View>
 
         {/* -------------------------------------------------------------------- Notification Setting */}
-        <View style={[styles.box, {marginTop: 10}]}>
-            {/* Setting */}
-            <View>
-                {/* Edit Profile */}
-                <SettingButton 
-                    label={'Abmelden'} 
-                    logout
-                    style={{
-                        maxWidth: '30%',
-                    }}
-                    labelStyle={{
-                        color: COLORS.primary,
-                        fontFamily: 'RH-Bold'
-                    }}
-                />
-            </View>
-        </View>
 
+        {/* -------------------------------------------------------------------- User ID */}
+        <View style={styles.bottomContainer}>
+            <IconLabelButton
+                icon={icons.MaterialIcons}
+                iconName={'logout'}
+                iconSize={22}
+                iconColor={COLORS.mainBackground}
+                label={'Abmelden'}
+                style={{
+                    backgroundColor: COLORS.grey
+                }}
+                labelStyle={{
+                    color: COLORS.mainBackground,
+                }}
+            />
+        </View>
 
     </View>
   )
@@ -136,9 +136,19 @@ const styles = StyleSheet.create({
     screen: {
         height: height,
         width: width,
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.mainBackground,
         // justifyContent: 'center',
         // alignItems: 'center'
+    },
+
+    bottomContainer: {
+        width: width,
+        height: 100,
+        backgroundColor: COLORS.mainBackground,
+        position: 'absolute',
+        bottom: 0,
+        paddingHorizontal: 30,
+        paddingVertical: 20,
     },
 
     headerContainer: {
@@ -169,14 +179,24 @@ const styles = StyleSheet.create({
         color: COLORS.grey,
       },
 
+      h3: {
+        fontFamily: 'RH-Light',
+        fontSize: 24,
+      },
+
       box: {
         width: width,
         paddingHorizontal: 30,
-        marginTop: 25,
+        marginTop: 20,
       },
 
       line: {
         borderWidth: 0.5,
         borderColor: COLORS.borderGrey,
-      }
+      },
+
+    title: {
+        fontFamily: 'RH-Medium', 
+        fontSize: 30,
+    },
 })
