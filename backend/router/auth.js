@@ -48,7 +48,7 @@ authRoute.post('/verify-token', (req, res) => {
                     })
                 } catch (error) {
                     delete TOKEN_LIST[refreshToken]
-                    return sendError(res, "New Login Required.", 401)
+                    return sendError(res, "Unauthorzied.", 401)
                 }
             }
         }
