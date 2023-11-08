@@ -7,6 +7,8 @@ import SortByShop from '../../components/molecules/SortByShop'
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
 import SearchModal from '../../components/components_universal/SearchModal'
+import LogInRequired from './LogInRequired'
+import { useSelector } from 'react-redux'
 
 
 
@@ -19,6 +21,8 @@ export default function CouponsScreen({
 }) {
 
   const navigation = useNavigation()
+
+  const logIn = !useSelector((state) => state.user.isLoggedIn)
 
   // Search Modal ----------------------------------------------------------------------
   const [showSearchModal, setShowSearchModal] = useState(false)
@@ -34,6 +38,8 @@ export default function CouponsScreen({
 
   return (
     <View style={{height: height, width: width}}>
+
+      {logIn && <LogInRequired />}
 
       {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
 
