@@ -30,10 +30,6 @@ export default function NewInput({
     checkAlgorithm,
     label,
 
-    // extern handle
-    onLeaveInput,
-    onFocusInput,
-
     // not Editable
     fixData,
     isEditable,
@@ -95,9 +91,6 @@ export default function NewInput({
         if (!check.test(data)) {
             setError(true)
 
-            // (Extern UI)
-            onLeaveInput()
-
             // Check Failed State
             checkFailed()
             return
@@ -105,9 +98,6 @@ export default function NewInput({
         // Case: success -> handle ServerRequest
         else {
             setError(false)
-
-            // (Extern UI)
-            onLeaveInput()
 
             // Check Success State
             checkSuccess()
@@ -125,9 +115,6 @@ export default function NewInput({
         
         handleOnBlur()
         Keyboard.dismiss()
-
-        // onLeaveInput (extern UI) 
-        onLeaveInput()
     }
 
     // --------------------------------------- handle Focus/Blur
@@ -135,8 +122,6 @@ export default function NewInput({
     const handleOnFocus = () => {
         setFocus(true)
         focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
-
-        onFocusInput()
     }
 
     // onBlur

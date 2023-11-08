@@ -209,7 +209,7 @@ export default function MainNav() {
                 storesFocussed={indexStores}
                 profileFocussed={indexProfile}
                 style={{ 
-                    backgroundColor: 'transparent'
+                    backgroundColor: COLORS.mainBackground
 
                 }}
             />

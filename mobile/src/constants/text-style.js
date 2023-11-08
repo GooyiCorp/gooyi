@@ -10,7 +10,7 @@ export const T2 = {
 
 export const T4 = {
     fontFamily: 'RH-Regular',
-    fontSize: 13,
+    fontSize: 12.5,
   }
 
 export const H1 = {

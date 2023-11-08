@@ -1,5 +1,5 @@
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Button, Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { height, width } from '../../../constants/size'
 
 import { useNavigation } from '@react-navigation/native'
@@ -30,9 +30,6 @@ export default function EnterEmail() {
   const [inputData, setInputData] = useState('')
 
   const [checkSuccess, setCheckSuccess] = useState(false)
-  
-  
-  const transitionButtonVal = useSharedValue(0)
 
   // -------------------------------------------------------------------- handle extern Submit
   // Send Link Button
@@ -46,7 +43,7 @@ export default function EnterEmail() {
   // Leave Input Layout
   const handleLeaveInput = () => {
     setFocus(false)
-    handleButtonTransitionDown()
+    // handleButtonTransitionDown()
     setTimeout(() => {
       setFocus(true);
     }, 300)
@@ -63,17 +60,6 @@ export default function EnterEmail() {
         setShowErrorModal(true)
       }
 
-  // -------------------------------------------------------------------- handle Send-Link-Button Transition
-  // translate Button up
-  const handleButtonTransitionUp = () => {
-    transitionButtonVal.value = withTiming(1, {duration: 450, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
-  }
-
-  // translate Button down
-  const handleButtonTransitionDown = () => {
-    transitionButtonVal.value = withDelay(20, withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)}) )
-  }
-
   // -------------------------------------------------------------------- handle Log In
 
   useEffect(() => {
@@ -85,6 +71,7 @@ export default function EnterEmail() {
   }, [checkSuccess])
 
   const handleServerRequest = async () => {
+    console.log('handle Request')
     const url = api_url + 'user/email-login/'
       try {
         const response = await axios.post(url, {
@@ -100,19 +87,43 @@ export default function EnterEmail() {
         // error
       catch (error) {
         console.log(error.response.data);
+        
       }
   }
 
   // -------------------------------------------------------------------- Animated Style
   // Send Link Button Transition
-  const transitionButton = useAnimatedStyle(() => {
-    const translateY = interpolate(transitionButtonVal.value, [0,1], [0, -330])
+  // const transitionButton = useAnimatedStyle(() => {
+  //   const translateY = interpolate(transitionButtonVal.value, [0,1], [0, -330])
+  //   return {
+  //     transform: [{
+  //       translateY: translateY
+  //     }],
+  //   }
+  // })
+
+  const animation = useSharedValue(0);
+
+  const translateButton = useAnimatedStyle(() => {
     return {
-      transform: [{
-        translateY: translateY
-      }],
+      transform: [
+        {translateY: animation.value}
+      ]
     }
   })
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardWillShow", (e) => {
+      animation.value = withTiming(-e.endCoordinates?.height, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+    });
+    Keyboard.addListener("keyboardWillHide", () => {
+      animation.value = withTiming(0, {duration: 400, easing: Easing.bezier(0.380, 0.700, 0.125, 1.000)})
+    });
+    return () => {
+      Keyboard.removeAllListeners("keyboardWillShow");
+      Keyboard.removeAllListeners("keyboardWillHide");
+    };
+  }, []);
   
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
@@ -128,7 +139,7 @@ export default function EnterEmail() {
         zIndex: 1, 
         position: 'absolute',
       }} 
-      onTouchStart={handleLeaveInput} 
+      onPress={handleLeaveInput} 
     >
 
     {/* -------------------------------------------------------------------- Go Back Button */}
@@ -141,10 +152,9 @@ export default function EnterEmail() {
 
     {/* -------------------------------------------------------------------- Header, SubHeader */}
     <Text style={[H3, {marginHorizontal: 30, marginBottom: 10}]}>Passwortlose Authentisierung</Text>
-    <Text style={[T1, {paddingHorizontal: 30}]}>Wir senden dir an deine E-Mail-Adresse einen Link zu. Klicke den Link an, um dich anzumelden.</Text>
+    <Text style={[T1, {paddingHorizontal: 30}]}>Gib deine E-Mail Adresse unten ein und wir senden dir in Kürze einen Link zu, mit dem du dich direkt anmelden kannst.</Text>
 
     {/* -------------------------------------------------------------------- InputBox */}
-    <View style={styles.inputSaveArea}>
 
       <NewInput 
 
@@ -167,22 +177,18 @@ export default function EnterEmail() {
         checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
         label={'E-Mail'}
 
-        // handle
-        onLeaveInput={handleButtonTransitionDown}
-        onFocusInput={handleButtonTransitionUp}
-
         isEditable={true}
 
         checkSuccess={() => setCheckSuccess(true)}
         checkFailed={() => setCheckSuccess(false)}
 
         setInputData={setInputData}
+
+        // onBlur={() => console.log('blur')} 
       />
-      
-    </View>
 
     {/* -------------------------------------------------------------------- Send Link Button */}
-    <Animated.View style={[styles.button, transitionButton]}>
+    <Animated.View style={[styles.button, translateButton]}>
 
       <BigButton
 

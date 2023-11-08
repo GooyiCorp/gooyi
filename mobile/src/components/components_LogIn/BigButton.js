@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: width-60,
         alignSelf: 'center',
-        borderRadius: 50,
+        borderRadius: 16,
         backgroundColor: COLORS.default,
         justifyContent: 'center',
         alignItems: 'center',
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontFamily: 'Roboto-Regular',
+        fontFamily: 'RH-Medium',
         fontSize: 15
     }
 })

@@ -168,10 +168,6 @@ export default function EnterUserInformation({route}) {
           checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           label={'E-Mail'}
 
-          // handle
-          onLeaveInput={() => null}
-          onFocusInput={() => null}
-
           fixData={email}
           isEditable={false}
 
@@ -198,10 +194,6 @@ export default function EnterUserInformation({route}) {
           // constant
           checkAlgorithm={/^[a-zA-Z ]+$/}
           label={'Vorname'}
-
-          // handle
-          onLeaveInput={() => null}
-          onFocusInput={() => null}
 
           isEditable={true}
 
@@ -233,10 +225,6 @@ export default function EnterUserInformation({route}) {
           // constant
           checkAlgorithm={/^[a-zA-Z ]+$/}
           label={'Nachname'}
-
-          // handle (Extern UI)
-          onLeaveInput={() => null}
-          onFocusInput={() => null}
 
           isEditable={true}
 
