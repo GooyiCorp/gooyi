@@ -13,15 +13,17 @@ import { COLORS } from '../index/constantsindex'
 import * as Linking from "expo-linking";
 import { Get, Save } from '../helper/store'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setLoggedIn, setRefreshToken, setToken } from '../redux/slices/userSlice'
 import { store } from '../redux/store'
+import { setPage } from '../redux/slices/mainNavSlice'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav() {
 
     const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const checkLogin = async () => {
         const accessToken = await Get('accessToken')
@@ -35,7 +37,6 @@ export default function MainNav() {
         } else return false
     }
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
-    const dispatch = useDispatch()
     var url = Linking.useURL()
     useEffect(() => {
         if (url) {
@@ -72,7 +73,25 @@ export default function MainNav() {
         
     }, [url])
 
-    useEffect(() => {}, )
+    // handle show Pages
+    const page = useSelector((state) => state.page.page)
+
+    useEffect(() => {
+        switch (page) {
+            case 'discover': 
+                handleShowDiscover()
+                break
+            case 'coupons': 
+                handleShowCoupons()
+                break
+            case 'stores':
+                handleShowStores()
+                break
+            case 'profile':
+                handleShowProfile()
+                break
+        }
+    }, [page])
     // ---------------------------------------------------------------------- Screens Transition
 
     const showDiscover = useSharedValue(1)
@@ -200,10 +219,11 @@ export default function MainNav() {
         {/* -------------------------------------------------------------------- Tab Navigation */}
         <Animated.View style={[{zIndex: 2, position: 'absolute', bottom: 0}, animateBottomTab]}>
             <TabNavigator
-                onPressDiscover={handleShowDiscover}
-                onPressCoupons={handleShowCoupons}
-                onPressStores={handleShowStores}
-                onPressProfile={handleShowProfile}
+                onPressDiscover={() => dispatch(setPage('discover'))}
+                onPressCoupons={() => dispatch(setPage('coupons'))}
+                onPressStores={() => dispatch(setPage('stores'))}
+                onPressProfile={() => dispatch(setPage('profile'))}
+
                 discoverFocussed={indexDiscover}
                 couponsFocussed={indexCoupons}
                 storesFocussed={indexStores}

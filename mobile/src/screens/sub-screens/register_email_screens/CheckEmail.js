@@ -11,6 +11,7 @@ import { openInbox } from "react-native-email-link";
 import SendNewLinkButton from '../../../components/components_LogIn/SendNewLinkButton'
 import { api_url } from '../../../constants/api'
 import axios from 'axios'
+import { H1, T1 } from '../../../constants/text-style'
 
 export default function CheckEmail({navigation, route}) {
 
@@ -57,16 +58,16 @@ export default function CheckEmail({navigation, route}) {
         <AnimatedSuccessIcon styleContainer={{marginTop: 50}}/>
 
         {/* -------------------------------------------------------------------- Main Content */}
-        <Text style={[styles.title]}>Checke deine E-Mails</Text>
+        <Text style={[H1, {fontFamily: 'RH-Black', color: COLORS.white, marginVertical: 20, textAlign: 'center'}]}>Checke deine E-Mails</Text>
 
-        <Text style={styles.infoText}>Wir haben an deine E-Mail-Adresse</Text>
+        <Text style={[T1, {fontFamily: 'RH-Medium', textAlign: 'center', color: COLORS.white}]}>Wir haben an deine E-Mail-Adresse</Text>
 
         {/* E-Mail Return */}
         <View style={styles.emailContainer}>
-            <Text style={styles.email}>{returnEmail}</Text>
+            <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.white}]}>{returnEmail}</Text>
         </View>
 
-        <Text style={[styles.infoText, {marginTop: 0}]}>einen Link gesendet. Tippe auf diesen  {"\n"}Link, um dich anzumelden.</Text>
+        <Text style={[T1, {fontFamily: 'RH-Medium', textAlign: 'center', color: COLORS.white, marginTop: 0}]}>einen Link gesendet. Tippe auf diesen  {"\n"}Link, um dich anzumelden.</Text>
 
         {/* -------------------------------------------------------------------- Send New Link */}
         <SendNewLinkButton 
@@ -90,7 +91,7 @@ export default function CheckEmail({navigation, route}) {
         }}                
         titleStyle={{
             color: COLORS.white, 
-            fontFamily: 'Roboto-Medium',
+            fontFamily: 'RH-Bold',
         }}
 
         // Call handle
