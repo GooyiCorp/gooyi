@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { COLORS } from '../../../index/constantsindex'
@@ -15,9 +15,9 @@ import { H1, T1, T2 } from '../../../constants/text-style'
 
 export default function CheckEmail({navigation, route}) {
 
-    //const {returnEmail} = route.params;
-    const returnEmail = 'thienthanh@gmail.com'
-    console.log(returnEmail)
+    const {returnEmail} = route.params;
+    // const returnEmail = 'thienthanh@gmail.com'
+    // console.log(returnEmail)
 
     const handleSendNewLink = async () => {
         const url = api_url + 'user/email-login/'
@@ -57,7 +57,7 @@ export default function CheckEmail({navigation, route}) {
 
         {/* -------------------------------------------------------------------- Animated Check Icon */}
         <AnimatedSuccessIcon styleContainer={{marginTop: 50}}/>
-
+        
         {/* -------------------------------------------------------------------- Main Content */}
         <Text style={[H1, {fontFamily: 'RH-Black', color: COLORS.white, marginVertical: 20, textAlign: 'center'}]}>Checke deine E-Mails</Text>
 
