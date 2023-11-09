@@ -128,7 +128,7 @@ export default function EnterEmail() {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     
-  <View style={{height: height, width: width, backgroundColor: 'white'}}>
+  <View style={{height: height, width: width, backgroundColor: COLORS.mainBackground}}>
 
     {showErrorModal && <ErrorModal onClose={onCloseErrorModal}/>}
     {/* -------------------------------------------------------------------- onLeaveLayout - Background Pressable */}
@@ -155,12 +155,8 @@ export default function EnterEmail() {
     <Text style={[T1, {paddingHorizontal: 30}]}>Gib deine E-Mail Adresse unten ein und wir senden dir in Kürze einen Link zu, mit dem du dich direkt anmelden kannst.</Text>
 
     {/* -------------------------------------------------------------------- InputBox */}
-
+    <View style={styles.mainContainer}>
       <NewInput 
-
-        style={{
-          marginTop: 20,
-        }}
       
         // State
         submitState={submit}
@@ -186,7 +182,7 @@ export default function EnterEmail() {
 
         // onBlur={() => console.log('blur')} 
       />
-
+    </View>
     {/* -------------------------------------------------------------------- Send Link Button */}
     <Animated.View style={[styles.button, translateButton]}>
 
@@ -209,8 +205,8 @@ export default function EnterEmail() {
 
     </Animated.View>
 
+    
     {/* --------------------------------------------------------------------  handle onBlur Input */}
-
 
     </Pressable>
   
@@ -280,5 +276,20 @@ const styles = StyleSheet.create({
     padding: 30,
     backgroundColor: 'yellow',
     overflow: 'hidden'
-  }
+  },
+
+  mainContainer: {
+    width: width,
+    height: height,
+    backgroundColor: COLORS.white,
+    borderRadius: 16,
+    paddingVertical: 30,
+    marginTop: 20,
+
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+
+    elevation: 7,
+  },
 })

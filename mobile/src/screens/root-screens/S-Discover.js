@@ -126,22 +126,6 @@ export default function DiscoverScreen( {
 
         <Button title='set log out' onPress={handleLogOut}/>
 
-        <SettingInput 
-          clearButton
-          isEditable={true}
-          setInputData={() => null}
-          checkAlgorithm={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
-          label={'Vorname'}
-          // error Message
-          errorMessageCaseEmpty={'Das Feld darf nicht leer sein!'}
-          errorMessageDataValidity={'Die eingegebene E-Mail-Addresse ist ungültig!'}
-        />
-
-        <CloseSaveButton 
-          handleSave={() => console.log('save')}
-          handleClose={() => console.log('close')}
-        />
-
 
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>

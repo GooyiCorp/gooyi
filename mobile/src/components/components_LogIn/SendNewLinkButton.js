@@ -6,6 +6,7 @@ import Animated, { Easing, interpolate, interpolateColor, useAnimatedStyle, useS
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Icons, { icons } from '../components_universal/Icons'
+import { T1, T2, T3 } from '../../constants/text-style'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
 export default function SendNewLinkButton({
@@ -44,7 +45,7 @@ export default function SendNewLinkButton({
             opacity: interpolate(iconAnimation.value, [0,1,2,3], [0,1,1,0]),
             transform: [
                 {scaleY: interpolate(iconAnimation.value, [0,1,2,3], [0,1,1,0])},
-                {translateX: interpolate(iconAnimation.value, [0,1,2,3], [0, 0, 150, 150])}
+                {translateX: interpolate(iconAnimation.value, [0,1,2,3], [0, 0, 160, 160])}
             ]
         }
     })
@@ -76,8 +77,8 @@ export default function SendNewLinkButton({
     // Main Container
     const animateMainContainer = useAnimatedStyle(() => {
         return {
-            backgroundColor: interpolateColor(iconAnimation.value, [0,1,2,3,4], [COLORS.white03,COLORS.white03,COLORS.white03,COLORS.white03,'transparent']),
-            borderWidth: interpolate(iconAnimation.value, [0,1,2,3,4], [0,0,0,0,1])
+            // backgroundColor: interpolateColor(iconAnimation.value, [0,1,2,3,4], [COLORS.white03,COLORS.white03,COLORS.white03,COLORS.white03,'transparent']),
+            // borderWidth: interpolate(iconAnimation.value, [0,1,2,3,4], [0,0,0,0,1])
         }
     })
 
@@ -121,8 +122,8 @@ export default function SendNewLinkButton({
     <Animated.View style={[styles.buttonContainer, animateMainContainer]}>
         
         {/* --------------------------------------------------------------------- Label */}
-        <Animated.Text style={[styles.title,labelAnimation]}>
-            {reset? 'Link erneut zusenden' : (success? 'Gesendet' : 'Senden nicht möglich')}
+        <Animated.Text style={[T1, {color: COLORS.white, fontFamily: 'RH-Medium'},labelAnimation]}>
+            {reset? 'Link erneut zusenden' : (success? 'Gesendet!' : 'Senden nicht möglich')}
         </Animated.Text>
 
         {/* --------------------------------------------------------------------- Icon Container */}
@@ -146,7 +147,7 @@ export default function SendNewLinkButton({
         {/* --------------------------------------------------------------------- Counter */}
         <Animated.View style={[styles.counterContainer, showCounter]}>
 
-            <Text style={styles.info}>Erneut möglich in:</Text>
+            <Text style={[T2, {color: COLORS.white, fontFamily: 'RH-Medium'}]}>Erneut möglich in:</Text>
 
             {/* Counter */}
             <View style={styles.counterBox}>
@@ -170,20 +171,20 @@ const styles = StyleSheet.create({
         width: 200,
         alignSelf: 'center',
         borderRadius: 50,
-        backgroundColor: COLORS.white03,
-        paddingHorizontal: 25, 
+        // backgroundColor: COLORS.white03,
+        paddingHorizontal: 20, 
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 20,
         overflow: 'hidden',
         borderColor: COLORS.white03,
-        borderWidth: 1
+        // borderWidth: 1
     },
 
     title: {
         fontFamily: 'RH-Medium',
         color: COLORS.white,
-        fontSize: 15
+        fontSize: 15,
     },
 
     iconLeftContainer: {

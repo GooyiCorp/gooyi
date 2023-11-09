@@ -176,7 +176,9 @@ export default function NewInput({
         <View 
             style={[
                 styles.inputContainer,
-                {borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : COLORS.notEditableBorder},
+                {
+                    borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : COLORS.notEditableBorder,
+                },
                 style
             ]}
         >
@@ -206,6 +208,7 @@ export default function NewInput({
             <View 
                 style={[
                     styles.rightView,
+                    {zIndex: focus? 1 : 0}
                 ]}
             >
 
@@ -231,9 +234,9 @@ export default function NewInput({
                 {/* Lock Icon */}
                 {lock && <Icons 
                     icon={icons.Ionicons}
-                    iconName={'ios-lock-closed-outline'}
+                    iconName={'ios-lock-closed'}
                     iconSize={20}
-                    iconColor={COLORS.black}
+                    iconColor={COLORS.borderGrey}
                 />}
 
 

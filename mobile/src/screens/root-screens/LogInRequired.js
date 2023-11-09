@@ -16,10 +16,10 @@ export default function LogInRequired({}) {
     <View style={styles.mainCard}>
 
         <View style={{width: width-60, height: width-60, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
-            <Image source={require('../../../assets/image/foxLock.png')} resizeMode='contain' style={{maxWidth: '95%'}}/>
+            <Image source={require('../../../assets/image/foxLock2.png')} resizeMode='contain' style={{maxWidth: '110%'}}/>
         </View>
                
-        <Text style={[H1, {fontSize: 50, marginTop: -15, textAlign: 'center'}]}>Oooops!</Text>
+        <Text style={[H1, {fontSize: 50, textAlign: 'center'}]}>Oooops!</Text>
         <Text style={[H3, {fontFamily:'RH-Medium',textAlign: 'center', marginTop: 10}]}>Anmeldung erforderlich.</Text>
         
         <Text style={[T1, {marginTop: 10, textAlign:'center', marginBottom: 20}]}>Um diese Seite aufrufen zu können, {"\n"}musst du angemeldet sein.</Text>

@@ -228,6 +228,7 @@ export default function MainNav() {
                 couponsFocussed={indexCoupons}
                 storesFocussed={indexStores}
                 profileFocussed={indexProfile}
+                
                 style={{ 
                     backgroundColor: COLORS.mainBackground
 

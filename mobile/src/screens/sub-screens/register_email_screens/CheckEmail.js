@@ -11,11 +11,12 @@ import { openInbox } from "react-native-email-link";
 import SendNewLinkButton from '../../../components/components_LogIn/SendNewLinkButton'
 import { api_url } from '../../../constants/api'
 import axios from 'axios'
-import { H1, T1 } from '../../../constants/text-style'
+import { H1, T1, T2 } from '../../../constants/text-style'
 
 export default function CheckEmail({navigation, route}) {
 
-    const {returnEmail} = route.params;
+    //const {returnEmail} = route.params;
+    const returnEmail = 'thienthanh@gmail.com'
     console.log(returnEmail)
 
     const handleSendNewLink = async () => {
@@ -64,40 +65,50 @@ export default function CheckEmail({navigation, route}) {
 
         {/* E-Mail Return */}
         <View style={styles.emailContainer}>
-            <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.white}]}>{returnEmail}</Text>
+            <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>{returnEmail}</Text>
         </View>
 
         <Text style={[T1, {fontFamily: 'RH-Medium', textAlign: 'center', color: COLORS.white, marginTop: 0}]}>einen Link gesendet. Tippe auf diesen  {"\n"}Link, um dich anzumelden.</Text>
+
 
         {/* -------------------------------------------------------------------- Send New Link */}
         <SendNewLinkButton 
             handleOnPress={handleSendNewLink}
             counterValue={20}
-            style={{
-                marginTop: 30
-            }}
+            style={{marginTop: 20}}
         />
+ 
 
+
+
+        <View style={{
+            width: width,
+            position: 'absolute',
+            bottom: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
 
         {/* -------------------------------------------------------------------- Open Mail App */}
+        
         <BigButton
 
-        // Base
-        title={'Zu E-Mail Programm wechseln'}
-        bgStyle={{
-            backgroundColor: COLORS.primary,
-            position: 'absolute',
-            bottom: 30
-        }}                
-        titleStyle={{
-            color: COLORS.white, 
-            fontFamily: 'RH-Bold',
-        }}
+            // Base
+            title={'Zu E-Mail Programm wechseln'}
+            bgStyle={{
+                backgroundColor: COLORS.white03,
+            }}                
+            titleStyle={{
+                color: COLORS.white, 
+                fontFamily: 'RH-Medium',
+            }}
 
-        // Call handle
-        onPress={openInbox}
-        
+            // Call handle
+            onPress={openInbox}
+
         />
+
+        </View>
 
     </View>
   )
@@ -133,22 +144,20 @@ const styles = StyleSheet.create({
         textAlign: 'center'
       },
 
-    email: {
-        fontFamily: 'RH-Bold',
-        fontSize: 15,
-        color: COLORS.white,
-        alignSelf: 'center',
-        marginVertical: 6,
-    },
 
     emailContainer: {
-        backgroundColor: 'transparent',
+        backgroundColor: COLORS.white05,
+        maxWidth: 0.8*width,
         //borderBottomWidth: 0.5,
         //borderColor: COLORS.white05,
         // borderBottomColor: COLORS.subPrimary, borderBottomWidth: 0.5, 
         alignSelf: 'center', 
         paddingHorizontal: 20,
-        marginVertical: 10
+        paddingVertical: 10,
+        marginVertical: 10,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     sendNewLink: {

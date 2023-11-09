@@ -10,7 +10,7 @@ import { COLORS } from '../../../index/constantsindex'
 import SettingButton from '../../../components/components_profile_screen/SettingButton'
 import Switch from '../../../components/components_universal/Switch'
 import IconLabelButton from '../../../components/components_universal/IconLabelButton'
-import { T1, T2 } from '../../../constants/text-style'
+import { H3, T1, T2 } from '../../../constants/text-style'
 
 export default function SettingOverview() {
     const navigation = useNavigation()
@@ -31,7 +31,7 @@ export default function SettingOverview() {
         {/* -------------------------------------------------------------------- General Setting */}
         <View style={[styles.box, {marginTop: 25}]}>
             {/* Label */}
-            <Text style={styles.h3}>Allgemein</Text>
+            <Text style={[H3]}>Allgemein</Text>
             {/* Setting */}
             <View>
                 {/* Edit Profile */}
@@ -67,7 +67,7 @@ export default function SettingOverview() {
         {/* -------------------------------------------------------------------- Notification Setting */}
         <View style={styles.box}>
             {/* Label */}
-            <Text style={styles.h3}>Benachrichtigungen</Text>
+            <Text style={[H3]}>Benachrichtigungen</Text>
             {/* Setting */}
             <View>
                 {/* Edit Profile */}
@@ -83,7 +83,7 @@ export default function SettingOverview() {
         {/* -------------------------------------------------------------------- Terms and Support */}
         <View style={styles.box}>
             {/* Label */}
-            <Text style={styles.h3}>Rechtliches und Support</Text>
+            <Text style={[H3]}>Rechtliches und Support</Text>
             {/* Setting */}
             <View>
                 {/* Edit Profile */}

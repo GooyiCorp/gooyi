@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet, Text, View, ViewComponent } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
-import { icons } from '../../../components/components_universal/Icons'
+
 import { moderateScale } from '../../../helper/scale'
 import { COLORS } from '../../../index/constantsindex'
 import { height, width } from '../../../constants/size'
 import { useNavigation } from '@react-navigation/native'
 import InputBox from '../../../components/components_LogIn/InputBox'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import Animated, { interpolate, log, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import BigButton from '../../../components/components_LogIn/BigButton'
 import CheckBox from '../../../components/components_universal/CheckBox'
 import NewInput from '../../../components/components_LogIn/NewInput'
@@ -17,14 +17,61 @@ import axios from 'axios'
 import { Get, Save } from '../../../helper/store'
 import { useDispatch } from 'react-redux'
 import { setLoggedIn, setRefreshToken, setToken } from '../../../redux/slices/userSlice'
+import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
+import { H3, T1, T3, T4 } from '../../../constants/text-style'
+import Icons, { icons } from '../../../components/components_universal/Icons'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation({route}) {
   const {email} = route.params;
-  console.log(email)
+  //const email = 'test email'
+  //console.log(email)
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  // const [userEmail, setUserEmail] = useState('')
+  // -------------------------------------------------------------------------
+  // CheckBox State
+  const [check1, setCheck1] = useState(false)
+  const [check2, setCheck2] = useState(false)
+  const [check3, setCheck3] = useState(false)
+
+  // Check 1
+  const handleCheck1CaseTrue = (() => {
+    setCheck1(true)
+  })
+  const handleCheck1CaseFalse = (() => {
+    setCheck1(false)
+  })
+
+  // Check 2
+  const handleCheck2CaseTrue = (() => {
+    setCheck2(true)
+    setErrorCheck2(false)
+  })
+  const handleCheck2CaseFalse = (() => {
+    setCheck2(false)
+
+  })
+
+  // Check 3
+  const handleCheck3CaseTrue = (() => {
+    setCheck3(true)
+    setErrorCheck3(false)
+  })
+  const handleCheck3CaseFalse = (() => {
+    setCheck3(false)
+  })
+
+  // Test State
+  // useEffect(() => {
+  //   console.log('check1:', check1)
+  //   console.log('check2:', check2)
+  //   console.log('check3:', check3)
+  // }, [check1, check2, check3])
+
+  const [errorCheck2, setErrorCheck2] = useState(true)
+  const [errorCheck3, setErrorCheck3] = useState(false)
+
+  // -------------------------------------------------------------------------
 
   const [submit, setSubmit] = useState(false)
   const [focus, setFocus] = useState(false)
@@ -41,6 +88,8 @@ export default function EnterUserInformation({route}) {
   // Send Link Button
   const handleSendLink = () => {
     setSubmit(true)
+    check2? setErrorCheck2(false) : setErrorCheck2(true)
+    check3? setErrorCheck3(false) : setErrorCheck3(true)
     setTimeout(() => {
       setSubmit(false)
     }, 300)
@@ -53,20 +102,6 @@ export default function EnterUserInformation({route}) {
       setFocus(true);
     }, 300)
   }
-  
-  // const url = Linking.useURL()
-  // useEffect(() => {
-  //   if (url) {
-  //     const { hostname, path, queryParams } = Linking.parse(url);
-  //     console.log(queryParams)
-  //     if (queryParams.error == 'expired') {
-  //       alert('Loi het han link')
-  //     } 
-  //     else {
-  //       if (queryParams.email && queryParams.email != testData) setTestData(queryParams.email)
-  //     } 
-  //   }
-  // }, [url])
 
   // handle Server Request
   useEffect(() => {
@@ -110,7 +145,7 @@ export default function EnterUserInformation({route}) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
-    <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
+    <View style={{width: width, height: height, backgroundColor: COLORS.mainBackground}}>
   
     {/* -------------------------------------------------------------------- onLeaveLayout - Background Pressable */}
     <Pressable 
@@ -120,40 +155,24 @@ export default function EnterUserInformation({route}) {
         zIndex: 1, 
         position: 'absolute',
       }} 
-      onTouchStart={handleLeaveFocus} 
+      onPress={handleLeaveFocus} 
     >
 
         {/* -------------------------------------------------------------------- Go Back Button */}
-        <RoundButton
-        icon={icons.Ionicons}
-        iconName={'md-chevron-back'}
-        iconSize={moderateScale(28,0.2)}
-        iconColor={COLORS.white}
-        style={{
-            backgroundColor: COLORS.grey,
-            height: moderateScale(38,0.2),
-            width: moderateScale(38,0.2),
-            marginLeft: 30,
-            marginTop: 60,
-            zIndex: 2,
-        }}
-        onPressButton={() => navigation.navigate('Main')}
+
+        <SettingHeader
+          goBack
+          onPressGoBack={() => navigation.navigate('Main')}
         />
 
         {/* -------------------------------------------------------------------- Header, SubHeader */}
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>Profilangaben</Text>
-          {/* <Text style={styles.subHeaderStyle}>Anmeldung erfolgreich!</Text> */}
-          <Text style={styles.infoText}>Vervollständige noch einige Angaben zu deinem {"\n"}Profil, um die Anmeldung abzuschließen!</Text>
-        </View>
+        <Text style={[H3, {marginHorizontal: 30, marginBottom: 10}]}>Profilangaben</Text>
+        <Text style={[T1, {paddingHorizontal: 30}]}>Vervollständige noch einige Angaben zu deinem {"\n"}Profil, um die Anmeldung abzuschließen!</Text>
 
         {/* ------------------------------------------------------------------------------------------------------------------------------------- Input Section */}
+        <View style={styles.termsCondition}>
+             
         <NewInput 
-
-          style={{
-            marginTop: 20,
-          }}
-
           // State
           // submitState={submit}
 
@@ -237,30 +256,67 @@ export default function EnterUserInformation({route}) {
 
         {/* ------------------------------------------------------------------------------------------------------------------------------------- Check Box Section */}
         {/* Werbe Berechtigung */}
-        <View style={[styles.checkBoxContainer, {marginTop: 8}]}>
-            <CheckBox/>
+
+        <View style={[styles.checkBoxContainer]}>
+            <CheckBox checkTrue={handleCheck1CaseTrue} checkFalse={handleCheck1CaseFalse}/>
             <View style={{width: width-100}}>
-              <Text style={[styles.h5]}>Ich möchte über Neuigkeiten, Angebote sowie Aktionen per E-Mail informiert werden. Mir ist bewusst, dass diese Zustimmung jederzeit in der App-Einstellung oder über den Abmeldelink im Newsletter wiederufen werden kann.</Text>
-              <Text style={styles.noticeText}>Mehr Informationen</Text>
+              <Text style={[T3]}>Ich möchte über Neuigkeiten, Angebote sowie Aktionen per E-Mail informiert werden. Mir ist bewusst, dass diese Zustimmung jederzeit in der App-Einstellung oder über den Abmeldelink im Newsletter wiederufen werden kann.</Text>
+              <Text style={[T3, {color: COLORS.grey, fontFamily: 'RH-Bold', marginTop: 5}]}>Mehr Informationen</Text>
             </View>
         </View>
 
         {/* Nutzungs- und Verkaufsbedingungen */}
-        <View style={[styles.checkBoxContainer]}>
-            <CheckBox/>
+        <View style={[styles.checkBoxContainer, {backgroundColor: errorCheck2? COLORS.primary02 : 'transparent'}]}>
+            <CheckBox checkTrue={handleCheck2CaseTrue} checkFalse={handleCheck2CaseFalse}/>
             <View style={{width: width-110}}>
-              <Text style={[styles.h5]}>Ich habe die Nutzungs- und Verkaufsbedingungen der Gooyi Platform gelesen und akzeptiere sie.</Text>
-              <Text style={styles.noticeText}>Erforderlich, um fortzufahren!</Text>
+              <Text style={[T3]}>Ich habe die <Text style={{color: COLORS.primary, fontFamily: 'RH-Bold'}}>Nutzungs- und Verkaufsbedingungen</Text> der Gooyi Platform gelesen und akzeptiere sie.</Text>
             </View>
         </View>
 
+        {/* Error Message Check 2 */}
+        {errorCheck2 && <View style={[styles.errorMessageContainer, {marginVertical: errorCheck2? 5 : 0}]}>
+
+        {/* Icon */}
+        <Icons
+            icon={icons.MaterialIcons}
+            iconName={'info-outline'}
+            iconSize={15}
+            iconColor={COLORS.primary}
+        />
+
+        {/* Message */}
+        <Text style={styles.errorText}>
+            Zustimmung erforderlich!
+        </Text>
+
+        </View>}
+
         {/* Datenverarbeitung */}
-        <View style={[styles.checkBoxContainer]}>
-            <CheckBox/>
+        <View style={[styles.checkBoxContainer, {backgroundColor: errorCheck3? COLORS.primary02 : 'transparent'}]}>
+            <CheckBox checkTrue={handleCheck3CaseTrue} checkFalse={handleCheck3CaseFalse}/>
             <View style={{width: width-100}}>
-              <Text style={[styles.h5]}>Mir ist bekannt, dass meine Daten in Übereinstimmung mit der Datenschutzerklärung von Gooyi verarbeitet werden.</Text>
-              <Text style={styles.noticeText}>Mehr erfahren</Text>
+              <Text style={[T3]}>Mir ist bekannt, dass meine Daten in Übereinstimmung mit der <Text style={{color: COLORS.primary, fontFamily: 'RH-Bold'}}>Datenschutzerklärung</Text> von Gooyi verarbeitet werden.</Text>
             </View>
+        </View>
+
+        {/* Error Message Check 3 */}
+        {errorCheck3 && <View style={[styles.errorMessageContainer, {marginVertical: errorCheck3? 5 : 0}]}>
+
+        {/* Icon */}
+        <Icons
+            icon={icons.MaterialIcons}
+            iconName={'info-outline'}
+            iconSize={15}
+            iconColor={COLORS.primary}
+        />
+
+        {/* Message */}
+        <Text style={styles.errorText}>
+            Zustimmung erforderlich!
+        </Text>
+
+        </View>}
+
         </View>
 
         {/* -------------------------------------------------------------------- Open Mail App */}
@@ -329,14 +385,14 @@ const styles = StyleSheet.create({
   },
 
   checkBoxContainer: {
-    width: width-60,
-    marginHorizontal: 30,
+    width: width-40,
+    marginHorizontal: 20,
     flexDirection: 'row',
+    padding: 10,
     zIndex: 2,
-    marginTop: 15,
-    backgroundColor: COLORS.grey02,
+    //backgroundColor: COLORS.grey02,
     borderRadius: 16,
-    padding: 10
+    // padding: 10
   },
 
   noticeText: {
@@ -344,5 +400,35 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLORS.primary,
     marginTop: 5,
-  }
+  },
+
+  termsCondition: {
+    width: width,
+    height: height,
+    backgroundColor: COLORS.white,
+    borderRadius: 16,
+    paddingVertical: 30,
+    marginTop: 20,
+
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+
+    elevation: 7,
+  },
+
+  errorMessageContainer: {
+    width: width-60,
+    marginHorizontal: 40,
+    marginVertical: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+},
+
+errorText: {
+  fontFamily: 'RH-Medium',
+  fontSize: 12,
+  color: COLORS.primary,
+  marginLeft: 5
+},
 })
