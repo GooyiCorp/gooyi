@@ -126,6 +126,8 @@ export default function DiscoverScreen( {
 
         <Button title='set log out' onPress={handleLogOut}/>
 
+        <NewOfferBox />
+
 
         {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
       {/* <ScrollView>

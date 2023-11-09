@@ -54,9 +54,9 @@ export default function MainHeader({
             {notificationButton && <RoundButton 
                 icon={icons.MaterialIcons}
                 iconName={'notifications-none'}
-                iconColor={COLORS.subPrimary}
+                iconColor={COLORS.grey}
                 iconSize={moderateScale(26,0.2)}
-                style={{backgroundColor: COLORS.subPrimary02}}
+                style={{backgroundColor: COLORS.default}}
                 onPressButton={onPressNotificationButton}
             />}
 

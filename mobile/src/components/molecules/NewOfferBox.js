@@ -4,6 +4,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import HeartButton from '../atoms/HeartButton'
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withRepeat } from 'react-native-reanimated'
+import { COLORS } from '../../index/constantsindex'
+import { H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +17,7 @@ const shopName = 'NOOSOO Asia Kitchen'
 const rating = 'n.d.'
 const header = 'Udon für 2 Person Udon für 2 Person '
 const information = '+ 2 Getränke nach Wahl'
-const price = '28,90 €'
+const price = '28,90'
 const offerPrice = '17,50 €'
 const distance = '1,2 km'
 
@@ -24,6 +26,7 @@ const distance = '1,2 km'
 export default function NewOfferBox() {
 
   // Value --------------------------------------------------------------- Transition
+  const [focus, setFocus] = useState(false)
   const [boxWidth, setBoxWidth] = useState(0)
   const [textWidth, setTextWidth] = useState(0)
   
@@ -73,11 +76,13 @@ export default function NewOfferBox() {
   return (
     <Pressable 
       onPressIn={ () => ( 
+        setFocus(true),
         flashValue.value = withTiming( 1, {duration: 300}), 
         transitionVal.value = withTiming(1, {duration: 100}),
         textAnimation.value = withRepeat( withDelay(500, withSequence( withTiming(1, {duration: 1000}), withDelay(1000, withTiming(0, {duration: 1000})), withDelay(2000, withTiming(0)) ) ), -1 )  
       ) } 
-      onPressOut={ () => ( 
+      onPressOut={ () => (
+        setFocus(false),
         flashValue.value = withTiming(2, {duration: 300}, (finished) => (flashValue.value = 0)), 
         transitionVal.value = withTiming(0, {duration: 100}) ,
         textAnimation.value = 0
@@ -96,32 +101,41 @@ export default function NewOfferBox() {
         {/* Content Box -------------------------------------------------------------------------------------------------------- */}
         <View style={styles.contentBox}>
           
-          <View style={{height: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#696969'}}>{shopName}</Text>
-            <Text style={{fontFamily: 'Roboto-Light', fontSize: 12}}>{rating}</Text>
+          <View style={{height: '15%', flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'green'}}>
+            <Text style={T4}>{shopName}</Text>
+            {/* <Text style={{fontFamily: 'Roboto-Light', fontSize: 12}}>{rating}</Text> */}
           </View>
 
-          <View style={{height: 58, overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
-            <Animated.View style={[{flexWrap: 'wrap'}, boxWidth > textWidth ? 0 : xVal]}>  
-              <Text style={{fontFamily: 'Roboto-Bold', fontSize: 16}} onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{header}</Text>
+          <View style={{height: '65%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
+            <Animated.View style={[{flexWrap: focus? 'wrap' : ''}, boxWidth > textWidth ? 0 : xVal]}>  
+              <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]} ellipsizeMode='tail' onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{header}</Text>
             </Animated.View>
 
-            <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12}}>{information}</Text>
+            <Text style={T4}>{information}</Text>
           </View>
 
-          <View style={{height: 25, flexDirection: 'row'}}>
-            <Text style={{fontFamily: 'Roboto-Light', fontSize: 18, paddingRight: 10, textDecorationLine: 'line-through', textDecorationColor: '#B84058', color: '#696969'}}>{price}</Text>
-            <Text style={{fontFamily: 'Roboto-Bold', fontSize: 18, color: '#B84058'}}>{offerPrice}</Text>
+          {/* Bottom Section */}
+          <View style={{height: '20%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+
+            {/* Price */}
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[H4, {paddingRight: 10, textDecorationLine: 'line-through', textDecorationColor: COLORS.primary, color: COLORS.grey}]}>{price}</Text>
+              <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>{offerPrice}</Text>
+            </View>
+            {/* Heart Button */}
+            <View style={{height: 30, width: 30}}>
+              <HeartButton />
+            </View>
           </View>
 
-          <View style={{height: 15, flexDirection: 'row'}}>
+          {/* <View style={{height: 15, flexDirection: 'row'}}>
             <MaterialCommunityIcons name="map-marker" size={14} color='#B84058' />
             <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#696969', marginLeft: 3}}>{distance}</Text>
-          </View>
+          </View> */}
           
-          <View style={{alignSelf: 'flex-end', position: 'absolute', bottom: 8, right: 10}}>
-            <HeartButton />
-          </View>
+          {/* <View style={{alignSelf: 'flex-end', position: 'absolute', bottom: 8, right: 10}}>
+            
+          </View> */}
 
         </View>
 
@@ -145,7 +159,7 @@ const styles = StyleSheet.create({
   imageBox: {
     width: imgBoxWidth,
     height: imgBoxHeight,
-    backgroundColor: '#cccccc',
+    backgroundColor: COLORS.default,
     zIndex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -155,7 +169,7 @@ const styles = StyleSheet.create({
   contentBox: {
     width: 246,
     height: 138,
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.mainBackground,
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
@@ -167,11 +181,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginLeft: 30,
 
-    shadowColor: "#000000",
-    shadowOpacity: 0.15,
-    shadowRadius: 20,
+    // shadowColor: "#000000",
+    // shadowOpacity: 0.15,
+    // shadowRadius: 20,
 
-    elevation: 7,
+    // elevation: 7,
   },
 
 })

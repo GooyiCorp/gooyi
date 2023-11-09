@@ -26,3 +26,8 @@ export const H3 = {
     fontFamily: 'RH-Light',
     fontSize: 24,
   }
+
+export const H4 = {
+    fontFamily: 'RH-Light',
+    fontSize: 18,
+  }

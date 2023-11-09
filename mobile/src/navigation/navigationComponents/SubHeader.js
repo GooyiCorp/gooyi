@@ -35,9 +35,9 @@ export default function SubHeader({
                 icon={icons.Ionicons}
                 iconName={'search'}
                 iconSize={moderateScale(22,0.2)}
-                iconColor={COLORS.subPrimary}
+                iconColor={COLORS.grey}
                 style={{
-                    backgroundColor: COLORS.subPrimary02,
+                    backgroundColor: COLORS.default,
                     height: moderateScale(38,0.2),
                     width: moderateScale(38,0.2),
                     marginLeft: 0
@@ -75,9 +75,9 @@ export default function SubHeader({
                         icon={icons.Ionicons}
                         iconName={'ios-navigate'}
                         iconSize={moderateScale(20,0.2)}
-                        iconColor={COLORS.subPrimary}
+                        iconColor={COLORS.grey}
                         style={{
-                            backgroundColor: COLORS.subPrimary02,
+                            backgroundColor: COLORS.default,
                             height: moderateScale(38,0.2),
                             width: moderateScale(38,0.2),
                             paddingTop: moderateScale(2,0.2),
