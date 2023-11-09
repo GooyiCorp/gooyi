@@ -6,7 +6,7 @@ import { changeHost, debuggerHost } from "../../index.js";
 const manageRoute = express.Router()
 
 manageRoute.get("/test", (req, res) => { sendSuccess(res, "ok")})
-manageRoute.use("/logs", (req, res) => {
+manageRoute.get("/logs", (req, res) => {
     try {
         const result = readLog();
         res.type("text/plain")
