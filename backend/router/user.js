@@ -41,6 +41,7 @@ userRoute.post("/email-login", async (req, res) => {
     const error = email_validate(email)
     if (error) return sendError(res, error)
     try {
+        const host = process.env.host
         const user = await User.findOne({ where: { email: email}})
         if (user) {
             const userData = {
@@ -68,7 +69,6 @@ userRoute.post("/email-login", async (req, res) => {
                     expiresIn: JWT_REFRESH_EXPIRED
                 }
             )
-            const host = process.env.host
             // Email
             const options = {
                 from: "Gooyi.de <info@gooyi.de>",
