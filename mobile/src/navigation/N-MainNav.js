@@ -41,6 +41,7 @@ export default function MainNav() {
     useEffect(() => {
         if (url) {
           const { hostname, path, queryParams } = Linking.parse(url);
+          console.log(queryParams)
           if (queryParams.error) {
             switch (queryParams.error) {
                 case 'expired':
@@ -230,8 +231,15 @@ export default function MainNav() {
                 profileFocussed={indexProfile}
                 
                 style={{ 
-                    backgroundColor: COLORS.mainBackground
-
+                    backgroundColor: COLORS.mainBackground,
+                    
+                        
+                        shadowColor: "black",
+                        shadowOpacity: 0.15,
+                        shadowRadius: 20,
+                    
+                        elevation: 7,
+                      
                 }}
             />
         </Animated.View>

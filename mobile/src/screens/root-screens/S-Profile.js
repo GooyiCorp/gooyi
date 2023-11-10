@@ -183,9 +183,9 @@ export default function ProfileScreen({
 
         </View>
 
-        <View style={{height: 100, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', zIndex: 2, bottom: 0}}></View>
+        {/* <View style={{height: 100, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', zIndex: 2, bottom: 0}}></View> */}
 
-        {!logIn && <View style={{width: 200,height: 300, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 60, zIndex: -1, left: 20}}>
+        {!logIn && <View style={{width: 200,height: 300, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 40, zIndex: -1, left: 20}}>
           <Image source={require('../../../assets/image/fox2d01.png')} style={{resizeMode: 'contain', maxWidth: '100%'}}/>
         </View>}
 

@@ -149,7 +149,7 @@ export default function TabNavigator({
 
 const styles = StyleSheet.create({
     tabNavigationContainer: {
-        height: 100,
+        height: 85,
         width: width,
         backgroundColor: COLORS.white,
         bottom: 0,
@@ -157,13 +157,14 @@ const styles = StyleSheet.create({
         zIndex: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingBottom: 25,
     },
 
     navIconContainer: {
-        height: 80,
+        height: 60,
         width: 80,
-        //backgroundColor: 'green',
+        // backgroundColor: 'green',
         justifyContent: 'center',
         alignItems: 'center'
     },

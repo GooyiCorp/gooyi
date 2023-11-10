@@ -26,7 +26,7 @@ export default function LogInRequired({}) {
 
         <BigButton 
             title={'Zur Anmeldung'} 
-            bgStyle={{backgroundColor: COLORS.primary, maxWidth: '100%', borderRadius: 16, bottom: 120, position: 'absolute'}}
+            bgStyle={{backgroundColor: COLORS.primary, maxWidth: '100%', borderRadius: 16, bottom: 130, position: 'absolute'}}
             titleStyle={{color: COLORS.white, fontFamily: 'RH-Medium'}}
             onPress={() => dispatch(setPage('profile'))}
         />

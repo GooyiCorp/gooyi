@@ -33,6 +33,8 @@ import NewShopsBox from '../../components/components_discover_screen/NewShopsBox
 import Category from '../../components/components_discover_screen/Category'
 import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { COLORS } from '../../index/constantsindex'
+import { LinearGradient } from 'expo-linear-gradient'
+import { BlurView } from 'expo-blur'
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
@@ -107,7 +109,7 @@ export default function DiscoverScreen( {
   const translateSubHeader = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateY: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0,H_SCROLL_DISTANCE], [H_MAX_HEIGHT, H_MIN_HEIGHT]) : 0}
+        {translateY: scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0, -30]) : 0}
       ],
       opacity: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0, -(H_SCROLL_DISTANCE/2)], [1, 0]) : 1
 
@@ -118,11 +120,19 @@ export default function DiscoverScreen( {
   const translateMainHeader = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateY: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0,H_SCROLL_DISTANCE], [H_MAX_HEIGHT,5]) : 0}
+        {translateY: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0,-10]) : scrollValue.value <= 0? 0 : -10}
       ],
+      
+    }
+  })
+
+  const translateMainHeaderBackground = useAnimatedStyle(() => {
+    return {
+      opacity: scrollValue.value <= 30 && scrollValue.value >= 15? interpolate(scrollValue.value, [15,30], [0,1]) : scrollValue.value <= 15? 0 : 1,
       backgroundColor: interpolateColor(scrollValue.value, [-(H_SCROLL_DISTANCE/2), -H_SCROLL_DISTANCE], [COLORS.white, COLORS.mainBackground])
     }
   })
+
   return ( 
     <View style={[{height: height, width: width}]}>
       
@@ -140,8 +150,9 @@ export default function DiscoverScreen( {
         onPressQRButton={() => navigation.navigate('QRScan')}
         navigateButton
       />
+     
+      <Animated.View style={[styles.shadow, translateMainHeaderBackground]}></Animated.View>
       </Animated.View>
-
       {/* Sub Header */} 
       
 
@@ -155,10 +166,17 @@ export default function DiscoverScreen( {
           /> 
       </Animated.View>
 
+      {/* <LinearGradient 
+        colors={[COLORS.primary, COLORS.primary, COLORS.primary, COLORS.white]} 
+        style={{width: width, height: 110}} 
+        
+      /> */}
+
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       <ScrollView 
         onScroll={(e) => {
           scrollValue.value = e.nativeEvent.contentOffset.y/2
+          // console.log(scrollValue.value)
         }}
         style={[styles.mainContainer, {overflow: 'visible'}]}
         scrollEventThrottle={16}
@@ -268,6 +286,19 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     marginBottom: 100,
+    
   },
+
+  shadow: {
+    width: width,
+    height: 110,
+    position: 'absolute',
+    backgroundColor: 'white',
+    shadowColor: "black",
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+
+    elevation: 7,
+  }
 
 })
