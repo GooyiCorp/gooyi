@@ -10,6 +10,7 @@ import { moderateScale } from '../../helper/scale'
 import SearchBox from '../../components/components_universal/SearchBox'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { TopNavButton } from '../../components/components_universal/TopNavButton'
+import { width } from '../../constants/size'
 
 export default function SubHeader({
     search,
@@ -143,8 +144,9 @@ export default function SubHeader({
 const styles = StyleSheet.create({
     subHeaderContainer: {
         height: 60,
-        backgroundColor: '#fff',
-        //paddingVertical: 5
+        width: width,
+        backgroundColor: 'transparent',
+        //paddingVertical: 5,
         
     },
     
@@ -154,7 +156,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         paddingLeft: 30,
-        //backgroundColor: 'red',
     },
 
     icon: {

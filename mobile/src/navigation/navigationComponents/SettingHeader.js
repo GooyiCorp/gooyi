@@ -8,6 +8,7 @@ import { moderateScale } from '../../helper/scale'
 import BigButton from '../../components/components_LogIn/BigButton'
 import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
+import { T2 } from '../../constants/text-style'
 
 export default function SettingHeader({
     goBack,
@@ -65,7 +66,7 @@ export default function SettingHeader({
                 style={{paddingVertical: 10}}
                 onPress={handeEdit}
             >
-                <Text style={[styles.label, {color: edit? COLORS.grey : COLORS.primary}]}>{edit? buttonText2 : buttonText1}</Text>
+                <Text style={[T2, {fontFamily: 'RH-Medium', color: edit? COLORS.grey : COLORS.primary}]}>{edit? buttonText2 : buttonText1}</Text>
             </Pressable>
             
             

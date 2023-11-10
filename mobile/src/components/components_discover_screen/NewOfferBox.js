@@ -6,6 +6,7 @@ import HeartButton from '../atoms/HeartButton'
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withRepeat } from 'react-native-reanimated'
 import { COLORS } from '../../index/constantsindex'
 import { H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
+import Icons, { icons } from '../components_universal/Icons'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -96,12 +97,21 @@ export default function NewOfferBox() {
         
         <View style={styles.imageBox}>
           <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3}, flashOverlay]}></Animated.View>
+          <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
+            <Icons 
+                icon={icons.AntDesign}
+                iconName={'picture'}
+                iconSize={30}
+                iconColor={COLORS.ivoryDark}
+              />
+          </View>
+          
         </View>
 
         {/* Content Box -------------------------------------------------------------------------------------------------------- */}
         <View style={styles.contentBox}>
           
-          <View style={{height: '15%', flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'green'}}>
+          <View style={{height: '15%', flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={T4}>{shopName}</Text>
             {/* <Text style={{fontFamily: 'Roboto-Light', fontSize: 12}}>{rating}</Text> */}
           </View>
@@ -122,20 +132,17 @@ export default function NewOfferBox() {
               <Text style={[H4, {paddingRight: 10, textDecorationLine: 'line-through', textDecorationColor: COLORS.primary, color: COLORS.grey}]}>{price}</Text>
               <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>{offerPrice}</Text>
             </View>
-            {/* Heart Button */}
-            <View style={{height: 30, width: 30}}>
-              <HeartButton />
-            </View>
+
           </View>
 
-          {/* <View style={{height: 15, flexDirection: 'row'}}>
-            <MaterialCommunityIcons name="map-marker" size={14} color='#B84058' />
-            <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#696969', marginLeft: 3}}>{distance}</Text>
-          </View> */}
-          
-          {/* <View style={{alignSelf: 'flex-end', position: 'absolute', bottom: 8, right: 10}}>
-            
-          </View> */}
+          {/* Heart Button */}
+          <View style={{height: 30, width: 30, position: 'absolute', bottom: 10, right: 10}}>
+            <HeartButton 
+              icon={icons.MaterialIcons}
+              iconName={'favorite'}
+              iconSize={30}
+            />
+          </View>
 
         </View>
 
@@ -159,7 +166,7 @@ const styles = StyleSheet.create({
   imageBox: {
     width: imgBoxWidth,
     height: imgBoxHeight,
-    backgroundColor: COLORS.default,
+    backgroundColor: COLORS.noImage,
     zIndex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -169,23 +176,9 @@ const styles = StyleSheet.create({
   contentBox: {
     width: 246,
     height: 138,
-    backgroundColor: COLORS.mainBackground,
+    backgroundColor: COLORS.ivory,
     paddingVertical: 10,
     paddingHorizontal: 15,
-  },
-
-  shadowProp: {
-    width: 246,
-    height: 253,
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    marginLeft: 30,
-
-    // shadowColor: "#000000",
-    // shadowOpacity: 0.15,
-    // shadowRadius: 20,
-
-    // elevation: 7,
   },
 
 })

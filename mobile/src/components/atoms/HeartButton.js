@@ -1,11 +1,14 @@
 import React from 'react'
 import { Pressable, StyleSheet, View } from "react-native";
-import { Ionicons, Octicons } from '@expo/vector-icons'; 
+import { Ionicons, MaterialIcons, Octicons } from '@expo/vector-icons'; 
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming } from 'react-native-reanimated';
 import { COLORS } from '../../index/constantsindex';
+import Icons from '../components_universal/Icons';
 
 export default function HeartButton({
-  style
+  icon,
+  iconName,
+  iconSize,
 }) {
 
     const liked = useSharedValue(0)
@@ -33,11 +36,21 @@ export default function HeartButton({
     return (
         <Pressable onPress={() => (liked.value = withTiming(liked.value ? 0 : 1))}>
             <Animated.View style={[StyleSheet.absoluteFill, outlineStyle]}>
-                <Ionicons name={"heart"} size={30} color={COLORS.grey}/>
+                <Icons 
+                  icon={icon}
+                  iconName={iconName}
+                  iconSize={iconSize}
+                  iconColor={COLORS.white}
+                />
             </Animated.View>
     
             <Animated.View style={fillStyle}>
-                <Ionicons name={"heart"} size={30} color={'#B84058'} />
+            <Icons 
+                  icon={icon}
+                  iconName={iconName}
+                  iconSize={iconSize}
+                  iconColor={COLORS.primary}
+                />
             </Animated.View>
         </Pressable>
     )

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet,View, Text , ScrollView, Button} from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
-import PresentationHeader from '../../components/molecules/PresentationHeader'
+import PresentationHeader from '../../components/components_universal/PresentationHeader'
 import SortByShop from '../../components/molecules/SortByShop'
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'

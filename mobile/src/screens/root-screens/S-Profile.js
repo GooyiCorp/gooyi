@@ -229,6 +229,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    backgroundColor: COLORS.mainBackground,
+    backgroundColor: COLORS.ivory,
   }
 })

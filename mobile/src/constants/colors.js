@@ -5,6 +5,9 @@ export default {
     subPrimary02: 'rgba(130, 152, 174, 0.2)',
     subPrimary08: 'rgba(130, 152, 174, 0.9)',
     mainBackground: '#f8f5f2',
+    ivory: '#f3ede9',
+    ivoryDark: '#e3ded8',
+    
 
     black: '#000',
     white: '#fff',
@@ -15,6 +18,8 @@ export default {
     grey02: '#eeeeee',
     borderGrey: '#bbbbbb',
     notEditableBorder: '#e5e5e5',
+
+    noImage: '#f8f6f4',
 
     green: '#00c500',
     lightGreen: '#46ce37',

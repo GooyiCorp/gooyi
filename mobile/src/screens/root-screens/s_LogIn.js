@@ -29,7 +29,7 @@ export default function LogIn({}) {
         />
         <BigButton 
             title={'Mit Telefonnumer Anmelden'}
-            bgStyle={{backgroundColor: '#e3ded8', maxWidth: '100%', borderRadius: 16}}
+            bgStyle={{backgroundColor: COLORS.ivoryDark, maxWidth: '100%', borderRadius: 16}}
             titleStyle={{color: COLORS.black, fontFamily: 'RH-Medium'}}
         />
 
