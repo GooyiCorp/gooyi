@@ -20,4 +20,4 @@ import axios from "axios"
 //       }
 // )
 // export default Request
-export const api_url = "https://piglet-together-wasp.ngrok-free.app/api/"
+export const api_url = "http://gooyi.de:8000/api/"
