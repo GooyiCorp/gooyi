@@ -117,6 +117,9 @@ export default function DiscoverScreen( {
   
   const translateMainHeader = useAnimatedStyle(() => {
     return {
+      transform: [
+        {translateY: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0,H_SCROLL_DISTANCE], [H_MAX_HEIGHT,5]) : 0}
+      ],
       backgroundColor: interpolateColor(scrollValue.value, [-(H_SCROLL_DISTANCE/2), -H_SCROLL_DISTANCE], [COLORS.white, COLORS.mainBackground])
     }
   })
