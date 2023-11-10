@@ -42,6 +42,7 @@ userRoute.post("/email-login", async (req, res) => {
     if (error) return sendError(res, error)
     try {
         const host = process.env.host
+        const port = process.env.PORT
         const user = await User.findOne({ where: { email: email}})
         if (user) {
             const userData = {
@@ -74,7 +75,7 @@ userRoute.post("/email-login", async (req, res) => {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Log in ',
-                html: `<a href="http://${host}/api/user/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
+                html: `<a href="http://${host}:${port}/api/user/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -86,7 +87,7 @@ userRoute.post("/email-login", async (req, res) => {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Registration',
-                html: `<a href="http://${host}/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}"> Registration </a>`
+                html: `<a href="http://${host}:${port}/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}"> Registration </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
