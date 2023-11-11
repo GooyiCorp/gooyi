@@ -68,7 +68,7 @@ export default function EnterUserInformation({route}) {
   //   console.log('check3:', check3)
   // }, [check1, check2, check3])
 
-  const [errorCheck2, setErrorCheck2] = useState(true)
+  const [errorCheck2, setErrorCheck2] = useState(false)
   const [errorCheck3, setErrorCheck3] = useState(false)
 
   // -------------------------------------------------------------------------
@@ -105,7 +105,7 @@ export default function EnterUserInformation({route}) {
 
   // handle Server Request
   useEffect(() => {
-    if (checkSuccessFN && checkSuccessLN == true) {
+    if (checkSuccessFN && checkSuccessLN && check2 && check3 == true) {
       console.log('send request')
       handleSubmit()
     }
