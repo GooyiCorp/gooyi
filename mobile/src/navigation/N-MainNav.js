@@ -16,22 +16,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setLoggedIn, setRefreshToken, setToken } from '../redux/slices/userSlice'
 import { store } from '../redux/store'
 import { setPage } from '../redux/slices/mainNavSlice'
+import Request from '../helper/request.js'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-export default function MainNav() {
+export default function MainNav({route}) {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
+    
+    useEffect(() => {
+        checkLogin()
+    }, [])    
     const checkLogin = async () => {
-        const accessToken = await Get('accessToken')
-        const refreshToken = await Get('refreshToken')
+        const accessToken = route.accessToken ? route.accessToken : await Get('accessToken')
+        const refreshToken = route.refreshToken ? route.refreshToken : await Get('refreshToken')
         if (accessToken && refreshToken) {
-          dispatch(setLoggedIn())
-          dispatch(setToken(accessToken))
-          dispatch(setRefreshToken(refreshToken))
-          console.log(store.getState().user.accessToken)
-          return true
+            const response = await Request('auth/verify-token', 'POST', {accessToken, refreshToken})
+            if (response.success) {
+                dispatch(setLoggedIn())
+                dispatch(setToken(accessToken))
+                dispatch(setRefreshToken(refreshToken))
+                console.log(store.getState().user.accessToken)
+                return true
+            } else return false
         } else return false
     }
 
