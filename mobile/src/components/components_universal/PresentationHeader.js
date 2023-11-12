@@ -1,30 +1,28 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { height } from '../../constants/size'
+import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
+import { H3, T2 } from '../../constants/text-style'
 
 export default function PresentationHeader({
-    customContainerStyle,
+    style,
     title,
     showAllButton
 }) {
   return (
-    <View style={[styles.containerStyle, customContainerStyle]}>
-        <View style={styles.headerBar}>
-            <Text style={styles.titleStyle}>{title}</Text>
+        <View style={[styles.headerBar, style]}>
+            <Text style={H3}>{title}</Text>
             {showAllButton && <TouchableOpacity style={styles.buttonStyle}>
-                    <Text style={styles.buttonTitle}>Alle Anzeigen</Text>
-                </TouchableOpacity>}
+                <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr anzeigen</Text>
+            </TouchableOpacity>}
         </View>
-
-    </View>
   )
 }
 
 const styles = StyleSheet.create({
 
     containerStyle: {
-        width: '100%',
+        width: width,
     },
 
     headerBar: {
@@ -33,22 +31,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end', 
         marginHorizontal: 30,
-        marginBottom: 10,
-    },
-
-    titleStyle: {
-        fontFamily: 'Roboto-Light',
-        fontSize: 22,
-        color: '#696969',
+        marginBottom: 15,
     },
 
     buttonStyle: {
-        height: 30,
-        width: 100,
-        borderRadius: 50,
-        backgroundColor: COLORS.subPrimary02,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row'
     },
 
     buttonTitle: {

@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
       height: height,
       width: width,
       position: 'absolute',
-      zIndex: 2,
+      zIndex: 3,
       backgroundColor: COLORS.white,
       bottom: 0,
       borderRadius: 20,

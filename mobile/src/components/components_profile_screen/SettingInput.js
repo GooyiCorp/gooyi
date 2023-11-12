@@ -94,7 +94,10 @@ export default function SettingInput({
         {/* --------------------------------------- Input Box */}
         <View style={[
             styles.inputContainer,
-            {borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : COLORS.notEditableBorder},
+            {
+                borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : 'transparent',
+                backgroundColor: isEditable? COLORS.white : COLORS.mainBackground,
+            },
         ]}>
             
             {/* --------------------- Label */}
@@ -153,9 +156,9 @@ export default function SettingInput({
                 {/* Lock Icon */}
                 {lock && <Icons 
                     icon={icons.Ionicons}
-                    iconName={'ios-lock-closed-outline'}
+                    iconName={'ios-lock-closed'}
                     iconSize={20}
-                    iconColor={COLORS.black}
+                    iconColor={COLORS.borderGrey}
                 />}
             </View>
 

@@ -1,5 +1,5 @@
-import { StyleSheet, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, View, Button } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 import { height, width } from '../constants/size'
@@ -12,16 +12,17 @@ import ProfileScreen from '../screens/root-screens/S-Profile'
 import { COLORS } from '../index/constantsindex'
 import * as Linking from "expo-linking";
 import { Get, Save } from '../helper/store'
-import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { Link, useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
 import { setLoggedIn, setRefreshToken, setToken } from '../redux/slices/userSlice'
 import { store } from '../redux/store'
+import { setPage } from '../redux/slices/mainNavSlice'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav() {
-
     const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const checkLogin = async () => {
         const accessToken = await Get('accessToken')
@@ -35,44 +36,82 @@ export default function MainNav() {
         } else return false
     }
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
-    const dispatch = useDispatch()
-    var url = Linking.useURL()
-    useEffect(() => {
-        if (url) {
-          const { hostname, path, queryParams } = Linking.parse(url);
-          if (queryParams.error) {
-            switch (queryParams.error) {
-                case 'expired':
-                    console.log('het han');
-                    // lam gi day
-                    break
-                case 'logged_in':
-                    console.log('da dang nhap');
-                    // lam gi day
-                    break
-                case 'used':
-                    console.log('da dung');
-                    break
-            }
-          } else {
-            if (queryParams.email) {
-                navigation.navigate('RegisterEmail', {screen: 'EnterUserInformation', params: { email: queryParams.email }})
-            }
-            console.log(queryParams);
+    // const url = Linking.useURL()
+    // useEffect(() => {
+    //     console.log(url)
+    //     if (url) {
+    //       const { hostname, path, queryParams } = Linking.parse(url);
+    //       console.log(queryParams)
+    //       if (queryParams.error) {
+    //         switch (queryParams.error) {
+    //             case 'expired':
+    //                 console.log('het han');
+    //                 // lam gi day
+    //                 break
+    //             case 'logged_in':
+    //                 console.log('da dang nhap');
+    //                 // lam gi day
+    //                 break
+    //             case 'used':
+    //                 console.log('da dung');
+    //                 break
+    //         }
+    //       } else {
+    //         if (queryParams.email) {
+    //             navigation.navigate('RegisterEmail', {screen: 'EnterUserInformation', params: { email: queryParams.email }})
 
-            if (queryParams.accessToken && queryParams.refreshToken) {
-                dispatch(setLoggedIn())
-                dispatch(setToken(queryParams.accessToken))
-                dispatch(setRefreshToken(queryParams.refreshToken))
-                Save('accessToken', queryParams.accessToken)
-                Save('refreshToken', queryParams.refreshToken)
-            }
-          }
-        }
+    //         }
+    //         console.log(queryParams);
+
+    //         if (queryParams.accessToken && queryParams.refreshToken) {
+    //             dispatch(setLoggedIn())
+    //             dispatch(setToken(queryParams.accessToken))
+    //             dispatch(setRefreshToken(queryParams.refreshToken))
+    //             Save('accessToken', queryParams.accessToken)
+    //             Save('refreshToken', queryParams.refreshToken)
+    //         }
+    //       }
+    //     }
         
-    }, [url])
+    // }, [url])
+    
+    // const [checkLink, setCheckLink] = useState(false)
+    // console.log(url)
 
-    useEffect(() => {}, )
+    // look for Link
+    // useEffect(() => {
+    //     if (!linkURL) {
+    //         setCheckLink(prev => !prev)
+    //     } else {
+    //         setURL(linkURL)
+    //     }
+    // }, [checkLink])
+
+
+
+
+
+
+
+    // handle show Pages
+    const page = useSelector((state) => state.page.page)
+
+    useEffect(() => {
+        switch (page) {
+            case 'discover': 
+                handleShowDiscover()
+                break
+            case 'coupons': 
+                handleShowCoupons()
+                break
+            case 'stores':
+                handleShowStores()
+                break
+            case 'profile':
+                handleShowProfile()
+                break
+        }
+    }, [page])
     // ---------------------------------------------------------------------- Screens Transition
 
     const showDiscover = useSharedValue(1)
@@ -200,17 +239,26 @@ export default function MainNav() {
         {/* -------------------------------------------------------------------- Tab Navigation */}
         <Animated.View style={[{zIndex: 2, position: 'absolute', bottom: 0}, animateBottomTab]}>
             <TabNavigator
-                onPressDiscover={handleShowDiscover}
-                onPressCoupons={handleShowCoupons}
-                onPressStores={handleShowStores}
-                onPressProfile={handleShowProfile}
+                onPressDiscover={() => dispatch(setPage('discover'))}
+                onPressCoupons={() => dispatch(setPage('coupons'))}
+                onPressStores={() => dispatch(setPage('stores'))}
+                onPressProfile={() => dispatch(setPage('profile'))}
+
                 discoverFocussed={indexDiscover}
                 couponsFocussed={indexCoupons}
                 storesFocussed={indexStores}
                 profileFocussed={indexProfile}
+                
                 style={{ 
-                    backgroundColor: 'transparent'
-
+                    backgroundColor: COLORS.mainBackground,
+                    
+                        
+                        shadowColor: "black",
+                        shadowOpacity: 0.15,
+                        shadowRadius: 20,
+                    
+                        elevation: 7,
+                      
                 }}
             />
         </Animated.View>

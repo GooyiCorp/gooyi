@@ -15,7 +15,7 @@ export const TopNavButton = ({lists}) => {
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}} >
     {lists.map((list) => (
-    <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? COLORS.subPrimary02 : COLORS.white}]} 
+    <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? COLORS.default : COLORS.white}]} 
     onPress={() => handleColor(list)}>
         <Text style={[styles.topNavTitle, {fontFamily: list.id === selected? 'Roboto-Bold': 'Roboto-Regular'}]}>{list.title}</Text>
     </TouchableOpacity>
@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 15,
         height: 36,
-        borderRadius: 50,
+        borderRadius: 10,
     },
     topNavTitle: {
-        color: COLORS.subPrimary,
+        color: COLORS.black,
         fontFamily: 'Roboto-Medium',
         fontSize: 13,
         textAlign: 'center',

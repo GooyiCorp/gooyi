@@ -7,11 +7,12 @@ import { icons } from '../../components/components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
 import BigButton from '../../components/components_LogIn/BigButton'
 import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
+import IconLabelButton from '../../components/components_universal/IconLabelButton'
+import { T2 } from '../../constants/text-style'
 
 export default function SettingHeader({
     goBack,
     onPressGoBack,
-    userID,
     close,
     buttonText2,
     buttonText1,
@@ -59,19 +60,13 @@ export default function SettingHeader({
                     edit={edit}
                 />
             }
-
-            {/* -------------------------------------------------------------------- User ID */}
-            {userID && <View style={{flexDirection: 'row'}}>
-                    <Text style={[styles.label]}>Nutzer ID</Text>
-                    <Text style={[styles.label, {fontFamily: 'RH-Medium'}]}>1226.1238.23</Text>
-            </View>}
             
             {/* -------------------------------------------------------------------- Edit Button */}
             {editButton && <Pressable 
                 style={{paddingVertical: 10}}
                 onPress={handeEdit}
             >
-                <Text style={[styles.label]}>{edit? buttonText2 : buttonText1}</Text>
+                <Text style={[T2, {fontFamily: 'RH-Medium', color: edit? COLORS.grey : COLORS.primary}]}>{edit? buttonText2 : buttonText1}</Text>
             </Pressable>
             
             
@@ -88,14 +83,7 @@ const styles = StyleSheet.create({
     container: {
         width: width,
         height: 120,
-        //backgroundColor: COLORS.white05,
-        //position: 'absolute',
-        //top: 0,
-        // paddingHorizontal: 30,
-        // paddingBottom: 10,
-        justifyContent: 'flex-end'
-        // borderBottomLeftRadius: 16,
-        // borderBottomRightRadius: 16,
+        justifyContent: 'flex-end',
     },
 
     justifyLayer: {
@@ -112,7 +100,7 @@ const styles = StyleSheet.create({
     },
 
     label: {
-        fontFamily: 'RH-Bold',
+        fontFamily: 'RH-Medium',
         fontSize: 15,
         color: COLORS.primary,
         marginRight: 5,

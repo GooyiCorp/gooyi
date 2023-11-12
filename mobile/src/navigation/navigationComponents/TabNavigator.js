@@ -1,10 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
 import { width } from '../../constants/size'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated'
+import { useSelector } from 'react-redux'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -27,10 +28,24 @@ export default function TabNavigator({
     const animateStores = useSharedValue(0)
     const animateProfile = useSharedValue(0)
 
-    animateDiscover.value = withSequence(withTiming(discoverFocussed, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-    animateCoupons.value = withSequence(withTiming(couponsFocussed, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-    animateStores.value = withSequence(withTiming(storesFocussed, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-    animateProfile.value = withSequence(withTiming(profileFocussed, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
+    const page = useSelector((state) => state.page.page)
+
+    useEffect(() => {
+        switch (page) {
+            case 'discover': 
+                animateDiscover.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
+                break
+            case 'coupons': 
+                animateCoupons.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
+                break
+            case 'stores':
+                animateStores.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
+                break
+            case 'profile':
+                animateProfile.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
+                break
+        }
+    }, [page])
 
     const animationDiscover = useAnimatedStyle( () =>{
         const scale = interpolate(animateDiscover.value, [0,1,0], [1,0.8,1,1])
@@ -134,7 +149,7 @@ export default function TabNavigator({
 
 const styles = StyleSheet.create({
     tabNavigationContainer: {
-        height: 100,
+        height: 85,
         width: width,
         backgroundColor: COLORS.white,
         bottom: 0,
@@ -142,13 +157,14 @@ const styles = StyleSheet.create({
         zIndex: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingBottom: 25,
     },
 
     navIconContainer: {
-        height: 80,
+        height: 60,
         width: 80,
-        //backgroundColor: 'green',
+        // backgroundColor: 'green',
         justifyContent: 'center',
         alignItems: 'center'
     },

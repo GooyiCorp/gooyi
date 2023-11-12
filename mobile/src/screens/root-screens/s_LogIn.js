@@ -1,55 +1,53 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { moderateScale } from '../../helper/scale'
 import BigButton from '../../components/components_LogIn/BigButton'
 import { useNavigation } from '@react-navigation/native'
+import { H1, T1, T2, T4 } from '../../constants/text-style'
 
 export default function LogIn({}) {
     const navigation = useNavigation()
   return (
-    <View style={{ height: height, width: width, backgroundColor: COLORS.white}}>
-        {/* <View style={{height: 300, width: 300, backgroundColor: COLORS.default, position: 'absolute', alignSelf: 'center', top: 100, justifyContent: 'center', alignItems: 'center'}}><Text>Image Container</Text></View> */}
-        <View style={styles.headerSection}>
-            <Text style={styles.title}>Ready {"\n"}to <Text style={{fontFamily: 'RH-Black', fontSize: 44,color: COLORS.primary}}>goooooooyi</Text>?</Text>
-            <Text style={styles.subHeaderStyle}>Bist du bereit? {"\n"}{"\n"}Tippe auf eine der folgenden Optionen, um {"\n"}loszulegen!</Text>
+    <View style={styles.mainCard}>
+
+        <View style={{width: width-60, height: width-60, justifyContent: 'center', alignItems: 'center'}}>
+            <Image source={require('../../../assets/image/foxLogIn.png')} resizeMode='contain' style={{maxWidth: '110%'}}/>
         </View>
+               
+        <Text style={[H1, {textAlign: 'center', marginRight: 100}]}>Ready to</Text>
+        <Text style={[H1, {fontSize: 50, marginTop: -15, textAlign: 'center'}]}>goooooooyi?</Text>
+        
+        <Text style={[T1, {marginTop: 10, textAlign:'center', marginBottom: 20}]}>Wähle eine der folgenden Optionen aus, {"\n"}um zu starten!</Text>
 
         <BigButton 
             title={'Mit E-Mail Anmelden'} 
-            bgStyle={{backgroundColor: COLORS.primary}}
-            titleStyle={{color: COLORS.white, fontFamily: 'Roboto-Medium'}}
+            bgStyle={{backgroundColor: COLORS.primary, maxWidth: '100%', borderRadius: 16}}
+            titleStyle={{color: COLORS.white, fontFamily: 'RH-Medium'}}
             onPress={() => navigation.navigate('RegisterEmail')}
         />
-        <BigButton title={'Mit Telefonnumer Anmelden'}/>
+        <BigButton 
+            title={'Mit Telefonnumer Anmelden'}
+            bgStyle={{backgroundColor: COLORS.ivoryDark, maxWidth: '100%', borderRadius: 16}}
+            titleStyle={{color: COLORS.black, fontFamily: 'RH-Medium'}}
+        />
 
-        <Text style={{fontFamily: 'Roboto-Light', fontSize: 12, margin: 30}}>Über die Speicherung und Verarbeitung personenbezogener {"\n"}Daten findest du in unsere <Text onPress={() => console.log('press Datenschutz')} style={{fontFamily: 'Roboto-Medium', fontSize: 12, color: COLORS.primary}}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
+        <Text style={[T4, {marginBottom: 100, marginTop: 20, textAlign: 'center'}]}>Über die Speicherung und Verarbeitung personenbezogener Daten findest du in unsere <Text onPress={() => console.log('press Datenschutz')} style={[T4, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
+        
     </View>
+
   )
 }
 
 const styles = StyleSheet.create({
-    title: {
-        fontFamily: 'RH-Regular', 
-        fontSize: moderateScale(44,0.2), 
-        lineHeight: 44,
-        color: COLORS.subPrimary,
-        letterSpacing: 1
-    },
 
-    headerSection: {
+    mainCard: {
         width: width,
-        //backgroundColor: 'yellow',
-        paddingHorizontal: 30,
-        marginTop: 0.4*height,
-        marginBottom: 40,
-        
+        height: height,
+        backgroundColor: COLORS.mainBackground,
+        padding: 30,
+        justifyContent: 'flex-end',
     },
-
-    subHeaderStyle: {
-        marginTop: 20,
-        fontFamily: 'Roboto-Medium',
-        fontSize: 15
-    }
+    
 })

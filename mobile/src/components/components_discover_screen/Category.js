@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, Button, Pressable } from 'react-native'
 import React from 'react'
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming, interpolate,} from 'react-native-reanimated'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { COLORS } from '../../index/constantsindex'
+import { T4 } from '../../constants/text-style'
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -55,8 +57,8 @@ export default function Category({
 
 
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.number}>({number})</Text>
+          <Text style={[T4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>{title}</Text>
+          <Text style={[T4, styles.numberBox]}>{number}</Text>
         </View>
 
       </View>
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   imgContainer: {
     height: 100,
     width: 100,
-    backgroundColor: '#eeeeee',
+    backgroundColor: COLORS.noImage,
     borderRadius: 16,
     marginBottom: 5,
     justifyContent: 'center',
@@ -97,5 +99,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 12,
   },
+
+  numberBox: {
+    paddingHorizontal: 6,
+    backgroundColor: COLORS.grey,
+    marginLeft: 5,
+    color: COLORS.white,
+    fontFamily: 'RH-Medium'
+  }
 
 })

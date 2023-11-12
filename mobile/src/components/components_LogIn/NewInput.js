@@ -30,10 +30,6 @@ export default function NewInput({
     checkAlgorithm,
     label,
 
-    // extern handle
-    onLeaveInput,
-    onFocusInput,
-
     // not Editable
     fixData,
     isEditable,
@@ -95,9 +91,6 @@ export default function NewInput({
         if (!check.test(data)) {
             setError(true)
 
-            // (Extern UI)
-            onLeaveInput()
-
             // Check Failed State
             checkFailed()
             return
@@ -105,9 +98,6 @@ export default function NewInput({
         // Case: success -> handle ServerRequest
         else {
             setError(false)
-
-            // (Extern UI)
-            onLeaveInput()
 
             // Check Success State
             checkSuccess()
@@ -125,9 +115,6 @@ export default function NewInput({
         
         handleOnBlur()
         Keyboard.dismiss()
-
-        // onLeaveInput (extern UI) 
-        onLeaveInput()
     }
 
     // --------------------------------------- handle Focus/Blur
@@ -135,8 +122,6 @@ export default function NewInput({
     const handleOnFocus = () => {
         setFocus(true)
         focusInput.value = withDelay(0, withTiming(1, {duration: 200}))
-
-        onFocusInput()
     }
 
     // onBlur
@@ -191,7 +176,9 @@ export default function NewInput({
         <View 
             style={[
                 styles.inputContainer,
-                {borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : COLORS.notEditableBorder},
+                {
+                    borderColor: isEditable? (error? COLORS.primary : (focus? COLORS.subPrimary : COLORS.borderGrey)) : COLORS.notEditableBorder,
+                },
                 style
             ]}
         >
@@ -221,6 +208,7 @@ export default function NewInput({
             <View 
                 style={[
                     styles.rightView,
+                    {zIndex: focus? 1 : 0}
                 ]}
             >
 
@@ -246,9 +234,9 @@ export default function NewInput({
                 {/* Lock Icon */}
                 {lock && <Icons 
                     icon={icons.Ionicons}
-                    iconName={'ios-lock-closed-outline'}
+                    iconName={'ios-lock-closed'}
                     iconSize={20}
-                    iconColor={COLORS.black}
+                    iconColor={COLORS.borderGrey}
                 />}
 
 

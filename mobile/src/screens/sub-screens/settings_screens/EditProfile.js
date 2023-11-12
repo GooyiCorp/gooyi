@@ -9,6 +9,7 @@ import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
 import NewInput from '../../../components/components_LogIn/NewInput'
 import SettingInput from '../../../components/components_profile_screen/SettingInput'
+import { H3 } from '../../../constants/text-style'
 
 
 export default function EditProfile({
@@ -42,7 +43,7 @@ export default function EditProfile({
 
       <View>
         {/* Label */}
-        <Text style={styles.h2}>Persönliche Daten</Text>
+        <Text style={[H3, {marginHorizontal: 30, marginBottom: 20}]}>Persönliche Daten</Text>
         {/* Input Box */}
         <SettingInput 
           clearButton={editable}

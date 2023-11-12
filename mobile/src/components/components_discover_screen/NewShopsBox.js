@@ -2,19 +2,26 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withRepeat, withTiming, withDelay, withSequence } from 'react-native-reanimated'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { COLORS } from '../../index/constantsindex'
+import { T1, T4 } from '../../constants/text-style'
+import HeartButton from '../atoms/HeartButton'
+import Icons, { icons } from '../components_universal/Icons'
+import { height, width } from '../../constants/size'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 const imgBoxWidth = 246
-const imgBoxHeight = 115
+const imgBoxHeight = 180*0.55
 
-const shopName = 'Day Spar Mai Anh Dao'
+const shopName = 'Day Spar Mai Anh Dao Day Spar Mai Anh Dao'
 const description = 'Maniküre, Pediküre'
 const distance = '1,2 km'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 export default function NewShopsBox() {
+
+    const [focus, setFocus] = useState(false)
 
     // Value --------------------------------------------------------------- Transition
     const [boxWidth, setBoxWidth] = useState(0)
@@ -74,11 +81,13 @@ export default function NewShopsBox() {
 
     <Pressable 
       onPressIn={ () => ( 
+        setFocus(true),
         flashValue.value = withTiming( 1, {duration: 300}), 
         transitionVal.value = withTiming(1, {duration: 100}),
         textAnimation.value = withRepeat( withDelay(500, withSequence( withTiming(1, {duration: 1000}), withDelay(1000, withTiming(0, {duration: 1000})), withDelay(2000, withTiming(0)) ) ), -1 )  
       ) } 
-      onPressOut={ () => ( 
+      onPressOut={ () => (
+        setFocus(false),
         flashValue.value = withTiming(2, {duration: 300}, (finished) => (flashValue.value = 0)), 
         transitionVal.value = withTiming(0, {duration: 100}) ,
         textAnimation.value = 0
@@ -90,24 +99,54 @@ export default function NewShopsBox() {
             
             {/* Image Box ---------------------------------------------------------------------------------------------------------- */}
             <View style={styles.imageBox}>
-                <Animated.View style={[styles.logoBox, opacity]}></Animated.View>
+                <Animated.View style={[styles.logoBox, opacity]}>
+                    <Icons 
+                      icon={icons.AntDesign}
+                      iconName={'picture'}
+                      iconSize={30}
+                      iconColor={COLORS.ivory}
+                    />
+                </Animated.View>
                 <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3}, flashOverlay]}></Animated.View>
+                <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
+                  <Icons 
+                      icon={icons.AntDesign}
+                      iconName={'picture'}
+                      iconSize={30}
+                      iconColor={COLORS.ivoryDark}
+                    />
+                </View>
             </View>
 
             {/* Content Box -------------------------------------------------------------------------------------------------------- */}
             <View style={styles.contentBox}>
 
-                <View style={{height: 58, overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
-                    <Animated.View style={[{flexWrap: 'wrap', marginBottom: 2}, boxWidth > textWidth ? 0 : xVal]}>  
-                        <Text style={{fontFamily: 'Roboto-Bold', fontSize: 16}} onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{shopName}</Text>
+                <View style={{height: '70%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
+                    <Animated.View style={[{flexWrap: focus? 'wrap' : ''}, boxWidth > textWidth ? 0 : xVal]}>  
+                        <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]} onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{shopName}</Text>
                     </Animated.View>
 
-                    <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12}}>{description}</Text>
+                    <Text style={T4}>{description}</Text>
                 </View>
 
-                <View style={{alignSelf: 'flex-end', bottom: 37, flexDirection: 'row'}}>
-                    <MaterialCommunityIcons name="map-marker" size={14} color='#B84058' />
-                    <Text style={{fontFamily: 'Roboto-Regular', fontSize: 12, color: '#696969', marginLeft: 3}}>{distance}</Text>
+                {/* Bottom Section */}
+                <View style={{height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+
+                {/* Price */}
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                  <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
+                  <Text style={[T4, {marginLeft: 5}]}>{distance}</Text>
+                </View>
+
+                </View>
+
+                {/* Heart Button */}
+                <View style={{height: 30, width: 30, position: 'absolute', bottom: 10, right: 10, justifyContent: 'center', alignItems: 'center'}}>
+                  <HeartButton 
+                    icon={icons.FontAwesome}
+                    iconName={'star'}
+                    iconSize={30}
+                  />
                 </View>
 
             </View>
@@ -123,16 +162,16 @@ const styles = StyleSheet.create({
 
     boxContainer: {
         width: 246,
-        height: 169,
+        height: 180,
         borderRadius: 16,
         overflow: 'hidden',
         justifyContent: 'space-between'
       },
 
       imageBox: {
-        width: imgBoxWidth,
-        height: imgBoxHeight,
-        backgroundColor: '#cccccc',
+        width: '100%',
+        height: '55%',
+        backgroundColor: COLORS.noImage,
         zIndex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -140,36 +179,24 @@ const styles = StyleSheet.create({
       },
     
       contentBox: {
-        width: 246,
-        height: 54,
-        backgroundColor: '#ffffff',
+        width: '100%',
+        height: '45%',
+        backgroundColor: COLORS.ivory,
         paddingVertical: 10,
         paddingHorizontal: 15,
       },
 
-      shadowProp: {
-        width: 246,
-        height: 169,
-        backgroundColor: '#ffffff',
-        borderRadius: 16,
-        marginLeft: 30,
-    
-        shadowColor: "#000000",
-        shadowOpacity: 0.15,
-        shadowRadius: 20,
-    
-        elevation: 7,
-      },
-
       logoBox: {
-        width: 64,
-        height: 64,
+        width: imgBoxHeight*0.6,
+        height: imgBoxHeight*0.6,
         backgroundColor: '#ffffff',
         position: 'absolute',
         borderRadius: 10,
         opacity: 0.8,
         bottom: 10,
         left: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
       },
 
 })

@@ -11,6 +11,7 @@ import { icons } from '../components_universal/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setHideActivityHistoryModal } from '../../redux/slices/showModalSlice'
 import ActivityHistoryFeed from './ActivityHistoryFeed'
+import { H3 } from '../../constants/text-style'
 
 
 export default function ActivityHistoryModal() {
@@ -104,7 +105,7 @@ export default function ActivityHistoryModal() {
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
-                    <Text style={styles.h3}>Letzte Aktivitäten</Text>
+                    <Text style={H3}>Letzte Aktivitäten</Text>
             </View>
 
             {/* -------------------------------------------------------------------- Mid Section */}

@@ -47,7 +47,13 @@ export default function App() {
       screens: {
         Main: {
           path: "main"
-        }
+        },
+        RegisterEmail: {
+          path: "register",
+          screens: {
+            EnterUserInformation: 'enterinfo',
+          }, 
+        },
       },
     }
   }

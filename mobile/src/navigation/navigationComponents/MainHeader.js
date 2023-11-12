@@ -7,6 +7,7 @@ import { COLORS } from '../../index/constantsindex'
 import { moderateScale } from '../../helper/scale'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons.js'
+import { width } from '../../constants/size'
 
 
 // Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
@@ -54,9 +55,9 @@ export default function MainHeader({
             {notificationButton && <RoundButton 
                 icon={icons.MaterialIcons}
                 iconName={'notifications-none'}
-                iconColor={COLORS.subPrimary}
+                iconColor={COLORS.grey}
                 iconSize={moderateScale(26,0.2)}
-                style={{backgroundColor: COLORS.subPrimary02}}
+                style={{backgroundColor: COLORS.default}}
                 onPressButton={onPressNotificationButton}
             />}
 
@@ -101,10 +102,11 @@ const styles = StyleSheet.create({
     
     headerDefaultContainer: {
         height: 110,
-        width: '100%',
-        backgroundColor: COLORS.white,
+        width: width,
+        backgroundColor: 'transparent',
         justifyContent: 'flex-end',
         //borderRadius: 50,
+        zIndex: 1
     },
 
     headerJustifyView: {

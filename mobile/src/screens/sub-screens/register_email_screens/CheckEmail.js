@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import { COLORS } from '../../../index/constantsindex'
@@ -11,11 +11,13 @@ import { openInbox } from "react-native-email-link";
 import SendNewLinkButton from '../../../components/components_LogIn/SendNewLinkButton'
 import { api_url } from '../../../constants/api'
 import axios from 'axios'
+import { H1, T1, T2 } from '../../../constants/text-style'
 
 export default function CheckEmail({navigation, route}) {
 
     const {returnEmail} = route.params;
-    console.log(returnEmail)
+    // const returnEmail = 'thienthanh@gmail.com'
+    // console.log(returnEmail)
 
     const handleSendNewLink = async () => {
         const url = api_url + 'user/email-login/'
@@ -55,48 +57,58 @@ export default function CheckEmail({navigation, route}) {
 
         {/* -------------------------------------------------------------------- Animated Check Icon */}
         <AnimatedSuccessIcon styleContainer={{marginTop: 50}}/>
-
+        
         {/* -------------------------------------------------------------------- Main Content */}
-        <Text style={[styles.title]}>Checke deine E-Mails</Text>
+        <Text style={[H1, {fontFamily: 'RH-Black', color: COLORS.white, marginVertical: 20, textAlign: 'center'}]}>Checke deine E-Mails</Text>
 
-        <Text style={styles.infoText}>Wir haben an deine E-Mail-Adresse</Text>
+        <Text style={[T1, {fontFamily: 'RH-Medium', textAlign: 'center', color: COLORS.white}]}>Wir haben an deine E-Mail-Adresse</Text>
 
         {/* E-Mail Return */}
         <View style={styles.emailContainer}>
-            <Text style={styles.email}>{returnEmail}</Text>
+            <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>{returnEmail}</Text>
         </View>
 
-        <Text style={[styles.infoText, {marginTop: 0}]}>einen Link gesendet. Tippe auf diesen  {"\n"}Link, um dich anzumelden.</Text>
+        <Text style={[T1, {fontFamily: 'RH-Medium', textAlign: 'center', color: COLORS.white, marginTop: 0}]}>einen Link gesendet. Tippe auf diesen  {"\n"}Link, um dich anzumelden.</Text>
+
 
         {/* -------------------------------------------------------------------- Send New Link */}
         <SendNewLinkButton 
             handleOnPress={handleSendNewLink}
             counterValue={20}
-            style={{
-                marginTop: 30
-            }}
+            style={{marginTop: 20}}
         />
+ 
 
+
+
+        <View style={{
+            width: width,
+            position: 'absolute',
+            bottom: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
 
         {/* -------------------------------------------------------------------- Open Mail App */}
+        
         <BigButton
 
-        // Base
-        title={'Zu E-Mail Programm wechseln'}
-        bgStyle={{
-            backgroundColor: COLORS.primary,
-            position: 'absolute',
-            bottom: 30
-        }}                
-        titleStyle={{
-            color: COLORS.white, 
-            fontFamily: 'Roboto-Medium',
-        }}
+            // Base
+            title={'Zu E-Mail Programm wechseln'}
+            bgStyle={{
+                backgroundColor: COLORS.white03,
+            }}                
+            titleStyle={{
+                color: COLORS.white, 
+                fontFamily: 'RH-Medium',
+            }}
 
-        // Call handle
-        onPress={openInbox}
-        
+            // Call handle
+            onPress={openInbox}
+
         />
+
+        </View>
 
     </View>
   )
@@ -132,22 +144,20 @@ const styles = StyleSheet.create({
         textAlign: 'center'
       },
 
-    email: {
-        fontFamily: 'RH-Bold',
-        fontSize: 15,
-        color: COLORS.white,
-        alignSelf: 'center',
-        marginVertical: 6,
-    },
 
     emailContainer: {
-        backgroundColor: 'transparent',
+        backgroundColor: COLORS.white05,
+        maxWidth: 0.8*width,
         //borderBottomWidth: 0.5,
         //borderColor: COLORS.white05,
         // borderBottomColor: COLORS.subPrimary, borderBottomWidth: 0.5, 
         alignSelf: 'center', 
         paddingHorizontal: 20,
-        marginVertical: 10
+        paddingVertical: 10,
+        marginVertical: 10,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     sendNewLink: {

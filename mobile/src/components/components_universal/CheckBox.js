@@ -7,7 +7,9 @@ import Icons, { icons } from './Icons'
 const boxEdge = 20
 
 export default function CheckBox({
-style
+style,
+checkTrue,
+checkFalse,
 }) {
     const [check, setCheck] = useState(false)
     
@@ -19,10 +21,12 @@ style
             border.value = withTiming(1, {duration: 100})
             checkBox.value = withDelay(200, withTiming(1, {duration: 100}))
             setCheck(true)
+            checkTrue()
         } else {
             border.value = withTiming(0, {duration: 100})
             checkBox.value = withDelay(200, withTiming(0, {duration: 100}))
             setCheck(false)
+            checkFalse()
         }
     }
 
@@ -31,7 +35,7 @@ style
             // transform: [
             //     {scale: interpolate(border.value, [0,0.5,1], [1,0.8,1])}
             // ],
-            borderColor: interpolateColor(checkBox.value, [0,1], [COLORS.black, COLORS.primary])
+            borderColor: interpolateColor(checkBox.value, [0,1], [COLORS.borderGrey, COLORS.primary])
         }
     })
 
