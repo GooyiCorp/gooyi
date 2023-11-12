@@ -4,7 +4,7 @@ import Animated, { useAnimatedStyle, useSharedValue, interpolate, withRepeat, wi
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { COLORS } from '../../index/constantsindex'
 import { T1, T4 } from '../../constants/text-style'
-import HeartButton from '../atoms/HeartButton'
+import HeartButton from '../components_universal/HeartButton'
 import Icons, { icons } from '../components_universal/Icons'
 import { height, width } from '../../constants/size'
 
@@ -132,7 +132,7 @@ export default function NewShopsBox() {
                 {/* Bottom Section */}
                 <View style={{height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
 
-                {/* Price */}
+                {/* Distance */}
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                   <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
                   <Text style={[T4, {marginLeft: 5}]}>{distance}</Text>
@@ -143,8 +143,8 @@ export default function NewShopsBox() {
                 {/* Heart Button */}
                 <View style={{height: 30, width: 30, position: 'absolute', bottom: 10, right: 10, justifyContent: 'center', alignItems: 'center'}}>
                   <HeartButton 
-                    icon={icons.FontAwesome}
-                    iconName={'star'}
+                    icon={icons.MaterialIcons}
+                    iconName={'favorite'}
                     iconSize={30}
                   />
                 </View>

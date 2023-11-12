@@ -21,8 +21,8 @@ export default function IconLabelButton({
 }) {
   return (
     <TouchableOpacity style={[styles.buttonContainer, style]} onPress={onPressButton} activeOpacity={activeOpacity}>
-      <Icons icon={icon} iconName={iconName} iconColor={iconColor} iconSize={iconSize} iconStyle={[{marginRight: 5},iconStyle]} />
-      <Text style={[T2, labelStyle]}>{label}</Text>
+      {icon && <Icons icon={icon} iconName={iconName} iconColor={iconColor} iconSize={iconSize} iconStyle={[{marginRight: 5},iconStyle]} />}
+      {label && <Text style={[T2, labelStyle]}>{label}</Text>}
     </TouchableOpacity>
   )
 }

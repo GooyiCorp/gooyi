@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons, MaterialIcons, Octicons } from '@expo/vector-icons'; 
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming } from 'react-native-reanimated';
 import { COLORS } from '../../index/constantsindex';
-import Icons from '../components_universal/Icons';
+import Icons from './Icons';
 
 export default function HeartButton({
   icon,

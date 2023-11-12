@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withRepeat, withTiming, withDelay, withSequence } from 'react-native-reanimated'
-import HeartButton from '../atoms/HeartButton'
+import HeartButton from '../components_universal/HeartButton'
 
 // ---------------------------------------------------------------------------------------------------------------------
 

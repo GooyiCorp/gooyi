@@ -4,6 +4,7 @@ import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming, interpo
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS } from '../../index/constantsindex'
 import { T4 } from '../../constants/text-style'
+import Icons, { icons } from '../components_universal/Icons'
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -53,6 +54,14 @@ export default function Category({
 
         <Animated.View style={[styles.imgContainer, boxTransition]}>
           <Animated.View style={[ { height: diagonal, width: diagonal, backgroundColor: '#fff', position: 'absolute', opacity: 0.3, zIndex: 1, }, flashOverlay ]}></Animated.View>
+          <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
+                  <Icons 
+                      icon={icons.AntDesign}
+                      iconName={'picture'}
+                      iconSize={30}
+                      iconColor={COLORS.ivoryDark}
+                    />
+                </View>
         </Animated.View>
 
 

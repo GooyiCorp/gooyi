@@ -33,7 +33,7 @@ export default function LogIn({}) {
             titleStyle={{color: COLORS.black, fontFamily: 'RH-Medium'}}
         />
 
-        <Text style={[T4, {marginBottom: 100, marginTop: 20, textAlign: 'center'}]}>Über die Speicherung und Verarbeitung personenbezogener Daten findest du in unsere <Text onPress={() => console.log('press Datenschutz')} style={[T4, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
+        <Text style={[T4, {marginBottom: 80, marginTop: 20, textAlign: 'center'}]}>Über die Speicherung und Verarbeitung personenbezogener Daten findest du in unsere <Text onPress={() => console.log('press Datenschutz')} style={[T4, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text>
         
     </View>
 

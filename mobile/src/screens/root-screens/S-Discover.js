@@ -1,57 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, FlatList, ScrollView, StyleSheet,View, Text, Pressable } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import PresentationHeader from '../../components/components_universal/PresentationHeader'
-import NoResults from '../../components/molecules/NoResults'
-import { icons } from '../../components/components_universal/Icons'
 
-import axios from 'axios'
-import RoundButton from '../../components/components_universal/RoundButton'
-import CouponsStackNav from '../../navigation/navigationStack/N-CouponsStack'
 import { height, width } from '../../constants/size'
 import { useNavigation } from '@react-navigation/native'
 import LocateModal from '../../components/components_universal/LocateModal'
 import SearchModal from '../../components/components_universal/SearchModal'
-import InputBox from '../../components/components_LogIn/InputBox'
-import AnimatedSuccessIcon from '../../components/components_universal/AnimatedSuccessIcon'
-import SendNewLinkButton from '../../components/components_LogIn/SendNewLinkButton'
-import LoadingCircle from '../../components/components_universal/LoadingCircle'
-import CheckBox from '../../components/components_universal/CheckBox'
-import NewInput from '../../components/components_LogIn/NewInput'
-import SettingInput from '../../components/components_profile_screen/SettingInput'
-import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 import userSlice, { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
-import IconLabelButton from '../../components/components_universal/IconLabelButton'
 import { Delete } from '../../helper/store'
-import { api_url } from '../../constants/api'
 import Request from '../../helper/request'
 import NewOfferBox from '../../components/components_discover_screen/NewOfferBox'
 import NewShopsBox from '../../components/components_discover_screen/NewShopsBox'
 import Category from '../../components/components_discover_screen/Category'
-import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import Animated, { interpolate, interpolateColor, runOnUI, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import RoundButton from '../../components/components_universal/RoundButton'
+import { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
-import { LinearGradient } from 'expo-linear-gradient'
-import { BlurView } from 'expo-blur'
+import CouponCard from '../../components/components_universal/CouponCard'
+import LogInRequiredBox from '../../components/components_discover_screen/LogInRequiredBox'
+import { setPage } from '../../redux/slices/mainNavSlice'
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
   showTabNav,
 } ) {
   const navigation = useNavigation()
-  const [test, setTest] = useState(false)
-  const [category, setCategory] = useState([])
-  const fetchCategory = async () => {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/users')
-    setCategory(response.data)
-  }
-  useEffect(() => {
-    fetchCategory()
-  }, [])
 
-  const dispatch = useDispatch();
+  const logIn = !useSelector((state) => state.user.isLoggedIn)
+
+  const dispatch = useDispatch()
+
+  const scrollRef = useRef()
 
 
   // Locate Modal ----------------------------------------------------------------------
@@ -101,6 +85,7 @@ export default function DiscoverScreen( {
 
   // Collapsible Header
   const scrollValue = useSharedValue(0)
+  const buttonValue = useSharedValue(0)
 
   const H_MAX_HEIGHT = 0;
   const H_MIN_HEIGHT = 30;
@@ -112,8 +97,6 @@ export default function DiscoverScreen( {
         {translateY: scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0, -30]) : 0}
       ],
       opacity: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0, -(H_SCROLL_DISTANCE/2)], [1, 0]) : 1
-
-      
     }
   })
   
@@ -129,18 +112,32 @@ export default function DiscoverScreen( {
   const translateMainHeaderBackground = useAnimatedStyle(() => {
     return {
       opacity: scrollValue.value <= 30 && scrollValue.value >= 15? interpolate(scrollValue.value, [15,30], [0,1]) : scrollValue.value <= 15? 0 : 1,
-      backgroundColor: interpolateColor(scrollValue.value, [-(H_SCROLL_DISTANCE/2), -H_SCROLL_DISTANCE], [COLORS.white, COLORS.mainBackground])
+      // backgroundColor: interpolateColor(scrollValue.value, [-(H_SCROLL_DISTANCE/2), -H_SCROLL_DISTANCE], [COLORS.white, COLORS.mainBackground])
     }
   })
 
+  const translateButton = useAnimatedStyle(() => {
+    return {
+      opacity: buttonValue.value,
+      transform: [
+        {scale: buttonValue.value}
+      ],
+    }
+  })
+
+
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  // Main Section
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return ( 
     <View style={[{height: height, width: width}]}>
       
       {showSearchModal && <View style={{zIndex: 4}}><SearchModal onClose={onCloseSearchModal}/></View>}
       {showLocateModal && <View style={{zIndex: 4}}><LocateModal onClose={onCloseLocateModal}/></View>}
 
+      {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 
-      <Animated.View style={[{zIndex: 2}, translateMainHeader]}>
+      <Animated.View style={[{zIndex: 3}, translateMainHeader]}>
       <MainHeader 
         title='Entdecken'
         style={{backgroundColor: 'red', alignItems: 'center'}}
@@ -153,9 +150,8 @@ export default function DiscoverScreen( {
      
       <Animated.View style={[styles.shadow, translateMainHeaderBackground]}></Animated.View>
       </Animated.View>
-      {/* Sub Header */} 
-      
 
+      {/* Sub Header */} 
       <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
           <SubHeader
             search
@@ -166,17 +162,16 @@ export default function DiscoverScreen( {
           /> 
       </Animated.View>
 
-      {/* <LinearGradient 
-        colors={[COLORS.primary, COLORS.primary, COLORS.primary, COLORS.white]} 
-        style={{width: width, height: 110}} 
-        
-      /> */}
-
-      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ---------------------------------------------------------------- Scroll View / Content Section */}
       <ScrollView 
+        ref={scrollRef} 
         onScroll={(e) => {
           scrollValue.value = e.nativeEvent.contentOffset.y/2
-          // console.log(scrollValue.value)
+          if (e.nativeEvent.contentOffset.y >= 30 && buttonValue.value == 0) {
+            buttonValue.value = withTiming(1)
+          } else if (e.nativeEvent.contentOffset.y < 30 && buttonValue.value == 1) {
+            buttonValue.value = withTiming(0)
+          }
         }}
         style={[styles.mainContainer, {overflow: 'visible'}]}
         scrollEventThrottle={16}
@@ -216,76 +211,70 @@ export default function DiscoverScreen( {
           <NewShopsBox />
         </View>
 
-
-
-
-
-        <Button title='set log in' onPress={handleTestPress}/>
-        <Button title='set log out' onPress={handleLogOut}/>
-
-
-        {/* <Pressable onPressIn={onPressIn} onPressOut={onPressOut}><Text>Test</Text></Pressable> */}
-      {/* <ScrollView>
-      <View style={{width: '100%', paddingVertical: 15}}>
-
+        {/* -------------------------------- My Coupons Section */}
         <PresentationHeader 
-          title={'Kategorie'}
-          showAllButton={category.length > 5 ? true : false}
+          title={'Jetzt Einlösen'}
+          // showAllButton
+          style={{marginTop: 25}}
         />
+        <View style={{marginLeft: 30}}>
+          {logIn? <LogInRequiredBox onPress={() => runOnUI(dispatch(setPage('profile')))}/> : <CouponCard />}
+        </View>
 
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{paddingLeft: 30, flexDirection: 'row'}}
-          data={category.slice(0,5)}
-          renderItem={({item}) =><Category title={item.username} number={Math.floor(item.address.geo.lat)}/> }
-        />
-
-      </View>
-
-      <View style={{width: '100%', paddingVertical: 15}}>
-
+        {/* -------------------------------- More Offers Section */}
         <PresentationHeader 
-          title={'Neue Angebote'}
-          //showAllButton  
+          title={'Mehr Deals'}
+          // showAllButton
+          style={{marginTop: 25}}
         />
-        <NewOfferBox />
+        <View style={{marginLeft: 30}}>
+          <NewOfferBox />
+        </View>
 
 
-
-      </View>
-
-      <View style={{width: '100%', paddingVertical: 15}}>
-
-      <PresentationHeader 
-        title={'Neue Shops'}
-        showAllButton  
-      />
-
-      <NoResults message={'no results found :/'} boxHeight={{height: 253}}/>
-
-      </View>
-     
-
-      </ScrollView> */}
+        
+        
+        
+      
 
       </ScrollView>
 
+      
+      {/* Test LogIn */}
+      <View style={{flexDirection: 'row', paddingHorizontal: 30, marginTop: 30, position: 'absolute', bottom: 100}}>
+          <Button title='set log in' onPress={handleTestPress} color={COLORS.borderGrey}/>
+          <Button title='set log out' onPress={handleLogOut} color={COLORS.grey}/>
+      </View>
+      {/* -------------------------------- Scroll To Top Button */}
+      <Animated.View style={[{height: 38, width: 38, justifyContent: 'center', alignItems: 'center', right: 30, bottom: 105, position: 'absolute'}, translateButton]}>
+      <RoundButton 
+        icon={icons.Ionicons}
+        iconName={'md-chevron-up'}
+        iconSize={28}
+        iconColor={COLORS.white}
+        activeOpacity={1}
+        style={{
+            backgroundColor: COLORS.grey,
+            height: 38,
+            width: 38,
+        }}
+        onPressButton={() => scrollRef.current?.scrollTo({y: 0, animated: true})}
+      />
+      </Animated.View>
 
-
-      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       
 
     </View>
   )
 }
 
+ //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
 
   mainContainer: {
     height: height,
     width: width,
-    marginBottom: 100,
+    marginBottom: 160,
     
   },
 
@@ -294,11 +283,15 @@ const styles = StyleSheet.create({
     height: 110,
     position: 'absolute',
     backgroundColor: 'white',
-    shadowColor: "black",
-    shadowOpacity: 0.15,
-    shadowRadius: 20,
 
-    elevation: 7,
+    shadowColor:"#686868",
+    shadowOffset: {
+       width: 0,
+       height: 0,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 0
   }
 
 })

@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-nativ
 import React, {useState} from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import HeartButton from '../atoms/HeartButton'
+import HeartButton from '../components_universal/HeartButton'
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withRepeat } from 'react-native-reanimated'
 
 // ---------------------------------------------------------------------------------------------------------------------
