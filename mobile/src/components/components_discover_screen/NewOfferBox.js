@@ -117,7 +117,7 @@ export default function NewOfferBox() {
           </View>
 
           <View style={{height: '65%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
-            <Animated.View style={[{flexWrap: focus? 'wrap' : ''}, boxWidth > textWidth ? 0 : xVal]}>  
+            <Animated.View style={[{flexWrap: focus? 'wrap' : 'nowrap'}, boxWidth > textWidth ? 0 : xVal]}>  
               <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]} ellipsizeMode='tail' onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{header}</Text>
             </Animated.View>
 

@@ -122,7 +122,7 @@ export default function NewShopsBox() {
             <View style={styles.contentBox}>
 
                 <View style={{height: '70%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
-                    <Animated.View style={[{flexWrap: focus? 'wrap' : ''}, boxWidth > textWidth ? 0 : xVal]}>  
+                    <Animated.View style={[{flexWrap: focus? 'wrap' : 'nowrap'}, boxWidth > textWidth ? 0 : xVal]}>  
                         <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]} onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{shopName}</Text>
                     </Animated.View>
 

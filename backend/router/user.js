@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { sendAutoMail, sendError, sendServerError, sendSuccess } from "../helper/client.js";
+import { generate_key, sendAutoMail, sendError, sendServerError, sendSuccess } from "../helper/client.js";
 import { email_validate, redirect_validate, register_validate } from "../validation/user.js";
 import User from "../model/User.js";
 import { USER } from "../constant/role.js";
@@ -10,8 +10,8 @@ import path from 'path';
 import { __dirname } from "../index.js";
 import { render } from "../template/index.js";
 import { verifyToken } from "../middleware/index.js";
-import { Op } from "sequelize";
 import { logger } from "../helper/logger.js";
+import Redis from "../cache/index.js";
 
 const userRoute = express.Router();
 
@@ -42,6 +42,7 @@ userRoute.post("/email-login", async (req, res) => {
     if (error) return sendError(res, error)
     try {
         const host = process.env.host
+        const port = process.env.PORT
         const user = await User.findOne({ where: { email: email}})
         if (user) {
             const userData = {
@@ -74,7 +75,7 @@ userRoute.post("/email-login", async (req, res) => {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Log in ',
-                html: `<a href="http://${host}/api/user/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
+                html: `<a href="http://${host}:${port}/api/user/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -82,11 +83,14 @@ userRoute.post("/email-login", async (req, res) => {
             return sendSuccess(res, "Login email sent successfully", { accessToken, refreshToken})
         }
         else {
+            const key = generate_key()
+            await Redis.hSet("verified_code", email, key)
+            console.log(key);
             const options = {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Registration',
-                html: `<a href="http://${host}/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}"> Registration </a>`
+                html: `<a href="http://${host}:${port}/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}&key=${key}"> Registration </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -106,10 +110,13 @@ userRoute.post('/register', async(req, res) => {
         last_name,
         email,
         phone,
+        key,
     } = req.body
-    const err = register_validate({first_name, last_name, email, phone})
+    const err = register_validate({first_name, last_name, email, phone, key})
     if (err) return sendError(res, err)
     try {
+        const verified_code = await Redis.hGet("verified_code", email)
+        if (verified_code !== key) return sendError(res, "Unauthorized.", 403)
         if (email) {
             const user = await User.findOne({where: {email: email}})
             if (user) return sendError(res, "This user already exists")
@@ -190,15 +197,17 @@ userRoute.get("/login-redirect", async (req, res) => {
     }
 });
 userRoute.get('/register-redirect', async (req, res) => {
-    const { exp, email } = req.query
+    const { exp, email, key } = req.query
     try {
+        const verified_code = await Redis.hGet("verified_code", email)
+        if (verified_code !== key) return sendError(res, "Unauthorized.", 403)
         const user = await User.findOne({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
-        const link = debuggerHost + "/--/main"
+        const link = debuggerHost + "/--/register/enterinfo"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link + "?error=expired"}))
-        return res.send(render(redirect_page, {redirect_link: link + `?email=${email}`}))
+        return res.send(render(redirect_page, {redirect_link: link + `?email=${email}&key=${key}`}))
     } catch (err) {
         logger.error(err);
         return sendServerError(res)

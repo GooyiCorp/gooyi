@@ -54,8 +54,8 @@ userRoute.post('/create', async (req, res) => {
         email,
         phone,
     } = req.body
-    const err = register_validate({ first_name, last_name, email, phone })
-    if (err) return sendError(res, err)
+    // const err = register_validate({ first_name, last_name, email, phone })
+    // if (err) return sendError(res, err)
     try {
         if (email) {
             const user = await User.findOne({ where: { email: email } })

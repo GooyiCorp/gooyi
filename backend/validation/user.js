@@ -11,6 +11,7 @@ export function register_validate(data) {
     .isRequired(data.first_name, 'First Name')
     .isRequired(data.last_name, 'Last Name')
     .isOnlyRequiredOneOf([{field: data.email, name: 'Email'},{field: data.phone, name: 'Phone'}])
+    .isRequired(data.key, 'Key')
 
     const regEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     if (!regEX.test(data.email) && data.email) error.appendError("Invalid email address.")

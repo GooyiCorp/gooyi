@@ -23,6 +23,12 @@ try {
 } catch (error) {
     console.error('Unable to connect to the database:', error);
 }
+// Cache connection
+try {
+    await Redis.connect()
+} catch (error) {
+    console.log("Unable to connect to the Redis", error);
+}
 // Server initialization
 const app = express();
 app.use(express.json())
@@ -30,14 +36,14 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 import { morgan_log } from "./config/morgan.js";
-import { logger, readLog } from "./helper/logger.js";
-import { sendServerError, sendSuccess } from "./helper/client.js";
+import { logger } from "./helper/logger.js";
 app.use(morgan(morgan_log))
 
 // Server Route Configuration
 import adminRoute from "./router/admin/index.js";
 import authRoute from "./router/auth.js";
 import userRoute from "./router/user.js";
+import Redis from "./cache/index.js";
 
 app.use("/api/admin", adminRoute)
 app.use("/api/auth", authRoute)
