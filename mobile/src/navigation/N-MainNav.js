@@ -71,10 +71,10 @@ export default function MainNav() {
         setIndexCoupons(0)
         setIndexStores(0)
         setIndexProfile(0)
-        showDiscover.value = withTiming(1, {duration: 500})  
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withTiming(1, {duration: 400})  
+        showCoupons.value = withDelay(400, withTiming(0))
+        showStores.value = withDelay(400, withTiming(0))
+        showProfile.value = withDelay(400, withTiming(0))
     }
 
     const handleShowCoupons = () => {
@@ -82,10 +82,10 @@ export default function MainNav() {
         setIndexCoupons(1)
         setIndexStores(0)
         setIndexProfile(0)
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withTiming(1, {duration: 500})
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withDelay(400, withTiming(0))
+        showCoupons.value = withTiming(1, {duration: 400})
+        showStores.value = withDelay(400, withTiming(0))
+        showProfile.value = withDelay(400, withTiming(0))
     }
 
     const handleShowStores = () => {
@@ -93,10 +93,10 @@ export default function MainNav() {
         setIndexCoupons(0)
         setIndexStores(1)
         setIndexProfile(0)
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withTiming(1, {duration: 500})
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withDelay(400, withTiming(0))
+        showCoupons.value = withDelay(400, withTiming(0))
+        showStores.value = withTiming(1, {duration: 400})
+        showProfile.value = withDelay(400, withTiming(0))
     }
 
     const handleShowProfile = () => {
@@ -104,10 +104,10 @@ export default function MainNav() {
         setIndexCoupons(0)
         setIndexStores(0)
         setIndexProfile(1)
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withTiming(1, {duration: 500})
+        showDiscover.value = withDelay(400, withTiming(0))
+        showCoupons.value = withDelay(400, withTiming(0))
+        showStores.value = withDelay(400, withTiming(0))
+        showProfile.value = withTiming(1, {duration: 400})
     }
       
     const transitionDiscover = useAnimatedStyle( () =>{
