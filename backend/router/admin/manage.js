@@ -2,10 +2,16 @@ import express from "express";
 import { sendServerError, sendSuccess } from "../../helper/client.js";
 import { logger, readLog } from "../../helper/logger.js";
 import { changeHost, debuggerHost } from "../../index.js";
+import Redis from "../../cache/index.js";
 
 const manageRoute = express.Router()
 
-manageRoute.get("/test", (req, res) => { sendSuccess(res, "ok")})
+manageRoute.get("/test", async (req, res) => {
+    await Redis.set("test", "ok")
+    setTimeout(() => {}, 200)
+    const test = await Redis.get("test")
+    res.send(test)
+})
 manageRoute.get("/logs", (req, res) => {
     try {
         const result = readLog();
