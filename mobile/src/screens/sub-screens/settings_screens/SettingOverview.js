@@ -11,9 +11,30 @@ import SettingButton from '../../../components/components_profile_screen/Setting
 import Switch from '../../../components/components_universal/Switch'
 import IconLabelButton from '../../../components/components_universal/IconLabelButton'
 import { H3, T1, T2 } from '../../../constants/text-style'
+import Request from '../../../helper/request.js'
+import {useSelector, useDispatch} from 'react-redux'
+import { setLoggedOut, setRefreshToken, setToken } from '../../../redux/slices/userSlice.js'
+import { Delete } from '../../../helper/store.js'
+import { store } from '../../../redux/store.js'
 
 export default function SettingOverview() {
     const navigation = useNavigation()
+    const dispatch = useDispatch()
+    const accessToken = useSelector((state) => state.user.accessToken)
+    const refreshToken = useSelector((state) => state.user.refreshToken)
+    const handleLogOut = async () => {
+      console.log(accessToken);
+      console.log(refreshToken);
+      const response = await Request("user/logout", "POST", {refreshToken}, true)
+      console.log(response);
+      dispatch(setLoggedOut())
+      dispatch(setToken(''))
+      dispatch(setRefreshToken(''))
+      await Delete('accessToken')
+      await Delete('refreshToken')
+      console.log(store.getState().user.accessToken)
+    }
+  
   return (
     <View style={styles.screen}>
 
@@ -125,6 +146,7 @@ export default function SettingOverview() {
                 labelStyle={{
                     color: COLORS.mainBackground,
                 }}
+                onPressButton={handleLogOut}
             />
         </View>
 
