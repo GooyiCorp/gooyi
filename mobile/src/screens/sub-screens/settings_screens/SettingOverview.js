@@ -20,8 +20,8 @@ import { store } from '../../../redux/store.js'
 export default function SettingOverview() {
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    const accessToken = store.getState().user.accessToken
-    const refreshToken = store.getState().user.refreshToken
+    const accessToken = useSelector(state => state.user.accessToken)
+    const refreshToken = useSelector(state => state.user.refreshToken)
     const handleLogOut = async () => {
         const response = await Request("user/logout", "POST", {refreshToken}, accessToken)
         console.log(response);
@@ -31,7 +31,6 @@ export default function SettingOverview() {
             dispatch(setRefreshToken(''))
             await Delete('accessToken')
             await Delete('refreshToken')
-            
             // Duc anh: Navigate sang trang khac sau khi log out
         }
         // console.log(store.getState().user.accessToken)

@@ -38,7 +38,6 @@ export default function StoresScreen({
     }  
 
   const pageSelected = useSelector((state) => state.subNav.storeNavPage)
-  console.log(pageSelected)
 
   // Search Modal ----------------------------------------------------------------------
   const [showSearchModal, setShowSearchModal] = useState(false)

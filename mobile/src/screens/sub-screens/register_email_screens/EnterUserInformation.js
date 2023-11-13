@@ -106,11 +106,11 @@ export default function EnterUserInformation({route}) {
 
   // handle Server Request
   useEffect(() => {
-    if (checkSuccessFN && checkSuccessLN && check2 && check3 == true) {
+    if (checkSuccessFN && checkSuccessLN && check2 && check3) {
       console.log('send request')
       handleSubmit()
     }
-  }, [checkSuccessFN && checkSuccessLN])
+  }, [checkSuccessFN,checkSuccessLN,check2,check3])
   
   const handleSubmit = async () => {
     try {
@@ -131,6 +131,8 @@ export default function EnterUserInformation({route}) {
         await Save("refreshToken", response.data.refreshToken)
         console.log('sucess')
         navigation.navigate('Onboard')
+      } else {
+
       }
       //console.log(Get("accessToken"))
       // Save("email", response.data.data.userData.email)

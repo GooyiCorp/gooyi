@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { COLORS } from '../../index/constantsindex'
-import { setStoreNavPage } from '../../redux/slices/subNavSlice'
+import { setCouponNavPage, setStoreNavPage } from '../../redux/slices/subNavSlice'
 import { useDispatch } from 'react-redux'
 import { T2, T3, T4 } from '../../constants/text-style'
 
@@ -16,7 +16,11 @@ export const TopNavButton = ({lists}) => {
 
     const handlePressed = (row) => {
         setSelected(row.id)
-        dispatch(setStoreNavPage(row.payload))
+        if (row.payload == 'allStores' || row.payload ==  'favoriteStores') {
+            dispatch(setStoreNavPage(row.payload))
+        } else if (row.payload == 'marks' || row.payload ==  'myCoupons') {
+            dispatch(setCouponNavPage(row.payload))
+        }
     }
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}} >

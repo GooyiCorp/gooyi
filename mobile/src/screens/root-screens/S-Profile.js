@@ -16,6 +16,7 @@ import TapButton from '../../components/components_universal/TapButton'
 import ActivityHistoryModal from '../../components/components_profile_screen/ActivityHistoryModal'
 import { setHideActivityHistoryModal, setShowActivityHistoryModal } from '../../redux/slices/showModalSlice'
 import { T1, T2 } from '../../constants/text-style'
+import Request from '../../helper/request.js'
 
 
 
@@ -37,8 +38,16 @@ export default function ProfileScreen({
   
   const navigation = useNavigation()
   const dispatch = useDispatch()
-
-
+  const accessToken = useSelector(state => state.user.accessToken)
+  const getInfo = async () => {
+    const response = await Request('user/info', 'get', null, accessToken)
+    console.log(response.data);
+    return response.data
+    // Duc anh: set data vao 
+  }
+  useEffect(() => {
+    getInfo()
+  }, []) // Loi: lau lau k load dc, nghi cach cho rerender ?
   
   // Global State, userSlide - LogIn required? show/hide
   const logIn = !useSelector((state) => state.user.isLoggedIn)

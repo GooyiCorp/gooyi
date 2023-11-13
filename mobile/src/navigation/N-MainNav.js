@@ -1,6 +1,6 @@
 import { StyleSheet, View, Button } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import Animated, { interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+import Animated, { acc, interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 import { height, width } from '../constants/size'
 
@@ -10,44 +10,43 @@ import TabNavigator from './navigationComponents/TabNavigator'
 import StoresScreen from '../screens/root-screens/S-Stores'
 import ProfileScreen from '../screens/root-screens/S-Profile'
 import { COLORS } from '../index/constantsindex'
-import { Get, Save } from '../helper/store'
+import { Delete, Get, Save } from '../helper/store'
 import { Link, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../redux/slices/userSlice'
 import { store } from '../redux/store'
 import { setPage } from '../redux/slices/mainNavSlice'
 import Request from '../helper/request.js'
-
+import useDeepCompareEffect from "use-deep-compare-effect";
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    // Login 
-    const checkLogin = async () => {
-        const accessToken = route.params.accessToken ? route.params.accessToken : await Get('accessToken')
-        const refreshToken = route.params.refreshToken ? route.params.refreshToken : await Get('refreshToken')
-        if (accessToken && refreshToken) {
-            const response = await Request('auth/verify-token', 'POST', {accessToken, refreshToken})
-            // van con truong hop token het han
+    const { accessToken, refreshToken } = (typeof route.params != 'undefined') ? route.params : {accessToken: '', refreshToken: ''} 
+    const checkLogin = async (accessToken, refreshToken) => {
+        const access = accessToken ? accessToken : await Get('accessToken')
+        const refresh = refreshToken ? refreshToken : await Get('refreshToken')
+        if (access && refresh) {
+            const response = await Request('auth/verify-token', 'POST', {accessToken: access, refreshToken: refresh})
             if (response.success) {
                 dispatch(setLoggedIn())
-                dispatch(setToken(accessToken))
-                dispatch(setRefreshToken(refreshToken))
-                await Save("accessToken", accessToken)
-                await Save("refreshToken", refreshToken)
+                dispatch(setToken(access))
+                dispatch(setRefreshToken(refresh))
+                await Save("accessToken", access)
+                await Save("refreshToken", refresh)
                 return true
             } 
-        } 
+        }
         dispatch(setLoggedOut())
         dispatch(setToken(''))
         dispatch(setRefreshToken(''))
+        await Delete('accessToken')
+        await Delete('refreshToken')
     }
     useEffect(() => {
-        if (route.params) {
-            checkLogin()
-        }
+        checkLogin(accessToken, refreshToken)
     }, [route.params])
     // handle show Pages
     const page = useSelector((state) => state.page.page)

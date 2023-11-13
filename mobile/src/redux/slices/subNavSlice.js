@@ -6,6 +6,7 @@ export const subNavSlice = createSlice({
     
     initialState: {
         storeNavPage: 'allStores',
+        couponNavPage: 'marks'
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -16,6 +17,10 @@ export const subNavSlice = createSlice({
             state.storeNavPage = action.payload
         },
 
+        setCouponNavPage: (state, action) => {
+            state.couponNavPage = action.payload
+        },
+
 
     }
 })
@@ -23,6 +28,7 @@ export const subNavSlice = createSlice({
 export const {
 
     setStoreNavPage,
+    setCouponNavPage,
 
  } = subNavSlice.actions;
  
