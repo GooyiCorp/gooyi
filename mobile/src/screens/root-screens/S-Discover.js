@@ -72,7 +72,7 @@ export default function DiscoverScreen( {
   const handleLogOut = async () => {
     console.log(accessToken);
     console.log(refreshToken);
-    const response = await Request("user/logout", "POST", {refreshToken}, true)
+    const response = await Request("user/logout", "POST", {refreshToken}, accessToken)
     console.log(response);
     dispatch(setLoggedOut())
     dispatch(setToken(''))

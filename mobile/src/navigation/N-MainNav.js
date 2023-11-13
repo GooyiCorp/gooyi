@@ -13,7 +13,7 @@ import { COLORS } from '../index/constantsindex'
 import { Get, Save } from '../helper/store'
 import { Link, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoggedIn, setRefreshToken, setToken } from '../redux/slices/userSlice'
+import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../redux/slices/userSlice'
 import { store } from '../redux/store'
 import { setPage } from '../redux/slices/mainNavSlice'
 import Request from '../helper/request.js'
@@ -24,25 +24,31 @@ export default function MainNav({route}) {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    
-    useEffect(() => {
-        checkLogin()
-    }, [])    
+    // Login 
     const checkLogin = async () => {
-        const accessToken = route.accessToken ? route.accessToken : await Get('accessToken')
-        const refreshToken = route.refreshToken ? route.refreshToken : await Get('refreshToken')
+        const accessToken = route.params.accessToken ? route.params.accessToken : await Get('accessToken')
+        const refreshToken = route.params.refreshToken ? route.params.refreshToken : await Get('refreshToken')
         if (accessToken && refreshToken) {
             const response = await Request('auth/verify-token', 'POST', {accessToken, refreshToken})
+            // van con truong hop token het han
             if (response.success) {
                 dispatch(setLoggedIn())
                 dispatch(setToken(accessToken))
                 dispatch(setRefreshToken(refreshToken))
-                console.log(store.getState().user.accessToken)
+                await Save("accessToken", accessToken)
+                await Save("refreshToken", refreshToken)
                 return true
-            } else return false
-        } else return false
+            } 
+        } 
+        dispatch(setLoggedOut())
+        dispatch(setToken(''))
+        dispatch(setRefreshToken(''))
     }
-
+    useEffect(() => {
+        if (route.params) {
+            checkLogin()
+        }
+    }, [route.params])
     // handle show Pages
     const page = useSelector((state) => state.page.page)
 
