@@ -7,19 +7,23 @@ import { T1, T4 } from '../../constants/text-style'
 import HeartButton from '../components_universal/HeartButton'
 import Icons, { icons } from '../components_universal/Icons'
 import { height, width } from '../../constants/size'
+import CategoryType from './CategoryType'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const imgBoxWidth = 246
-const imgBoxHeight = 180*0.55
+const imgBoxWidth = width-60
+const imgBoxHeight = 200*0.6
 
-const shopName = 'Day Spar Mai Anh Dao Day Spar Mai Anh Dao'
-const description = 'Maniküre, Pediküre'
+const shopName = 'mai-mai Asian Kitchen'
+const description = 'Asiatisch'
 const distance = '1,2 km'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default function NewShopsBox() {
+export default function StoreCard({
+    onPress,
+    newshop,
+}) {
 
     const [focus, setFocus] = useState(false)
 
@@ -92,12 +96,14 @@ export default function NewShopsBox() {
         transitionVal.value = withTiming(0, {duration: 100}) ,
         textAnimation.value = 0
       ) }
+      onPress={onPress}
     >
 
     <Animated.View style={[styles.shadowProp, boxTransition]}>
         <View style={styles.boxContainer}>
             
             {/* Image Box ---------------------------------------------------------------------------------------------------------- */}
+                
             <View style={styles.imageBox}>
                 <Animated.View style={[styles.logoBox, opacity]}>
                     <Icons 
@@ -107,6 +113,19 @@ export default function NewShopsBox() {
                       iconColor={COLORS.ivory}
                     />
                 </Animated.View>
+
+                
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 10, right: 10, zIndex: 2}}>
+                    {/* New Shop */}
+                    {newshop && <View style={{height: 30, backgroundColor: COLORS.ivoryDark, paddingHorizontal: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 8, marginRight: 8}}>
+                        <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey, textTransform: 'uppercase'}]}>New</Text>
+                    </View>}
+                    {/* Category Type */}
+                    <CategoryType 
+                    edge={30}
+                    type={'restaurant'}
+                    />
+                </View>
                 <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3}, flashOverlay]}></Animated.View>
                 <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
                   <Icons 
@@ -120,8 +139,8 @@ export default function NewShopsBox() {
 
             {/* Content Box -------------------------------------------------------------------------------------------------------- */}
             <View style={styles.contentBox}>
-
-                <View style={{height: '70%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
+                
+                <View style={{height: '70%', width: '90%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
                     <Animated.View style={[{flexWrap: focus? 'wrap' : 'nowrap'}, boxWidth > textWidth ? 0 : xVal]}>  
                         <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]} onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{shopName}</Text>
                     </Animated.View>
@@ -140,13 +159,19 @@ export default function NewShopsBox() {
 
                 </View>
 
+                <View style={{position: 'absolute', bottom: 10, right: 10, flexDirection: 'row'}}>
+
+                
+
                 {/* Heart Button */}
-                <View style={{height: 30, width: 30, position: 'absolute', bottom: 10, right: 10, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{height: 30, width: 30, justifyContent: 'center', alignItems: 'center'}}>
                   <HeartButton 
                     icon={icons.MaterialIcons}
                     iconName={'favorite'}
                     iconSize={30}
-                  />
+                    />
+                </View>
+
                 </View>
 
             </View>
@@ -161,8 +186,8 @@ export default function NewShopsBox() {
 const styles = StyleSheet.create({
 
     boxContainer: {
-        width: 246,
-        height: 180,
+        width: width-60,
+        height: 200,
         borderRadius: 16,
         overflow: 'hidden',
         justifyContent: 'space-between'
@@ -170,7 +195,7 @@ const styles = StyleSheet.create({
 
       imageBox: {
         width: '100%',
-        height: '55%',
+        height: '60%',
         backgroundColor: COLORS.noImage,
         zIndex: 1,
         justifyContent: 'center',
@@ -180,7 +205,7 @@ const styles = StyleSheet.create({
     
       contentBox: {
         width: '100%',
-        height: '45%',
+        height: '40%',
         backgroundColor: COLORS.ivory,
         paddingVertical: 10,
         paddingHorizontal: 15,
