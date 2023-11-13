@@ -20,9 +20,10 @@ import { setLoggedIn, setRefreshToken, setToken } from '../../../redux/slices/us
 import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
 import { H3, T1, T3, T4 } from '../../../constants/text-style'
 import Icons, { icons } from '../../../components/components_universal/Icons'
+import Request from '../../../helper/request'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation({route}) {
-  const {email} = route.params;
+  const {email, key} = route.params;
   //const email = 'test email'
   //console.log(email)
   const navigation = useNavigation()
@@ -112,29 +113,31 @@ export default function EnterUserInformation({route}) {
   }, [checkSuccessFN && checkSuccessLN])
   
   const handleSubmit = async () => {
-    const api = api_url + 'user/register'
     try {
-      const response = await axios.post(api, {
+      const response = await Request('user/register', "post", {
         first_name: inputDataFN,
         last_name: inputDataLN,
         email: email,
+        key: key,
       })
+      console.log(response);
       // success
       // Luu thong tin
-      console.log(response.data.data);
-      dispatch(setLoggedIn())
-      dispatch(setToken(response.data.data.accessToken))
-      dispatch(setRefreshToken(response.data.data.refreshToken))
-      Save("accessToken", response.data.data.accessToken)
-      Save("refreshToken", response.data.data.refreshToken)
+      if (response.success) {
+        dispatch(setLoggedIn())
+        dispatch(setToken(response.data.accessToken))
+        dispatch(setRefreshToken(response.data.refreshToken))
+        await Save("accessToken", response.data.accessToken)
+        await Save("refreshToken", response.data.refreshToken)
+        console.log('sucess')
+        navigation.navigate('Onboard')
+      }
       //console.log(Get("accessToken"))
       // Save("email", response.data.data.userData.email)
       // Save("phone", response.data.data.userData.phone)
       // Save("id", response.data.data.userData.id)
       // ------
       // set log ing lai di
-      console.log('sucess')
-      navigation.navigate('Onboard')
       // nhay vao cai nao day 
     } catch (error) {
       console.log(error)
