@@ -1,23 +1,29 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { COLORS } from '../../index/constantsindex'
+import { setStoreNavPage } from '../../redux/slices/subNavSlice'
+import { useDispatch } from 'react-redux'
+import { T2, T3, T4 } from '../../constants/text-style'
 
 
 
 export const TopNavButton = ({lists}) => {
 
+    const dispatch = useDispatch()
+
     const [selected, setSelected] = useState(1)
     const [bgColor, setBgColor] = useState('grey')
 
-    const handleColor = (row) => {
+    const handlePressed = (row) => {
         setSelected(row.id)
+        dispatch(setStoreNavPage(row.payload))
     }
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}} >
     {lists.map((list) => (
     <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? COLORS.default : COLORS.white}]} 
-    onPress={() => handleColor(list)}>
-        <Text style={[styles.topNavTitle, {fontFamily: list.id === selected? 'Roboto-Bold': 'Roboto-Regular'}]}>{list.title}</Text>
+    onPress={() => handlePressed(list)}>
+        <Text style={[T2, {color: list.id === selected? COLORS.black: COLORS.grey, fontFamily: list.id === selected? 'RH-Medium': 'RH-Regular'}]}>{list.title}</Text>
     </TouchableOpacity>
     ))}
     </View>
@@ -30,7 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 15,
         height: 36,
-        borderRadius: 10,
+        borderRadius: 50,
     },
     topNavTitle: {
         color: COLORS.black,
