@@ -17,7 +17,7 @@ import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../redux/s
 import { store } from '../redux/store'
 import { setPage } from '../redux/slices/mainNavSlice'
 import Request from '../helper/request.js'
-import useDeepCompareEffect from "use-deep-compare-effect";
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {
