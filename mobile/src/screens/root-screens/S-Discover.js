@@ -23,6 +23,8 @@ import { COLORS } from '../../index/constantsindex'
 import CouponCard from '../../components/components_universal/CouponCard'
 import LogInRequiredBox from '../../components/components_discover_screen/LogInRequiredBox'
 import { setPage } from '../../redux/slices/mainNavSlice'
+import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -39,16 +41,17 @@ export default function DiscoverScreen( {
 
 
   // Locate Modal ----------------------------------------------------------------------
-  const [showLocateModal, setShowLocateModal] = useState(false)
-  const onCloseLocateModal = () => {
-        showTabNav()
-        setTimeout(() => {
-          setShowLocateModal(false);
-        }, 300) }
+  const showLocateModal = useSelector((state) => state.showModal.locateModal)
+
   const handleLocate = () => {
-          setShowLocateModal(true)
-          hideTabNav()
-      }
+    showLocateModal? dispatch(setHideLocateModal()) : dispatch(setShowLocateModal())
+    console.log(showLocateModal)
+  }
+
+  useEffect(() => {
+    showLocateModal? hideTabNav() : showTabNav()
+  }, [showLocateModal])
+
 
   // Search Modal ----------------------------------------------------------------------
   const [showSearchModal, setShowSearchModal] = useState(false)
@@ -133,7 +136,8 @@ export default function DiscoverScreen( {
     <View style={[{height: height, width: width}]}>
       
       {showSearchModal && <View style={{zIndex: 4}}><SearchModal onClose={onCloseSearchModal}/></View>}
-      {showLocateModal && <View style={{zIndex: 4}}><LocateModal onClose={onCloseLocateModal}/></View>}
+      <LocateModal />
+      <ScreenOverlay/>
 
       {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 

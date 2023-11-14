@@ -181,6 +181,9 @@ export default function MainNav({route}) {
     const animateBottomTab = useAnimatedStyle( () => {
         const opacity = interpolate(bottomTabTransition.value, [0,1], [0, 1])
             return {
+                transform: [
+                    // {translateY: interpolate()}
+                ],
                 opacity: opacity
             }
         }
