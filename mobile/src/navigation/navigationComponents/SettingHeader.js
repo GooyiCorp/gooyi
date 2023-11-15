@@ -48,6 +48,7 @@ export default function SettingHeader({
                             backgroundColor: COLORS.grey,
                             height: moderateScale(38,0.2),
                             width: moderateScale(38,0.2),
+                            margin: 0,
                         }}
                         onPressButton={onPressGoBack}
                     />}
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         top: 0,
-        paddingHorizontal: 25,
+        paddingHorizontal: 30,
         marginTop: 60,
         position: 'absolute',
     },

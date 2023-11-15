@@ -13,6 +13,7 @@ import FinderStackNav from './navigationStack/N-FinderStack';
 import MainNav from './N-MainNav';
 import StoresStackNav from './navigationStack/N-StoresStack';
 import RegisterEMailStack from './navigationStack/n_RegisterEMailStack';
+import Search from '../screens/root-screens/Search';
 
 
 
@@ -85,6 +86,12 @@ export default function RootNav() {
             <Root.Screen 
                 name='Profile' 
                 component={ProfileStackNav}
+            />
+
+{/* Screen Register Email --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Search' 
+                component={Search}
             />
             
         </Root.Navigator>

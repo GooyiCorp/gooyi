@@ -39,7 +39,6 @@ export default function DiscoverScreen( {
 
   const scrollRef = useRef()
 
-
   // Locate Modal ----------------------------------------------------------------------
   const showLocateModal = useSelector((state) => state.showModal.locateModal)
 
@@ -50,19 +49,7 @@ export default function DiscoverScreen( {
   useEffect(() => {
     showLocateModal? hideTabNav() : showTabNav()
   }, [showLocateModal])
-
-
-  // Search Modal ----------------------------------------------------------------------
-  const [showSearchModal, setShowSearchModal] = useState(false)
-  const onCloseSearchModal = () => {
-        showTabNav()
-        setTimeout(() => {
-          setShowSearchModal(false);
-        }, 500) }
-  const handleSearch = () => {
-          setShowSearchModal(true)
-          hideTabNav()
-      }
+  
 
   const handleTestPress = () => {
     dispatch(setLoggedIn())
@@ -133,8 +120,7 @@ export default function DiscoverScreen( {
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return ( 
     <View style={[{height: height, width: width}]}>
-      
-      {showSearchModal && <View style={{zIndex: 4}}><SearchModal onClose={onCloseSearchModal}/></View>}
+
       <LocateModal />
       <ScreenOverlay/>
 
@@ -158,10 +144,9 @@ export default function DiscoverScreen( {
       <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
           <SubHeader
             search
-            onPressSearch={handleSearch}
+            onPressSearch={() => navigation.navigate('Search')}
             locateButton
             onPressLocate={handleLocate}
-            iconState={showSearchModal}
           /> 
       </Animated.View>
 

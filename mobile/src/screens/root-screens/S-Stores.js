@@ -38,23 +38,9 @@ export default function StoresScreen({
     }  
 
   const pageSelected = useSelector((state) => state.subNav.storeNavPage)
-
-  // Search Modal ----------------------------------------------------------------------
-  const [showSearchModal, setShowSearchModal] = useState(false)
-  const onCloseSearchModal = () => {
-        showTabNav()
-        setTimeout(() => {
-          setShowSearchModal(false);
-        }, 500) }
-  const handleSearch = () => {
-          setShowSearchModal(true)
-          hideTabNav()
-        }
     
   return (
     <View style={{height: height, width: width, backgroundColor: COLORS.white}}>
-
-      {showSearchModal && <SearchModal onClose={onCloseSearchModal}/>}
       
       {/* Main Header */} 
       <MainHeader 
@@ -69,7 +55,7 @@ export default function StoresScreen({
       {/* Sub Header */} 
       <SubHeader 
         search
-        onPressSearch={handleSearch}
+        onPressSearch={() => navigation.navigate('Search')}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Alle', payload: 'allStores'},
