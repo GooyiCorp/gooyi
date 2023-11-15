@@ -1,5 +1,5 @@
 import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
@@ -10,13 +10,36 @@ import { moderateScale } from '../../helper/scale'
 import { icons } from '../components_universal/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setHideLocateModal } from '../../redux/slices/showModalSlice'
-import { H3 } from '../../constants/text-style'
+import { H3, T1, T2, T3, T4 } from '../../constants/text-style'
+import LocateSelectionButton from './LocateSelectionButton'
+import { setSelected, setUnselected } from '../../redux/slices/locateSlice'
 
 
 export default function LocateModal() {
+
+  // Thanh API
+  const currentPosition = 'Bahnhofsplatz 42, 28195 Bremen'
+
   // Animation -----------------------------------------------------------------------------------------------------------
 
     const dispatch = useDispatch()
+
+    const selected = useSelector((state) => state.locate.selected)
+
+    const locateButtonList = [
+      {id: 1, label: 'Position ermitteln', icon: icons.Ionicons, iconName: 'ios-navigate', iconSize: 25},
+      {id: 2, label: 'Standort auswählen', icon: icons.MaterialIcons, iconName: 'add', iconSize: 32},
+      {id: 3, label: 'Stadt aussuchen', icon: icons.MaterialIcons, iconName: 'location-city', iconSize: 30},
+    ]
+
+    const handlePress = (row) => {
+      if (selected == row.id) {
+        dispatch(setUnselected())
+      } else {
+        dispatch(setSelected(row.id))
+      }
+      // Thanh - lam gi tiep 
+    }
 
     // Value ----------------------------------------------------------
     const translateY = useSharedValue(height)
@@ -27,7 +50,6 @@ export default function LocateModal() {
     const handleOnEnd = () => {
         setTimeout(() => {
             dispatch(setHideLocateModal())
-            console.log('hide')
         }, 50) 
     }
 
@@ -107,12 +129,31 @@ export default function LocateModal() {
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
-                    <Text style={H3}>Letzte Aktivitäten</Text>
+                    <Text style={H3}>Standort Auswahl</Text>
             </View>
 
             {/* -------------------------------------------------------------------- Mid Section */}
             <View style={styles.midSectionContainer}>
-
+              <View style={styles.currentPositionFeed}>
+                  <Text style={[T3, {color: COLORS.grey}]}>Aktuelle Position</Text>
+                  <Text style={[T1, {marginTop: 5, fontFamily: 'RH-Medium'}]}>{currentPosition}</Text>
+              </View>
+              <View style={styles.line2}></View>
+              <View style={styles.buttonView}>
+                {locateButtonList.map((list) => 
+                  <LocateSelectionButton 
+                    key={list.id}
+                    label={list.label}
+                    icon={list.icon}
+                    iconName={list.iconName}
+                    iconSize={list.iconSize}
+                    iconColor={list.id === selected? COLORS.white : COLORS.grey}
+                    bgStyle={{backgroundColor: list.id === selected? COLORS.grey : COLORS.default}}
+                    labelStyle={{fontFamily: list.id === selected? 'RH-Medium' : 'RH-Regular', color: list.id === selected? COLORS.black : COLORS.grey}}
+                    onPress={() => handlePress(list)}
+                  />
+                )}
+              </View>
             </View>
 
         </Animated.View>
@@ -125,7 +166,7 @@ export default function LocateModal() {
 const styles = StyleSheet.create({
 
     modalContainer: {
-        height: 0.6*height,
+        height: 0.5*height,
         width: width,
         position: 'absolute',
         zIndex: 5,
@@ -133,11 +174,14 @@ const styles = StyleSheet.create({
         bottom: 0,
         borderRadius: 20,
 
-        shadowColor: "#000000",
-        shadowOpacity: 0.15,
-        shadowRadius: 20,
-    
-        elevation: 7,
+        shadowColor:"#686868",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        elevation: 0
     },
   
     line:{
@@ -164,12 +208,29 @@ const styles = StyleSheet.create({
     },
   
     midSectionContainer: {
-      height: (0.44*height),
+      height: 0.3*height,
       width: width,
       paddingHorizontal: 30,
       overflow: 'hidden',
-    // backgroundColor: 'yellow'
+      // backgroundColor: 'yellow'
     },
   
+    currentPositionFeed: {
+      // height: 60,
+      width: '100%',
+      // backgroundColor: 'yellow'
+    },
+    line2: {
+      borderWidth: 0.5,
+      borderColor: COLORS.borderGrey,
+      marginTop: 15,
+      marginBottom: 25
+    },
+
+    buttonView: {
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
   
   })

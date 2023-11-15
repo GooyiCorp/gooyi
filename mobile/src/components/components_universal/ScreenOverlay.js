@@ -41,7 +41,7 @@ export default function ScreenOverlay() {
     <>
     {showOverlay && 
         <Animated.View style={[styles.overlay, translateOverlay]}>
-            <Pressable style={{flex: 1}} onPress={handleClose}></Pressable>
+            <Pressable style={{height: height, width: width, position: 'absolute'}} onPress={handleClose}></Pressable>
         </Animated.View>}
     </>
   )

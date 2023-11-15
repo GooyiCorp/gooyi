@@ -182,7 +182,7 @@ export default function MainNav({route}) {
         const opacity = interpolate(bottomTabTransition.value, [0,1], [0, 1])
             return {
                 transform: [
-                    // {translateY: interpolate()}
+                    {translateY: interpolate(bottomTabTransition.value, [0,1], [85, 0])}
                 ],
                 opacity: opacity
             }

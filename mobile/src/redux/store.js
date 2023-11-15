@@ -3,6 +3,8 @@ import userReducer from "./slices/userSlice";
 import showModalReducer from "./slices/showModalSlice";
 import mainNavReducer from "./slices/mainNavSlice";
 import subNavReducer from "./slices/subNavSlice";
+import locateReducer from "./slices/locateSlice";
+
 
 
 export const store = configureStore({
@@ -11,5 +13,6 @@ export const store = configureStore({
         showModal: showModalReducer,
         page: mainNavReducer,
         subNav: subNavReducer,
+        locate: locateReducer, 
     }
 })

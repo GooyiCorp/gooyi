@@ -45,7 +45,6 @@ export default function DiscoverScreen( {
 
   const handleLocate = () => {
     showLocateModal? dispatch(setHideLocateModal()) : dispatch(setShowLocateModal())
-    console.log(showLocateModal)
   }
 
   useEffect(() => {
