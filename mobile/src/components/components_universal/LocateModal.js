@@ -12,24 +12,46 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setHideLocateModal } from '../../redux/slices/showModalSlice'
 import { H3, T1, T2, T3, T4 } from '../../constants/text-style'
 import LocateSelectionButton from './LocateSelectionButton'
-import { setSelected, setUnselected } from '../../redux/slices/locateSlice'
+import { setSelected, setUnselected,  setLocation } from '../../redux/slices/locateSlice'
 
 import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager'
 import axios from 'axios';
 
+const LOCATION_TASK_NAME = 'background-location-task';
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+  if (error) {
+    console.log(error.message);
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    console.log(locations);
+  }
+});
 export default function LocateModal() {
 
   // Thanh API
   const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Permission to access location was denied');  //Duc anh: Tu choi location
-      return;
+    const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
+    if (foregroundStatus === 'granted') {
+      const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
+      if (backgroundStatus === 'granted') {
+        await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+          accuracy: Location.Accuracy.Balanced,
+        });
+      }
     }
+    // let { status } = await Location.requestBackgroundPermissionsAsync();
+    // if (status !== 'granted') {
+    //   alert('Permission to access location was denied');  //Duc anh: Tu choi location
+    //   return;
+    // }
     try {
       let location = await Location.getCurrentPositionAsync({});
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
+      dispatch(setLocation({ lat: latitude, long: longitude}))
       const response = await axios.get(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`)
       const address = response.data.address;
       setCurrentPostion(`${address.road} ${address.house_number}, ${address.postcode} ${address.city}`)
@@ -54,14 +76,14 @@ export default function LocateModal() {
       {id: 3, label: 'Stadt aussuchen', icon: icons.MaterialIcons, iconName: 'location-city', iconSize: 30},
     ]
 
-    const handlePress = (row) => {
+    const handlePress = async (row) => {
       if (selected == row.id) {
         dispatch(setUnselected())
       } else {
         dispatch(setSelected(row.id))
         switch (row.id) {
           case 1: 
-            getLocation()
+            await getLocation()
             break
           case 2: 
             console.log('Enter Address')

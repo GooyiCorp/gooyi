@@ -17,7 +17,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.thannguyen.mobile"
+      "bundleIdentifier": "com.thannguyen.mobile",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show you nearby places.",
+        "NSLocationAlwaysUsageDescription": "This app needs access to your location to show you nearby places.",
+        "NSLocationUsageDescription": "This app needs access to your location to show you nearby places.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to your location to show you nearby places.",
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {

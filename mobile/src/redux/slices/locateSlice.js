@@ -7,6 +7,8 @@ export const locateSlice = createSlice({
     initialState: {
         currentPosition: 'none',
         selected: undefined,
+        long: 0,
+        lat: 0,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -24,7 +26,11 @@ export const locateSlice = createSlice({
         setUnselected: (state) => {
             state.selected = undefined
         },
-
+        // ------------------------------------------- Location
+        setLocation: (state, action) => {
+            state.lat = action.payload.lat
+            state.long = action.payload.long
+        },
 
     }
 })
@@ -32,7 +38,8 @@ export const locateSlice = createSlice({
 export const {
 
     setSelected,
-    setUnselected
+    setUnselected,
+    setLocation
 
  } = locateSlice.actions;
  
