@@ -14,12 +14,34 @@ import { H3, T1, T2, T3, T4 } from '../../constants/text-style'
 import LocateSelectionButton from './LocateSelectionButton'
 import { setSelected, setUnselected } from '../../redux/slices/locateSlice'
 
+import * as Location from 'expo-location';
+import axios from 'axios';
 
 export default function LocateModal() {
 
   // Thanh API
-  const currentPosition = 'Bahnhofsplatz 42, 28195 Bremen'
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission to access location was denied');  //Duc anh: Tu choi location
+      return;
+    }
+    try {
+      let location = await Location.getCurrentPositionAsync({});
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      const response = await axios.get(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`)
+      const address = response.data.address;
+      setCurrentPostion(`${address.road} ${address.house_number}, ${address.postcode} ${address.city}`)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const [currentPosition, setCurrentPostion] = useState('Bahnhofsplatz 42, 28195 Bremen')
 
+  useEffect(() =>{
+    getLocation();
+  }, [])
   // Animation -----------------------------------------------------------------------------------------------------------
 
     const dispatch = useDispatch()
