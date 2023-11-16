@@ -59,6 +59,17 @@ export default function LocateModal() {
         dispatch(setUnselected())
       } else {
         dispatch(setSelected(row.id))
+        switch (row.id) {
+          case 1: 
+            getLocation()
+            break
+          case 2: 
+            console.log('Enter Address')
+            break
+          case 3: 
+            console.log('Select City')
+            break
+        }
       }
       // Thanh - lam gi tiep 
     }

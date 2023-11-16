@@ -5,13 +5,18 @@ export const locateSlice = createSlice({
     name: 'locate',
     
     initialState: {
-        selected: undefined
+        currentPosition: 'none',
+        selected: undefined,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
     reducers: {
 
-        // ------------------------------------------- Set Store Nav Page
+        setCurrentPosition: (state, action) => {
+            state.currentPosition = action.payload
+        },
+
+        // ------------------------------------------- Set Locate Category Selected
         setSelected: (state, action) => {
             state.selected = action.payload
         },
