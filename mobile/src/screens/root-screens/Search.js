@@ -4,6 +4,7 @@ import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
 import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
 import { H3 } from '../../constants/text-style'
+import SearchBox from '../../components/components_search_screen/SearchBox'
 
 export default function Search({navigation: {goBack}}) {
   return (
@@ -12,9 +13,7 @@ export default function Search({navigation: {goBack}}) {
             goBack
             onPressGoBack={() => goBack()}
         />
-        <View>
-            <Text style={[H3, {marginHorizontal: 30, marginBottom: 20}]}>Suche</Text>
-        </View>
+            <SearchBox />
     </View>
   )
 }
