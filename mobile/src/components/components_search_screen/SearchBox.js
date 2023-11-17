@@ -127,6 +127,7 @@ export default function SearchBox({
                 returnKeyType='search'
                 autoComplete='off'
                 autoCorrect={false}
+                keyboardAppearance='dark'
 
 
                 value={data}
