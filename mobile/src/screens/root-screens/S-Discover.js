@@ -23,6 +23,8 @@ import { COLORS } from '../../index/constantsindex'
 import CouponCard from '../../components/components_universal/CouponCard'
 import LogInRequiredBox from '../../components/components_discover_screen/LogInRequiredBox'
 import { setPage } from '../../redux/slices/mainNavSlice'
+import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -37,30 +39,17 @@ export default function DiscoverScreen( {
 
   const scrollRef = useRef()
 
-
   // Locate Modal ----------------------------------------------------------------------
-  const [showLocateModal, setShowLocateModal] = useState(false)
-  const onCloseLocateModal = () => {
-        showTabNav()
-        setTimeout(() => {
-          setShowLocateModal(false);
-        }, 300) }
-  const handleLocate = () => {
-          setShowLocateModal(true)
-          hideTabNav()
-      }
+  const showLocateModal = useSelector((state) => state.showModal.locateModal)
 
-  // Search Modal ----------------------------------------------------------------------
-  const [showSearchModal, setShowSearchModal] = useState(false)
-  const onCloseSearchModal = () => {
-        showTabNav()
-        setTimeout(() => {
-          setShowSearchModal(false);
-        }, 500) }
-  const handleSearch = () => {
-          setShowSearchModal(true)
-          hideTabNav()
-      }
+  const handleLocate = () => {
+    showLocateModal? dispatch(setHideLocateModal()) : dispatch(setShowLocateModal())
+  }
+
+  useEffect(() => {
+    showLocateModal? hideTabNav() : showTabNav()
+  }, [showLocateModal])
+  
 
   const handleTestPress = () => {
     dispatch(setLoggedIn())
@@ -131,9 +120,9 @@ export default function DiscoverScreen( {
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return ( 
     <View style={[{height: height, width: width}]}>
-      
-      {showSearchModal && <View style={{zIndex: 4}}><SearchModal onClose={onCloseSearchModal}/></View>}
-      {showLocateModal && <View style={{zIndex: 4}}><LocateModal onClose={onCloseLocateModal}/></View>}
+
+      <LocateModal />
+      <ScreenOverlay/>
 
       {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 
@@ -155,10 +144,9 @@ export default function DiscoverScreen( {
       <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
           <SubHeader
             search
-            onPressSearch={handleSearch}
+            onPressSearch={() => navigation.navigate('Search')}
             locateButton
             onPressLocate={handleLocate}
-            iconState={showSearchModal}
           /> 
       </Animated.View>
 

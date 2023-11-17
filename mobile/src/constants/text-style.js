@@ -17,6 +17,11 @@ export const T4 = {
     fontSize: 12.5,
   }
 
+export const T5 = {
+  fontFamily: 'RH-Regular',
+  fontSize: 11,
+}
+
 export const H1 = {
     fontFamily: 'RH-Medium', 
     fontSize: 30 

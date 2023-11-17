@@ -6,6 +6,7 @@ export default {
     subPrimary08: 'rgba(130, 152, 174, 0.9)',
     mainBackground: '#f8f5f2',
     ivory: '#f3ede9',
+    ivoryDark2: '#c9c3be',
     ivoryDark: '#e3ded8',
     
 

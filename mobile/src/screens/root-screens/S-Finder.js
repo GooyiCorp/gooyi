@@ -7,10 +7,14 @@ import CategorySelectorCarousel from '../../components/components_finder_screen/
 import LocateModal from '../../components/components_universal/LocateModal';
 import { height } from '../../constants/size';
 import FinderShopCard from '../../components/components_finder_screen/FinderShopCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice';
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay';
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function FinderScreen({navigation, navigation: {goBack}}) {
+  const dispatch = useDispatch()
   const width = Dimensions.get('window').width;
   const list = [
     { id: 1, number: 1 },
@@ -22,14 +26,19 @@ export default function FinderScreen({navigation, navigation: {goBack}}) {
   ]
 
   // Locate Modal ----------------------------------------------------------------------
-  const [showLocateModal, setShowLocateModal] = useState(false)
-  const onCloseLocateModal = () => {
-        setTimeout(() => {
-            setShowLocateModal(false);
-        }, 300) }
+  const showLocateModal = useSelector((state) => state.showModal.locateModal)
+
   const handleLocate = () => {
-          setShowLocateModal(true)
-      }
+    showLocateModal? dispatch(setHideLocateModal()) : dispatch(setShowLocateModal())
+  }
+  // const [showLocateModal, setShowLocateModal] = useState(false)
+  // const onCloseLocateModal = () => {
+  //       setTimeout(() => {
+  //           setShowLocateModal(false);
+  //       }, 300) }
+  // const handleLocate = () => {
+  //         setShowLocateModal(true)
+  //     }
 
   // Header Area ------------------------------------------------------------------------
   const headerArea = React.useMemo( () => (
@@ -59,7 +68,8 @@ export default function FinderScreen({navigation, navigation: {goBack}}) {
   return (
     <View style={{flex: 1}}>
 
-      {showLocateModal && <LocateModal onClose={onCloseLocateModal}/>}
+      <LocateModal />
+      <ScreenOverlay />
 
       {headerArea}
 

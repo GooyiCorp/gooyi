@@ -17,7 +17,7 @@ import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../redux/s
 import { store } from '../redux/store'
 import { setPage } from '../redux/slices/mainNavSlice'
 import Request from '../helper/request.js'
-
+import useDeepCompareEffect from "use-deep-compare-effect";
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {
@@ -181,6 +181,9 @@ export default function MainNav({route}) {
     const animateBottomTab = useAnimatedStyle( () => {
         const opacity = interpolate(bottomTabTransition.value, [0,1], [0, 1])
             return {
+                transform: [
+                    {translateY: interpolate(bottomTabTransition.value, [0,1], [85, 0])}
+                ],
                 opacity: opacity
             }
         }
