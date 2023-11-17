@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
@@ -9,6 +9,9 @@ import Keywords from './Keywords'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { ScrollView } from 'react-native-gesture-handler'
 import SearchFeed from './SearchFeed'
+import { T2 } from '../../constants/text-style'
+import { useDispatch } from 'react-redux'
+import { setShowFilterModal } from '../../redux/slices/showModalSlice'
 
 export default function SearchBox({
     onPressGoBack
@@ -21,8 +24,8 @@ export default function SearchBox({
         {id: 4, keyword: 'Coffee'},
         {id: 5, keyword: 'Spa'},
         {id: 6, keyword: 'Angebote'},
-        {id: 7, keyword: 'Chinesisch'},
-        {id: 8, keyword: 'Sushi'},
+        {id: 7, keyword: 'Sushi'},
+        {id: 8, keyword: 'Chinesisch'},
         {id: 9, keyword: 'Neu'},
     ]
 
@@ -30,6 +33,8 @@ export default function SearchBox({
         {id: 1, shopName: 'Asia Hung - City Center', description: 'Asiatisch, Thai', distance: '1,5 km'},
         {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
     ]
+
+    const dispatch = useDispatch()
 
     // --------------------------------------- Value
     const [data, setData] = useState('')
@@ -75,7 +80,7 @@ export default function SearchBox({
 
     const translateKeywordsContainer = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(keywordsTransition.value, [0,0.5], [1,0]),
+            opacity: interpolate(keywordsTransition.value, [0,0.3], [1,0]),
             transform: [
                 {translateY: interpolate(keywordsTransition.value, [0,1], [0, -containerHeight])}
             ]
@@ -165,6 +170,13 @@ export default function SearchBox({
                 />
             </View>
         </View>
+        
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 15, marginHorizontal: 30}}>
+        <Text style={[T2,{marginRight: 5}]}>Nach Kategorie:</Text>
+        <TouchableOpacity onPress={() => dispatch(setShowFilterModal())}>
+        <Text style={[T2, {color: COLORS.primary}]}>Geschäfte</Text>
+        </TouchableOpacity>
     </View>
 
     {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
@@ -194,7 +206,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         // position: 'absolute',
         marginTop: 55,
-        marginBottom: 20,
+        marginBottom: 10,
         // opacity: 0.5
         zIndex: 2
     },
@@ -223,7 +235,7 @@ const styles = StyleSheet.create({
     keywordsContainer: {
         width: width,
         paddingHorizontal: 25,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
         zIndex: 1,
