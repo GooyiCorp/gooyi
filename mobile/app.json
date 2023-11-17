@@ -1,8 +1,8 @@
 {
   "expo": {
     "scheme": "gooyi",
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "gooyi",
+    "slug": "gooyi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "",
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.thannguyen.mobile",
+      "bundleIdentifier": "com.thannguyen.gooyi",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show you nearby places.",
         "NSLocationAlwaysUsageDescription": "This app needs access to your location to show you nearby places.",
@@ -34,7 +34,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.thannguyen.mobile"
+      "package": "com.thannguyen.gooyi"
     },
     "web": {
       "favicon": "./assets/favicon.png"
