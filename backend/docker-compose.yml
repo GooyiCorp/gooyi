@@ -24,7 +24,6 @@ services:
           - gooyi:/app/logs/
         depends_on:
           - postgres
-          # - cache
 
     redis:
         container_name: redis
@@ -35,17 +34,7 @@ services:
         ports:
           - 6379:6379
 
-    redis_insight:
-        container_name: redis_insight
-        image: redislabs/redisinsight:latest
-        restart: always
-        ports:
-          - 8001:8001
-        volumes:
-          - redis_insight:/db
-
 volumes:
   postgres:
   gooyi:
   cache:
-  redis_insight:
