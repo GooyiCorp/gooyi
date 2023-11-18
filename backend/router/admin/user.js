@@ -22,7 +22,7 @@ userRoute.get('/', async (req, res) => {
             return sendError(res, "No user found")
         }
         
-        const users = await prisma.user.findMany();
+        const users = await prisma.user.findMany()
         return sendSuccess(res, "Get users information", users)
     } catch (err) {
         logger.error(err)

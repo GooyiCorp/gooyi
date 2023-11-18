@@ -21,7 +21,7 @@ services:
         ports:
           - 8000:8000
         volumes:
-          - gooyi:/app/logs/
+          - gooyi:/app
         depends_on:
           - postgres
 
