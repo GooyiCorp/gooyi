@@ -25,6 +25,7 @@ import LogInRequiredBox from '../../components/components_discover_screen/LogInR
 import { setPage } from '../../redux/slices/mainNavSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
+import { setCategory, setSelectedCategory } from '../../redux/slices/searchSlice'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -144,7 +145,7 @@ export default function DiscoverScreen( {
       <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
           <SubHeader
             search
-            onPressSearch={() => navigation.navigate('Search')}
+            onPressSearch={() => (navigation.navigate('Search'), dispatch(setCategory('Angebote')), dispatch(setSelectedCategory(3)) )}
             locateButton
             onPressLocate={handleLocate}
           /> 

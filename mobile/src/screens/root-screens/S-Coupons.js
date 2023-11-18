@@ -7,10 +7,11 @@ import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
 import SearchModal from '../../components/components_universal/SearchModal'
 import LogInRequired from './LogInRequired'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 
 import PresentationHeader from '../../components/components_universal/PresentationHeader'
+import { setCategory, setSelectedCategory } from '../../redux/slices/searchSlice'
 
 
 
@@ -22,6 +23,7 @@ export default function CouponsScreen({
   showTabNav,
 }) {
 
+  const dispatch = useDispatch()
   const navigation = useNavigation()
 
   const logIn = !useSelector((state) => state.user.isLoggedIn)
@@ -47,7 +49,7 @@ export default function CouponsScreen({
       {/* Sub Header */}
       <SubHeader
         search
-        onPressSearch={() => navigation.navigate('Search')}
+        onPressSearch={() => (navigation.navigate('Search'), dispatch(setCategory('Coupons')), dispatch(setSelectedCategory(2)) )}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Merkliste', payload: 'marks'},
