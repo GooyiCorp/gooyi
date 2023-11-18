@@ -14,26 +14,18 @@ import { H3, H4 } from '../../constants/text-style'
 import { setHideFilterModal } from '../../redux/slices/showModalSlice'
 import Keywords from './Keywords'
 import Filter from './Filter'
+import { setCategory, setFilter, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 
 
 export default function FilterModal() {
 
-    const categoryList = [
-        {id: 1, category: 'Geschäfte'},
-        {id: 2, category: 'Coupons'},
-        {id: 3, category: 'Angebote'},
-    ]
-
-    const storeFilterList = [
-        {id: 1, filter: 'alle'},
-        {id: 2, filter: 'beliebt'},
-        {id: 3, filter: 'favorit'},
-        {id: 4, filter: 'geöffnet'},
-    ]
-  // Animation -----------------------------------------------------------------------------------------------------------
-
     const dispatch = useDispatch()
 
+// ----------------------------  
+// Modal Setting 
+// ---------------------------- 
+
+    // Animation -----------------------------------------------------------------------------------------------------------
     // Value ----------------------------------------------------------
     const translateY = useSharedValue(height)
     const context = useSharedValue({y: 0})
@@ -71,28 +63,87 @@ export default function FilterModal() {
     })
 
     // handle Animation ------------------------------------------------
-
-      // position Update
-      const animatedStyle = useAnimatedStyle(() => {
+    // position Update
+    const animatedStyle = useAnimatedStyle(() => {
         return {
-          transform: [{ translateY: translateY.value }]
+        transform: [{ translateY: translateY.value }]
         }
-      })
+    })
 
-      // check status
-      useEffect(()=>{
+    // check status
+    useEffect(()=>{
         if (showFilterModal) {
             translateY.value = withTiming(0.05*height, {duration: 500, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01),})
         } else {
             translateY.value = withDelay(100, withTiming(height, {duration: 400}))
         }
-      }, [showFilterModal])
+    }, [showFilterModal])
 
+// ----------------------------  
+// Selection Setting 
+// ----------------------------
 
-    const [selectedCategory, setSelectedCategory] = useState(1)
+    // Value -----------------------------------------------------------
+    const selectedCategory = useSelector((state) => state.search.selectedCategory)
+    const [selectedFilter, setSelectedFilter] = useState(new Set([]))
+
+    const test = useSelector((state) => state.search.filter)
+
+    // Category Handle ------------------------------------------------
     const handleSelectCategory = (row) => {
-        setSelectedCategory(row.id)
+        dispatch(setSelectedCategory(row.id))
+        dispatch(setCategory(row.category))
+        if (selectedCategory != row.id) {
+            setSelectedFilter(new Set([]))
+            dispatch(setResetFilter())
+        }
     }
+
+    // Filter Handle ------------------------------------------------
+    const handleSelectFilter = (row) => {
+        if (!selectedFilter.has(row.id)) {
+            setSelectedFilter(prev => new Set(prev.add(row.id)))
+            dispatch(setFilter(row.filter))
+        } else {
+            setSelectedFilter(prev => new Set([...prev].filter(x => x !== row.id)))
+            dispatch(setRemoveFilter(row.filter))
+            
+        }
+    }
+
+    console.log(test)
+    
+    // List ------------------------------------------------------------
+    // Category List
+    const categoryList = [
+        {id: 1, category: 'Geschäfte'},
+        {id: 2, category: 'Coupons'},
+        {id: 3, category: 'Angebote'},
+    ]
+
+    // Filter List
+    let filterList = []
+    if (selectedCategory == 1) {
+        filterList = [
+            {id: 1, filter: 'neu'},
+            {id: 2, filter: 'beliebt'},
+            {id: 3, filter: 'favorit'},
+            {id: 4, filter: 'geöffnet'},
+            {id: 5, filter: 'kartenzahlung'},
+        ]
+    } else if (selectedCategory == 2) {
+        filterList = [
+            {id: 1, filter: 'neu'},
+            {id: 2, filter: 'kurze Gültigkeit'},
+            {id: 3, filter: 'im Besitz'},
+        ]
+    } else {
+        filterList = [
+            {id: 1, filter: 'neu'},
+            {id: 2, filter: 'hot'},
+        ]
+    }
+
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
@@ -105,7 +156,25 @@ export default function FilterModal() {
             <View style={styles.line}></View>
 
             {/* -------------------------------------------------------------------- Close Button */}
-                    <RoundButton 
+
+            <View style={{position: 'absolute', top: 25,right: 25, zIndex: 2, flexDirection: 'row'}}>
+
+                <RoundButton 
+                    icon={icons.MaterialIcons}
+                    iconName={'undo'}
+                    iconSize={22}
+                    iconColor={COLORS.grey}
+                    style={{
+                        backgroundColor: COLORS.ivoryDark,
+                        height: moderateScale(34,0.2),
+                        width: moderateScale(34,0.2),
+                        margin: 0,
+                        marginRight: 10, 
+                        borderRadius: 8,
+                    }}
+                />
+
+                <RoundButton 
                     icon={icons.MaterialIcons}
                     iconName={'close'}
                     iconSize={moderateScale(22,0.2)}
@@ -114,14 +183,13 @@ export default function FilterModal() {
                         backgroundColor: COLORS.grey,
                         height: moderateScale(34,0.2),
                         width: moderateScale(34,0.2),
-                        position: 'absolute',
                         margin: 0,
-                        top: 25,
-                        right: 25,
-                        zIndex: 2
                     }}
                     onPressButton={handleClose}
                 />
+
+
+            </View>
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
@@ -130,35 +198,53 @@ export default function FilterModal() {
 
             {/* -------------------------------------------------------------------- Mid Section */}
             <View style={styles.midSectionContainer}>
-                <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.grey, paddingHorizontal: 10, marginBottom: 5}]}>Kategorie</Text>
+
+                {/* Search by Category */}
+                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Kategorie</Text>
+
                 <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
+
                     {categoryList.map((category) => (
                         <Filter 
                             key={category.id} 
                             keyword={category.category} 
                             onPress={() => handleSelectCategory(category)}
                             bgStyle={{
-                                backgroundColor: selectedCategory == category.id? COLORS.ivoryDark : COLORS.mainBackground
+                                backgroundColor: selectedCategory == category.id? COLORS.ivoryDark : 'transparent',
+                                borderColor: selectedCategory == category.id? COLORS.ivoryDark : COLORS.borderGrey
                             }}
                             textStyle={{
-                                color: selectedCategory == category.id? COLORS.grey : COLORS.ivoryDark2
+                                color: selectedCategory == category.id? COLORS.grey : COLORS.lightGrey,
                             }}
                         />
                     ))}
+
                 </View>
 
                 <View style={styles.line2}></View>
 
-                <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.grey, paddingHorizontal: 10, marginBottom: 5}]}>Filter</Text>
+                {/* Search Filter */}
+                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Filter</Text>
                 
                 <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
-                {storeFilterList.map((filter) => (
-                    <Filter
-                        key={filter.id}
-                        keyword={filter.filter}
-                    />
-                ))}
+
+                    {filterList.map((filter) => (
+                        <Filter
+                            key={filter.id}
+                            keyword={filter.filter}
+                            onPress={() => handleSelectFilter(filter)}
+                            bgStyle={{
+                                backgroundColor: selectedFilter.has(filter.id) ?  COLORS.ivoryDark : 'transparent',
+                                borderColor: selectedFilter.has(filter.id) ?  COLORS.ivoryDark : COLORS.borderGrey
+                            }}
+                            textStyle={{
+                                color: selectedFilter.has(filter.id) ? COLORS.grey : COLORS.lightGrey,
+                            }}
+                        />
+                    ))}
+
                 </View>
+
             </View>
 
         </Animated.View>
@@ -173,7 +259,7 @@ const styles = StyleSheet.create({
         height: 0.6*height,
         width: width,
         position: 'absolute',
-        zIndex: 2,
+        zIndex: 5,
         backgroundColor: COLORS.white,
         bottom: 0,
         borderRadius: 20,
@@ -220,7 +306,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: COLORS.borderGrey,
         marginTop: 15,
-        marginBottom: 25
+        marginBottom: 15
       },
   
   

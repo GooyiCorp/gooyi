@@ -122,7 +122,7 @@ export default function DiscoverScreen( {
     <View style={[{height: height, width: width}]}>
 
       <LocateModal />
-      <ScreenOverlay/>
+      <ScreenOverlay locate/>
 
       {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 

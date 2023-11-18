@@ -24,5 +24,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.ivoryDark,
         alignSelf: 'baseline',
         margin: 5,
+        borderWidth: 0.5,
     }
 })

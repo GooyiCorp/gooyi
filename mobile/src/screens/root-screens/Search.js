@@ -7,11 +7,13 @@ import { H3 } from '../../constants/text-style'
 import SearchBox from '../../components/components_search_screen/SearchBox'
 import SearchFeed from '../../components/components_search_screen/SearchFeed'
 import FilterModal from '../../components/components_search_screen/FilterModal'
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 
 export default function Search({navigation: {goBack}}) {
   return (
     <View style={styles.screen}>
       <FilterModal />
+      <ScreenOverlay search/>
       <Pressable
         style={{
           height: height, 

@@ -3,15 +3,17 @@ import React, { useEffect, useState } from 'react'
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
 import RoundButton from '../components_universal/RoundButton'
-import { icons } from '../components_universal/Icons'
+import Icons, { icons } from '../components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
 import Keywords from './Keywords'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { ScrollView } from 'react-native-gesture-handler'
 import SearchFeed from './SearchFeed'
-import { T2 } from '../../constants/text-style'
-import { useDispatch } from 'react-redux'
+import { T2, T3 } from '../../constants/text-style'
+import { useDispatch, useSelector } from 'react-redux'
 import { setShowFilterModal } from '../../redux/slices/showModalSlice'
+import SearchLabel from './SearchLabel'
+import { setRemoveFilter } from '../../redux/slices/searchSlice'
 
 export default function SearchBox({
     onPressGoBack
@@ -34,9 +36,12 @@ export default function SearchBox({
         {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
     ]
 
+    const filterList = useSelector((state) => state.search.filter)  
     const dispatch = useDispatch()
 
     // --------------------------------------- Value
+    const categorySelected = useSelector((state) => state.search.category)
+
     const [data, setData] = useState('')
     // const [focus, setFocus] = useState(false)
     const [containerHeight, setContainerHeight] = useState(0)
@@ -172,11 +177,46 @@ export default function SearchBox({
         </View>
         
     </View>
-    <View style={{flexDirection: 'row', marginBottom: 15, marginHorizontal: 30}}>
-        <Text style={[T2,{marginRight: 5}]}>Nach Kategorie:</Text>
-        <TouchableOpacity onPress={() => dispatch(setShowFilterModal())}>
-        <Text style={[T2, {color: COLORS.primary}]}>Geschäfte</Text>
+
+    {/* -------------------------------------------------------- Search for Section */}
+    <View style={{marginBottom: 15, marginHorizontal: 25}}>
+        {/* Open Modal */}
+        <TouchableOpacity 
+            style={{flexDirection: 'row', alignItems: 'center', marginRight: 5, justifyContent: 'flex-end'}}
+            onPress={() => dispatch(setShowFilterModal())}
+        >
+            <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Suche anpassen</Text>
+            <Icons
+                icon={icons.MaterialCommunityIcons}
+                iconName={'menu-down'}
+                iconSize={26}
+                iconColor={COLORS.primary}
+                iconStyle={{
+                    marginVertical: -5,
+                    marginHorizontal: -3,
+                }}
+            />
         </TouchableOpacity>
+
+        <View style={{flexDirection: 'row'}}>
+
+            {/* Category */}
+            <View style={{width: '28%'}}>
+                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Suche nach</Text>
+                <SearchLabel label={categorySelected} onPress={() => dispatch(setShowFilterModal())}/>
+            </View>
+
+            {/* Filter */}
+            <View style={{width: '72%'}}>
+                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Filter</Text>
+                <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
+                    {filterList.map((filter) => (<SearchLabel key={filter} label={filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
+                </View>
+            </View>
+
+        </View>
+
+
     </View>
 
     {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
@@ -206,7 +246,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         // position: 'absolute',
         marginTop: 55,
-        marginBottom: 10,
+        marginBottom: 15,
         // opacity: 0.5
         zIndex: 2
     },
@@ -239,5 +279,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         zIndex: 1,
-    }
+    },
 })

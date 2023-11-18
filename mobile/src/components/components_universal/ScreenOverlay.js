@@ -4,13 +4,22 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideLocateModal } from '../../redux/slices/showModalSlice'
+import { setHideFilterModal, setHideLocateModal } from '../../redux/slices/showModalSlice'
 
-export default function ScreenOverlay() {
+export default function ScreenOverlay({
+    locate,
+    search,
+}) {
 
     const dispatch = useDispatch()
 
-    const locateModal = useSelector((state) => state.showModal.locateModal)
+    let modal
+    if (locate) {
+        modal = useSelector((state) => state.showModal.locateModal)
+    } else if (search) {
+        modal = useSelector((state) => state.showModal.filterModal)
+    }
+    
     const [showOverlay, setShowOverlay] = useState(false)
 
     const transitionVal = useSharedValue(0)
@@ -22,7 +31,7 @@ export default function ScreenOverlay() {
     })
 
     useEffect(() => {
-        if (locateModal) {
+        if (modal) {
             setShowOverlay(true)
             transitionVal.value = withTiming(1, {duration: 200}) 
         } else {
@@ -31,10 +40,14 @@ export default function ScreenOverlay() {
                 setShowOverlay(false)
             }, 200)
         }
-    }, [locateModal])
+    }, [modal])
 
     const handleClose = () => {
-        dispatch(setHideLocateModal())
+        if (locate) {
+            dispatch(setHideLocateModal())
+        } else if (search) {
+            dispatch(setHideFilterModal())
+        }
     }
 
   return (
