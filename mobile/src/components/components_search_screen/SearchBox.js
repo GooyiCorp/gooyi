@@ -210,7 +210,7 @@ export default function SearchBox({
             <View style={{width: '72%'}}>
                 <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Filter</Text>
                 <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
-                    {filterList.map((filter) => (<SearchLabel key={filter} label={filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
+                    {filterList.map((filter) => (<SearchLabel key={filter.id} label={filter.filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
                 </View>
             </View>
 

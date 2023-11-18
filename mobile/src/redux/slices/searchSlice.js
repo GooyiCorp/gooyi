@@ -7,7 +7,6 @@ export const searchSlice = createSlice({
     initialState: {
         selectedCategory: 1,
         category: 'Geschäfte',
-        selectedFilter: [],
         filter: [],
     },
 
@@ -28,7 +27,7 @@ export const searchSlice = createSlice({
         },
 
         setRemoveFilter: (state, action) => {
-            state.filter = state.filter.filter(item => item !== action.payload)
+            state.filter = state.filter.filter(item => item.id !== action.payload.id)
         },
 
         setResetFilter: (state) => {

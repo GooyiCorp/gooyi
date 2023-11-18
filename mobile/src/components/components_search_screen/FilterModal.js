@@ -2,7 +2,7 @@ import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, Touchabl
 import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
-import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, Extrapolate, interpolate, runOnJS, set, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { Gesture, GestureDetector, TextInput } from 'react-native-gesture-handler'
 
 import RoundButton from '../components_universal/RoundButton'
@@ -85,7 +85,7 @@ export default function FilterModal() {
 
     // Value -----------------------------------------------------------
     const selectedCategory = useSelector((state) => state.search.selectedCategory)
-    const [selectedFilter, setSelectedFilter] = useState(new Set([]))
+    const selectedFilter = useSelector((state) => state.search.filter)
 
     const test = useSelector((state) => state.search.filter)
 
@@ -94,21 +94,38 @@ export default function FilterModal() {
         dispatch(setSelectedCategory(row.id))
         dispatch(setCategory(row.category))
         if (selectedCategory != row.id) {
-            setSelectedFilter(new Set([]))
+            // setSelectedFilter(new Set([]))
             dispatch(setResetFilter())
         }
     }
 
     // Filter Handle ------------------------------------------------
-    const handleSelectFilter = (row) => {
-        if (!selectedFilter.has(row.id)) {
-            setSelectedFilter(prev => new Set(prev.add(row.id)))
-            dispatch(setFilter(row.filter))
-        } else {
-            setSelectedFilter(prev => new Set([...prev].filter(x => x !== row.id)))
-            dispatch(setRemoveFilter(row.filter))
-            
+    const checkFilter = (row) => {
+        for (const [i, value] of selectedFilter.entries()) {
+            if (row.id == value.id) {
+                return true
+            }
         }
+        return false
+    } 
+    const handleSelectFilter = (row) => {
+        if (checkFilter(row)) dispatch(setRemoveFilter(row))
+        else dispatch(setFilter(row))
+            // if (row.id == item.id) {
+            //     console.log('trung');
+            //     return;
+            // }
+
+
+        // if (!(row in selectedFilter)) {
+        //     console.log(row)
+        //     setSelectedFilter(prev => new Set(prev.add(row.id)))
+        //     dispatch(setFilter(row))
+        // } else {
+        //     setSelectedFilter(prev => new Set([...prev].filter(x => x !== row.id)))
+        //     dispatch(setRemoveFilter(row))
+            
+        // }
     }
 
     console.log(test)
@@ -172,6 +189,7 @@ export default function FilterModal() {
                         marginRight: 10, 
                         borderRadius: 8,
                     }}
+                    onPressButton={() => dispatch(setResetFilter())}
                 />
 
                 <RoundButton 
@@ -234,11 +252,11 @@ export default function FilterModal() {
                             keyword={filter.filter}
                             onPress={() => handleSelectFilter(filter)}
                             bgStyle={{
-                                backgroundColor: selectedFilter.has(filter.id) ?  COLORS.ivoryDark : 'transparent',
-                                borderColor: selectedFilter.has(filter.id) ?  COLORS.ivoryDark : COLORS.borderGrey
+                                backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
+                                borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey
                             }}
                             textStyle={{
-                                color: selectedFilter.has(filter.id) ? COLORS.grey : COLORS.lightGrey,
+                                color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
                             }}
                         />
                     ))}
