@@ -13,16 +13,6 @@ export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
 export const ACTIVE_USER = {}
 import { clearTokenList } from "./helper/jwt.js"
-// Database connection
-import sequelize from "./model/index.js";
-try {
-    await sequelize.authenticate();
-    console.log('Connection to database has been established successfully.');
-    // await sequelize.sync({ force: true });
-    // console.log("All models were synchronized successfully.");
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
 // Cache connection
 try {
     await Redis.connect()

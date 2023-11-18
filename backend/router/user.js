@@ -2,7 +2,6 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { generate_key, sendAutoMail, sendError, sendServerError, sendSuccess } from "../helper/client.js";
 import { email_validate, redirect_validate, register_validate } from "../validation/user.js";
-import User from "../model/User.js";
 import { USER } from "../constant/role.js";
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../constant/jwt.js";
 import { ACTIVE_USER, TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../index.js";
@@ -12,28 +11,21 @@ import { render } from "../template/index.js";
 import { verifyToken } from "../middleware/index.js";
 import { logger } from "../helper/logger.js";
 import Redis from "../cache/index.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient()
 
 const userRoute = express.Router();
 
 userRoute.get('/info', verifyToken, async (req, res) => {
     const id = req.user.id
     try {
-        const user = await User.findOne({where: {user_id: id}})
+        const user = await prisma.user.findUnique({where: {user_id: id}})
         if (!user) return sendError(res, 'User not found')
         return sendSuccess(res, 'Get user info', user)
     } catch (err) {
         logger.error(err)
     }
-})
-userRoute.post("/create", async (req, res) => {
-    const {
-        first_name,
-        last_name,
-        email,
-        phone
-    } = req.body
-    const user = await User.create({ first_name, last_name, email, phone })
-    return sendSuccess(res, "ok")
 })
 
 userRoute.post("/email-login", async (req, res) => {
@@ -43,7 +35,7 @@ userRoute.post("/email-login", async (req, res) => {
     try {
         const host = process.env.host
         const port = process.env.PORT
-        const user = await User.findOne({ where: { email: email}})
+        const user = await prisma.user.findUnique({ where: { email: email}})
         if (user) {
             const userData = {
                 id: user.user_id,
@@ -118,10 +110,10 @@ userRoute.post('/register', async(req, res) => {
         const verified_code = await Redis.hGet("verified_code", email)
         if (verified_code !== key) return sendError(res, "Unauthorized.", 403)
         if (email) {
-            const user = await User.findOne({where: {email: email}})
+            const user = await prisma.user.findUnique({where: {email: email}})
             if (user) return sendError(res, "This user already exists")
         } else {
-            const user = await User.findOne({where: {phone: phone}})
+            const user = await prisma.user.findUnique({where: {phone: phone}})
             if (user) return sendError(res, "This user already exists")
         }
     } catch(err) {
@@ -129,7 +121,7 @@ userRoute.post('/register', async(req, res) => {
         sendServerError(res)
     }
     try {
-        const user = await User.create({first_name, last_name, email, phone, active: true})
+        const user = await prisma.user.create({data: {first_name, last_name, email, phone, active: true}})
         const userData = {
             id: user.user_id,
             email: user.email || null,
@@ -204,7 +196,7 @@ userRoute.get('/register-redirect', async (req, res) => {
     try {
         const verified_code = await Redis.hGet("verified_code", email)
         if (verified_code !== key) return sendError(res, "Unauthorized.", 403)
-        const user = await User.findOne({where: {email: email}})
+        const user = await prisma.user.findUnique({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
         const link = debuggerHost + "/--/register/enterinfo"
@@ -236,7 +228,7 @@ userRoute.put("/update", verifyToken, async (req, res) => {
     const {first_name, last_name} = req.body
     const id = req.user.id
     try {
-        const user = await User.findOne({where: {user_id:id}})
+        const user = await prisma.user.findUnique({where: {user_id:id}})
         if (!user) return sendError(res, 'User not found')
         if (first_name) user.first_name = first_name
         if (last_name) user.last_name = last_name
@@ -250,7 +242,7 @@ userRoute.put("/update", verifyToken, async (req, res) => {
 userRoute.delete("/delete", verifyToken, async (req, res) => {
     try {
         const id = req.user.id
-        const user = await User.findOne({where: {user_id: id }})
+        const user = await prisma.user.findUnique({where: {user_id: id }})
         if (!user) return sendError(res, 'User not found')
         await user.destroy()
         return sendSuccess("User deleted successfully")
