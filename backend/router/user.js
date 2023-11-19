@@ -230,9 +230,7 @@ userRoute.put("/update", verifyToken, async (req, res) => {
     try {
         const user = await prisma.user.findUnique({where: {user_id:id}})
         if (!user) return sendError(res, 'User not found')
-        if (first_name) user.first_name = first_name
-        if (last_name) user.last_name = last_name
-        await user.save()
+        await prisma.user.update({where: {user_id: id},data: {first_name, last_name}})
         return sendSuccess(res, 'User updated successfully')
     } catch (err) {
         logger.error(err)
@@ -244,7 +242,7 @@ userRoute.delete("/delete", verifyToken, async (req, res) => {
         const id = req.user.id
         const user = await prisma.user.findUnique({where: {user_id: id }})
         if (!user) return sendError(res, 'User not found')
-        await user.destroy()
+        await prisma.user.delete({where: {user_id: id}})
         return sendSuccess("User deleted successfully")
     } catch (err) {
         logger.error(err)
