@@ -41,6 +41,7 @@ export default function SearchBox({
 
     // --------------------------------------- Value
     const categorySelected = useSelector((state) => state.search.category)
+    const filterSelected = useSelector((state) => state.search.filter)
 
     const [data, setData] = useState('')
     // const [focus, setFocus] = useState(false)
@@ -180,35 +181,18 @@ export default function SearchBox({
 
     {/* -------------------------------------------------------- Search for Section */}
     <View style={{marginBottom: 15, marginHorizontal: 25}}>
-        {/* Open Modal */}
-        <TouchableOpacity 
-            style={{flexDirection: 'row', alignItems: 'center', marginRight: 5, justifyContent: 'flex-end'}}
-            onPress={() => dispatch(setShowFilterModal())}
-        >
-            <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Suche anpassen</Text>
-            <Icons
-                icon={icons.MaterialCommunityIcons}
-                iconName={'menu-down'}
-                iconSize={26}
-                iconColor={COLORS.primary}
-                iconStyle={{
-                    marginVertical: -5,
-                    marginHorizontal: -3,
-                }}
-            />
-        </TouchableOpacity>
 
         <View style={{flexDirection: 'row'}}>
 
             {/* Category */}
             <View style={{width: '28%'}}>
-                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Suche nach</Text>
+                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Suche in</Text>
                 <SearchLabel label={categorySelected} onPress={() => dispatch(setShowFilterModal())}/>
             </View>
 
             {/* Filter */}
             <View style={{width: '72%'}}>
-                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Filter</Text>
+                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>{filterSelected.length !== 0 ? 'Filter' : ''}</Text>
                 <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
                     {filterList.map((filter) => (<SearchLabel key={filter.id} label={filter.filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
                 </View>

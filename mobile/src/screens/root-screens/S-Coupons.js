@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 
 import PresentationHeader from '../../components/components_universal/PresentationHeader'
-import { setCategory, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 
 
 
@@ -49,7 +49,12 @@ export default function CouponsScreen({
       {/* Sub Header */}
       <SubHeader
         search
-        onPressSearch={() => (navigation.navigate('Search'), dispatch(setCategory('Coupons')), dispatch(setSelectedCategory(2)) )}
+        onPressSearch={() => (
+          navigation.navigate('Search'),
+          dispatch(setCategory('Coupons')),
+          dispatch(setSelectedCategory(2)),
+          dispatch(setResetFilter())
+        )}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Merkliste', payload: 'marks'},

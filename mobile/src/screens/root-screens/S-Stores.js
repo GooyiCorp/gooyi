@@ -15,7 +15,7 @@ import PresentationHeader from '../../components/components_universal/Presentati
 import Category from '../../components/components_discover_screen/Category'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCategory, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setSelectedCategory, setResetFilter } from '../../redux/slices/searchSlice'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -58,7 +58,12 @@ export default function StoresScreen({
       {/* Sub Header */} 
       <SubHeader 
         search
-        onPressSearch={() => (navigation.navigate('Search'), dispatch(setCategory('Geschäfte')), dispatch(setSelectedCategory(1)) )}
+        onPressSearch={() => (
+          navigation.navigate('Search'),
+          dispatch(setCategory('Geschäfte')),
+          dispatch(setSelectedCategory(1)),
+          dispatch(setResetFilter())
+        )}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Alle', payload: 'allStores'},

@@ -211,7 +211,7 @@ export default function FilterModal() {
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
-                    <Text style={H3}>Suche nach</Text>
+                    <Text style={H3}>Suche in</Text>
             </View>
 
             {/* -------------------------------------------------------------------- Mid Section */}
