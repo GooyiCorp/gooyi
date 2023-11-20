@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Pressable } from 'react-native'
 import React from 'react'
 import { width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -7,12 +7,13 @@ import { T1, T2, T3, T4 } from '../../constants/text-style'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function PositionFeed({
-    shopName,
-    description,
-    distance,
+    street,
+    positionInfo,
+    onPress,
 }) {
   return (
-    <View style={styles.feedContainer}>
+    <TouchableOpacity style={styles.feedContainer} onPress={onPress}>
+       
         <View style={styles.iconBox}>
             <Icons
                 icon={icons.MaterialCommunityIcons}
@@ -22,24 +23,33 @@ export default function PositionFeed({
             />
         </View>
 
-        <View style={{height: '100%'}}>
-            <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]} >Bismarkstraße 45</Text>
-            <Text style={[T2, {color: COLORS.grey}]}>22767 Bremen, Deutschland</Text>
+        <View style={{height: '100%', width: '75%'}}>
+            <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>{street}</Text>
+            <Text style={[T2, {color: COLORS.grey}]}>{positionInfo}</Text>
         </View>
 
-    </View>
+        <View style={{justifyContent: 'center', alignItems: 'flex-end', width: '10%'}}>
+            <Icons
+                icon={icons.Ionicons}
+                iconName={'ios-add'}
+                iconSize={22}
+                iconColor={COLORS.grey}
+            />
+        </View>
+
+    </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
     feedContainer: {
         width: width-60,
-        // backgroundColor: 'yellow',
         paddingVertical: 10,
         flexDirection: 'row',
         borderBottomWidth: 0.5,
         borderColor: COLORS.ivoryDark,
         alignItems: 'center',
+        zIndex: 6,
     },
 
     iconBox: {

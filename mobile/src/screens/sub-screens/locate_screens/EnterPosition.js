@@ -8,8 +8,17 @@ import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
 import { moderateScale } from '../../../helper/scale'
 import PositionFeed from '../../../components/components_locate_screen/PositionFeed'
+import { setCurrentPosition, setSelected } from '../../../redux/slices/locateSlice'
+import { useDispatch } from 'react-redux'
 
 export default function EnterPosition({navigation: {goBack}}) {
+
+    const dispatch = useDispatch()
+
+    const position = [
+        {street: 'Bahnhofsplatz 21', positionInfo: '22195 Hamburg, Deutschland'},
+        {street: 'Bismarkstraße 45', positionInfo: '22767 Bremen, Deutschland'}
+    ] 
 
     const [data, setData] = useState('')
 
@@ -18,6 +27,14 @@ export default function EnterPosition({navigation: {goBack}}) {
         setData('')
         Keyboard.dismiss()
     }
+
+    const handleSetPosition = (position) => {
+        setData(position.street + ' - ' + position.positionInfo)
+        dispatch(setSelected(2))
+        dispatch(setCurrentPosition(position.street + ' - ' + position.positionInfo))
+        goBack()
+    }
+
 
   return (
     <View style={styles.screen}>
@@ -98,8 +115,12 @@ export default function EnterPosition({navigation: {goBack}}) {
         </View>
     </View>
     {/* ------------------------------------------------------- Content Section  */}
-    <View style={{marginBottom: 15, marginHorizontal: 30}}>
-        <PositionFeed/>
+    <View style={{marginBottom: 15, marginHorizontal: 30, zIndex: 2}}>
+        {position.map((position) => (<PositionFeed 
+            street={position.street} 
+            positionInfo={position.positionInfo}
+            onPress={() => handleSetPosition(position)}
+        />))}
 
     </View>
 

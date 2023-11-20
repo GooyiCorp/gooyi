@@ -12,12 +12,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setHideLocateModal } from '../../redux/slices/showModalSlice'
 import { H3, T1, T2, T3, T4 } from '../../constants/text-style'
 import LocateSelectionButton from './LocateSelectionButton'
-import { setSelected, setUnselected,  setLocation } from '../../redux/slices/locateSlice'
+import { setSelected, setUnselected,  setLocation, setCurrentPosition, setResetPosition } from '../../redux/slices/locateSlice'
 
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager'
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native'
+import LocateSelector from './LocateSelector'
 
 const LOCATION_TASK_NAME = 'background-location-task';
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -57,12 +58,12 @@ export default function LocateModal() {
       dispatch(setLocation({ lat: latitude, long: longitude}))
       const response = await axios.get(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`)
       const address = response.data.address;
-      setCurrentPostion(`${address.road} ${address.house_number}, ${address.postcode} ${address.city}`)
+      dispatch(setCurrentPostion(`${address.road} ${address.house_number}, ${address.postcode} ${address.city}`))
     } catch (error) {
       console.log(error);
     }
   }
-  const [currentPosition, setCurrentPostion] = useState('Bahnhofsplatz 42, 28195 Bremen')
+  // const [currentPosition, setCurrentPostion] = useState('Bahnhofsplatz 42, 28195 Bremen')
 
   useEffect(() =>{
     getLocation();
@@ -72,6 +73,7 @@ export default function LocateModal() {
     const dispatch = useDispatch()
 
     const selected = useSelector((state) => state.locate.selected)
+    const currentPosition = useSelector((state) => state.locate.currentPosition)
 
     const locateButtonList = [
       {id: 1, label: 'Position ermitteln', icon: icons.Ionicons, iconName: 'ios-navigate', iconSize: 25},
@@ -82,11 +84,12 @@ export default function LocateModal() {
     const handlePress = async (row) => {
       if (selected == row.id) {
         dispatch(setUnselected())
+        dispatch(setResetPosition())
       } else {
-        dispatch(setSelected(row.id))
         switch (row.id) {
           case 1: 
             await getLocation()
+            dispatch(setSelected(1))
             break
           case 2: 
             console.log('Enter Address')
@@ -194,12 +197,25 @@ export default function LocateModal() {
 
             {/* -------------------------------------------------------------------- Mid Section */}
             <View style={styles.midSectionContainer}>
-              <View style={styles.currentPositionFeed}>
+              <Text style={[T3, {color: COLORS.grey}]}>Mein Standort</Text>
+              <LocateSelector 
+                icon={icons.Ionicons}
+                iconName={'navigate'}
+                iconSize={22}
+                iconColor={COLORS.grey}
+                textField1={'Mein Standort ermitteln'}
+                bgStyleIcon={{
+                  borderColor: COLORS.lightGrey,
+                  
+                  backgroundColor: COLORS.ivory
+                }}
+              />
+              {/* <View style={styles.currentPositionFeed}>
                   <Text style={[T3, {color: COLORS.grey}]}>Aktuelle Position</Text>
                   <Text style={[T1, {marginTop: 5, fontFamily: 'RH-Medium'}]}>{currentPosition}</Text>
               </View>
-              <View style={styles.line2}></View>
-              <View style={styles.buttonView}>
+              <View style={styles.line2}></View> */}
+              {/* <View style={styles.buttonView}>
                 {locateButtonList.map((list) => 
                   <LocateSelectionButton 
                     key={list.id}
@@ -207,13 +223,17 @@ export default function LocateModal() {
                     icon={list.icon}
                     iconName={list.iconName}
                     iconSize={list.iconSize}
-                    iconColor={list.id === selected? COLORS.white : COLORS.grey}
-                    bgStyle={{backgroundColor: list.id === selected? COLORS.grey : COLORS.default}}
+                    iconColor={list.id === selected? COLORS.grey : COLORS.lightGrey}
+                    bgStyle={{
+                      backgroundColor: list.id === selected? COLORS.ivoryDark : 'transparent',
+                      borderColor: list.id === selected? COLORS.ivoryDark : COLORS.borderGrey,
+                      borderWidth: 0.5
+                    }}
                     labelStyle={{fontFamily: list.id === selected? 'RH-Medium' : 'RH-Regular', color: list.id === selected? COLORS.black : COLORS.grey}}
                     onPress={() => handlePress(list)}
                   />
                 )}
-              </View>
+              </View> */}
             </View>
 
         </Animated.View>
