@@ -182,7 +182,7 @@ export default function SearchBox({
     {/* -------------------------------------------------------- Search for Section */}
     <View style={{marginBottom: 15, marginHorizontal: 25}}>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginHorizontal: 5}}>
 
             {/* Category */}
             <View style={{width: '28%'}}>

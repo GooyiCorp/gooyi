@@ -5,7 +5,7 @@ import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex
 import SortByShop from '../../components/molecules/SortByShop'
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
-import SearchModal from '../../components/components_universal/SearchModal'
+import SearchModal from '../../components/components_search_screen/SearchModal'
 import LogInRequired from './LogInRequired'
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'

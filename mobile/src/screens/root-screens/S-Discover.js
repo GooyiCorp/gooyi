@@ -6,8 +6,8 @@ import PresentationHeader from '../../components/components_universal/Presentati
 
 import { height, width } from '../../constants/size'
 import { useNavigation } from '@react-navigation/native'
-import LocateModal from '../../components/components_universal/LocateModal'
-import SearchModal from '../../components/components_universal/SearchModal'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
+import SearchModal from '../../components/components_search_screen/SearchModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 import userSlice, { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'

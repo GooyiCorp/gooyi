@@ -4,8 +4,8 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { Gesture, GestureDetector, TextInput } from 'react-native-gesture-handler'
-import RoundButton from './RoundButton'
-import { icons } from './Icons'
+import RoundButton from '../components_universal/RoundButton'
+import { icons } from '../components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
 
 

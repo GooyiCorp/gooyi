@@ -10,7 +10,7 @@ import OfferBoxS from '../../components/molecules/OfferBoxS'
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
-import SearchModal from '../../components/components_universal/SearchModal'
+import SearchModal from '../../components/components_search_screen/SearchModal'
 import PresentationHeader from '../../components/components_universal/PresentationHeader'
 import Category from '../../components/components_discover_screen/Category'
 import { ScrollView } from 'react-native-gesture-handler'

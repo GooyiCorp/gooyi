@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { COLORS } from '../../index/constantsindex'
-import Icons, { icons } from './Icons'
+import Icons, { icons } from '../components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
 import { T1, T4, T5 } from '../../constants/text-style'
 

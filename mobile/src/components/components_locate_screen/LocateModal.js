@@ -17,6 +17,7 @@ import { setSelected, setUnselected,  setLocation } from '../../redux/slices/loc
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager'
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native'
 
 const LOCATION_TASK_NAME = 'background-location-task';
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -30,6 +31,8 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
   }
 });
 export default function LocateModal() {
+
+  const navigation = useNavigation()
 
   // Thanh API
   const getLocation = async () => {
@@ -87,9 +90,11 @@ export default function LocateModal() {
             break
           case 2: 
             console.log('Enter Address')
+            navigation.navigate('Locate', {screen: 'EnterPosition'})
             break
           case 3: 
             console.log('Select City')
+            navigation.navigate('Locate', {screen: 'CitySelection'})
             break
         }
       }

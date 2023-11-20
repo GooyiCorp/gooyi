@@ -14,6 +14,7 @@ import MainNav from './N-MainNav';
 import StoresStackNav from './navigationStack/N-StoresStack';
 import RegisterEMailStack from './navigationStack/n_RegisterEMailStack';
 import Search from '../screens/root-screens/Search';
+import LocateStack from './navigationStack/n_locateStack';
 
 
 
@@ -93,6 +94,13 @@ export default function RootNav() {
                 name='Search' 
                 component={Search}
             />
+
+{/* Screen Register Email --------------------------------------------------------- */}
+            <Root.Screen 
+                name='Locate' 
+                component={LocateStack}
+            />
+            
             
         </Root.Navigator>
 
