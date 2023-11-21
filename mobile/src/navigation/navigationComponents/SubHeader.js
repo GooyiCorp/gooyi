@@ -37,7 +37,7 @@ export default function SubHeader({
                 icon={icons.Ionicons}
                 iconName={'search'}
                 iconSize={moderateScale(22,0.2)}
-                iconColor={COLORS.ivoryDark}
+                iconColor={COLORS.ivory}
                 style={{
                     backgroundColor: COLORS.grey,
                     height: moderateScale(38,0.2),
