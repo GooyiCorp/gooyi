@@ -5,7 +5,9 @@ export const locateSlice = createSlice({
     name: 'locate',
     
     initialState: {
-        currentPosition: 'Wir konnten dich nicht Orten!',
+        currentPosition: '',
+        supplement: '',
+
         selected: undefined,
         long: 0,
         lat: 0,
@@ -18,8 +20,14 @@ export const locateSlice = createSlice({
             state.currentPosition = action.payload
         },
 
+        setSupplement: (state, action) => {
+            state.supplement = action.payload
+        },
+
         setResetPosition: (state) => {
-            state.currentPosition = 'Wir konnten dich nicht Orten!'
+            state.currentPosition = ''
+            state.supplement = ''
+            state.selected = undefined
         },
 
         // ------------------------------------------- Set Locate Category Selected
@@ -45,6 +53,7 @@ export const {
     setLocation,
     setCurrentPosition,
     setResetPosition,
+    setSupplement,
 
  } = locateSlice.actions;
  

@@ -11,6 +11,7 @@ import SearchBox from '../../components/components_search_screen/SearchBox.js'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { TopNavButton } from '../../components/components_universal/TopNavButton'
 import { width } from '../../constants/size'
+import LocateButton from '../../components/components_locate_screen/LocateButton.js'
 
 export default function SubHeader({
     search,
@@ -36,12 +37,13 @@ export default function SubHeader({
                 icon={icons.Ionicons}
                 iconName={'search'}
                 iconSize={moderateScale(22,0.2)}
-                iconColor={COLORS.grey}
+                iconColor={COLORS.ivoryDark}
                 style={{
-                    backgroundColor: COLORS.default,
+                    backgroundColor: COLORS.grey,
                     height: moderateScale(38,0.2),
                     width: moderateScale(38,0.2),
-                    marginLeft: 0
+                    marginLeft: 0,
+                    borderRadius: 10,
                 }}
                 onPressButton={onPressSearch}
                 activeOpacity={1}
@@ -63,53 +65,7 @@ export default function SubHeader({
             />}
             
             {/* -------------------------------------------------------------------- Locate Button */}
-            {locateButton && <View style={{
-                flexDirection: 'row', 
-                justifyContent: 'center', 
-                alignItems: 'center',
-            }}>
-                <Pressable 
-                    style={{flexDirection: 'row'}} 
-                    onPress={onPressLocate}
-                >
-                    <RoundButton 
-                        icon={icons.Ionicons}
-                        iconName={'ios-navigate'}
-                        iconSize={moderateScale(20,0.2)}
-                        iconColor={COLORS.grey}
-                        style={{
-                            backgroundColor: COLORS.default,
-                            height: moderateScale(38,0.2),
-                            width: moderateScale(38,0.2),
-                            paddingTop: moderateScale(2,0.2),
-                            paddingRight: moderateScale(2,0.2),
-                        }}
-                        onPressButton={onPressLocate}
-                        activeOpacity={1}
-                    />
-                    <View style={{
-                        flexDirection: 'row', 
-                        justifyContent: 'center', 
-                        alignItems: 'center',
-                        marginHorizontal: 5,
-                    }}>
-                        <Text style={{
-                            fontFamily: 'Roboto-Regular', 
-                            fontSize: moderateScale(13,0.2), 
-                            color: COLORS.subPrimary, 
-                            marginRight: moderateScale(3,0.2)
-                        }}>
-                            Standort auswählen
-                        </Text>
-                        <Icons 
-                            icon={icons.Ionicons}
-                            iconName={'chevron-down'}
-                            iconSize={20}
-                            iconColor={COLORS.subPrimary}
-                        />
-                    </View>
-                </Pressable>
-            </View>}
+            {locateButton && <LocateButton onPress={onPressLocate}/>}
 
             {/* -------------------------------------------------------------------- Nav Button */}
             {topnavbutton && <View style={{flexDirection: 'row', marginLeft: 5}}>

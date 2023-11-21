@@ -8,7 +8,7 @@ import RoundButton from '../../../components/components_universal/RoundButton'
 import { icons } from '../../../components/components_universal/Icons'
 import { moderateScale } from '../../../helper/scale'
 import PositionFeed from '../../../components/components_locate_screen/PositionFeed'
-import { setCurrentPosition, setSelected } from '../../../redux/slices/locateSlice'
+import { setCurrentPosition, setSelected, setSupplement } from '../../../redux/slices/locateSlice'
 import { useDispatch } from 'react-redux'
 
 export default function EnterPosition({navigation: {goBack}}) {
@@ -30,8 +30,9 @@ export default function EnterPosition({navigation: {goBack}}) {
 
     const handleSetPosition = (position) => {
         setData(position.street + ' - ' + position.positionInfo)
-        dispatch(setSelected(2))
-        dispatch(setCurrentPosition(position.street + ' - ' + position.positionInfo))
+        dispatch(setSelected('add'))
+        dispatch(setCurrentPosition(position.street))
+        dispatch(setSupplement(position.positionInfo))
         goBack()
     }
 
