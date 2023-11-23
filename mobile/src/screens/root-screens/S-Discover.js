@@ -25,6 +25,7 @@ import { setPage } from '../../redux/slices/mainNavSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import LocateRequired from './LocateRequired'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -120,7 +121,7 @@ export default function DiscoverScreen( {
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return ( 
     <View style={[{height: height, width: width}]}>
-
+      {/* <LocateRequired/> */}
       <LocateModal />
       <ScreenOverlay locate/>
 

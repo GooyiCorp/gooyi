@@ -21,6 +21,7 @@ import { useNavigation } from '@react-navigation/native'
 import LocateSelector from './LocateSelector'
 import IconLabelButton from '../components_universal/IconLabelButton'
 import LocateButton from './LocateButton'
+import LocateRequired from '../../screens/root-screens/LocateRequired'
 
 const LOCATION_TASK_NAME = 'background-location-task';
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -179,7 +180,7 @@ export default function LocateModal() {
 
 
             {/* Modal Container ---------------------------------------------------- */}
-            <Animated.View style={[styles.modalContainer, animatedStyle]}>
+            <Animated.View style={[styles.modalContainer, animatedStyle, {height: selected? 0.6*height : 1.05*height}]}>
 
             {/* -------------------------------------------------------------------- Line */}
             <View style={styles.line}></View>
@@ -196,7 +197,7 @@ export default function LocateModal() {
                         width: moderateScale(34,0.2),
                         position: 'absolute',
                         margin: 0,
-                        top: 25,
+                        top: selected? 25 : 50,
                         right: 25,
                         zIndex: 2
                     }}
@@ -204,7 +205,7 @@ export default function LocateModal() {
                 />
 
             {/* -------------------------------------------------------------------- Top Section */}
-            <View style={styles.topSectionContainer}>
+            <View style={[styles.topSectionContainer, {marginTop: selected? 10 : 35}]}>
                     <Text style={H3}>Standort Auswahl</Text>
             </View>
 
@@ -244,13 +245,11 @@ export default function LocateModal() {
               
               </View>
               </>}
-
-              {!selected && <Text style={[T1, {alignSelf: 'center', fontFamily: 'RH-Bold', color: COLORS.grey, marginTop: 20}]}>Zeige uns, wo du dich gerade befindest?</Text>}
               
               {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
               {/* Button Row */}
               {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              <View style={{width: width-60, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginTop: selected? 0 : 30}}>
+              {selected && <View style={{width: width-60, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginTop: selected? 0 : 30}}>
 
                 {/* Navigate Button */}
                 <LocateSelector
@@ -310,18 +309,9 @@ export default function LocateModal() {
 
                 </View>
 
-              </View>
+              </View>}
 
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {/* Unselected */}
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {!selected && <>
-              {/* <Text style={[T1, {alignSelf: 'center', fontFamily: 'RH-Bold', color: COLORS.grey, marginTop: 10}]}>Zeige uns, wo du dich gerade befindest?</Text> */}
-              <View style={{width: width-60, height: 250, alignSelf: 'center', marginBottom: 20, justifyContent: 'center', alignItems: 'center', overflow: 'hidden'}}>
-                  <Image source={require('../../../assets/image/fox-map.png')} resizeMode='contain' style={{maxWidth: '90%'}}/>
-              </View>
-              </>}
-
+              
               {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Zuletzt verwendet</Text> */}
 
               
@@ -350,6 +340,12 @@ export default function LocateModal() {
                 )}
               </View> */}
             </View>
+
+            {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+            {/* Unselected */}
+            {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+            
+            {!selected && <LocateRequired />}
 
         </Animated.View>
 
@@ -398,8 +394,8 @@ const styles = StyleSheet.create({
       marginTop: 10,
       paddingHorizontal: 30,
       justifyContent: 'flex-end',
-      backgroundColor: COLORS.white,
-      paddingBottom: 20
+      paddingBottom: 20,
+      zIndex: 1,
     },
   
     midSectionContainer: {
