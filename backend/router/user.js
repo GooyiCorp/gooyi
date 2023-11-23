@@ -184,9 +184,10 @@ userRoute.get("/login-redirect", async (req, res) => {
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link+"?error=expired"}))
         if (refreshToken in TOKEN_LIST) return res.send(render(redirect_page, {redirect_link: link+"?error=used"}))
         try {
-            const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
+            jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
         } catch (e) {return sendError(res, "jwt expired. Please try again!")}
-        // if (ACTIVE_USER[payload.user.id]) return res.send(render(redirect_page, {redirect_link: link+"?error=logged_in"}))
+        const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
+            // if (ACTIVE_USER[payload.user.id]) return res.send(render(redirect_page, {redirect_link: link+"?error=logged_in"}))
         const response = {
             accessToken, refreshToken
         }
