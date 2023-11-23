@@ -6,8 +6,7 @@ import PresentationHeader from '../../components/components_universal/Presentati
 
 import { height, width } from '../../constants/size'
 import { useNavigation } from '@react-navigation/native'
-import LocateModal from '../../components/components_universal/LocateModal'
-import SearchModal from '../../components/components_universal/SearchModal'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 import userSlice, { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
@@ -25,6 +24,7 @@ import LogInRequiredBox from '../../components/components_discover_screen/LogInR
 import { setPage } from '../../redux/slices/mainNavSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
+import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -122,7 +122,7 @@ export default function DiscoverScreen( {
     <View style={[{height: height, width: width}]}>
 
       <LocateModal />
-      <ScreenOverlay/>
+      <ScreenOverlay locate/>
 
       {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 
@@ -144,7 +144,12 @@ export default function DiscoverScreen( {
       <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
           <SubHeader
             search
-            onPressSearch={() => navigation.navigate('Search')}
+            onPressSearch={() => (
+              navigation.navigate('Search'), 
+              dispatch(setCategory('Angebote')), 
+              dispatch(setSelectedCategory(3)),
+              dispatch(setResetFilter())
+            )}
             locateButton
             onPressLocate={handleLocate}
           /> 

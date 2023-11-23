@@ -10,11 +10,11 @@ import OfferBoxS from '../../components/molecules/OfferBoxS'
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native'
 import { height, width } from '../../constants/size'
-import SearchModal from '../../components/components_universal/SearchModal'
 import PresentationHeader from '../../components/components_universal/PresentationHeader'
 import Category from '../../components/components_discover_screen/Category'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategory, setSelectedCategory, setResetFilter } from '../../redux/slices/searchSlice'
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -22,6 +22,8 @@ export default function StoresScreen({
   showTabNav,
   hideTabNav,
 }) {
+
+  const dispatch = useDispatch()
 
   const navigation = useNavigation()
   const [fetchedData, setFetchedData] = useState([]);
@@ -55,7 +57,12 @@ export default function StoresScreen({
       {/* Sub Header */} 
       <SubHeader 
         search
-        onPressSearch={() => navigation.navigate('Search')}
+        onPressSearch={() => (
+          navigation.navigate('Search'),
+          dispatch(setCategory('Geschäfte')),
+          dispatch(setSelectedCategory(1)),
+          dispatch(setResetFilter())
+        )}
         topnavbutton
         topnavbuttonlists={[
           {id: 1, title: 'Alle', payload: 'allStores'},

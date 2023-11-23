@@ -8,6 +8,7 @@ export const showModalSlice = createSlice({
     initialState: {
         activityHistoryModal: false,
         locateModal: false,
+        filterModal: false,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -31,6 +32,14 @@ export const showModalSlice = createSlice({
             state.locateModal = false
         },
         
+        // ------------------------------------------- Activity History Modal
+        setShowFilterModal: (state) => {
+            state.filterModal = true
+        },
+
+        setHideFilterModal: (state) => {
+            state.filterModal = false
+        },
 
     }
 })
@@ -42,6 +51,9 @@ export const {
 
     setShowLocateModal,
     setHideLocateModal,
+
+    setShowFilterModal,
+    setHideFilterModal,
 
  } = showModalSlice.actions;
  

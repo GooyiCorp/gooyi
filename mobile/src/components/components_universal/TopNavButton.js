@@ -25,7 +25,7 @@ export const TopNavButton = ({lists}) => {
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}} >
     {lists.map((list) => (
-    <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? COLORS.default : COLORS.white}]} 
+    <TouchableOpacity key={list.id} style={[styles.topNavContainer, {backgroundColor: list.id === selected? COLORS.ivory : COLORS.white}]} 
     onPress={() => handlePressed(list)}>
         <Text style={[T2, {color: list.id === selected? COLORS.black: COLORS.grey, fontFamily: list.id === selected? 'RH-Medium': 'RH-Regular'}]}>{list.title}</Text>
     </TouchableOpacity>

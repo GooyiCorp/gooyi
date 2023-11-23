@@ -4,7 +4,7 @@ import { StyleSheet,View, Text, ScrollView, Button, Dimensions, TouchableOpacity
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelectorCarousel'
 
-import LocateModal from '../../components/components_universal/LocateModal';
+import LocateModal from '../../components/components_locate_screen/LocateModal';
 import { height } from '../../constants/size';
 import FinderShopCard from '../../components/components_finder_screen/FinderShopCard';
 import { useDispatch, useSelector } from 'react-redux';

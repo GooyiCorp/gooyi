@@ -1,14 +1,19 @@
-import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
 import RoundButton from '../components_universal/RoundButton'
-import { icons } from '../components_universal/Icons'
+import Icons, { icons } from '../components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
 import Keywords from './Keywords'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { ScrollView } from 'react-native-gesture-handler'
 import SearchFeed from './SearchFeed'
+import { T2, T3 } from '../../constants/text-style'
+import { useDispatch, useSelector } from 'react-redux'
+import { setShowFilterModal } from '../../redux/slices/showModalSlice'
+import SearchLabel from './SearchLabel'
+import { setRemoveFilter } from '../../redux/slices/searchSlice'
 
 export default function SearchBox({
     onPressGoBack
@@ -21,8 +26,8 @@ export default function SearchBox({
         {id: 4, keyword: 'Coffee'},
         {id: 5, keyword: 'Spa'},
         {id: 6, keyword: 'Angebote'},
-        {id: 7, keyword: 'Chinesisch'},
-        {id: 8, keyword: 'Sushi'},
+        {id: 7, keyword: 'Sushi'},
+        {id: 8, keyword: 'Chinesisch'},
         {id: 9, keyword: 'Neu'},
     ]
 
@@ -31,7 +36,13 @@ export default function SearchBox({
         {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
     ]
 
+    const filterList = useSelector((state) => state.search.filter)  
+    const dispatch = useDispatch()
+
     // --------------------------------------- Value
+    const categorySelected = useSelector((state) => state.search.category)
+    const filterSelected = useSelector((state) => state.search.filter)
+
     const [data, setData] = useState('')
     // const [focus, setFocus] = useState(false)
     const [containerHeight, setContainerHeight] = useState(0)
@@ -75,7 +86,7 @@ export default function SearchBox({
 
     const translateKeywordsContainer = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(keywordsTransition.value, [0,0.5], [1,0]),
+            opacity: interpolate(keywordsTransition.value, [0,0.3], [1,0]),
             transform: [
                 {translateY: interpolate(keywordsTransition.value, [0,1], [0, -containerHeight])}
             ]
@@ -165,6 +176,31 @@ export default function SearchBox({
                 />
             </View>
         </View>
+        
+    </View>
+
+    {/* -------------------------------------------------------- Search for Section */}
+    <View style={{marginBottom: 15, marginHorizontal: 25}}>
+
+        <View style={{flexDirection: 'row', marginHorizontal: 5}}>
+
+            {/* Category */}
+            <View style={{width: '28%'}}>
+                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Suche in</Text>
+                <SearchLabel label={categorySelected} onPress={() => dispatch(setShowFilterModal())}/>
+            </View>
+
+            {/* Filter */}
+            <View style={{width: '72%'}}>
+                <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>{filterSelected.length !== 0 ? 'Filter' : ''}</Text>
+                <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
+                    {filterList.map((filter) => (<SearchLabel key={filter.id} label={filter.filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
+                </View>
+            </View>
+
+        </View>
+
+
     </View>
 
     {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
@@ -194,7 +230,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         // position: 'absolute',
         marginTop: 55,
-        marginBottom: 20,
+        marginBottom: 15,
         // opacity: 0.5
         zIndex: 2
     },
@@ -223,9 +259,9 @@ const styles = StyleSheet.create({
     keywordsContainer: {
         width: width,
         paddingHorizontal: 25,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
         zIndex: 1,
-    }
+    },
 })

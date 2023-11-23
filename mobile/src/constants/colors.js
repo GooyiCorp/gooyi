@@ -16,6 +16,7 @@ export default {
     white05: 'rgba(255, 255, 255, 0.8)',
     default: '#eee',
     grey: '#686868',
+    lightGrey: '#999999',
     grey02: '#eeeeee',
     borderGrey: '#bbbbbb',
     notEditableBorder: '#e5e5e5',
