@@ -1,4 +1,4 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable } from 'react-native'
+import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -211,20 +211,7 @@ export default function LocateModal() {
             {/* -------------------------------------------------------------------- Mid Section */}
             <View style={styles.midSectionContainer}>
 
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {/* Unselected */}
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {!selected && <>
-              <View style={{justifyContent: 'center', alignItems: 'center', height: 100, width: 100, alignSelf: 'center', marginBottom: 10}}>
-              <Icons 
-                icon={icons.AntDesign}
-                iconName={'picture'}
-                iconSize={30}
-                iconColor={COLORS.ivoryDark}
-              />
-              </View>
-              <Text style={[T1, {marginBottom: 20, alignSelf: 'center'}]}>Zeige uns, wo du dich gerade befindest?</Text>
-              </>}
+              
 
 
               {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
@@ -258,20 +245,21 @@ export default function LocateModal() {
               </View>
               </>}
 
-
+              {!selected && <Text style={[T1, {alignSelf: 'center', fontFamily: 'RH-Bold', color: COLORS.grey, marginTop: 20}]}>Zeige uns, wo du dich gerade befindest?</Text>}
+              
               {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
               {/* Button Row */}
               {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              <View style={{width: width-60, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, paddingHorizontal: 10}}>
+              <View style={{width: width-60, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginTop: selected? 0 : 30}}>
 
                 {/* Navigate Button */}
                 <LocateSelector
                   icon={icons.MaterialCommunityIcons}
                   iconName={'navigation-variant'}
                   iconSize={24}
-                  iconColor={selected == 'navigate'? COLORS.white : COLORS.lightGrey}
+                  iconColor={selected == 'navigate'? COLORS.ivory : COLORS.grey}
                   style={{
-                    backgroundColor: selected == 'navigate'? COLORS.primary : 'transparent',
+                    backgroundColor: selected == 'navigate'? COLORS.primary : COLORS.ivoryDark,
                     borderColor: selected == 'navigate'? COLORS.primary : COLORS.lightGrey,
                   }}
                 />
@@ -281,9 +269,9 @@ export default function LocateModal() {
                   icon={icons.MaterialIcons}
                   iconName={'location-city'}
                   iconSize={24}
-                  iconColor={selected == 'city'? COLORS.white : COLORS.lightGrey}
+                  iconColor={selected == 'city'? COLORS.ivory : COLORS.grey}
                   style={{
-                    backgroundColor: selected == 'city'? COLORS.primary : 'transparent',
+                    backgroundColor: selected == 'city'? COLORS.primary : COLORS.ivoryDark,
                     borderColor: selected == 'city'? COLORS.primary : COLORS.lightGrey,
                   }}  
                 />
@@ -295,7 +283,7 @@ export default function LocateModal() {
                   icon={icons.MaterialCommunityIcons}
                   iconName={'map-marker'}
                   iconSize={23}
-                  iconColor={COLORS.white}
+                  iconColor={COLORS.ivory}
                   style={{
                     width: '45%',
                     borderWidth: 0.5,
@@ -310,12 +298,12 @@ export default function LocateModal() {
                   icon={icons.MaterialIcons}
                   iconName={'add'}
                   iconSize={25}
-                  iconColor={COLORS.lightGrey}
+                  iconColor={COLORS.grey}
                   style={{
                     width: selected == 'add' ? '45%' : '100%',
-                    borderWidth: 0.5,
-                    backgroundColor: 'transparent',
-                    borderColor: COLORS.lightGrey
+                    // borderWidth: selected? 0.5 : 0,
+                    backgroundColor: COLORS.ivoryDark,
+                    // borderColor: COLORS.lightGrey,
                   }}
                   onPress={() => navigation.navigate('Locate', {screen: 'EnterPosition'})}
                 />
@@ -323,6 +311,16 @@ export default function LocateModal() {
                 </View>
 
               </View>
+
+              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+              {/* Unselected */}
+              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+              {!selected && <>
+              {/* <Text style={[T1, {alignSelf: 'center', fontFamily: 'RH-Bold', color: COLORS.grey, marginTop: 10}]}>Zeige uns, wo du dich gerade befindest?</Text> */}
+              <View style={{width: width-60, height: 250, alignSelf: 'center', marginBottom: 20, justifyContent: 'center', alignItems: 'center', overflow: 'hidden'}}>
+                  <Image source={require('../../../assets/image/fox-map.png')} resizeMode='contain' style={{maxWidth: '90%'}}/>
+              </View>
+              </>}
 
               {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Zuletzt verwendet</Text> */}
 
@@ -363,7 +361,7 @@ export default function LocateModal() {
 const styles = StyleSheet.create({
 
     modalContainer: {
-        height: 0.5*height,
+        height: 0.6*height,
         width: width,
         position: 'absolute',
         zIndex: 5,
@@ -408,7 +406,6 @@ const styles = StyleSheet.create({
       height: 0.3*height,
       width: width,
       paddingHorizontal: 30,
-      overflow: 'hidden',
       // backgroundColor: 'yellow'
     },
   
