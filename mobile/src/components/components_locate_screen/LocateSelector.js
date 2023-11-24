@@ -11,11 +11,13 @@ export default function LocateSelector({
     style,
     onPress,
     activeOpacity,
+    onLongPress,
 }) {
   return (
     <TouchableOpacity 
         style={[styles.container, style]} 
         onPress={onPress}
+        onLongPress={onLongPress}
         activeOpacity={activeOpacity}
     >
         <Icons

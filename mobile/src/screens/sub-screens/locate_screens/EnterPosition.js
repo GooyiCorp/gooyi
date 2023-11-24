@@ -16,8 +16,8 @@ export default function EnterPosition({navigation: {goBack}}) {
     const dispatch = useDispatch()
 
     const position = [
-        {street: 'Bahnhofsplatz 21', positionInfo: '22195 Hamburg, Deutschland'},
-        {street: 'Bismarkstraße 45', positionInfo: '22767 Bremen, Deutschland'}
+        {id: 1, street: 'Bahnhofsplatz 21', positionInfo: '22195 Hamburg, Deutschland'},
+        {id: 2, street: 'Bismarkstraße 45', positionInfo: '22767 Bremen, Deutschland'}
     ] 
 
     const [data, setData] = useState('')
@@ -118,6 +118,7 @@ export default function EnterPosition({navigation: {goBack}}) {
     {/* ------------------------------------------------------- Content Section  */}
     <View style={{marginBottom: 15, marginHorizontal: 30, zIndex: 2}}>
         {position.map((position) => (<PositionFeed 
+            key={position.id}
             street={position.street} 
             positionInfo={position.positionInfo}
             onPress={() => handleSetPosition(position)}

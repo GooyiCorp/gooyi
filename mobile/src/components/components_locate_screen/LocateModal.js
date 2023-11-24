@@ -2,7 +2,7 @@ import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, Touchabl
 import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
-import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming, ReduceMotion, reduceMotion} from 'react-native-reanimated'
 import { Gesture, GestureDetector, TextInput } from 'react-native-gesture-handler'
 
 import RoundButton from '../components_universal/RoundButton'
@@ -22,6 +22,7 @@ import LocateSelector from './LocateSelector'
 import IconLabelButton from '../components_universal/IconLabelButton'
 import LocateButton from './LocateButton'
 import LocateRequired from '../../screens/root-screens/LocateRequired'
+import CurrentPositionFeed from './CurrentPositionFeed'
 
 const LOCATION_TASK_NAME = 'background-location-task';
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -61,8 +62,12 @@ export default function LocateModal() {
       dispatch(setLocation({ lat: latitude, long: longitude}))
       const response = await axios.get(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`)
       const address = response.data.address;
+
+      // set State
       dispatch(setCurrentPosition(`${address.road} ${address.house_number}`))
       dispatch(setSupplement(`${address.postcode} ${address.city}, ${address.country}`))
+      dispatch(setSelected('navigate'))
+      
     } catch (error) {
       console.log(error);
     }
@@ -85,35 +90,6 @@ export default function LocateModal() {
       dispatch(setResetPosition())
     }
 
-    const locateButtonList = [
-      {id: 1, label: 'Position ermitteln', icon: icons.Ionicons, iconName: 'ios-navigate', iconSize: 25},
-      {id: 2, label: 'Standort auswählen', icon: icons.MaterialIcons, iconName: 'add', iconSize: 32},
-      {id: 3, label: 'Stadt aussuchen', icon: icons.MaterialIcons, iconName: 'location-city', iconSize: 30},
-    ]
-
-    const handlePress = async (row) => {
-      if (selected == row.id) {
-        dispatch(setUnselected())
-        dispatch(setResetPosition())
-      } else {
-        switch (row.id) {
-          case 1: 
-            await getLocation()
-            dispatch(setSelected(1))
-            break
-          case 2: 
-            console.log('Enter Address')
-            navigation.navigate('Locate', {screen: 'EnterPosition'})
-            break
-          case 3: 
-            console.log('Select City')
-            navigation.navigate('Locate', {screen: 'CitySelection'})
-            break
-        }
-      }
-      // Thanh - lam gi tiep 
-    }
-
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Modal Animation
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -125,9 +101,7 @@ export default function LocateModal() {
 
     // handle Close ---------------------------------------------------
     const handleOnEnd = () => {
-        setTimeout(() => {
-            dispatch(setHideLocateModal())
-        }, 50) 
+        dispatch(setHideLocateModal())
     }
 
     const handleClose = () => {
@@ -144,14 +118,13 @@ export default function LocateModal() {
         translateY.value = Math.max(translateY.value, 0.05*height)
     })
     .onEnd(() => {
-        if (translateY.value > 0.2*height) {
-            translateY.value = withTiming(height, {duration: 600, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01)})
-            runOnJS(handleOnEnd)()
+        if (selected? (translateY.value > 0.2*height) : (translateY.value > 0.3*height)) {
+            runOnJS(handleClose)()
         }
         else {
             translateY.value = withTiming(0.05*height, {duration: 400,
               easing: Easing.bezier(0.49, 1.19, 0.79, 1.01)})
-        }
+        } 
     })
 
     // handle Animation ------------------------------------------------
@@ -166,190 +139,157 @@ export default function LocateModal() {
       // check status
       useEffect(()=>{
         if (showLocateModal) {
-            translateY.value = withTiming(0.05*height, {duration: 500, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01),})
+            translateY.value = withTiming(0.05*height, {duration: 500, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01)})
         } else {
-            translateY.value = withDelay(100, withTiming(height, {duration: 400}))
+            translateY.value = withTiming(selected? 0.6*height : 1.05*height, {duration: 600, easing: Easing.out(Easing.poly(4))})
         }
       }, [showLocateModal])
 
-
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
         
-    <GestureDetector gesture={gesture}>
+  <GestureDetector gesture={gesture}>
+
+    {/* Modal Container ---------------------------------------------------- */}
+    <Animated.View style={[styles.modalContainer, animatedStyle, {height: selected? 0.5*height : 1.05*height}]}>
+
+    {/* -------------------------------------------------------------------- Line */}
+    <View style={styles.line}></View>
 
 
-            {/* Modal Container ---------------------------------------------------- */}
-            <Animated.View style={[styles.modalContainer, animatedStyle, {height: selected? 0.6*height : 1.05*height}]}>
-
-            {/* -------------------------------------------------------------------- Line */}
-            <View style={styles.line}></View>
-
-            {/* -------------------------------------------------------------------- Close Button */}
-                    <RoundButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'close'}
-                    iconSize={moderateScale(22,0.2)}
-                    iconColor={COLORS.white}
-                    style={{
-                        backgroundColor: COLORS.grey,
-                        height: moderateScale(34,0.2),
-                        width: moderateScale(34,0.2),
-                        position: 'absolute',
-                        margin: 0,
-                        top: selected? 25 : 50,
-                        right: 25,
-                        zIndex: 2
-                    }}
-                    onPressButton={handleClose}
-                />
-
-            {/* -------------------------------------------------------------------- Top Section */}
-            <View style={[styles.topSectionContainer, {marginTop: selected? 10 : 35}]}>
-                    <Text style={H3}>Standort Auswahl</Text>
-            </View>
-
-            {/* -------------------------------------------------------------------- Mid Section */}
-            <View style={styles.midSectionContainer}>
-
-              
-
-
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {/* Current Position */}
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {selected && <>
-              <Text style={[T3, {color: COLORS.grey, marginBottom: 5}]}>Mein Standort</Text>
-
-              <View style={{width: width-60, paddingVertical: 5, borderRadius: 16, flexDirection: 'row', marginBottom: 20}}>
-
-                {/* Delete Button  */}
-                <TouchableOpacity 
-                  style={{position: 'absolute', top: 0, right: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}
-                  onPress={handleReset}
-                >
-                  <Icons 
-                    icon={icons.MaterialIcons}
-                    iconName={'close'}
-                    iconSize={16}
-                    iconColor={COLORS.primary}
-                  />
-                  <Text style={[T3, {fontFamily: 'RH-Medium', color: COLORS.primary, marginLeft: 2}]}>Löschen</Text>
-                </TouchableOpacity>
-
-                {/* Current Position Feed  */}
-                <View style={{width: '85%'}}>
-                  <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>{currentPosition}</Text>
-                  <Text style={[T2, {color: COLORS.grey}]}>{supplement}</Text>
-                </View>
-              
-              </View>
-              </>}
-              
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {/* Button Row */}
-              {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-              {selected && <View style={{width: width-60, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginTop: selected? 0 : 30}}>
-
-                {/* Navigate Button */}
-                <LocateSelector
-                  icon={icons.MaterialCommunityIcons}
-                  iconName={'navigation-variant'}
-                  iconSize={24}
-                  iconColor={selected == 'navigate'? COLORS.ivory : COLORS.grey}
-                  style={{
-                    backgroundColor: selected == 'navigate'? COLORS.primary : COLORS.ivoryDark,
-                    borderColor: selected == 'navigate'? COLORS.primary : COLORS.lightGrey,
-                  }}
-                />
-
-                {/* City Button */}
-                <LocateSelector
-                  icon={icons.MaterialIcons}
-                  iconName={'location-city'}
-                  iconSize={24}
-                  iconColor={selected == 'city'? COLORS.ivory : COLORS.grey}
-                  style={{
-                    backgroundColor: selected == 'city'? COLORS.primary : COLORS.ivoryDark,
-                    borderColor: selected == 'city'? COLORS.primary : COLORS.lightGrey,
-                  }}  
-                />
-
-                {/* Add Address Button */}
-                <View style={{width: '31%', flexDirection: 'row', justifyContent: 'space-between'}}>
-
-                {selected == 'add' && <LocateSelector
-                  icon={icons.MaterialCommunityIcons}
-                  iconName={'map-marker'}
-                  iconSize={23}
-                  iconColor={COLORS.ivory}
-                  style={{
-                    width: '45%',
-                    borderWidth: 0.5,
-                    backgroundColor: COLORS.primary,
-                    borderColor: COLORS.primary
-                  }} 
-                  onPress={handleReset}
-                />}
-                
-                {/* Add */}
-                <LocateSelector
-                  icon={icons.MaterialIcons}
-                  iconName={'add'}
-                  iconSize={25}
-                  iconColor={COLORS.grey}
-                  style={{
-                    width: selected == 'add' ? '45%' : '100%',
-                    // borderWidth: selected? 0.5 : 0,
-                    backgroundColor: COLORS.ivoryDark,
-                    // borderColor: COLORS.lightGrey,
-                  }}
-                  onPress={() => navigation.navigate('Locate', {screen: 'EnterPosition'})}
-                />
-
-                </View>
-
-              </View>}
-
-              
-              {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Zuletzt verwendet</Text> */}
-
-              
-              {/* <View style={styles.currentPositionFeed}>
-                  <Text style={[T3, {color: COLORS.grey}]}>Aktuelle Position</Text>
-                  <Text style={[T1, {marginTop: 5, fontFamily: 'RH-Medium'}]}>{currentPosition}</Text>
-              </View>
-              <View style={styles.line2}></View> */}
-              {/* <View style={styles.buttonView}>
-                {locateButtonList.map((list) => 
-                  <LocateSelectionButton 
-                    key={list.id}
-                    label={list.label}
-                    icon={list.icon}
-                    iconName={list.iconName}
-                    iconSize={list.iconSize}
-                    iconColor={list.id === selected? COLORS.grey : COLORS.lightGrey}
-                    bgStyle={{
-                      backgroundColor: list.id === selected? COLORS.ivoryDark : 'transparent',
-                      borderColor: list.id === selected? COLORS.ivoryDark : COLORS.borderGrey,
-                      borderWidth: 0.5
-                    }}
-                    labelStyle={{fontFamily: list.id === selected? 'RH-Medium' : 'RH-Regular', color: list.id === selected? COLORS.black : COLORS.grey}}
-                    onPress={() => handlePress(list)}
-                  />
-                )}
-              </View> */}
-            </View>
-
-            {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
-            {/* Unselected */}
-            {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+    {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+    {/* Unselected */}
+    {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+    <View style={{opacity: selected? 0 : 1}}>
+    {/* Close Button */}
+    <RoundButton 
+      icon={icons.MaterialIcons}
+      iconName={'close'}
+      iconSize={moderateScale(28,0.2)}
+      iconColor={COLORS.white}
+      style={{
+          backgroundColor: COLORS.grey,
+          height: moderateScale(38,0.2),
+          width: moderateScale(38,0.2),
+          margin: 0,
+          position: 'absolute',
+          top: 60,
+          left: 30,
+          zIndex: 2,
+      }}
+      onPressButton={handleClose}
+    />
+    
+    {/* Main */}
+    <LocateRequired
+      onPressNavigate={getLocation}
+    />
+    </View>
             
-            {!selected && <LocateRequired />}
 
-        </Animated.View>
+    {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+    {/* Selected */}
+    {/* ---------------------------------------------------------------------------------------------------------------------------------- */}
+    {selected && <>
 
-    </GestureDetector>
+    {/* Header Button Row */}
+    <View style={{position: 'absolute', top: 25,right: 25, zIndex: 2, flexDirection: 'row'}}>
+
+      {/* Reset Button */}
+      <RoundButton 
+          icon={icons.MaterialIcons}
+          iconName={'undo'}
+          iconSize={22}
+          iconColor={COLORS.grey}
+          style={{
+              backgroundColor: COLORS.ivoryDark,
+              height: moderateScale(34,0.2),
+              width: moderateScale(34,0.2),
+              margin: 0,
+              marginRight: 10, 
+              borderRadius: 8,
+          }}
+          onPressButton={handleReset}
+      />
+
+      {/* Close Button */}
+      <RoundButton 
+          icon={icons.MaterialIcons}
+          iconName={'close'}
+          iconSize={moderateScale(22,0.2)}
+          iconColor={COLORS.white}
+          style={{
+              backgroundColor: COLORS.grey,
+              height: moderateScale(34,0.2),
+              width: moderateScale(34,0.2),
+              margin: 0,
+          }}
+          onPressButton={handleClose}
+      />
+
+    </View>
+
+    {/* Top Section */}
+    <View style={styles.topSectionContainer}>
+            <Text style={H3}>Standort Auswahl</Text>
+    </View>
+
+    {/* Mid Section */}
+    <View style={styles.midSectionContainer}>
+              
+    <CurrentPositionFeed 
+      currentPosition={currentPosition}
+      supplement={supplement}
+    />
+              
+    {/* Button Row */}
+    <View style={{width: width-60, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10}}>
+
+      {/* Navigate Button */}
+      <LocateSelector
+        icon={icons.MaterialCommunityIcons}
+        iconName={'navigation-variant'}
+        iconSize={24}
+        iconColor={selected == 'navigate'? COLORS.ivory : COLORS.grey}
+        style={{
+          backgroundColor: selected == 'navigate'? COLORS.primary : COLORS.ivoryDark,
+        }}
+        onPress={getLocation}
+      />
+
+      {/* Add */}
+      <LocateSelector
+        icon={icons.MaterialIcons}
+        iconName={'add'}
+        iconSize={25}
+        iconColor={selected == 'add'? COLORS.ivory : COLORS.grey}
+        style={{
+          backgroundColor: selected == 'add'? COLORS.primary : COLORS.ivoryDark,
+        }}
+        onPress={() => navigation.navigate('Locate', {screen: 'EnterPosition'})}
+      />
+
+      {/* City Button */}
+      <LocateSelector
+        icon={icons.MaterialIcons}
+        iconName={'location-city'}
+        iconSize={24}
+        iconColor={selected == 'city'? COLORS.ivory : COLORS.grey}
+        style={{
+          backgroundColor: selected == 'city'? COLORS.primary : COLORS.ivoryDark,
+        }}
+        onPress={() => navigation.navigate('Locate', {screen: 'CitySelection'})}
+      />
+
+    </View>
+    </View>
+    </>}
+
+    </Animated.View>
+
+  </GestureDetector>
 
   )
 }
@@ -381,13 +321,9 @@ const styles = StyleSheet.create({
       backgroundColor: COLORS.default,
       alignSelf: 'center',
       marginTop: 15,
-      borderRadius: 2
+      borderRadius: 2,
+      zIndex: 2
     },
-
-    h3: {
-        fontFamily: 'RH-Light',
-        fontSize: 24,
-      },
   
     topSectionContainer: {
       width: width,
@@ -405,11 +341,6 @@ const styles = StyleSheet.create({
       // backgroundColor: 'yellow'
     },
   
-    currentPositionFeed: {
-      // height: 60,
-      width: '100%',
-      // backgroundColor: 'yellow'
-    },
     line2: {
       borderWidth: 0.5,
       borderColor: COLORS.borderGrey,
