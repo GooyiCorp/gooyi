@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { Button, FlatList, ScrollView, StyleSheet,View, Text, Pressable } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
@@ -15,7 +15,7 @@ import Request from '../../helper/request'
 import NewOfferBox from '../../components/components_discover_screen/NewOfferBox'
 import NewShopsBox from '../../components/components_discover_screen/NewShopsBox'
 import Category from '../../components/components_discover_screen/Category'
-import Animated, { interpolate, interpolateColor, runOnUI, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { interpolate, interpolateColor, runOnUI, useAnimatedScrollHandler, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
@@ -26,12 +26,20 @@ import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showM
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 import LocateRequired from './LocateRequired'
+import ScrollToNavigateButton from '../../components/components_universal/ScrollToNavigateButton'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
   showTabNav,
 } ) {
+
+  const offersList = [
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4}
+  ] 
   const navigation = useNavigation()
 
   const logIn = !useSelector((state) => state.user.isLoggedIn)
@@ -114,7 +122,17 @@ export default function DiscoverScreen( {
       ],
     }
   })
+  const scrollXPosition = useSharedValue(0);
 
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+        const { x } = event.contentOffset;
+        scrollXPosition.value = x+width;
+        // console.log(scrollXPosition.value)
+    },
+  });
+  // const [animation, setAnimation] = useState(0) 
+  const offerBoxWidth = useRef(0)
 
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Main Section
@@ -169,7 +187,12 @@ export default function DiscoverScreen( {
         }}
         style={[styles.mainContainer, {overflow: 'visible'}]}
         scrollEventThrottle={16}
-
+        onScrollEndDrag={(e) => {
+          // console.log(e.nativeEvent.layoutMeasurement.height)
+          // console.log(e.nativeEvent.contentOffset.y)
+          // if (e.nativeEvent.contentOffset.y > 1.1*e.nativeEvent.layoutMeasurement.height) {
+          //   console.log('do something')}
+          }}
       >
 
 
@@ -192,7 +215,26 @@ export default function DiscoverScreen( {
           style={{marginTop: 25}}
         />
         <View style={{marginLeft: 30}}>
-          <NewOfferBox />
+          <Animated.ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            // onScroll={(e) => {
+            //   scrollOffset.value = e.nativeEvent.contentOffset.x + width
+            //   // console.log(scrollOffset.value)
+
+            // }}
+            onScroll={scrollHandler}
+            onScrollEndDrag={(e) => {
+              offerBoxWidth.current = e.nativeEvent.contentSize.width
+              if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
+                navigation.navigate('Finder')
+              }
+            }}
+            scrollEventThrottle={16}
+          >
+            {offersList.map((offers) => (<NewOfferBox key={offers.id}/>))}
+            <ScrollToNavigateButton startValue={offerBoxWidth} endvalue={scrollXPosition}/>
+          </Animated.ScrollView>
         </View>
 
         {/* -------------------------------- New Shops Section */}
