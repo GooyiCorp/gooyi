@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  user_id        Int             @id @unique @default(autoincrement())
+  first_name     String
+  last_name      String
+  email          String          @unique
+  phone          String          @unique
+  active         Boolean         @default(false)
+  setting        Setting?
+  last_login     DateTime
+  create_at      DateTime        @default(now()) @db.Timestamptz(6)
+  update_at      DateTime        @updatedAt @db.Timestamptz(6)
+  favoriteStores FavoriteStore[]
+  feedback       Feedback[]
+}
+
+// Setting model
+model Setting {
+  user_id    Int     @id
+  message    Boolean @default(false)
+  terms      Boolean
+  conditions Boolean
+  // Reference to User
+  user       User    @relation(fields: [user_id], references: [user_id])
+}
+
+// FavoriteStore model
+model FavoriteStore {
+  user_id  Int
+  store_id Int
+  user     User  @relation(fields: [user_id], references: [user_id])
+  store    Store @relation(fields: [store_id], references: [store_id])
+
+  // Reference to User and Store
+  @@id([user_id, store_id])
+}
+
+// Coupons model
+model Coupons {
+  coupon_id   Int      @id @unique @default(autoincrement())
+  store_id    Int
+  title       String
+  description String
+  used        Boolean  @default(false)
+  used_at     DateTime
+  active_at   DateTime
+  expired_at  DateTime
+  type        String
+  active      Boolean  @default(false)
+  max_amount  Int
+
+  // Reference to Store
+  store Store @relation(fields: [store_id], references: [store_id])
+}
+
+// Store model
+model Store {
+  store_id       Int             @id @default(autoincrement())
+  name           String
+  category       Category
+  address_id     Int
+  opening_hour   OpeningHour     @relation(fields: [openingHourId], references: [id])
+  active         Boolean
+  description    String
+  enter_date     DateTime
+  payment_info   Int
+  address        Address         @relation(fields: [address_id], references: [address_id])
+  create_at      DateTime        @default(now()) @db.Timestamptz(6)
+  update_at      DateTime        @updatedAt @db.Timestamptz(6)
+  favoriteStores FavoriteStore[]
+  feedback       Feedback[]
+  coupons        Coupons[]
+  openingHourId  Int
+}
+
+// Address model
+model Address {
+  address_id Int     @id @default(autoincrement())
+  longitude  String
+  latitude   String
+  street     String
+  postcode   String
+  city       String
+  detail     String
+  stores     Store[]
+}
+
+// OpeningHour model
+model OpeningHour {
+  id     Int     @id @default(autoincrement())
+  Mon    String
+  Tue    String
+  Wed    String
+  Thu    String
+  Fri    String
+  Sat    String
+  Sun    String
+  stores Store[]
+}
+
+// Feedback model
+model Feedback {
+  user_id   Int
+  store_id  Int
+  feed_back String
+  create_at DateTime @default(now()) @db.Timestamptz(6)
+  update_at DateTime @updatedAt @db.Timestamptz(6)
+  user      User     @relation(fields: [user_id], references: [user_id])
+  store     Store    @relation(fields: [store_id], references: [store_id])
+
+  // Reference to User and Store
+  @@id([user_id, store_id])
+}
+
+// Enum for category
+enum Category {
+  restaurant
+  spa
+  cafe
+  game
+  bar
+  fashion
+}

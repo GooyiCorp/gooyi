@@ -9,11 +9,9 @@ authRoute.post('/verify-token', (req, res) => {
     const { accessToken, refreshToken } = req.body
     try {
         if (accessToken in TOKEN_LIST || accessToken in TOKEN_BLACKLIST) return sendError(res, "Unauthorzied.", 401)
-        console.log("Access token", accessToken);
         const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {
             complete: true
         })
-        console.log("Access token");
         return sendSuccess(res, "Verify token successfully.", {
             user: payload.user
         })
