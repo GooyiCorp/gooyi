@@ -37,7 +37,7 @@ export default function Search({navigation: {goBack}}) {
         iconColor={COLORS.white}
         activeOpacity={1}
         style={{
-            backgroundColor: COLORS.grey,
+            backgroundColor: COLORS.primary,
             position: 'absolute',
             right: 30,
             bottom: 30,

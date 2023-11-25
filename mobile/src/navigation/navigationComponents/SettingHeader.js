@@ -8,7 +8,7 @@ import { moderateScale } from '../../helper/scale'
 import BigButton from '../../components/components_LogIn/BigButton'
 import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
-import { T2 } from '../../constants/text-style'
+import { H3, H4, T2 } from '../../constants/text-style'
 
 export default function SettingHeader({
     goBack,
@@ -20,6 +20,8 @@ export default function SettingHeader({
     onPressClose,
     onPressEdit,
     onPressSave,
+    header,
+    headerText,
 }) {
 
     const [edit, setEdit] = useState(false)
@@ -49,6 +51,7 @@ export default function SettingHeader({
                             height: moderateScale(38,0.2),
                             width: moderateScale(38,0.2),
                             margin: 0,
+                            zIndex: 1
                         }}
                         onPressButton={onPressGoBack}
                     />}
@@ -69,10 +72,9 @@ export default function SettingHeader({
             >
                 <Text style={[T2, {fontFamily: 'RH-Medium', color: edit? COLORS.grey : COLORS.primary}]}>{edit? buttonText2 : buttonText1}</Text>
             </Pressable>
-            
-            
-            
             }
+
+            {header && <Text style={[H4, {width: width, position: 'absolute', textAlign: 'center'}]}>{headerText}</Text>}
 
         </View>
 

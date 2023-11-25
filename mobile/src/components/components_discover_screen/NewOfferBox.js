@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     height: 253,
     borderRadius: 16,
     overflow: 'hidden',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginRight: 15
   },
 
   imageBox: {
