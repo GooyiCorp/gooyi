@@ -123,16 +123,16 @@ export default function DiscoverScreen( {
     }
   })
   const scrollXPosition = useSharedValue(0);
-
+  const offerBoxWidth = useSharedValue(0)
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
         const { x } = event.contentOffset;
         scrollXPosition.value = x+width;
-        // console.log(scrollXPosition.value)
+        offerBoxWidth.value = event.contentSize.width
     },
   });
   // const [animation, setAnimation] = useState(0) 
-  const offerBoxWidth = useRef(0)
+  
 
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Main Section
@@ -215,25 +215,29 @@ export default function DiscoverScreen( {
           style={{marginTop: 25}}
         />
         <View style={{marginLeft: 30}}>
+
           <Animated.ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            // onScroll={(e) => {
-            //   scrollOffset.value = e.nativeEvent.contentOffset.x + width
-            //   // console.log(scrollOffset.value)
 
-            // }}
             onScroll={scrollHandler}
+
+            // onScrollBeginDrag={(e) => {
+            //   setOfferBoxWidth(e.nativeEvent.contentSize.width)
+            //   console.log(offerBoxWidth)
+            // }}
+
             onScrollEndDrag={(e) => {
-              offerBoxWidth.current = e.nativeEvent.contentSize.width
               if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
                 navigation.navigate('Finder')
               }
             }}
             scrollEventThrottle={16}
           >
+
             {offersList.map((offers) => (<NewOfferBox key={offers.id}/>))}
             <ScrollToNavigateButton startValue={offerBoxWidth} endvalue={scrollXPosition}/>
+
           </Animated.ScrollView>
         </View>
 
