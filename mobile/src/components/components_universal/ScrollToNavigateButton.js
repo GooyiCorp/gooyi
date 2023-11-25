@@ -18,12 +18,11 @@ export default function ScrollToNavigateButton({
         const b = startValue.value
         return b
     })
-    
 
 
 
     const translateButton = useAnimatedStyle(() => {
-
+        
         return {
             transform: [
                 {scale: interpolate(x.value <= w.value+100 ? x.value : w.value+100, [ 0, w.value+99, w.value+100 ], [ 0.9, 0.9, 1 ])},

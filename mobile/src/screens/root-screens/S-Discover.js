@@ -1,32 +1,36 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
-import { Button, FlatList, ScrollView, StyleSheet,View, Text, Pressable } from 'react-native'
+import React, {useEffect, useRef } from 'react'
+import { Button, ScrollView, StyleSheet,View } from 'react-native'
+import Animated, { interpolate, runOnJS, runOnUI, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import * as Haptics from 'expo-haptics';
 
-import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
-import PresentationHeader from '../../components/components_universal/PresentationHeader'
 
 import { height, width } from '../../constants/size'
 import { useNavigation } from '@react-navigation/native'
-import LocateModal from '../../components/components_locate_screen/LocateModal'
-import { useDispatch, useSelector } from 'react-redux'
-import { store } from '../../redux/store'
-import userSlice, { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
+import { COLORS } from '../../index/constantsindex'
+
 import { Delete } from '../../helper/store'
 import Request from '../../helper/request'
+
+import { MainHeader, SubHeader } from '../../index/navIndex'
+import PresentationHeader from '../../components/components_universal/PresentationHeader'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
+import { icons } from '../../components/components_universal/Icons'
 import NewOfferBox from '../../components/components_discover_screen/NewOfferBox'
 import NewShopsBox from '../../components/components_discover_screen/NewShopsBox'
 import Category from '../../components/components_discover_screen/Category'
-import Animated, { interpolate, interpolateColor, runOnUI, useAnimatedScrollHandler, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'
 import RoundButton from '../../components/components_universal/RoundButton'
-import { icons } from '../../components/components_universal/Icons'
-import { COLORS } from '../../index/constantsindex'
 import CouponCard from '../../components/components_universal/CouponCard'
 import LogInRequiredBox from '../../components/components_discover_screen/LogInRequiredBox'
-import { setPage } from '../../redux/slices/mainNavSlice'
-import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
-import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
-import LocateRequired from './LocateRequired'
 import ScrollToNavigateButton from '../../components/components_universal/ScrollToNavigateButton'
+
+
+import { useDispatch, useSelector } from 'react-redux'
+import { store } from '../../redux/store'
+import { setPage } from '../../redux/slices/mainNavSlice'
+import { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
+import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -124,12 +128,20 @@ export default function DiscoverScreen( {
   })
   const scrollXPosition = useSharedValue(0);
   const offerBoxWidth = useSharedValue(0)
+  const inRange = useSharedValue(false)
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
         const { x } = event.contentOffset;
         scrollXPosition.value = x+width;
         offerBoxWidth.value = event.contentSize.width
-    },
+        if (scrollXPosition.value > offerBoxWidth.value+100) { 
+          if (inRange.value == false) {
+            runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy)
+            inRange.value = true
+          }
+        } else inRange.value = false;
+
+    }
   });
   // const [animation, setAnimation] = useState(0) 
   
@@ -226,7 +238,6 @@ export default function DiscoverScreen( {
             //   setOfferBoxWidth(e.nativeEvent.contentSize.width)
             //   console.log(offerBoxWidth)
             // }}
-
             onScrollEndDrag={(e) => {
               if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
                 navigation.navigate('Finder')
