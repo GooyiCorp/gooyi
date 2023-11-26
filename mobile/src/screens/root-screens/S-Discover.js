@@ -231,7 +231,7 @@ export default function DiscoverScreen( {
           <Animated.ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-
+            overScrollMode={"always"}
             onScroll={scrollHandler}
 
             // onScrollBeginDrag={(e) => {
