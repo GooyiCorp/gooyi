@@ -18,11 +18,14 @@ export default function IconLabelButton({
     activeOpacity,
     label,
     labelStyle,
+    innerContainerStyle,
 }) {
   return (
     <TouchableOpacity style={[styles.buttonContainer, style]} onPress={onPressButton} activeOpacity={activeOpacity}>
+      <View style={[{flexDirection: 'row', alignItems: 'center'}, innerContainerStyle]}>
       {icon && <Icons icon={icon} iconName={iconName} iconColor={iconColor} iconSize={iconSize} iconStyle={[{marginRight: 5},iconStyle]} />}
       {label && <Text style={[T2, labelStyle]}>{label}</Text>}
+      </View>
     </TouchableOpacity>
   )
 }
@@ -37,9 +40,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 10,
     },
-
-    t2: {
-        fontFamily: 'RH-Regular',
-        fontSize: 14,
-      },
 })

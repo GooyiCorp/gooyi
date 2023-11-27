@@ -27,6 +27,11 @@ export const H1 = {
     fontSize: 30 
 }
 
+export const H2 = {
+  fontFamily: 'RH-Bold',
+  fontSize: 35,
+}
+
 export const H3 = {
     fontFamily: 'RH-Light',
     fontSize: 24,
