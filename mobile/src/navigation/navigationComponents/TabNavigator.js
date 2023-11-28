@@ -14,15 +14,11 @@ export default function TabNavigator({
     onPressCoupons,
     onPressProfile,
     onPressStores,
-    discoverFocussed,
-    couponsFocussed,
-    storesFocussed,
-    profileFocussed,
     style,
 }) {
 
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
-    
+    // const refDiscover = test.current
     const animateDiscover = useSharedValue(1)
     const animateCoupons = useSharedValue(0)
     const animateStores = useSharedValue(0)
@@ -92,10 +88,10 @@ export default function TabNavigator({
                     icon={icons.Octicons} 
                     iconName={'rocket'} 
                     iconSize={22} 
-                    iconColor={ discoverFocussed == 1 ? COLORS.primary: COLORS.grey }
+                    iconColor={ page == 'discover' ? COLORS.primary: COLORS.grey }
                 />
             </Animated.View>
-            <Text style={[ styles.labelStyle, { color: discoverFocussed == 1 ? COLORS.primary: COLORS.grey } ]}>Entdecken</Text>
+            <Text style={[ styles.labelStyle, { color: page == 'discover' ? COLORS.primary: COLORS.grey } ]}>Entdecken</Text>
         </Pressable>
 
         {/* -------------------------------------------------------------------- Coupons */}
@@ -106,10 +102,10 @@ export default function TabNavigator({
                     icon={icons.Feather} 
                     iconName={'percent'} 
                     iconSize={25} 
-                    iconColor={ couponsFocussed == 1 ? COLORS.primary: COLORS.grey }
+                    iconColor={ page == 'coupons' ? COLORS.primary: COLORS.grey }
                 />
             </Animated.View>
-            <Text style={[ styles.labelStyle, { color: couponsFocussed == 1 ? COLORS.primary: COLORS.grey } ]}>Coupons</Text>
+            <Text style={[ styles.labelStyle, { color: page == 'coupons' ? COLORS.primary: COLORS.grey } ]}>Coupons</Text>
         </Pressable>
 
         {/* -------------------------------------------------------------------- Stores */}
@@ -120,10 +116,10 @@ export default function TabNavigator({
                     icon={icons.MaterialCommunityIcons} 
                     iconName={'storefront-outline'} 
                     iconSize={25} 
-                    iconColor={ storesFocussed == 1 ? COLORS.primary: COLORS.grey }
+                    iconColor={ page == 'stores' ? COLORS.primary: COLORS.grey }
                 />
             </Animated.View>
-            <Text style={[ styles.labelStyle, { color: storesFocussed == 1 ? COLORS.primary: COLORS.grey } ]}>Stores</Text>
+            <Text style={[ styles.labelStyle, { color: page == 'stores' ? COLORS.primary: COLORS.grey } ]}>Stores</Text>
         </Pressable>
 
         {/* -------------------------------------------------------------------- Profile */}
@@ -134,10 +130,10 @@ export default function TabNavigator({
                     icon={icons.Feather} 
                     iconName={'user'} 
                     iconSize={25} 
-                    iconColor={ profileFocussed == 1 ? COLORS.primary: COLORS.grey }
+                    iconColor={ page == 'profile' ? COLORS.primary: COLORS.grey }
                 />
             </Animated.View>
-            <Text style={[ styles.labelStyle, { color: profileFocussed == 1 ? COLORS.primary: COLORS.grey } ]}>Profil</Text>
+            <Text style={[ styles.labelStyle, { color: page == 'profile' ? COLORS.primary: COLORS.grey } ]}>Profil</Text>
         </Pressable>
 
         </View>

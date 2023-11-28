@@ -72,61 +72,39 @@ export default function MainNav({route}) {
     const showCoupons = useSharedValue(0)
     const showStores = useSharedValue(0)
     const showProfile = useSharedValue(0)
-
-    const [indexDiscover, setIndexDiscover] = useState(1)
-    const [indexCoupons, setIndexCoupons] = useState(0)
-    const [indexStores, setIndexStores] = useState(0)
-    const [indexProfile, setIndexProfile] = useState(0)
     
     const handleShowDiscover = () => {
-        setIndexDiscover(1)
-        setIndexCoupons(0)
-        setIndexStores(0)
-        setIndexProfile(0)
-        showDiscover.value = withTiming(1, {duration: 400})  
-        showCoupons.value = withDelay(400, withTiming(0))
-        showStores.value = withDelay(400, withTiming(0))
-        showProfile.value = withDelay(400, withTiming(0))
+        showDiscover.value = withTiming(1, {duration: 300})  
+        showCoupons.value = withDelay(300, withTiming(0))
+        showStores.value = withDelay(300, withTiming(0))
+        showProfile.value = withDelay(300, withTiming(0))
     }
 
     const handleShowCoupons = () => {
-        setIndexDiscover(0)
-        setIndexCoupons(1)
-        setIndexStores(0)
-        setIndexProfile(0)
-        showDiscover.value = withDelay(400, withTiming(0))
-        showCoupons.value = withTiming(1, {duration: 400})
-        showStores.value = withDelay(400, withTiming(0))
-        showProfile.value = withDelay(400, withTiming(0))
+        showDiscover.value = withDelay(300, withTiming(0))
+        showCoupons.value = withTiming(1, {duration: 300})
+        showStores.value = withDelay(300, withTiming(0))
+        showProfile.value = withDelay(300, withTiming(0))
     }
 
     const handleShowStores = () => {
-        setIndexDiscover(0)
-        setIndexCoupons(0)
-        setIndexStores(1)
-        setIndexProfile(0)
-        showDiscover.value = withDelay(400, withTiming(0))
-        showCoupons.value = withDelay(400, withTiming(0))
-        showStores.value = withTiming(1, {duration: 400})
-        showProfile.value = withDelay(400, withTiming(0))
+        showDiscover.value = withDelay(300, withTiming(0))
+        showCoupons.value = withDelay(300, withTiming(0))
+        showStores.value = withTiming(1, {duration: 300})
+        showProfile.value = withDelay(300, withTiming(0))
     }
 
     const handleShowProfile = () => {
-        setIndexDiscover(0)
-        setIndexCoupons(0)
-        setIndexStores(0)
-        setIndexProfile(1)
-        showDiscover.value = withDelay(400, withTiming(0))
-        showCoupons.value = withDelay(400, withTiming(0))
-        showStores.value = withDelay(400, withTiming(0))
-        showProfile.value = withTiming(1, {duration: 400})
+        showDiscover.value = withDelay(300, withTiming(0))
+        showCoupons.value = withDelay(300, withTiming(0))
+        showStores.value = withDelay(300, withTiming(0))
+        showProfile.value = withTiming(1, {duration: 300})
     }
       
     const transitionDiscover = useAnimatedStyle( () =>{
         const translateY = interpolate(showDiscover.value, [0,1], [height,0])
         const opacity = interpolate(showDiscover.value, [0,1], [0,1])
             return {
-                zIndex: indexDiscover,
                 transform: [{translateY: translateY}],
                 opacity: opacity
             }
@@ -137,7 +115,6 @@ export default function MainNav({route}) {
         const translateY = interpolate(showCoupons.value, [0,1], [height,0])
         const opacity = interpolate(showCoupons.value, [0,1], [0,1])
             return {
-                zIndex: indexCoupons,
                 transform: [{translateY: translateY}],
                 opacity: opacity
             }
@@ -148,7 +125,6 @@ export default function MainNav({route}) {
         const translateY = interpolate(showStores.value, [0,1], [height,0])
         const opacity = interpolate(showStores.value, [0,1], [0,1])
             return {
-                zIndex: indexStores,
                 transform: [{translateY: translateY}],
                 opacity: opacity
             }
@@ -159,7 +135,6 @@ export default function MainNav({route}) {
         const translateY = interpolate(showProfile.value, [0,1], [height,0])
         const opacity = interpolate(showProfile.value, [0,1], [0,1])
             return {
-                zIndex: indexProfile,
                 transform: [{translateY: translateY}],
                 opacity: opacity
             }
@@ -200,11 +175,6 @@ export default function MainNav({route}) {
                 onPressCoupons={() => runOnUI(dispatch(setPage('coupons')))}
                 onPressStores={() => runOnUI(dispatch(setPage('stores')))}
                 onPressProfile={() => runOnUI(dispatch(setPage('profile')))}
-
-                discoverFocussed={indexDiscover}
-                couponsFocussed={indexCoupons}
-                storesFocussed={indexStores}
-                profileFocussed={indexProfile}
                 
                 style={{ 
                     backgroundColor: COLORS.white,
@@ -223,22 +193,38 @@ export default function MainNav({route}) {
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Discover */}
-        <Animated.View style={[styles.screenContainer, transitionDiscover]}>
+        <Animated.View style={[
+            styles.screenContainer, 
+            {zIndex: page == 'discover' ? 1 : 0}, 
+            transitionDiscover
+        ]}>
             <DiscoverScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab} />
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Coupons */}
-        <Animated.View style={[styles.screenContainer, transitionCoupons]}>
+        <Animated.View style={[
+            styles.screenContainer,
+            {zIndex: page == 'coupons' ? 1 : 0}, 
+            transitionCoupons,
+        ]}>
             <CouponsScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Stores */}
-        <Animated.View style={[styles.screenContainer, transitionStores]}>
+        <Animated.View style={[
+            styles.screenContainer, 
+            {zIndex: page == 'stores' ? 1 : 0}, 
+            transitionStores,
+        ]}>
             <StoresScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
         {/* -------------------------------------------------------------------- Profile */}
-        <Animated.View style={[styles.screenContainer, transitionProfile]}>
+        <Animated.View style={[
+            styles.screenContainer,
+            {zIndex: page == 'profile' ? 1 : 0},  
+            transitionProfile,
+        ]}>
             <ProfileScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
@@ -255,7 +241,6 @@ const styles = StyleSheet.create({
         height: height,
         width: width,
         position: 'absolute',
-        zIndex: 0,
         backgroundColor: COLORS.white,
     },
 
