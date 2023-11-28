@@ -22,18 +22,9 @@ const StoresStack = createStackNavigator()
 
 //---------------------------------------------------------------------------------------------------------------------
 
-export default function StoresStackNav({navigation, navigation: {goBack}}) {
+export default function StoresStackNav() {
     return (
         <>
-        <View style={{position: 'absolute', zIndex: 2, width: width}}>
-          <StoreNav 
-            qrButton
-            goBack
-            onPressGoBack={() => goBack()}
-            quickSelection
-            onPressQRButton={() => navigation.navigate('QRScan')}
-          />
-        </View>
     
         {/* Nesting Stack Navigator */}
         <StoresStack.Navigator

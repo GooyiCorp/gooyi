@@ -5,6 +5,8 @@ import { COLORS } from '../../index/constantsindex'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
+import { H4, T1 } from '../../constants/text-style'
+import Animated, { interpolate, interpolateColor, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
 
 export default function StoreNav({
     qrButton,
@@ -15,8 +17,20 @@ export default function StoreNav({
     goBack,
     onPressGoBack,
     quickSelection,
-    onPressQuickSelection
+    onPressQuickSelection,
+    animationValue,
+    headerHeight,
 }) {
+    const animation = useDerivedValue(() => {
+        const a = animationValue.value
+        return a;
+    })
+
+    const buttonBackground = useAnimatedStyle(() => {
+        return {
+            backgroundColor: interpolateColor(animation.value, [headerHeight*0.5, headerHeight*0.8], [COLORS.white05 , COLORS.default])
+        }
+    })
     // ------------------------------------------------------------------------------------------------------------------------- Right View
     const RightView = () => (
         rightComponent ? rightComponent : 
@@ -33,17 +47,28 @@ export default function StoreNav({
             />}
 
             {/* -------------------------------------------------------------------- Quick Selection Button */}
-            {quickSelection && <RoundButton 
+            {quickSelection && 
+            <Animated.View style={[{
+                height: 38,
+                width: 38,
+                borderRadius: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 5,
+            }, buttonBackground]}>
+                <RoundButton 
                 icon={icons.MaterialIcons}
                 iconName={'more-vert'}
-                iconColor={COLORS.subPrimary}
+                iconColor={COLORS.grey}
                 iconSize={moderateScale(26,0.2)}
-                style={{backgroundColor: COLORS.white05,
-                    height: moderateScale(38,0.2),
-                    width: moderateScale(38,0.2),
-                }}
+                style={{
+                        backgroundColor: 'transparent',
+                        height: moderateScale(38,0.2),
+                        width: moderateScale(38,0.2),
+                    }}
                 onPressButton={onPressQuickSelection}
-            />}
+                />
+            </Animated.View>}
 
         </View>
     )
@@ -53,7 +78,7 @@ export default function StoreNav({
         leftComponent ? leftComponent : 
         <View style={[styles.view, styles.rightView]}>
             
-            {/* -------------------------------------------------------------------- QR Button */}
+            {/* -------------------------------------------------------------------- Back Button */}
             {goBack && <RoundButton 
                 icon={icons.Ionicons}
                 iconName={'md-chevron-back'}

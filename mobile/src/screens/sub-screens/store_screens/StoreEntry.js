@@ -1,10 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { height, width } from '../../../constants/size'
-import { MainHeader, SubHeader } from '../../../index/navIndex'
+import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
+import React, { useRef } from 'react'
+
+// Reanimated
+import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+
+// Constants
 import { COLORS } from '../../../index/constantsindex'
-import { H1, H2, T1, T2, T3 } from '../../../constants/text-style'
-import StoreInfo from '../../../components/components_stores_screen/StoreInfo'
+import { H1, H2, H4, T1, T2, T3 } from '../../../constants/text-style'
+import { height, width } from '../../../constants/size'
+
+// Components
 import Icons, { icons } from '../../../components/components_universal/Icons'
 import PointIcon from '../../../components/components_universal/PointIcon'
 import BigButton from '../../../components/components_LogIn/BigButton'
@@ -12,33 +17,107 @@ import IconLabelButton from '../../../components/components_universal/IconLabelB
 import PresentationHeader from '../../../components/components_universal/PresentationHeader'
 import NewOfferBox from '../../../components/components_discover_screen/NewOfferBox'
 import QuestFeed from './QuestFeed'
+import StoreNav from '../../../navigation/navigationComponents/StoreNav'
 
-export default function StoreEntry() {
+// -------------------------------------- Global Value 
+const storeImgHeaderHeight = 0.35 * height
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default function StoreEntry({
+    navigation, 
+    navigation: {goBack},
+}) {
+    // ---------------------------------- Sticky Header
+    // Value Section
+    const scrollRef = useRef()
+    const scrollDistance = useSharedValue(0)
+    // Header Image Animation
+    const animateHeaderImage = useAnimatedStyle(() => {
+        return {
+            height: interpolate( scrollDistance.value <= storeImgHeaderHeight? scrollDistance.value : storeImgHeaderHeight, [0, storeImgHeaderHeight], [storeImgHeaderHeight, 0 ] ),
+            opacity: interpolate( scrollDistance.value <= storeImgHeaderHeight? scrollDistance.value : storeImgHeaderHeight, [0, storeImgHeaderHeight/2], [1, 0 ] ),
+        }
+    })
+    // Nav Header Animation
+    const animateNavHeader = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {translateY: scrollDistance.value <= storeImgHeaderHeight/2 && scrollDistance.value >= 0? interpolate(scrollDistance.value, [0,storeImgHeaderHeight/2], [0,-10]) : scrollDistance.value <= 0? 0 : -10}
+            ]
+        }
+    })
+    // Nav Background Animation
+    const animateNavBackground = useAnimatedStyle(() => {
+        return {
+            opacity: scrollDistance.value <= storeImgHeaderHeight*0.8 && scrollDistance.value >= storeImgHeaderHeight*0.5 ? interpolate(scrollDistance.value, [storeImgHeaderHeight*0.5, storeImgHeaderHeight*0.8], [0,1]) : scrollDistance.value <= storeImgHeaderHeight*0.5 ? 0 : 1,
+            transform: [
+                {translateY: scrollDistance.value <= storeImgHeaderHeight/2 && scrollDistance.value >= 0? interpolate(scrollDistance.value, [0,storeImgHeaderHeight/2], [0,-10]) : scrollDistance.value <= 0? 0 : -10}
+            ]
+        }
+    })
+    // Store Name Animation
+    const animateStoreName = useAnimatedStyle(() => {
+        return {
+            opacity: scrollDistance.value > storeImgHeaderHeight*0.8 ? interpolate(scrollDistance.value, [storeImgHeaderHeight*0.8, storeImgHeaderHeight], [0,1]) : 0,
+        }
+    })
+
+// ---------------------------------------------------------------------------------------------------------------------
+// MAIN 
+// ---------------------------------------------------------------------------------------------------------------------
   return (
-    <View style={{height: height, width: width, backgroundColor: COLORS.white}}>
+    <View style={{height: height, width: width, backgroundColor: COLORS.white, overflow: 'hidden'}}>
+
+        {/* ----------------------------- Nav Header */}
+        <Animated.View style={[{position: 'absolute', zIndex: 3, width: width}, animateNavHeader]}>
+            {/* Nav Bar  */}
+            <StoreNav 
+                qrButton
+                goBack
+                onPressGoBack={() => goBack()}
+                quickSelection
+                onPressQRButton={() => navigation.navigate('QRScan')}
+                animationValue={scrollDistance}
+                headerHeight={storeImgHeaderHeight}
+            />
+        </Animated.View>
 
         {/* ----------------------------- Header Image */}
-        <View style={styles.headerImgContainer}></View>
+        <Animated.View style={[styles.headerImgContainer, animateHeaderImage]}>
+            <Image 
+                source={require('../../../../assets/image/test.jpg')}
+                resizeMode='cover'
+                style={{
+                    maxHeight: '100%',
+                    maxWidth: '100%',
+                }}
+            />
+        </Animated.View>
+
+        {/* ----------------------------- Nav Background */}
+        <Animated.View style={[styles.navHeaderBackground, animateNavBackground]}>
+            {/* Store Name */}
+            <Animated.Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}, animateStoreName]}>Dat Backhus</Animated.Text>
+        </Animated.View>
+
+        {/* ----------------------------- Scroll View */}
+        <ScrollView
+            ref={scrollRef}
+            scrollEventThrottle={16}
+            onScroll={(e) => {
+                if (e.nativeEvent.contentOffset.y <= (e.nativeEvent.contentSize.height - height)) {
+                    scrollDistance.value = e.nativeEvent.contentOffset.y
+                } 
+
+                // console.log(e.nativeEvent.contentSize.height-height)
+                // console.log(scrollDistance.value)
+                // console.log(height)
+            }}
+        >
 
         {/* ----------------------------- Main Section */}
         <View style={styles.contentSection}>
-            {/* Join Queue Button */}
-            <BigButton 
-                title={'Warteschlage beitreten'}
-                bgStyle={{
-                    backgroundColor: COLORS.primary,
-                    position: 'absolute',
-                    zIndex: 2,
-                    bottom: 30,
-                }}
-                titleStyle={{
-                    color: COLORS.white
-                }}
-                onPress={() => console.log('join queue')}
-            />  
-        {/* ------------- Scroll View */}
-        <ScrollView>
-
+ 
             {/* --------- Header Section */}
             <View style={{marginHorizontal: 30, marginTop: 30}}>
                 {/* Store Name */}
@@ -163,8 +242,23 @@ export default function StoreEntry() {
                     onPressButton={() => console.log('navigate screen send Feedback')}
                 />
 
-        </ScrollView>
         </View>
+        </ScrollView>
+
+        {/* ----------------------------- Join Queue Button */}
+        <BigButton 
+            title={'Warteschlage beitreten'}
+            bgStyle={{
+                backgroundColor: COLORS.primary,
+                position: 'absolute',
+                zIndex: 2,
+                bottom: 30,
+            }}
+            titleStyle={{
+                color: COLORS.white
+            }}
+            onPress={() => console.log('join queue')}
+        />  
 
     </View>
   )
@@ -172,14 +266,19 @@ export default function StoreEntry() {
 
 const styles = StyleSheet.create({
     headerImgContainer: {
-        height: 0.35*height,
+        height: storeImgHeaderHeight,
         width: width,
         backgroundColor: COLORS.mainBackground,
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        position: 'absolute',
+        zIndex: 2,
     },
 
     contentSection: {
-        height: height-(0.35*height),
         width: width,
+        paddingTop: storeImgHeaderHeight,
     },
 
     box: {
@@ -199,6 +298,26 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 30,
         right: 30,
+    },
+
+    navHeaderBackground: {
+        width: width,
+        height: 110,
+        position: 'absolute',
+        backgroundColor: COLORS.white,
+        zIndex: 1,
+        justifyContent: 'flex-end',
+        paddingBottom: 19,
+        paddingLeft: 0.2*width,
+    
+        shadowColor:"#686868",
+        shadowOffset: {
+           width: 0,
+           height: 0,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        elevation: 0
     }
 })
 
