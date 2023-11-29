@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet,View, Text, TouchableOpacity, Image } from 'react-native'
 
-import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
+import { MainHeader, SubHeader, BottomTabNavigation } from '../../../index/navIndex.js'
 
-import { COLORS, ROUTES } from '../../index/constantsindex'
-import Icons, {icons} from '../../components/components_universal/Icons'
+import { COLORS, ROUTES } from '../../../index/constantsindex.js'
+import Icons, {icons} from '../../../components/components_universal/Icons.js'
 import { useNavigation } from '@react-navigation/native'
-import { height, width } from '../../constants/size'
-import LogIn from './s_LogIn'
-import { Get } from '../../helper/store'
+import { height, width } from '../../../constants/size.js'
+import LogIn from '../../root-screens/s_LogIn.js'
+import { Get } from '../../../helper/store.js'
 import { useDispatch, useSelector } from 'react-redux'
-import RoundButton from '../../components/components_universal/RoundButton'
-import IconLabelButton from '../../components/components_universal/IconLabelButton'
-import TapButton from '../../components/components_universal/TapButton'
-import ActivityHistoryModal from '../../components/components_profile_screen/ActivityHistoryModal'
-import { setHideActivityHistoryModal, setShowActivityHistoryModal } from '../../redux/slices/showModalSlice'
-import { T1, T2 } from '../../constants/text-style'
-import Request from '../../helper/request.js'
+import RoundButton from '../../../components/components_universal/RoundButton.js'
+import IconLabelButton from '../../../components/components_universal/IconLabelButton.js'
+import TapButton from '../../../components/components_universal/TapButton.js'
+import ActivityHistoryModal from '../../../components/components_profile_screen/ActivityHistoryModal.js'
+import { setHideActivityHistoryModal, setShowActivityHistoryModal } from '../../../redux/slices/showModalSlice.js'
+import { T1, T2 } from '../../../constants/text-style.js'
+import Request from '../../../helper/request.js'
 
 
 
@@ -195,7 +195,7 @@ export default function ProfileScreen({
         {/* <View style={{height: 100, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', zIndex: 2, bottom: 0}}></View> */}
 
         {!logIn && <View style={{width: 200,height: 300, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 40, zIndex: -1, left: 20}}>
-          <Image source={require('../../../assets/image/fox2d01.png')} style={{resizeMode: 'contain', maxWidth: '100%'}}/>
+          <Image source={require('../../../../assets/image/fox2d01.png')} style={{resizeMode: 'contain', maxWidth: '100%'}}/>
         </View>}
 
       </View>

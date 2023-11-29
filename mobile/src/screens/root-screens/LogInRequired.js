@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux'
 import { setPage } from '../../redux/slices/mainNavSlice'
 
 export default function LogInRequired({}) {
-    const navigation = useNavigation()
     const dispatch = useDispatch()
   return (
     <View style={styles.mainCard}>
@@ -26,17 +25,10 @@ export default function LogInRequired({}) {
 
         <BigButton 
             title={'Zur Anmeldung'} 
-            bgStyle={{backgroundColor: COLORS.primary, maxWidth: '100%', borderRadius: 16, bottom: 130, position: 'absolute'}}
+            bgStyle={{backgroundColor: COLORS.primary, maxWidth: '100%', borderRadius: 16}}
             titleStyle={{color: COLORS.white, fontFamily: 'RH-Medium'}}
             onPress={() => dispatch(setPage('profile'))}
         />
-        {/* <BigButton 
-            title={'Mit Telefonnumer Anmelden'}
-            bgStyle={{backgroundColor: '#e3ded8', maxWidth: '100%', borderRadius: 16}}
-            titleStyle={{color: COLORS.black, fontFamily: 'RH-Medium'}}
-        /> */}
-
-        {/* <Text style={[T4, {marginBottom: 80, marginTop: 20, textAlign: 'center'}]}>Über die Speicherung und Verarbeitung personenbezogener Daten findest du in unsere <Text onPress={() => console.log('press Datenschutz')} style={[T4, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>Datenschutzerklärung</Text> alle wichtige Erläuterungen. Bitte liest Sie sorgfältig durch!</Text> */}
         
     </View>
 

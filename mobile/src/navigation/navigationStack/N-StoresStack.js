@@ -2,46 +2,47 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import StoresScreen from '../../screens/root-screens/S-Stores';
 import StoreEntry from '../../screens/sub-screens/store_screens/StoreEntry';
-import MainHeader from '../navigationComponents/MainHeader';
-import SubHeader from '../navigationComponents/SubHeader';
-import { View } from 'react-native';
-import { width } from '../../constants/size';
-import StoreNav from '../navigationComponents/StoreNav';
-
-
-
-
-
-
-
-//---------------------------------------------------------------------------------------------------------------------
+import AwardOverview from '../../screens/sub-screens/store_screens/AwardOverview';
+import CouponsOverview from '../../screens/sub-screens/store_screens/CouponsOverview';
+import QuestOverview from '../../screens/sub-screens/store_screens/QuestOverview';
+import SendFeedback from '../../screens/sub-screens/store_screens/SendFeedback';
 
 const StoresStack = createStackNavigator()
 
-//---------------------------------------------------------------------------------------------------------------------
-
 export default function StoresStackNav() {
-    return (
-        <>
-    
-        {/* Nesting Stack Navigator */}
-        <StoresStack.Navigator
-            screenOptions={{
-                headerShown: false
-            }}
-        >
-        
-        {/* Nesting Stack Screens */}
-          <StoresStack.Screen 
-            name='StoreEntry'
-            component={StoreEntry}
-          />
-    
-        </StoresStack.Navigator>
-        
-        
-        </>
-    )
+  return (
+    <StoresStack.Navigator
+        screenOptions={{
+            headerShown: false
+        }}
+    >
+
+      <StoresStack.Screen 
+        name='StoreEntry'
+        component={StoreEntry}
+      />
+
+      <StoresStack.Screen 
+        name='AwardOverview'
+        component={AwardOverview}
+      />
+
+      <StoresStack.Screen 
+        name='CouponsOverview'
+        component={CouponsOverview}
+      />
+
+      <StoresStack.Screen 
+        name='QuestOverview'
+        component={QuestOverview}
+      />
+
+      <StoresStack.Screen 
+        name='SendFeedback'
+        component={SendFeedback}
+      />
+
+    </StoresStack.Navigator>
+  )
 }

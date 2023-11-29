@@ -16,8 +16,9 @@ import BigButton from '../../../components/components_LogIn/BigButton'
 import IconLabelButton from '../../../components/components_universal/IconLabelButton'
 import PresentationHeader from '../../../components/components_universal/PresentationHeader'
 import NewOfferBox from '../../../components/components_discover_screen/NewOfferBox'
-import QuestFeed from './QuestFeed'
 import StoreNav from '../../../navigation/navigationComponents/StoreNav'
+import QuestFeed from '../../../components/components_stores_screen/QuestFeed'
+import RoundButton from '../../../components/components_universal/RoundButton'
 
 // -------------------------------------- Global Value 
 const storeImgHeaderHeight = 0.35 * height
@@ -166,29 +167,49 @@ export default function StoreEntry({
                     </View>
                 </View>
                 {/* Right Section */}
-                <IconLabelButton
-                    label={'Prämienliste'}
-                    icon={icons.MaterialCommunityIcons}
-                    iconName={'gift'}
-                    iconSize={18}
-                    iconColor={COLORS.grey}
-                    style={{
-                        backgroundColor: COLORS.ivoryDark,
-                        height: 50,
-                        paddingHorizontal: 25,
-                        borderRadius: 16,
-                        alignSelf: 'flex-end',
-                    }}
-                    labelStyle={{
-                        marginLeft: 5,
-                        color: COLORS.grey,
-                        fontFamily: 'RH-Medium'
-                    }}
-                    innerContainerStyle={{
-                        alignItems: 'baseline'
-                    }}
-                    onPressButton={() => console.log('open Modal')}
-                />
+                <View style={{flexDirection: 'row'}}>
+                    {/* Coupons Overview Button  */}
+                    <RoundButton
+                        icon={icons.MaterialCommunityIcons}
+                        iconName={'ticket-percent'}
+                        iconSize={20}
+                        iconColor={COLORS.grey}
+                        style={{
+                            height: 50,
+                            width: 50,
+                            borderRadius: 16,
+                            alignSelf: 'flex-end',
+                            margin: 0,
+                            backgroundColor: COLORS.ivoryDark,
+                        }}
+                        onPressButton={() => navigation.navigate('CouponsOverview')}
+                    />
+                    {/* Award Overview Button  */}
+                    <IconLabelButton
+                        label={'Prämienliste'}
+                        icon={icons.MaterialCommunityIcons}
+                        iconName={'gift'}
+                        iconSize={19}
+                        iconColor={COLORS.grey}
+                        style={{
+                            backgroundColor: COLORS.ivoryDark,
+                            height: 50,
+                            paddingHorizontal: 15,
+                            borderRadius: 16,
+                            alignSelf: 'flex-end',
+                            marginLeft: 10,
+                        }}
+                        labelStyle={{
+                            marginLeft: 2,
+                            color: COLORS.grey,
+                            fontFamily: 'RH-Medium'
+                        }}
+                        innerContainerStyle={{
+                            alignItems: 'baseline'
+                        }}
+                        onPressButton={() => navigation.navigate('AwardOverview')}
+                    />
+                </View>
             </View>
 
             {/* --------- Challenge Section */}
@@ -239,7 +260,7 @@ export default function StoreEntry({
                         color: COLORS.grey,
                         fontFamily: 'RH-Medium'
                     }}
-                    onPressButton={() => console.log('navigate screen send Feedback')}
+                    onPressButton={() => navigation.navigate('SendFeedback')}
                 />
 
         </View>

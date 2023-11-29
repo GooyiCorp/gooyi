@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native'
 import React from 'react'
-import { ROUTES } from '../index/constantsindex'
+import { ROUTES } from '../../index/constantsindex'
 
 
 export default function LoadingScreen({navigation}) {

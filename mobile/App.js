@@ -7,7 +7,7 @@ import { scale, verticalScale, moderateScale } from './src/helper/scale.js';
 import * as Linking from "expo-linking";
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
-import RootNav from './src/navigation/N-RootNav.js';
+import RootNav from './src/navigation/mainNavigation/N-RootNav.js';
 import {Platform} from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store.js';

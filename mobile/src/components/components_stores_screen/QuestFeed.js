@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { width } from '../../../constants/size'
-import { COLORS } from '../../../index/constantsindex'
-import { T1, T2 } from '../../../constants/text-style'
+import { width } from '../../constants/size'
+import { COLORS } from '../../index/constantsindex'
+import { T1, T2 } from '../../constants/text-style'
 
 export default function QuestFeed() {
   return (

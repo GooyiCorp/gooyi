@@ -3,18 +3,18 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack'
 
-import Onboarding from '../screens/root-screens/S-Onboarding';
-import Loading from '../screens/root-screens/S-Loading';
-import QRScanStackNav from './navigationStack/N-QRScanStack';
-import ProfileStackNav from './navigationStack/N-ProfileStack';
+import Onboarding from '../../screens/root-screens/S-Onboarding';
+import Loading from '../../screens/root-screens/S-Loading';
+import QRScanStackNav from '../navigationStack/N-QRScanStack';
+import ProfileStackNav from '../navigationStack/N-ProfileStack';
 
 
-import FinderStackNav from './navigationStack/N-FinderStack';
+import FinderStackNav from '../navigationStack/N-FinderStack';
 import MainNav from './N-MainNav';
-import StoresStackNav from './navigationStack/N-StoresStack';
-import RegisterEMailStack from './navigationStack/n_RegisterEMailStack';
-import Search from '../screens/root-screens/Search';
-import LocateStack from './navigationStack/n_locateStack';
+import StoresStackNav from '../navigationStack/N-StoresStack';
+import RegisterEMailStack from '../navigationStack/n_RegisterEMailStack';
+import Search from '../../screens/root-screens/Search';
+import LocateStack from '../navigationStack/n_locateStack';
 
 
 
