@@ -20,7 +20,6 @@ import Request from '../helper/request.js'
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {
-    const navigation = useNavigation()
     const dispatch = useDispatch()
 
     const { accessToken, refreshToken } = (typeof route.params != 'undefined') ? route.params : {accessToken: '', refreshToken: ''} 
@@ -47,58 +46,41 @@ export default function MainNav({route}) {
     useEffect(() => {
         checkLogin(accessToken, refreshToken)
     }, [route.params])
-    // handle show Pages
-    const page = useSelector((state) => state.page.page)
-
-    useEffect(() => {
-        switch (page) {
-            case 'discover': 
-                handleShowDiscover()
-                break
-            case 'coupons': 
-                handleShowCoupons()
-                break
-            case 'stores':
-                handleShowStores()
-                break
-            case 'profile':
-                handleShowProfile()
-                break
-        }
-    }, [page])
+    
     // ---------------------------------------------------------------------- Screens Transition
-
+    const page = useSelector((state) => state.page.page)
+    
     const showDiscover = useSharedValue(1)
     const showCoupons = useSharedValue(0)
     const showStores = useSharedValue(0)
     const showProfile = useSharedValue(0)
     
     const handleShowDiscover = () => {
-        showDiscover.value = withTiming(1, {duration: 300})  
-        showCoupons.value = withDelay(300, withTiming(0))
-        showStores.value = withDelay(300, withTiming(0))
-        showProfile.value = withDelay(300, withTiming(0))
+        showDiscover.value = withTiming(1, {duration: 500})  
+        showCoupons.value = withDelay(500, withTiming(0))
+        showStores.value = withDelay(500, withTiming(0))
+        showProfile.value = withDelay(500, withTiming(0))
     }
 
     const handleShowCoupons = () => {
-        showDiscover.value = withDelay(300, withTiming(0))
-        showCoupons.value = withTiming(1, {duration: 300})
-        showStores.value = withDelay(300, withTiming(0))
-        showProfile.value = withDelay(300, withTiming(0))
+        showDiscover.value = withDelay(500, withTiming(0))
+        showCoupons.value = withTiming(1, {duration: 500})
+        showStores.value = withDelay(500, withTiming(0))
+        showProfile.value = withDelay(500, withTiming(0))
     }
 
     const handleShowStores = () => {
-        showDiscover.value = withDelay(300, withTiming(0))
-        showCoupons.value = withDelay(300, withTiming(0))
-        showStores.value = withTiming(1, {duration: 300})
-        showProfile.value = withDelay(300, withTiming(0))
+        showDiscover.value = withDelay(500, withTiming(0))
+        showCoupons.value = withDelay(500, withTiming(0))
+        showStores.value = withTiming(1, {duration: 500})
+        showProfile.value = withDelay(500, withTiming(0))
     }
 
     const handleShowProfile = () => {
-        showDiscover.value = withDelay(300, withTiming(0))
-        showCoupons.value = withDelay(300, withTiming(0))
-        showStores.value = withDelay(300, withTiming(0))
-        showProfile.value = withTiming(1, {duration: 300})
+        showDiscover.value = withDelay(500, withTiming(0))
+        showCoupons.value = withDelay(500, withTiming(0))
+        showStores.value = withDelay(500, withTiming(0))
+        showProfile.value = withTiming(1, {duration: 500})
     }
       
     const transitionDiscover = useAnimatedStyle( () =>{
@@ -171,10 +153,12 @@ export default function MainNav({route}) {
         {/* -------------------------------------------------------------------- Tab Navigation */}
         <Animated.View style={[{zIndex: 2, position: 'absolute', bottom: 0}, animateBottomTab]}>
             <TabNavigator
-                onPressDiscover={() => runOnUI(dispatch(setPage('discover')))}
-                onPressCoupons={() => runOnUI(dispatch(setPage('coupons')))}
-                onPressStores={() => runOnUI(dispatch(setPage('stores')))}
-                onPressProfile={() => runOnUI(dispatch(setPage('profile')))}
+                selectedPage={page}
+
+                handleShowDiscover={handleShowDiscover}
+                handleShowCoupons={handleShowCoupons}
+                handleShowStores={handleShowStores}
+                handleShowProfile={handleShowProfile}
                 
                 style={{ 
                     backgroundColor: COLORS.white,

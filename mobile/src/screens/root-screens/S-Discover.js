@@ -150,7 +150,7 @@ export default function DiscoverScreen( {
   // Main Section
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return ( 
-    <View style={[{height: height, width: width}]}>
+    <View style={[{height: height, width: width, overflow: 'hidden'}]}>
       {/* <LocateRequired/> */}
       <LocateModal />
       <ScreenOverlay locate/>
@@ -199,12 +199,7 @@ export default function DiscoverScreen( {
         }}
         style={[styles.mainContainer, {overflow: 'visible'}]}
         scrollEventThrottle={16}
-        onScrollEndDrag={(e) => {
-          // console.log(e.nativeEvent.layoutMeasurement.height)
-          // console.log(e.nativeEvent.contentOffset.y)
-          // if (e.nativeEvent.contentOffset.y > 1.1*e.nativeEvent.layoutMeasurement.height) {
-          //   console.log('do something')}
-          }}
+
       >
 
 

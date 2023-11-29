@@ -46,7 +46,7 @@ export default function StoresScreen({
       
       {/* Main Header */} 
       <MainHeader 
-        title='Stores'
+        title='Geschäfte'
         style={{backgroundColor: 'red', alignItems: 'center'}}
         mapButton
         onPressMapButton={() => navigation.navigate('Finder')}

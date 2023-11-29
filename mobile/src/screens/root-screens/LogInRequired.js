@@ -8,7 +8,6 @@ import { useNavigation } from '@react-navigation/native'
 import { H1, H3, T1, T2, T4 } from '../../constants/text-style'
 import { useDispatch } from 'react-redux'
 import { setPage } from '../../redux/slices/mainNavSlice'
-import { runOnUI } from 'react-native-reanimated'
 
 export default function LogInRequired({}) {
     const navigation = useNavigation()
@@ -29,7 +28,7 @@ export default function LogInRequired({}) {
             title={'Zur Anmeldung'} 
             bgStyle={{backgroundColor: COLORS.primary, maxWidth: '100%', borderRadius: 16, bottom: 130, position: 'absolute'}}
             titleStyle={{color: COLORS.white, fontFamily: 'RH-Medium'}}
-            onPress={() => runOnUI(dispatch(setPage('profile')))}
+            onPress={() => dispatch(setPage('profile'))}
         />
         {/* <BigButton 
             title={'Mit Telefonnumer Anmelden'}

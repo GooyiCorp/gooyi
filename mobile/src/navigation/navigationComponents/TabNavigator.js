@@ -4,44 +4,49 @@ import React, { useEffect, useState } from 'react'
 import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
 import { width } from '../../constants/size'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated'
-import { useSelector } from 'react-redux'
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
+
+import { useDispatch} from 'react-redux'
+import { setPage } from '../../redux/slices/mainNavSlice'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function TabNavigator({
-    onPressDiscover,
-    onPressCoupons,
-    onPressProfile,
-    onPressStores,
+    handleShowDiscover,
+    handleShowStores,
+    handleShowCoupons,
+    handleShowProfile,
     style,
+    selectedPage,
 }) {
-
+    
     // -------------------------------------------------------------------------------------------------------------------------------------- Transition
-    // const refDiscover = test.current
-    const animateDiscover = useSharedValue(1)
+    const dispatch = useDispatch()
+    const page = selectedPage
+    
+    const animateDiscover = useSharedValue(0)
     const animateCoupons = useSharedValue(0)
     const animateStores = useSharedValue(0)
     const animateProfile = useSharedValue(0)
 
-    const page = useSelector((state) => state.page.page)
-
-    useEffect(() => {
-        switch (page) {
-            case 'discover': 
-                animateDiscover.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-                break
-            case 'coupons': 
-                animateCoupons.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-                break
-            case 'stores':
-                animateStores.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-                break
-            case 'profile':
-                animateProfile.value = withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}), withTiming(0, {duration: 0}))
-                break
-        }
-    }, [page])
+    switch (page) {
+        case 'discover': 
+            animateDiscover.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            handleShowDiscover()
+            break
+        case 'coupons': 
+            animateCoupons.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            handleShowCoupons()
+            break
+        case 'stores':
+            animateStores.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            handleShowStores()
+            break
+        case 'profile':
+            animateProfile.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            handleShowProfile()
+            break
+    }
 
     const animationDiscover = useAnimatedStyle( () =>{
         const scale = interpolate(animateDiscover.value, [0,1,0], [1,0.8,1,1])
@@ -76,13 +81,12 @@ export default function TabNavigator({
     )
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
     return (
 
         <View style={[styles.tabNavigationContainer, style]}>
 
         {/* -------------------------------------------------------------------- Discover */}
-        <Pressable style={styles.navIconContainer} onPress={onPressDiscover}>
+        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('discover'))}>
             <Animated.View style={[styles.iconContainer, animationDiscover]}>
                 <Icons
                     icon={icons.Octicons} 
@@ -95,7 +99,7 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Coupons */}
-        <Pressable style={styles.navIconContainer} onPress={onPressCoupons}>
+        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('coupons'))}>
             <Animated.View style={[styles.iconContainer, animationCoupons]}> 
                 <Icons 
                     routeName={'coupons'} 
@@ -109,7 +113,7 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Stores */}
-        <Pressable style={styles.navIconContainer} onPress={onPressStores}>
+        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('stores'))}>
             <Animated.View style={[styles.iconContainer, animationStores]}> 
                 <Icons 
                     routeName={'stores'} 
@@ -119,11 +123,11 @@ export default function TabNavigator({
                     iconColor={ page == 'stores' ? COLORS.primary: COLORS.grey }
                 />
             </Animated.View>
-            <Text style={[ styles.labelStyle, { color: page == 'stores' ? COLORS.primary: COLORS.grey } ]}>Stores</Text>
+            <Text style={[ styles.labelStyle, { color: page == 'stores' ? COLORS.primary: COLORS.grey } ]}>Geschäfte</Text>
         </Pressable>
 
         {/* -------------------------------------------------------------------- Profile */}
-        <Pressable style={styles.navIconContainer} onPress={onPressProfile}>
+        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('profile'))}>
             <Animated.View style={[styles.iconContainer, animationProfile]}>
                 <Icons 
                     routeName={'profile'} 
