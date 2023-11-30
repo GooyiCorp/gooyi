@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button } from 'react-native'
 import React from 'react'
-import PointCounter from '../../components/components_universal/PointCounter'
+import PointCounter from '../../components/components_universal/pointCounter/PointCounter'
 
 export default function Loading( {navigation} ) {
   return (

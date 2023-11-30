@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React, { useRef } from 'react'
 
 // Reanimated
@@ -138,7 +138,7 @@ export default function StoreEntry({
                 {/* Description */}
                 <Text style={[T1, {marginTop: 20}]}>Frische handgemachte Brötchen, Kuchen und Gebäcke.</Text>
                 {/* Opening hours */}
-                <View style={{marginTop: 10}}>
+                <View style={{marginTop: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
                     {/* Left Section */}
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Icons 
@@ -150,7 +150,9 @@ export default function StoreEntry({
                         <Text style={[T2, {marginLeft: 5}]}>10:00 - 20:00</Text>
                     </View>
                     {/* Right Section */}
-
+                    <TouchableOpacity style={styles.buttonStyle}>
+                        <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr Informationen</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
 
@@ -217,6 +219,7 @@ export default function StoreEntry({
                 {/* Header */}
                 <PresentationHeader
                     title={'Herausforderungen'}
+                    showAllButton
                 />
                 {/* Quests */}
                 <View style={{marginHorizontal: 30}}>
@@ -231,6 +234,7 @@ export default function StoreEntry({
                 {/* Header */}
                 <PresentationHeader
                     title={'Aktuelle Angebote'}
+                    
                 />
                 {/* New Offers */}
                 <View style={{marginHorizontal: 30}}>
