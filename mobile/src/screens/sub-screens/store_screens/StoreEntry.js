@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useRef } from 'react'
+import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native'
+import React, { useEffect, useRef } from 'react'
 
 // Reanimated
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
@@ -19,6 +19,11 @@ import NewOfferBox from '../../../components/components_discover_screen/NewOffer
 import StoreNav from '../../../navigation/navigationComponents/StoreNav'
 import QuestFeed from '../../../components/components_stores_screen/QuestFeed'
 import RoundButton from '../../../components/components_universal/RoundButton'
+import AnimatedText from '../../../components/components_universal/pointCounter/AnimatedText'
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { decreasePoint, increasePoint, setPoint } from '../../../redux/slices/pointSlice'
 
 // -------------------------------------- Global Value 
 const storeImgHeaderHeight = 0.35 * height
@@ -28,6 +33,9 @@ export default function StoreEntry({
     navigation, 
     navigation: {goBack},
 }) {
+    // Redux
+    const dispatch = useDispatch()
+
     // ---------------------------------- Sticky Header
     // Value Section
     const scrollRef = useRef()
@@ -62,6 +70,15 @@ export default function StoreEntry({
             opacity: scrollDistance.value > storeImgHeaderHeight*0.8 ? interpolate(scrollDistance.value, [storeImgHeaderHeight*0.8, storeImgHeaderHeight], [0,1]) : 0,
         }
     })
+
+    // ---------------------------------- User Point
+    // Value Section
+    const point = useSelector((state) => state.point.point)
+    // Set User Point 
+    useEffect(() => {
+        // Thanh - lay Store Point nhet vao day 
+        dispatch(setPoint(1270))
+    }, [])
 
 // ---------------------------------------------------------------------------------------------------------------------
 // MAIN 
@@ -164,8 +181,9 @@ export default function StoreEntry({
                     <Text style={[T3, {color: COLORS.grey}]}>Meine Punkte</Text>
                     {/* Points */}
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={[H2, {color: COLORS.grey, marginRight: 5}]}>500</Text>
-                        <PointIcon style={{marginTop: 18}}/>
+                        {/* <Text style={[H2, {color: COLORS.grey, marginRight: 5}]}>500</Text> */}
+                        <PointIcon style={{marginTop: 18, marginRight: 5}}/>
+                        <AnimatedText num={point} duration={1000}/>
                     </View>
                 </View>
                 {/* Right Section */}
@@ -284,6 +302,12 @@ export default function StoreEntry({
             }}
             onPress={() => console.log('join queue')}
         />  
+        
+        {/* Test Store Point Buttons */}
+        <View style={{flexDirection: 'row', paddingHorizontal: 30, position: 'absolute', bottom: 100}}>
+        <Button title='increase' onPress={() => dispatch(increasePoint(100))}/>
+        <Button title='decrease' onPress={() => dispatch(decreasePoint(200))}/>
+        </View>
 
     </View>
   )

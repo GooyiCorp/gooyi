@@ -30,7 +30,7 @@ export default function RootNav() {
   return (
     <>
         <Root.Navigator
-            initialRouteName='Loading'
+            initialRouteName='Main'
             screenOptions={{
                 headerShown: false,    
             }}
