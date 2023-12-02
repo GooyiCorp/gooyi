@@ -25,6 +25,8 @@ import AnimatedText from '../../../components/components_universal/pointCounter/
 import { useDispatch, useSelector } from 'react-redux'
 import { decreasePoint, increasePoint, setPoint } from '../../../redux/slices/pointSlice'
 import { setShowQueueModal } from '../../../redux/slices/showModalSlice'
+import QueueModal from '../../../components/components_stores_screen/queue/queueModal'
+import ScreenOverlay from '../../../components/components_universal/ScreenOverlay'
 
 // -------------------------------------- Global Value 
 const storeImgHeaderHeight = 0.35 * height
@@ -86,7 +88,8 @@ export default function StoreEntry({
 // ---------------------------------------------------------------------------------------------------------------------
   return (
     <View style={{height: height, width: width, backgroundColor: COLORS.white, overflow: 'hidden'}}>
-
+        <QueueModal />
+        <ScreenOverlay queue/>
         {/* ----------------------------- Nav Header */}
         <Animated.View style={[{position: 'absolute', zIndex: 3, width: width}, animateNavHeader]}>
             {/* Nav Bar  */}

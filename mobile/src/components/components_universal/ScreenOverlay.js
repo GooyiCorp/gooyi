@@ -4,11 +4,12 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideFilterModal, setHideLocateModal } from '../../redux/slices/showModalSlice'
+import { setHideFilterModal, setHideLocateModal, setHideQueueModal } from '../../redux/slices/showModalSlice'
 
 export default function ScreenOverlay({
     locate,
     search,
+    queue,
 }) {
 
     const dispatch = useDispatch()
@@ -18,6 +19,8 @@ export default function ScreenOverlay({
         modal = useSelector((state) => state.showModal.locateModal)
     } else if (search) {
         modal = useSelector((state) => state.showModal.filterModal)
+    } else if (queue) {
+        modal = useSelector((state) => state.showModal.queueModal)
     }
     
     const [showOverlay, setShowOverlay] = useState(false)
@@ -47,6 +50,8 @@ export default function ScreenOverlay({
             dispatch(setHideLocateModal())
         } else if (search) {
             dispatch(setHideFilterModal())
+        } else if (queue) {
+            dispatch(setHideQueueModal())
         }
     }
 

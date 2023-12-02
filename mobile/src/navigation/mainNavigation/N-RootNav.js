@@ -30,7 +30,6 @@ const Root = createStackNavigator();
 export default function RootNav() {
   return (
     <>
-    <QueueModal />
         <Root.Navigator
             initialRouteName='Main'
             screenOptions={{
