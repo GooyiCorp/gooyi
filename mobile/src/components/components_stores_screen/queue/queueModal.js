@@ -129,13 +129,15 @@ export default function QueueModal() {
                     {/* <Text style={[T2, {marginTop: 20, textAlign: 'center'}]}>Bitte achte darauf, dass du dich nicht{"\n"}zu weit weg vom Laden entfernst!</Text> */}
                 </View>
                 {/* QR Section */}
-                <View style={{width: width, height: 0.40*height, alignItems: 'center', paddingBottom: 130, justifyContent: 'center'}}>
-                    <QR
-                        value={userID}
-                        size={160}
-                        color={COLORS.black}
-                        backgroundColor={COLORS.white}
-                    />
+                <View style={{width: width, height: 0.40*height, alignItems: 'center', paddingBottom: 120, justifyContent: 'center'}}>
+                    <View style={styles.qrCodeContainer}>
+                        <QR
+                            value={userID}
+                            size={160}
+                            color={COLORS.black}
+                            backgroundColor={COLORS.ivory}
+                        />
+                    </View>
                 </View>
 
                 <BigButton
@@ -212,12 +214,10 @@ const styles = StyleSheet.create({
     qrCodeContainer: {
         height: 200,
         width: 200,
-        // backgroundColor: COLORS.mainBackground,
+        backgroundColor: COLORS.ivory,
         borderRadius: 16,
         justifyContent: 'center',
         alignItems: 'center',
-        // borderColor: COLORS.borderGrey,
-        // borderWidth: 0.5
       },
   
   })
