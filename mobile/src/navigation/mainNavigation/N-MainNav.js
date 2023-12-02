@@ -17,6 +17,7 @@ import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../../redu
 import { store } from '../../redux/store.js'
 import { setPage } from '../../redux/slices/mainNavSlice.js'
 import Request from '../../helper/request.js'
+import QueueModal from '../../components/components_stores_screen/queue/queueModal.js'
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {

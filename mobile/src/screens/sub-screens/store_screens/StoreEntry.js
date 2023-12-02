@@ -24,6 +24,7 @@ import AnimatedText from '../../../components/components_universal/pointCounter/
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { decreasePoint, increasePoint, setPoint } from '../../../redux/slices/pointSlice'
+import { setShowQueueModal } from '../../../redux/slices/showModalSlice'
 
 // -------------------------------------- Global Value 
 const storeImgHeaderHeight = 0.35 * height
@@ -300,7 +301,7 @@ export default function StoreEntry({
             titleStyle={{
                 color: COLORS.white
             }}
-            onPress={() => console.log('join queue')}
+            onPress={() => dispatch(setShowQueueModal())}
         />  
         
         {/* Test Store Point Buttons */}

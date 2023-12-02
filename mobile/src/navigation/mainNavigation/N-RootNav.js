@@ -15,6 +15,7 @@ import StoresStackNav from '../navigationStack/N-StoresStack';
 import RegisterEMailStack from '../navigationStack/n_RegisterEMailStack';
 import Search from '../../screens/root-screens/Search';
 import LocateStack from '../navigationStack/n_locateStack';
+import QueueModal from '../../components/components_stores_screen/queue/queueModal';
 
 
 
@@ -29,6 +30,7 @@ const Root = createStackNavigator();
 export default function RootNav() {
   return (
     <>
+    <QueueModal />
         <Root.Navigator
             initialRouteName='Main'
             screenOptions={{
