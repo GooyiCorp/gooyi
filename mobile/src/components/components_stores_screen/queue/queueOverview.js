@@ -10,8 +10,12 @@ import BigButton from '../../components_LogIn/BigButton';
 import RoundButton from '../../components_universal/RoundButton';
 import { icons } from '../../components_universal/Icons';
 import { moderateScale } from '../../../helper/scale';
+import { useDispatch } from 'react-redux';
+import { setShowQueueAlert } from '../../../redux/slices/queueSlice';
 
 export default function QueueOverview({navigation: {goBack}}) {
+
+    const dispatch = useDispatch()
     const userID = Math.random().toString()
   return (
     <View style={styles.container}>
@@ -20,7 +24,7 @@ export default function QueueOverview({navigation: {goBack}}) {
         icon={icons.Ionicons}
         iconName={'md-chevron-back'}
         iconSize={moderateScale(28,0.2)}
-        iconColor={COLORS.white}
+        iconColor={COLORS.mainBackground}
         style={{
             backgroundColor: COLORS.grey,
             height: moderateScale(38,0.2),
@@ -34,7 +38,14 @@ export default function QueueOverview({navigation: {goBack}}) {
         onPressButton={() => goBack()}
     />
                 {/* Logo Section */}
-                    <View style={{height: 100, width: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.white, borderRadius: 16}}>
+
+                {/* Queue Position Section  */}
+                <View style={{ alignItems: 'center', padding: 30, justifyContent:'center'}}>
+                    <Text style={[H1, {textAlign: 'center'}]}>Danke für's warten!</Text>
+                    <Text style={[T1, {marginTop: 20}]}>Du bist aktuell auf Position:</Text>
+
+                <View style={{flexDirection: 'row', marginVertical: 30}}>
+                    <View style={{height: 100, width: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.white, borderRadius: 16, marginRight: 15}}>
                         <Image 
                             source={require('../../../../assets/image/datbackhus.png')}
                             resizeMode='contain'
@@ -43,13 +54,13 @@ export default function QueueOverview({navigation: {goBack}}) {
                             }}
                         />  
                     </View>
-                {/* Queue Position Section  */}
-                <View style={{ alignItems: 'center', padding: 30, justifyContent:'center'}}>
-                    <Text style={[H1, {textAlign: 'center'}]}>Danke für's warten!</Text>
-                    <Text style={[T1, {marginTop: 20}]}>Du bist aktuell auf Position:</Text>
-                    <View style={styles.positionCircle}>
+
+                    <View style={styles.position}>
                         <Text style={[H2, {fontSize: 68}]}>15</Text>
                     </View>
+                </View>
+
+
                     <Text style={[T1]}>Geschätzte Wartezeit: <Text style={{fontFamily: 'RH-Bold', color: COLORS.primary}}>10 min.</Text></Text>
                     {/* <Text style={[T2, {marginTop: 20, textAlign: 'center'}]}>Bitte achte darauf, dass du dich nicht{"\n"}zu weit weg vom Laden entfernst!</Text> */}
                 </View>
@@ -66,14 +77,15 @@ export default function QueueOverview({navigation: {goBack}}) {
                 <BigButton
                     title={'Warteschlage verlassen'}
                     bgStyle={{
-                        backgroundColor: COLORS.primary,
+                        backgroundColor: COLORS.ivoryDark,
                         position: 'absolute',
                         zIndex: 2,
                         bottom: 30,
                     }}
                     titleStyle={{
-                        color: COLORS.white
+                        color: COLORS.grey
                     }}
+                    onPress={() => dispatch(setShowQueueAlert())}
                 />
             </View>
   )
@@ -89,23 +101,19 @@ const styles = StyleSheet.create({
         paddingBottom: 50
     },
 
-    positionCircle: {
-        width: 0.35*width,
-        height: 0.35*width,
-        // backgroundColor: COLORS.ivoryDark,
-        borderRadius: width,
-        alignSelf: 'center',
+    position: {
+        width: 100,
+        height: 100,
+        backgroundColor: COLORS.white,
+        borderRadius: 16,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     qrCodeContainer: {
-        height: 200,
-        width: 200,
-        // backgroundColor: COLORS.white,
-        borderRadius: 16,
+        height: 180,
+        width: 180,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'center'
       },
 })

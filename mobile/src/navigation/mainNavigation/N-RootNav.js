@@ -16,6 +16,13 @@ import RegisterEMailStack from '../navigationStack/n_RegisterEMailStack';
 import Search from '../../screens/root-screens/Search';
 import LocateStack from '../navigationStack/n_locateStack';
 import QueueModal from '../../components/components_stores_screen/queue/queueModal';
+import CustomAlert from '../../components/components_stores_screen/queue/QueueAlert';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHideQueueAlert } from '../../redux/slices/queueSlice';
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay';
+import QueueAlert from '../../components/components_stores_screen/queue/QueueAlert';
+import { height, width } from '../../constants/size';
+import QueueSmall from '../../components/components_stores_screen/queue/QueueSmall';
 
 
 
@@ -28,8 +35,15 @@ const Root = createStackNavigator();
 //---------------------------------------------------------------------------------------------------------------------
 
 export default function RootNav() {
+    const dispatch = useDispatch()
+    const showQueueSmall = useSelector((state) => state.queue.showQueueSmall)
   return (
-    <>
+    <View style={{height: height, width: width, justifyContent: 'center'}}>
+    {showQueueSmall && <QueueSmall />}
+    <QueueAlert />
+    <ScreenOverlay queueAlert delay={200}/>
+
+
         <Root.Navigator
             initialRouteName='Main'
             screenOptions={{
@@ -106,7 +120,7 @@ export default function RootNav() {
         </Root.Navigator>
 
 
-    </>
+    </View>
   )
 }
 

@@ -31,6 +31,7 @@ import { setPage } from '../../redux/slices/mainNavSlice'
 import { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
 import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
+import CustomAlert from '../../components/components_stores_screen/queue/QueueAlert';
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -153,7 +154,7 @@ export default function DiscoverScreen( {
     <View style={[{height: height, width: width, overflow: 'hidden'}]}>
       {/* <LocateRequired/> */}
       <LocateModal />
-      <ScreenOverlay locate/>
+      <ScreenOverlay locate delay={0}/>
 
       {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 

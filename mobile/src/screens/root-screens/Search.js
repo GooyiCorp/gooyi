@@ -18,7 +18,7 @@ export default function Search({navigation: {goBack}}) {
   return (
     <View style={styles.screen}>
       <FilterModal />
-      <ScreenOverlay search/>
+      <ScreenOverlay search delay={0}/>
       <Pressable
         style={{
           height: height, 

@@ -16,18 +16,22 @@ import { H1, H2, H3, H4, T1, T2, T3, T4 } from '../../../constants/text-style'
 import RoundButton from '../../components_universal/RoundButton'
 import BigButton from '../../components_LogIn/BigButton'
 import { useNavigation } from '@react-navigation/native'
+import { setJoinedQueue } from '../../../redux/slices/queueSlice'
 
 
 export default function QueueModal() {
 
-  // Animation -----------------------------------------------------------------------------------------------------------
-    const navigation = useNavigation()
+    // Redux
     const dispatch = useDispatch()
+    const showQueueModal = useSelector((state) => state.showModal.queueModal)
+
+    // Animation -----------------------------------------------------------------------------------------------------------
+    const navigation = useNavigation()
+
 
     // Value ----------------------------------------------------------
     const translateY = useSharedValue(height)
     const context = useSharedValue({y: 0})
-    const showQueueModal = useSelector((state) => state.showModal.queueModal)
 
     // handle Close ---------------------------------------------------
     const handleClose = () => {
@@ -64,10 +68,10 @@ export default function QueueModal() {
       // check status
       useEffect(()=>{
         if (showQueueModal) {
-            translateY.value = withTiming(0, {duration: 500, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01),})
+            translateY.value = withTiming(0, {duration: 350, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01),})
         } 
         else {
-            translateY.value = withTiming(0.35*height, {duration: 400,easing: Easing.bezier(0.25, 0.1, 0.25, 1),})
+            translateY.value = withTiming(0.35*height, {duration: 250,easing: Easing.bezier(0.25, 0.1, 0.25, 1),})
         }
       }, [showQueueModal])
 
@@ -79,6 +83,14 @@ export default function QueueModal() {
 
     const handleRemovePerson = () => {
         numPerson != 1 ? setNumPerson(numPerson-1) : null
+    }
+
+    const handleConfirm = () => {
+        navigation.navigate('QueueOverview')
+        dispatch(setJoinedQueue())
+        setTimeout(() => {
+            dispatch(setHideQueueModal())
+        }, 500)
     }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -155,7 +167,7 @@ export default function QueueModal() {
             titleStyle={{
                 color: COLORS.white
             }}
-            onPress={() => navigation.navigate('QueueOverview')}
+            onPress={handleConfirm}
         />  
             
 

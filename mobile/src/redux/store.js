@@ -6,6 +6,7 @@ import subNavReducer from "./slices/subNavSlice";
 import locateReducer from "./slices/locateSlice";
 import searchReducer from "./slices/searchSlice";
 import pointReducer from "./slices/pointSlice";
+import queueReducer from "./slices/queueSlice";
 
 
 
@@ -18,5 +19,6 @@ export const store = configureStore({
         locate: locateReducer, 
         search: searchReducer,
         point: pointReducer,
+        queue: queueReducer,
     }
 })

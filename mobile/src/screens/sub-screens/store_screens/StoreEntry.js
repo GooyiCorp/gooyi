@@ -38,6 +38,7 @@ export default function StoreEntry({
 }) {
     // Redux
     const dispatch = useDispatch()
+    const joinedQueue = useSelector((state) => state.queue.joinedQueue)
 
     // ---------------------------------- Sticky Header
     // Value Section
@@ -89,7 +90,7 @@ export default function StoreEntry({
   return (
     <View style={{height: height, width: width, backgroundColor: COLORS.white, overflow: 'hidden'}}>
         <QueueModal />
-        <ScreenOverlay queue/>
+        <ScreenOverlay queue delay={0}/>
         {/* ----------------------------- Nav Header */}
         <Animated.View style={[{position: 'absolute', zIndex: 3, width: width}, animateNavHeader]}>
             {/* Nav Bar  */}
@@ -293,7 +294,7 @@ export default function StoreEntry({
         </ScrollView>
 
         {/* ----------------------------- Join Queue Button */}
-        <BigButton 
+        {!joinedQueue && <BigButton 
             title={'Warteschlage beitreten'}
             bgStyle={{
                 backgroundColor: COLORS.primary,
@@ -305,7 +306,7 @@ export default function StoreEntry({
                 color: COLORS.white
             }}
             onPress={() => dispatch(setShowQueueModal())}
-        />  
+        />}
         
         {/* Test Store Point Buttons */}
         <View style={{flexDirection: 'row', paddingHorizontal: 30, position: 'absolute', bottom: 100}}>
