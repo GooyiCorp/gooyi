@@ -26,7 +26,9 @@
         "UIBackgroundModes": [
           "location",
           "fetch"
-        ]
+        ],
+        "NSCameraUsageDescription": "Allow Gooyi to access camera.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       }
     },
     "android": {
@@ -40,7 +42,11 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "ACCESS_FINE_LOCATION",
-        "FOREGROUND_SERVICE"
+        "FOREGROUND_SERVICE",
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
       ]
     },
     "web": {
@@ -48,7 +54,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "61a53c6c-7f7c-4770-875d-ef6aec16feb0"
+        "projectId": "728c3287-7d6d-4a77-a1de-62a05ee42599"
       }
     },
     "plugins": [
