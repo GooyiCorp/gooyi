@@ -39,7 +39,7 @@ export default function RootNav() {
     const showQueueSmall = useSelector((state) => state.queue.showQueueSmall)
   return (
     <View style={{height: height, width: width, justifyContent: 'center'}}>
-    {showQueueSmall && <QueueSmall />}
+    
     <QueueAlert />
     <ScreenOverlay queueAlert delay={200}/>
 
@@ -118,7 +118,8 @@ export default function RootNav() {
             
             
         </Root.Navigator>
-
+        
+        {showQueueSmall && <QueueSmall />}
 
     </View>
   )

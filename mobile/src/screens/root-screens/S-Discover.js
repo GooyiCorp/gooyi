@@ -288,7 +288,7 @@ export default function DiscoverScreen( {
 
       
       {/* Test LogIn */}
-      <View style={{flexDirection: 'row', paddingHorizontal: 30, marginTop: 30, position: 'absolute', bottom: 100}}>
+      <View style={{flexDirection: 'row', paddingHorizontal: 30, marginTop: 30, position: 'absolute', bottom: 160}}>
           <Button title='set log in' onPress={handleTestPress} color={COLORS.borderGrey}/>
           <Button title='set log out' onPress={handleLogOut} color={COLORS.grey}/>
       </View>
