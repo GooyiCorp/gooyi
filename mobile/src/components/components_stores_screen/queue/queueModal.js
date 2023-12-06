@@ -6,7 +6,7 @@ import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, 
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideQueueModal } from '../../../redux/slices/showModalSlice'
+import { setHideQueueModal, setShowQueueOverviewModal } from '../../../redux/slices/showModalSlice'
 // Constant
 import { height, width } from '../../../constants/size'
 import { COLORS } from '../../../index/constantsindex'
@@ -16,7 +16,7 @@ import { H1, H2, H3, H4, T1, T2, T3, T4 } from '../../../constants/text-style'
 import RoundButton from '../../components_universal/RoundButton'
 import BigButton from '../../components_LogIn/BigButton'
 import { useNavigation } from '@react-navigation/native'
-import { setJoinedQueue } from '../../../redux/slices/queueSlice'
+import { setJoinedQueue, setShowQueueSmall } from '../../../redux/slices/queueSlice'
 
 
 export default function QueueModal() {
@@ -86,9 +86,10 @@ export default function QueueModal() {
     }
 
     const handleConfirm = () => {
-        navigation.navigate('QueueOverview')
+        dispatch(setShowQueueOverviewModal())
         dispatch(setJoinedQueue())
         setTimeout(() => {
+            dispatch(setShowQueueSmall())
             dispatch(setHideQueueModal())
         }, 500)
     }

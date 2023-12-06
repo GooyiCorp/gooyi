@@ -4,7 +4,7 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideFilterModal, setHideLocateModal, setHideQueueModal } from '../../redux/slices/showModalSlice'
+import { setHideFilterModal, setHideLocateModal, setHideQueueModal, setHideQueueOverviewModal } from '../../redux/slices/showModalSlice'
 import { setHideQueueAlert } from '../../redux/slices/queueSlice'
 
 export default function ScreenOverlay({
@@ -12,7 +12,9 @@ export default function ScreenOverlay({
     search,
     queue,
     queueAlert,
+    queueOverview,
     delay,
+    cardStyle,
 }) {
 
     const dispatch = useDispatch()
@@ -26,6 +28,8 @@ export default function ScreenOverlay({
         modal = useSelector((state) => state.showModal.queueModal)
     } else if (queueAlert) {
         modal = useSelector((state) => state.queue.showAlert)
+    } else if (queueOverview) {
+        modal = useSelector((state) => state.showModal.queueOverviewModal)
     }
     
     const [showOverlay, setShowOverlay] = useState(false)
@@ -59,13 +63,15 @@ export default function ScreenOverlay({
             dispatch(setHideQueueModal())
         } else if (queueAlert) {
             dispatch(setHideQueueAlert())
+        } else if (queueOverview) {
+            dispatch(setHideQueueOverviewModal())
         }
     }
 
   return (
     <>
     {showOverlay && 
-        <Animated.View style={[styles.overlay, translateOverlay]}>
+        <Animated.View style={[styles.overlay, translateOverlay, cardStyle]}>
             <Pressable style={{height: height, width: width, position: 'absolute'}} onPress={handleClose}></Pressable>
         </Animated.View>}
     </>

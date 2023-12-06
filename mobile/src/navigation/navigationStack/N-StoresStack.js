@@ -44,11 +44,6 @@ export default function StoresStackNav() {
         component={SendFeedback}
       />
 
-      <StoresStack.Screen 
-        name='QueueOverview'
-        component={QueueOverview}
-      />
-
     </StoresStack.Navigator>
   )
 }

@@ -7,7 +7,9 @@ export const queueSlice = createSlice({
     initialState: {
         joinedQueue: false,
         showAlert: false,
-        showQueueSmall: true,
+        showQueueSmall: false,
+
+        queuePosition: undefined,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -46,6 +48,8 @@ export const {
     setHideQueueAlert,
     setJoinedQueue,
     setLeaveQueue,
+    setShowQueueSmall,
+    setHideQueueSmall,
 
  } = queueSlice.actions;
  

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { height, width } from '../../../constants/size'
 import { H1, H2, T1 } from '../../../constants/text-style'
 
@@ -10,13 +10,34 @@ import BigButton from '../../components_LogIn/BigButton';
 import RoundButton from '../../components_universal/RoundButton';
 import { icons } from '../../components_universal/Icons';
 import { moderateScale } from '../../../helper/scale';
-import { useDispatch } from 'react-redux';
-import { setShowQueueAlert } from '../../../redux/slices/queueSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHideQueueSmall, setShowQueueAlert, setShowQueueSmall } from '../../../redux/slices/queueSlice';
 
-export default function QueueOverview({navigation: {goBack}}) {
+export default function QueueOverview({}) {
 
     const dispatch = useDispatch()
+    const joinedQueue = useSelector((state) => state.queue.joinedQueue)
     const userID = Math.random().toString()
+
+    // useEffect(() => {
+    //     if (!joinedQueue) {
+    //         goBack()
+    //         console.log('A')
+    //     } 
+    // }, [joinedQueue])
+
+
+    const onPressGoBack = () => {
+        // goBack()
+        // if (joinedQueue) {
+        //     dispatch(setShowQueueSmall())
+        // }
+    }
+
+    const onPressLeaveQueue = () => {
+        dispatch(setShowQueueAlert())
+    }
+
   return (
     <View style={styles.container}>
             {/* Close Button */}
@@ -35,7 +56,7 @@ export default function QueueOverview({navigation: {goBack}}) {
             left: 30,
             zIndex: 2,
         }}
-        onPressButton={() => goBack()}
+        onPressButton={onPressGoBack}
     />
                 {/* Logo Section */}
 
@@ -85,7 +106,7 @@ export default function QueueOverview({navigation: {goBack}}) {
                     titleStyle={{
                         color: COLORS.grey
                     }}
-                    onPress={() => dispatch(setShowQueueAlert())}
+                    onPress={onPressLeaveQueue}
                 />
             </View>
   )

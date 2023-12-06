@@ -23,6 +23,7 @@ import ScreenOverlay from '../../components/components_universal/ScreenOverlay';
 import QueueAlert from '../../components/components_stores_screen/queue/QueueAlert';
 import { height, width } from '../../constants/size';
 import QueueSmall from '../../components/components_stores_screen/queue/QueueSmall';
+import QueueOverviewModal from '../../components/components_stores_screen/queue/QueueOverviewModal';
 
 
 
@@ -39,10 +40,8 @@ export default function RootNav() {
     const showQueueSmall = useSelector((state) => state.queue.showQueueSmall)
   return (
     <View style={{height: height, width: width, justifyContent: 'center'}}>
-    
-    <QueueAlert />
-    <ScreenOverlay queueAlert delay={200}/>
-
+    <QueueOverviewModal />
+    <ScreenOverlay queueOverview delay={0}/>
 
         <Root.Navigator
             initialRouteName='Main'
@@ -115,7 +114,6 @@ export default function RootNav() {
                 name='Locate' 
                 component={LocateStack}
             />
-            
             
         </Root.Navigator>
         

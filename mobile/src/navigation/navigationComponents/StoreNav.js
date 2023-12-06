@@ -28,7 +28,7 @@ export default function StoreNav({
 
     const buttonBackground = useAnimatedStyle(() => {
         return {
-            backgroundColor: interpolateColor(animation.value, [headerHeight*0.5, headerHeight*0.8], [COLORS.white05 , COLORS.default])
+            backgroundColor: interpolateColor(animation.value, [headerHeight*0.5, headerHeight*0.8], [COLORS.white05 , COLORS.ivoryDark])
         }
     })
     // ------------------------------------------------------------------------------------------------------------------------- Right View

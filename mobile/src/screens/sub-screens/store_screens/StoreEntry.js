@@ -27,6 +27,7 @@ import { decreasePoint, increasePoint, setPoint } from '../../../redux/slices/po
 import { setShowQueueModal } from '../../../redux/slices/showModalSlice'
 import QueueModal from '../../../components/components_stores_screen/queue/queueModal'
 import ScreenOverlay from '../../../components/components_universal/ScreenOverlay'
+import { BlurView } from 'expo-blur'
 
 // -------------------------------------- Global Value 
 const storeImgHeaderHeight = 0.35 * height
@@ -117,11 +118,7 @@ export default function StoreEntry({
             />
         </Animated.View>
 
-        {/* ----------------------------- Nav Background */}
-        <Animated.View style={[styles.navHeaderBackground, animateNavBackground]}>
-            {/* Store Name */}
-            <Animated.Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}, animateStoreName]}>Dat Backhus</Animated.Text>
-        </Animated.View>
+
 
         {/* ----------------------------- Scroll View */}
         <ScrollView
@@ -314,6 +311,14 @@ export default function StoreEntry({
         <Button title='decrease' onPress={() => dispatch(decreasePoint(200))}/>
         </View>
 
+        {/* ----------------------------- Nav Background */}
+        <Animated.View style={[styles.navHeaderBackground, animateNavBackground]}>
+            {/* Store Name */}
+            <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+            <View style={{height: height, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}}></View>
+            <Animated.Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey, position: 'absolute', left: 80, bottom: 18}, animateStoreName]}>Dat Backhus</Animated.Text>
+        </Animated.View>
+
     </View>
   )
 }
@@ -358,18 +363,18 @@ const styles = StyleSheet.create({
         width: width,
         height: 110,
         position: 'absolute',
-        backgroundColor: COLORS.white,
-        zIndex: 1,
+        // backgroundColor: COLORS.white,
+        // zIndex: 1,
         justifyContent: 'flex-end',
-        paddingBottom: 19,
-        paddingLeft: 0.2*width,
+        // paddingBottom: 19,
+        // paddingLeft: 0.2*width,
     
-        shadowColor:"#686868",
+        shadowColor:COLORS.ivoryDark2,
         shadowOffset: {
            width: 0,
            height: 0,
         },
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.5,
         shadowRadius: 10,
         elevation: 0
     }

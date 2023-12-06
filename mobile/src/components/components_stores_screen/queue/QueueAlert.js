@@ -6,14 +6,16 @@ import BigButton from '../../components_LogIn/BigButton'
 import { H4, T1, T2 } from '../../../constants/text-style'
 import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideQueueAlert } from '../../../redux/slices/queueSlice'
+import { setHideQueueAlert, setHideQueueSmall, setJoinedQueue, setLeaveQueue } from '../../../redux/slices/queueSlice'
 import { CommonActions, useNavigation } from '@react-navigation/native'
+import { setHideQueueOverviewModal } from '../../../redux/slices/showModalSlice'
 
 export default function QueueAlert({
 }) {
     // Redux
     const dispatch = useDispatch()
     const showAlert = useSelector((state) => state.queue.showAlert)
+    const navigation = useNavigation()
 
     // Reanimated
     const animation = useSharedValue(0)
@@ -37,7 +39,13 @@ export default function QueueAlert({
 
     const handleConfirm = () => {
         // Thanh - thoat Queue
+
+        dispatch(setLeaveQueue())
         dispatch(setHideQueueAlert())
+        setTimeout(() => {
+            dispatch(setHideQueueOverviewModal())
+            dispatch(setHideQueueSmall())
+        }, 500)
     }
 
   return (
@@ -86,7 +94,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 5,
+        zIndex: 6,
     },
 
     card: {
@@ -95,7 +103,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 20,
         justifyContent: 'space-between',
-        zIndex: 5,
+        zIndex: 7,
         position: 'absolute',
         alignSelf: 'center',
         marginRight: 'auto'

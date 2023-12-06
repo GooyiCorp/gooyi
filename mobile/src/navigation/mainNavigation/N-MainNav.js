@@ -18,6 +18,7 @@ import { store } from '../../redux/store.js'
 import { setPage } from '../../redux/slices/mainNavSlice.js'
 import Request from '../../helper/request.js'
 import QueueModal from '../../components/components_stores_screen/queue/queueModal.js'
+import { BlurView } from 'expo-blur'
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {
@@ -161,21 +162,10 @@ export default function MainNav({route}) {
                 handleShowStores={handleShowStores}
                 handleShowProfile={handleShowProfile}
                 
-                style={{ 
-                    backgroundColor: COLORS.white,
-                            
-                    shadowColor:"#686868",
-                    shadowOffset: {
-                       width: 0,
-                       height: 0,
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 10,
-                    elevation: 0
-                      
-                }}
             />
         </Animated.View>
+
+
 
         {/* -------------------------------------------------------------------- Discover */}
         <Animated.View style={[
@@ -213,7 +203,14 @@ export default function MainNav({route}) {
             <ProfileScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
+
+        <Animated.View style={[styles.navBackground, animateBottomTab]}>
+            {/* Store Name */}
+            <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+            <View style={{height: height, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}}></View>
+        </Animated.View>
     </View>
+    
     
     )
 }
@@ -227,6 +224,23 @@ const styles = StyleSheet.create({
         width: width,
         position: 'absolute',
         backgroundColor: COLORS.white,
+    },
+
+    navBackground: {
+        width: width,
+        height: 85,
+        position: 'absolute',
+        zIndex: 1,
+        bottom: 0,
+
+        shadowColor:COLORS.ivoryDark2,
+        shadowOffset: {
+           width: 0,
+           height: 0,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+        elevation: 0
     },
 
 })

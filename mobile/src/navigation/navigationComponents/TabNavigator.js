@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 
 import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
-import { width } from '../../constants/size'
+import { height, width } from '../../constants/size'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
 
 import { useDispatch} from 'react-redux'
 import { setPage } from '../../redux/slices/mainNavSlice'
+import { BlurView } from 'expo-blur'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
     tabNavigationContainer: {
         height: 85,
         width: width,
-        backgroundColor: COLORS.white,
+        backgroundColor: 'transparent',
         bottom: 0,
         position: 'absolute', 
         zIndex: 2,
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingBottom: 25,
+        overflow: 'hidden'
     },
 
     navIconContainer: {
@@ -181,5 +183,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium', 
         fontSize: 10, 
         color: COLORS.subPrimary
-    }
+    },
 })
