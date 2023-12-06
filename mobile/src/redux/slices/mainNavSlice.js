@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+const unlock = () => {
+    setTimeout
+}
+
 export const mainNavSlice = createSlice({
 
     name: 'page',
@@ -15,13 +19,13 @@ export const mainNavSlice = createSlice({
         setPage: (state, action) => {
             state.page = action.payload
         },
-
     }
 })
 
 export const {
 
     setPage,
+
 
  } = mainNavSlice.actions;
  

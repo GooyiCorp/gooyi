@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
 
-import { useDispatch} from 'react-redux'
-import { setPage } from '../../redux/slices/mainNavSlice'
+import { useDispatch, useSelector} from 'react-redux'
+import { setLock, setPage, setUnlock } from '../../redux/slices/mainNavSlice'
 import { BlurView } from 'expo-blur'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -30,8 +30,10 @@ export default function TabNavigator({
     const animateStores = useSharedValue(0)
     const animateProfile = useSharedValue(0)
 
+    useEffect(() => {
     switch (page) {
         case 'discover': 
+            console.log('B')
             animateDiscover.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
             handleShowDiscover()
             break
@@ -48,6 +50,7 @@ export default function TabNavigator({
             handleShowProfile()
             break
     }
+    }, [page])
 
     const animationDiscover = useAnimatedStyle( () =>{
         const scale = interpolate(animateDiscover.value, [0,1,0], [1,0.8,1,1])
@@ -80,14 +83,24 @@ export default function TabNavigator({
             }
         }
     )
-
+    const [lock, setLock] = useState(false)
+    const changePage = (pageName) => {
+        if (!lock) {
+            console.log('A')
+            dispatch(setPage(pageName))
+            setLock(true)
+            setTimeout(() => {
+                setLock(false)
+            }, 400)
+        }
+    }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     return (
 
         <View style={[styles.tabNavigationContainer, style]}>
 
         {/* -------------------------------------------------------------------- Discover */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('discover'))}>
+        <Pressable style={styles.navIconContainer} onPress={() => changePage('discover')}>
             <Animated.View style={[styles.iconContainer, animationDiscover]}>
                 <Icons
                     icon={icons.Octicons} 
@@ -100,7 +113,7 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Coupons */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('coupons'))}>
+        <Pressable style={styles.navIconContainer} onPress={() => changePage('coupons')}>
             <Animated.View style={[styles.iconContainer, animationCoupons]}> 
                 <Icons 
                     routeName={'coupons'} 
@@ -114,7 +127,7 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Stores */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('stores'))}>
+        <Pressable style={styles.navIconContainer} onPress={() => changePage('stores')}>
             <Animated.View style={[styles.iconContainer, animationStores]}> 
                 <Icons 
                     routeName={'stores'} 
@@ -128,7 +141,7 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Profile */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('profile'))}>
+        <Pressable style={styles.navIconContainer} onPress={() => changePage('profile')}>
             <Animated.View style={[styles.iconContainer, animationProfile]}>
                 <Icons 
                     routeName={'profile'} 
