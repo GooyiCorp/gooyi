@@ -313,9 +313,10 @@ export default function StoreEntry({
 
         {/* ----------------------------- Nav Background */}
         <Animated.View style={[styles.navHeaderBackground, animateNavBackground]}>
-            {/* Store Name */}
-            <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
-            <View style={{height: height, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}}></View>
+            <View style={{width: width, height: 110, overflow: 'hidden'}}>
+                <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+            </View>
+            <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
             <Animated.Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey, position: 'absolute', left: 80, bottom: 18}, animateStoreName]}>Dat Backhus</Animated.Text>
         </Animated.View>
 
@@ -363,20 +364,18 @@ const styles = StyleSheet.create({
         width: width,
         height: 110,
         position: 'absolute',
-        // backgroundColor: COLORS.white,
-        // zIndex: 1,
         justifyContent: 'flex-end',
-        // paddingBottom: 19,
-        // paddingLeft: 0.2*width,
-    
+    },
+
+    shadow: {
         shadowColor:COLORS.ivoryDark2,
         shadowOffset: {
            width: 0,
            height: 0,
         },
-        shadowOpacity: 0.5,
+        shadowOpacity: 0.8,
         shadowRadius: 10,
         elevation: 0
-    }
+      }
 })
 

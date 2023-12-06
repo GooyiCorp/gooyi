@@ -309,12 +309,11 @@ export default function DiscoverScreen( {
       </Animated.View>
 
       {/* ----------------------------- Nav Background */}
-      <Animated.View style={[styles.navHeaderBackground, styles.shadow, translateMainHeader, translateMainHeaderBackground]}>
+      <Animated.View style={[styles.navHeaderBackground, translateMainHeader, translateMainHeaderBackground]}>
         <View style={{width: width, height: 110, overflow: 'hidden'}}>
-        {/* Store Name */}
-        <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
-        <View style={{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}}></View>
+          <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
         </View>
+        <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
       </Animated.View>
 
     </View>
@@ -344,7 +343,7 @@ const styles = StyleSheet.create({
        width: 0,
        height: 0,
     },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 0
   }
