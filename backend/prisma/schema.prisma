@@ -17,8 +17,8 @@ model User {
   active         Boolean         @default(false)
   setting        Setting?
   last_login     DateTime
-  create_at      DateTime        @default(now()) @db.Timestamptz(6)
-  update_at      DateTime        @updatedAt @db.Timestamptz(6)
+  create_at      DateTime        @default(now())
+  update_at      DateTime        @updatedAt
   favoriteStores FavoriteStore[]
   feedback       Feedback[]
 }
@@ -29,20 +29,9 @@ model Setting {
   message    Boolean @default(false)
   terms      Boolean
   conditions Boolean
-  // Reference to User
   user       User    @relation(fields: [user_id], references: [user_id])
 }
 
-// FavoriteStore model
-model FavoriteStore {
-  user_id  Int
-  store_id Int
-  user     User  @relation(fields: [user_id], references: [user_id])
-  store    Store @relation(fields: [store_id], references: [store_id])
-
-  // Reference to User and Store
-  @@id([user_id, store_id])
-}
 
 // Coupons model
 model Coupons {
