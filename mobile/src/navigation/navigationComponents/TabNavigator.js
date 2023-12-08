@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
 
 import { useDispatch, useSelector} from 'react-redux'
 import { setLock, setPage, setUnlock } from '../../redux/slices/mainNavSlice'
@@ -33,20 +33,19 @@ export default function TabNavigator({
     useEffect(() => {
     switch (page) {
         case 'discover': 
-            console.log('B')
-            animateDiscover.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateDiscover.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) )  
             handleShowDiscover()
             break
         case 'coupons': 
-            animateCoupons.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateCoupons.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) ) 
             handleShowCoupons()
             break
         case 'stores':
-            animateStores.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateStores.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) )  
             handleShowStores()
             break
         case 'profile':
-            animateProfile.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateProfile.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) )  
             handleShowProfile()
             break
     }
@@ -86,12 +85,13 @@ export default function TabNavigator({
     const [lock, setLock] = useState(false)
     const changePage = (pageName) => {
         if (!lock) {
-            console.log('A')
             dispatch(setPage(pageName))
             setLock(true)
+            // console.log('lock')
             setTimeout(() => {
                 setLock(false)
-            }, 400)
+                // console.log('unlock')
+            }, 300)
         }
     }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -100,7 +100,11 @@ export default function TabNavigator({
         <View style={[styles.tabNavigationContainer, style]}>
 
         {/* -------------------------------------------------------------------- Discover */}
-        <Pressable style={styles.navIconContainer} onPress={() => changePage('discover')}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'discover' ? changePage('discover') : null}
+            // onPressIn={() => animateDiscover.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 100}) ) }
+        >
             <Animated.View style={[styles.iconContainer, animationDiscover]}>
                 <Icons
                     icon={icons.Octicons} 
@@ -113,7 +117,10 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Coupons */}
-        <Pressable style={styles.navIconContainer} onPress={() => changePage('coupons')}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'coupons' ? changePage('coupons') : null}
+        >
             <Animated.View style={[styles.iconContainer, animationCoupons]}> 
                 <Icons 
                     routeName={'coupons'} 
@@ -127,7 +134,10 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Stores */}
-        <Pressable style={styles.navIconContainer} onPress={() => changePage('stores')}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'stores' ? changePage('stores') : null} 
+        >
             <Animated.View style={[styles.iconContainer, animationStores]}> 
                 <Icons 
                     routeName={'stores'} 
@@ -141,7 +151,10 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Profile */}
-        <Pressable style={styles.navIconContainer} onPress={() => changePage('profile')}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'profile' ? changePage('profile') : null}
+        >
             <Animated.View style={[styles.iconContainer, animationProfile]}>
                 <Icons 
                     routeName={'profile'} 

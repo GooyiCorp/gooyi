@@ -1,6 +1,6 @@
 import { StyleSheet, View, Button } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import Animated, { acc, interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, acc, interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 import { height, width } from '../../constants/size.js'
 
@@ -58,31 +58,31 @@ export default function MainNav({route}) {
     const showProfile = useSharedValue(0)
     
     const handleShowDiscover = () => {
-        showDiscover.value = withTiming(1, {duration: 500})  
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})  
+        showCoupons.value = withDelay(300, withTiming(0, {duration: 0}))
+        showStores.value = withDelay(300, withTiming(0, {duration: 0}))
+        showProfile.value = withDelay(300, withTiming(0, {duration: 0}))
     }
 
     const handleShowCoupons = () => {
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withTiming(1, {duration: 500})
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withDelay(300, withTiming(0, {duration: 0}))
+        showCoupons.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})
+        showStores.value = withDelay(300, withTiming(0, {duration: 0}))
+        showProfile.value = withDelay(300, withTiming(0, {duration: 0}))
     }
 
     const handleShowStores = () => {
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withTiming(1, {duration: 500})
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withDelay(300, withTiming(0, {duration: 0}))
+        showCoupons.value = withDelay(300, withTiming(0, {duration: 0}))
+        showStores.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})
+        showProfile.value = withDelay(300, withTiming(0, {duration: 0}))
     }
 
     const handleShowProfile = () => {
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withTiming(1, {duration: 500})
+        showDiscover.value = withDelay(300, withTiming(0, {duration: 0}))
+        showCoupons.value = withDelay(300, withTiming(0, {duration: 0}))
+        showStores.value = withDelay(300, withTiming(0, {duration: 0}))
+        showProfile.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})
     }
       
     const transitionDiscover = useAnimatedStyle( () =>{
