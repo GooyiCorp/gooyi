@@ -42,7 +42,7 @@ export default function SendFeedback({navigation: {goBack}}) {
         </View>
         <View style={{}}>
         <View style={{paddingHorizontal: 15, paddingVertical: 10, backgroundColor: COLORS.ivoryDark2, alignSelf: 'baseline', borderRadius: 16, marginVertical: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <Icons
+          {/* <Icons
             icon={icons.MaterialCommunityIcons}
             iconName={'email'}
             iconSize={20}
@@ -50,8 +50,8 @@ export default function SendFeedback({navigation: {goBack}}) {
             iconStyle={{
               marginRight: 8,
             }}
-          />
-          <Text style={[T2, {color: COLORS.mainBackground}]}><Text style={{fontFamily: 'RH-Bold', color: COLORS.grey}}>Dat Backhus</Text></Text>
+          /> */}
+          <Text style={[T2, {color: COLORS.grey}]}>An: <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey}}>Dat Backhus</Text></Text>
         </View>
 
         
