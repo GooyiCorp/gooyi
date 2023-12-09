@@ -7,6 +7,7 @@ import locateReducer from "./slices/locateSlice";
 import searchReducer from "./slices/searchSlice";
 import pointReducer from "./slices/pointSlice";
 import queueReducer from "./slices/queueSlice";
+import storeFeedbackReducer from "./slices/sendFeedbackSlice";
 
 
 
@@ -20,5 +21,6 @@ export const store = configureStore({
         search: searchReducer,
         point: pointReducer,
         queue: queueReducer,
+        storeFeedback: storeFeedbackReducer,
     }
 })

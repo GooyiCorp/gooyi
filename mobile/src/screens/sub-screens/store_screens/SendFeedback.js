@@ -1,132 +1,201 @@
 import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
+// Constant
 import { height, width } from '../../../constants/size'
 import { COLORS } from '../../../index/constantsindex'
-import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
 import { H1, H3, H4, T1, T2, T3, T4 } from '../../../constants/text-style'
+// Components
+import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
 import BigButton from '../../../components/components_LogIn/BigButton'
 import Icons, { icons } from '../../../components/components_universal/Icons'
 import RoundButton from '../../../components/components_universal/RoundButton'
+import LeaveScreenAlert from '../../../components/components_stores_screen/send_feedback/LeaveScreenAlert'
+// Redux
+import { useDispatch } from 'react-redux'
+import { setShowLeaveScreenAlert, setShowMessageSendAlert } from '../../../redux/slices/sendFeedbackSlice'
+import MessageSendAlert from '../../../components/components_stores_screen/send_feedback/MessageSendAlert'
+import { setPage } from '../../../redux/slices/mainNavSlice'
 
-export default function SendFeedback({navigation: {goBack}}) {
 
+// ----------------------------------------------------------------------------------------------------------------
+// Main
+// ----------------------------------------------------------------------------------------------------------------
+export default function SendFeedback({navigation , navigation: {goBack}}) {
+
+  // Redux
+  const dispatch = useDispatch()
+
+  // Input State
   const [message, setMessage] = useState('')
+  const [error, setError] = useState(false)
 
+  // Input Clear Button
+  const handleClearButton = () => {
+    setMessage('')
+    Keyboard.dismiss()
+    setError(false)
+  } 
+  // Send Message Button 
+  const handleSendMessage = () => {
+    if (!message) {
+      setError(true)
+    } else {
+      console.log('send message!')
+      dispatch(setShowMessageSendAlert())
+    }
+  }
+  // Enter Text Input
+  const handleOnChangeText = (e) => {
+    setMessage(e)
+    setError(false)
+  }
+  // handle Go Back Button
+  const handleGoBack = () => {
+    Keyboard.dismiss()
+    if (message) {
+      dispatch(setShowLeaveScreenAlert())
+    } else {
+      goBack()
+    }
+  }
+  // handle Leave Alert Button
+  const handleLeaveAlert = () => {
+    setMessage('')
+    goBack()
+  }
 
+  const handleBackHome = () => {
+    setMessage('')
+    dispatch(setPage('discover'))
+    navigation.navigate('Main')
+  }
 
-  return (
-    <View style={styles.card}>
-      <Pressable 
+// ----------------------------------------------------------------------------------------------------------------
+// RETURN
+// ----------------------------------------------------------------------------------------------------------------
+return (
+  <View style={styles.card}>
+    <MessageSendAlert handleLeave={handleBackHome}/>
+    <LeaveScreenAlert handleLeaveButton={handleLeaveAlert}/>
+    {/* Background Touch */}
+    <Pressable 
       style={{
         height: height, 
         width: width, 
-        // zIndex: 1, 
-        // position: 'absolute',
-        // backgroundColor: 'yellow'
       }} 
       onPress={() => Keyboard.dismiss()} 
     >
-      <SettingHeader
-        close
-        onPressClose={() => goBack()}
-      />
-
-
-
-      {/* Info Text  */}
-      <View style={{paddingHorizontal: 30}}>
-        <View style={{marginBottom: 10, marginHorizontal: 0}}>
-        <Text style={[H1]}>Feedback</Text>
-        <Text style={[T1, {marginVertical: 10}]}>Hast du Anregungen oder Vorschläge wie wir unsere Servive noch weiter verbessern können? Wir freuen uns auf deine Nachricht.</Text>
-        
-        </View>
-        <View style={{}}>
-        <View style={{paddingHorizontal: 15, paddingVertical: 10, backgroundColor: COLORS.ivoryDark2, alignSelf: 'baseline', borderRadius: 16, marginVertical: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          {/* <Icons
-            icon={icons.MaterialCommunityIcons}
-            iconName={'email'}
-            iconSize={20}
-            iconColor={COLORS.mainBackground}
-            iconStyle={{
-              marginRight: 8,
-            }}
-          /> */}
-          <Text style={[T2, {color: COLORS.grey}]}>An: <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey}}>Dat Backhus</Text></Text>
-        </View>
-
-        
-        </View>
-        {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginTop: 20}]}>Filter</Text> */}
-        <View style={styles.inputContainer}>
-          <TextInput 
-            value={message}
-            onChangeText={(e) => setMessage(e)}
-            placeholder='Gebe deine Nachricht hier ein!'
-            placeholderTextColor={COLORS.grey}
-            multiline={true}
-            maxLength={200}
-            numberOfLines={6}
-            style={{
-                flex: 1,
-                paddingLeft: 15,
-                paddingRight: 40,
-                fontFamily: 'RH-Regular',
-                fontSize: 15,
-            }}
-          />
-
-        <RoundButton
-                  icon={icons.Ionicons}
-                  iconName={'close'}
-                  iconSize={30}
-                  iconColor={COLORS.grey}
-                  style={{
-                      backgroundColor: 'transparent',
-                      margin: 0,
-                      borderRadius: 10,
-                      height: 34,
-                      width: 34,
-                      position: 'absolute',
-                      top: 5,
-                      right: 5
-                  }}
-
-                />
-
-<View style={{position: 'absolute', bottom: 10, right: 15}}>
-            <Text style={[T4]}>{message.length}/500</Text>
-          </View>
-        </View>
-          
-
-        {/* <Text style={[T1, {fontFamily: 'RH-Medium', marginTop: 8, marginBottom: 30}]}>Wir freuen uns über jedes Feedback!</Text> */}
-
+    {/* Header Back Button */}
+    <SettingHeader
+      goBack
+      onPressGoBack={handleGoBack}
+    />
+    {/* ------------------------------------------------------------------------------- Main Section */}
+    <View style={{paddingHorizontal: 30}}>
+      {/* Header Title Text  */}
+      <Text style={[H1]}>Feedback</Text>
+      <Text style={[T1, {marginVertical: 10}]}>Hast du Anregungen oder Vorschläge wie wir unsere Servive noch weiter verbessern können? Wir freuen uns auf deine Nachricht.</Text>
+      {/* ------------------------------------------------ */}
+      {/* Input Top Bar */}
+      {/* ------------------------------------------------ */}
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 10}}>
+      {/* Address */}
+      <View style={[styles.addressBar]}>
+        <Text style={[T2, {color: COLORS.grey}]}>An: <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey}}>Dat Backhus</Text></Text>
       </View>
-        <BigButton
-          title={'Absenden'}
-          bgStyle={{
-            backgroundColor: COLORS.primary,
-            position: 'absolute',
-            bottom: 30,
-          }}
-          titleStyle={{
-            color: COLORS.mainBackground,
-          }}
-        />
+      {/* Clear Button */}
+      {message && <RoundButton
+        icon={icons.Ionicons}
+        iconName={'close'}
+        iconSize={30}
+        iconColor={COLORS.grey}
+        style={{
+            backgroundColor: COLORS.ivoryDark2,
+            margin: 0,
+            marginBottom: 10,
+            borderRadius: 10,
+            height: 34,
+            width: 34,
+        }}
+        onPressButton={handleClearButton}
+      />}
+      </View>
+      {/* ------------------------------------------------ */}
+      {/* Input Box */}
+      {/* ------------------------------------------------ */}
+      <View style={[styles.inputContainer]}>
+      {/* Input */}
+      <TextInput 
+        value={message}
+        onChangeText={handleOnChangeText}
 
-</Pressable>
+        placeholder='Gebe deine Nachricht hier ein!'
+        placeholderTextColor={COLORS.grey}
 
+        multiline={true}
+        maxLength={500}
+        numberOfLines={6}
+
+        style={{
+            flex: 1,
+            fontFamily: 'RH-Regular',
+            fontSize: 15,
+            paddingHorizontal: 15,
+        }}
+      />
+      </View>
+      {/* ------------------------------------------------ */}
+      {/* Input Bottom Bar */}
+      {/* ------------------------------------------------ */}
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginTop: 5}}>
+      {/* Error Message */}
+      <View style={[styles.errorMessageContainer]}>
+        {/* Icon */}
+        {error && <Icons
+            icon={icons.MaterialIcons}
+            iconName={'info-outline'}
+            iconSize={15}
+            iconColor={COLORS.primary}
+        />}
+        {/* Message */}
+        <Text style={styles.errorText}>
+            {error? 'Dieses Feld darf nicht leer sein!' : ''}
+        </Text>
+      </View>
+      {/* Max Input Count */}
+      <Text style={[T4, {marginRight: 5}]}>{message.length}/500</Text>
+      </View>
     </View>
+    {/* ------------------------------------------------ */}
+    {/* Send Message Button */}
+    {/* ------------------------------------------------ */}
+    <BigButton
+      title={'Absenden'}
+      bgStyle={{
+        backgroundColor: COLORS.primary,
+        position: 'absolute',
+        bottom: 30,
+      }}
+      titleStyle={{
+        color: COLORS.mainBackground,
+      }}
+      onPress={handleSendMessage}
+    />
 
-
-  )
+    </Pressable>
+  </View>
+)
 }
 
+// ----------------------------------------------------------------------------------------------------------------
+// STYLE
+// ----------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
   card: {
     height: height,
     width: width,
     backgroundColor: COLORS.mainBackground,
+    justifyContent: 'center'
   },
 
   inputContainer: {
@@ -135,9 +204,29 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 16,
     overflow: 'hidden',
-    paddingVertical: 5,
-    // borderWidth: 0.5,
-    // borderColor: COLORS.borderGrey,
+    paddingVertical: 10,
+  },
 
-  }
+  addressBar: {
+    paddingHorizontal: 15, 
+    paddingVertical: 10, 
+    backgroundColor: COLORS.ivoryDark2, 
+    borderRadius: 16, 
+    marginTop: 20,
+    marginBottom: 10, 
+    justifyContent: 'center',   
+    alignItems: 'center',
+  },
+
+  errorText: {
+    fontFamily: 'RH-Medium',
+    fontSize: 12,
+    color: COLORS.primary,
+    marginLeft: 5
+  },
+
+  errorMessageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 })
