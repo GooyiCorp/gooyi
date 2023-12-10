@@ -44,7 +44,7 @@ export default function RootNav() {
     <ScreenOverlay queueOverview delay={0}/>
 
         <Root.Navigator
-            initialRouteName='Main'
+            initialRouteName='Loading'
             screenOptions={{
                 headerShown: false,    
             }}
