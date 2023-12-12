@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS } from '../../../index/constantsindex'
-import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 
 export default function ProgressBar({
     progressValue,
@@ -25,7 +25,7 @@ export default function ProgressBar({
 
     // Animation Handler
     useEffect(() => {
-        progress.value = withTiming(barWidth / 100 * progressPercentageValue)
+        progress.value = withTiming(barWidth / 100 * progressPercentageValue, {easing: Easing.bezier(0, 0.1, 0.26, 1.02)})
     }, [progressValue])
 
 return (

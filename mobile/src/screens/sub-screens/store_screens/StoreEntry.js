@@ -17,7 +17,7 @@ import IconLabelButton from '../../../components/components_universal/IconLabelB
 import PresentationHeader from '../../../components/components_universal/PresentationHeader'
 import NewOfferBox from '../../../components/components_discover_screen/NewOfferBox'
 import StoreNav from '../../../navigation/navigationComponents/StoreNav'
-import QuestFeed from '../../../components/components_stores_screen/QuestFeed'
+import QuestFeed from '../../../components/components_stores_screen/quest/QuestFeed'
 import RoundButton from '../../../components/components_universal/RoundButton'
 import AnimatedText from '../../../components/components_universal/pointCounter/AnimatedText'
 
@@ -37,6 +37,18 @@ export default function StoreEntry({
     navigation, 
     navigation: {goBack},
 }) {
+
+    const questlist = [
+        {title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},
+        {title: 'Folge Dat Backhus auf Instagram', maxProgess: 1, progress: 0, points: 50, time: ''},
+        {title: 'Sammle innerhalb einer Woche 400 GP', maxProgess: 50, progress: 5, points: 80, time: '7d'},
+    ]
+
+    const handleDeleteQuest = (questIndex) => {
+        console.log(questIndex)
+        console.log('delete')
+    }
+
     // Redux
     const dispatch = useDispatch()
     const joinedQueue = useSelector((state) => state.queue.joinedQueue)
@@ -243,9 +255,7 @@ export default function StoreEntry({
                 />
                 {/* Quests */}
                 <View style={{marginHorizontal: 30}}>
-                    <QuestFeed />
-                    <QuestFeed />
-                    <QuestFeed />
+                    {questlist.map((quest, questIndex) => (<QuestFeed key={questIndex} title={quest.title} maxProgress={quest.maxProgess} progress={quest.progress} points={quest.points} time={quest.time} handleDelete={() => handleDeleteQuest(questIndex)}/>))}
                 </View>
             </View>
 

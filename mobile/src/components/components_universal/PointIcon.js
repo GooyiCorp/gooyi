@@ -3,11 +3,12 @@ import React from 'react'
 import { COLORS } from '../../index/constantsindex'
 
 export default function PointIcon({
-    style
+    style,
+    textStyle,
 }) {
   return (
     <View style={[styles.point, style]}>
-        <Text style={styles.text}>G</Text>
+        <Text style={[styles.text, textStyle]}>G</Text>
     </View>
   )
 }
