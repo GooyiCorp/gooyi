@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 // Reanimated
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
@@ -38,16 +38,16 @@ export default function StoreEntry({
     navigation: {goBack},
 }) {
 
-    const questlist = [
-        {title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},
-        {title: 'Folge Dat Backhus auf Instagram', maxProgess: 1, progress: 0, points: 50, time: ''},
-        {title: 'Sammle innerhalb einer Woche 400 GP', maxProgess: 50, progress: 5, points: 80, time: '7d'},
-    ]
+    const [questlist, setQuestList] = useState([
+        {id: 1, title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},
+        {id: 2, title: 'Folge Dat Backhus auf Instagram', maxProgess: 1, progress: 0, points: 50, time: ''},
+        {id: 3, title: 'Sammle innerhalb einer Woche 400 GP', maxProgess: 50, progress: 5, points: 80, time: '7d'},
+    ])
 
-    const handleDeleteQuest = (questIndex) => {
-        console.log(questIndex)
-        console.log('delete')
+    const handleDeleteQuest = (quest) => {
+        setQuestList(questlist.filter(item => item.id !== quest.id))
     }
+    // console.log(questlist)
 
     // Redux
     const dispatch = useDispatch()
@@ -255,7 +255,7 @@ export default function StoreEntry({
                 />
                 {/* Quests */}
                 <View style={{marginHorizontal: 30}}>
-                    {questlist.map((quest, questIndex) => (<QuestFeed key={questIndex} title={quest.title} maxProgress={quest.maxProgess} progress={quest.progress} points={quest.points} time={quest.time} handleDelete={() => handleDeleteQuest(questIndex)}/>))}
+                    {questlist.map((quest) => (<QuestFeed key={quest.id} title={quest.title} maxProgress={quest.maxProgess} progress={quest.progress} points={quest.points} time={quest.time} handleDelete={() => handleDeleteQuest(quest)}/>))}
                 </View>
             </View>
 
