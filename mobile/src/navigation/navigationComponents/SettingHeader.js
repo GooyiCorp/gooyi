@@ -8,7 +8,7 @@ import { moderateScale } from '../../helper/scale'
 import BigButton from '../../components/components_LogIn/BigButton'
 import CloseSaveButton from '../../components/components_profile_screen/CloseSaveButton'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
-import { H3, H4, T2 } from '../../constants/text-style'
+import { H2, H3, H4, T2 } from '../../constants/text-style'
 
 export default function SettingHeader({
     goBack,
@@ -22,6 +22,7 @@ export default function SettingHeader({
     onPressSave,
     header,
     headerText,
+    iconStyle,
 }) {
 
     const [edit, setEdit] = useState(false)
@@ -45,7 +46,7 @@ export default function SettingHeader({
                         icon={icons.Ionicons}
                         iconName={'md-chevron-back'}
                         iconSize={moderateScale(28,0.2)}
-                        iconColor={COLORS.white}
+                        iconColor={iconStyle? iconStyle : COLORS.white}
                         style={{
                             backgroundColor: COLORS.grey,
                             height: moderateScale(38,0.2),
@@ -74,7 +75,7 @@ export default function SettingHeader({
             </Pressable>
             }
 
-            {header && <Text style={[H4, {width: width, position: 'absolute', textAlign: 'center'}]}>{headerText}</Text>}
+            {header && <Text style={[H4, {width: width, position: 'absolute', textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>{headerText}</Text>}
 
         </View>
 

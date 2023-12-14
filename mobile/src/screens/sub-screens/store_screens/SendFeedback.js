@@ -89,11 +89,14 @@ return (
     <SettingHeader
       goBack
       onPressGoBack={handleGoBack}
+      header
+      headerText={'Feedback'}
+      iconStyle={COLORS.mainBackground}
     />
     {/* ------------------------------------------------------------------------------- Main Section */}
     <View style={{paddingHorizontal: 30}}>
       {/* Header Title Text  */}
-      <Text style={[H1]}>Feedback</Text>
+      {/* <Text style={[H1]}>Feedback</Text> */}
       <Text style={[T1, {marginVertical: 10}]}>Hast du Anregungen oder Vorschläge wie wir unsere Servive noch weiter verbessern können? Wir freuen uns auf deine Nachricht.</Text>
       {/* ------------------------------------------------ */}
       {/* Input Top Bar */}
@@ -197,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.mainBackground,
     justifyContent: 'center'
   },
-
+ 
   inputContainer: {
     width: width-60,
     height: 150,

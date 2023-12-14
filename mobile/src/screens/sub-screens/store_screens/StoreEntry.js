@@ -46,8 +46,8 @@ export default function StoreEntry({
 
     const handleDeleteQuest = (quest) => {
         setQuestList(questlist.filter(item => item.id !== quest.id))
+        // Thanh - them quest neu co 
     }
-    // console.log(questlist)
 
     // Redux
     const dispatch = useDispatch()
@@ -252,6 +252,7 @@ export default function StoreEntry({
                 <PresentationHeader
                     title={'Herausforderungen'}
                     showAllButton
+                    onPress={() => navigation.navigate('QuestOverview')}
                 />
                 {/* Quests */}
                 <View style={{marginHorizontal: 30}}>
