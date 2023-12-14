@@ -8,6 +8,8 @@ export default function ProgressBar({
     maxProgressValue,
     barWidth,
     barHeight,
+    barContainerStyle,
+    defaultColor1
 }) {
 
     // Get Progress Percentage
@@ -19,7 +21,7 @@ export default function ProgressBar({
     const progressAnimation = useAnimatedStyle(() => {
         return {
             width: progress.value,
-            backgroundColor: progressValue == maxProgressValue? interpolateColor(progress.value, [barWidth*0.9, barWidth], [COLORS.grey, COLORS.primary]) : COLORS.grey,
+            backgroundColor: progressValue == maxProgressValue? interpolateColor(progress.value, [barWidth*0.9, barWidth], [defaultColor1? defaultColor1 : COLORS.grey, COLORS.primary]) : defaultColor1? defaultColor1: COLORS.grey,
         } 
     })
 
@@ -41,6 +43,7 @@ return (
                     alignSelf: 'center',
                     overflow: 'hidden',
                 },
+                barContainerStyle,
             ]}
         >
         {/* Inner Bar Container */}
@@ -50,7 +53,7 @@ return (
                     height: barHeight,
                     width: 0,
                     borderRadius: barHeight/2,
-                    backgroundColor: COLORS.grey
+                    // backgroundColor: COLORS.grey
                 },
                 progressAnimation
             ]}

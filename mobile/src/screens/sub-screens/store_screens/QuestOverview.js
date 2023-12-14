@@ -8,6 +8,7 @@ import PointIcon from '../../../components/components_universal/PointIcon'
 import AnimatedText from '../../../components/components_universal/pointCounter/AnimatedText'
 import { useSelector } from 'react-redux'
 import QuestFeed from '../../../components/components_stores_screen/quest/QuestFeed'
+import SeasonQuest from '../../../components/components_stores_screen/quest/SeasonQuest'
 
 export default function QuestOverview({
   navigation: {goBack},
@@ -28,7 +29,7 @@ export default function QuestOverview({
           goBack
           onPressGoBack={handleGoBack}
           header
-          headerText={'Meine Challenge'}
+          headerText={'Herausforderungen'}
           iconStyle={COLORS.mainBackground}
         />    
         {/* Information Section */}
@@ -53,6 +54,7 @@ export default function QuestOverview({
       {/* Content Section */}
       {/* ------------------------------------------------------------- */}
       <View style={[styles.contentSection, {height: height-headerHeight}]}>
+        <SeasonQuest progress={10} maxProgress={30} time={'90 Tage'}/>
         <QuestFeed />
         <QuestFeed />
         <QuestFeed />

@@ -12,7 +12,7 @@ export default function StoreInformation({
 }) {
   return (
     <View style={styles.card}>
-        {/* Header Back Button */}
+        {/* Header */}
         <SettingHeader
             goBack
             onPressGoBack={() => goBack()}
@@ -20,22 +20,33 @@ export default function StoreInformation({
             headerText={'Dat Backhus'}
             iconStyle={COLORS.mainBackground}
         />
+        {/* Info Section  */}
         <View style={{paddingHorizontal: 30}}>
-            {/* <Text style={T2}>Dat Backhus ist eine Hamburger Traditionsbäckerei und setzt sich seit 80 Jahren leidenschaftlich für die klassischen Werte des Bäckerhandwerks ein.</Text> */}
-            <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 5}]}>Standort</Text>
+            {/* Address ----------------------- */}
+            {/* Title */}
+            <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8}]}>Standort</Text>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                {/* Address */}
                 <Text style={T2}>Bahnhofsplatz 42 {"\n"}22195 Bremen</Text>
+                {/* Map Button */}
                 <TouchableOpacity style={styles.buttonStyle} onPress={() => console.log('open Map App')}>
                     <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Karte öffnen</Text>
                 </TouchableOpacity>
             </View>
-            <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 5, marginTop: 20}]}>Öffnungszeiten</Text>
-            <View style={{flexDirection: 'row', marginBottom: 5, alignItems: 'center'}}>
+            {/* Opening Hours ----------------------- */}
+            {/* Title */}
+            <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8, marginTop: 20}]}>Öffnungszeiten</Text>
+            {/* current opening state */}
+            <View style={{flexDirection: 'row', marginBottom: 8, alignItems: 'center'}}>
                 <View style={{height: 10, width: 10, borderRadius: 10, backgroundColor: COLORS.green, marginRight: 10}}></View>
                 <Text style={[T3, {textTransform: 'uppercase', fontFamily: 'RH-Bold', color: COLORS.grey}]}>geöffnet</Text>
             </View>
+            {/* Opening Hours */}
             <Text style={T2}>Montag - Freitag: 07:00 – 17:00 Uhr {"\n"}Samstag: 07:00 – 14:00 Uhr{"\n"}Sonntag: 08:00 – 12:00 Uhr</Text>
-            <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 5, marginTop: 20}]}>Service</Text>
+            {/* Service Information ----------------------- */}
+            {/* Title */}
+            <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8, marginTop: 20}]}>Service</Text>
+            {/* .map Services */}
             <View style={{marginHorizontal: -5,flexWrap: 'wrap', flexDirection: 'row'}}>
                 <Keywords keyword={'Kartenzahlung'}/>
                 <Keywords keyword={'Lieferservice'}/>
@@ -44,9 +55,9 @@ export default function StoreInformation({
                 <Keywords keyword={'Außensitzplätze'}/>
             </View>
         </View>
-
+        {/* Map Section */}
         <View style={styles.map}>
-
+            <Text style={T4}>Show Store Position</Text>
         </View>
     </View>
   )
@@ -66,6 +77,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 30,
         marginHorizontal: 30,
-        borderRadius: 20
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
