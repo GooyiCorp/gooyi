@@ -3,6 +3,7 @@ import React from 'react'
 import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
 import { COLORS } from '../../../index/constantsindex'
 import { height, width } from '../../../constants/size'
+import RewardCard from '../../../components/components_stores_screen/reward/RewardCard'
 
 export default function AwardOverview({
   navigation: {goBack}
@@ -17,6 +18,8 @@ export default function AwardOverview({
             headerText={'Prämienübersicht'}
             iconStyle={COLORS.mainBackground}
         />
+      
+      <RewardCard />
     </View>
   )
 }
