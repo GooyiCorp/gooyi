@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useRef } from 'react'
+import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 
 // Reanimated
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
@@ -17,8 +17,17 @@ import IconLabelButton from '../../../components/components_universal/IconLabelB
 import PresentationHeader from '../../../components/components_universal/PresentationHeader'
 import NewOfferBox from '../../../components/components_discover_screen/NewOfferBox'
 import StoreNav from '../../../navigation/navigationComponents/StoreNav'
-import QuestFeed from '../../../components/components_stores_screen/QuestFeed'
+import QuestFeed from '../../../components/components_stores_screen/quest/QuestFeed'
 import RoundButton from '../../../components/components_universal/RoundButton'
+import AnimatedText from '../../../components/components_universal/pointCounter/AnimatedText'
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { decreasePoint, increasePoint, setPoint } from '../../../redux/slices/pointSlice'
+import { setShowQueueModal } from '../../../redux/slices/showModalSlice'
+import QueueModal from '../../../components/components_stores_screen/queue/queueModal'
+import ScreenOverlay from '../../../components/components_universal/ScreenOverlay'
+import { BlurView } from 'expo-blur'
 
 // -------------------------------------- Global Value 
 const storeImgHeaderHeight = 0.35 * height
@@ -28,6 +37,22 @@ export default function StoreEntry({
     navigation, 
     navigation: {goBack},
 }) {
+
+    const [questlist, setQuestList] = useState([
+        {id: 1, title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},
+        {id: 2, title: 'Folge Dat Backhus auf Instagram', maxProgess: 1, progress: 0, points: 50, time: ''},
+        {id: 3, title: 'Sammle innerhalb einer Woche 400 GP', maxProgess: 50, progress: 5, points: 80, time: '7d'},
+    ])
+
+    const handleDeleteQuest = (quest) => {
+        setQuestList(questlist.filter(item => item.id !== quest.id))
+        // Thanh - them quest neu co 
+    }
+
+    // Redux
+    const dispatch = useDispatch()
+    const joinedQueue = useSelector((state) => state.queue.joinedQueue)
+
     // ---------------------------------- Sticky Header
     // Value Section
     const scrollRef = useRef()
@@ -63,12 +88,22 @@ export default function StoreEntry({
         }
     })
 
+    // ---------------------------------- User Point
+    // Value Section
+    const point = useSelector((state) => state.point.point)
+    // Set User Point 
+    useEffect(() => {
+        // Thanh - lay Store Point nhet vao day 
+        dispatch(setPoint(1270))
+    }, [])
+
 // ---------------------------------------------------------------------------------------------------------------------
 // MAIN 
 // ---------------------------------------------------------------------------------------------------------------------
   return (
     <View style={{height: height, width: width, backgroundColor: COLORS.white, overflow: 'hidden'}}>
-
+        <QueueModal />
+        <ScreenOverlay queue delay={0}/>
         {/* ----------------------------- Nav Header */}
         <Animated.View style={[{position: 'absolute', zIndex: 3, width: width}, animateNavHeader]}>
             {/* Nav Bar  */}
@@ -95,11 +130,7 @@ export default function StoreEntry({
             />
         </Animated.View>
 
-        {/* ----------------------------- Nav Background */}
-        <Animated.View style={[styles.navHeaderBackground, animateNavBackground]}>
-            {/* Store Name */}
-            <Animated.Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}, animateStoreName]}>Dat Backhus</Animated.Text>
-        </Animated.View>
+
 
         {/* ----------------------------- Scroll View */}
         <ScrollView
@@ -150,7 +181,7 @@ export default function StoreEntry({
                         <Text style={[T2, {marginLeft: 5}]}>10:00 - 20:00</Text>
                     </View>
                     {/* Right Section */}
-                    <TouchableOpacity style={styles.buttonStyle}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('StoreInformation')}>
                         <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr Informationen</Text>
                     </TouchableOpacity>
                 </View>
@@ -164,8 +195,9 @@ export default function StoreEntry({
                     <Text style={[T3, {color: COLORS.grey}]}>Meine Punkte</Text>
                     {/* Points */}
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={[H2, {color: COLORS.grey, marginRight: 5}]}>500</Text>
-                        <PointIcon style={{marginTop: 18}}/>
+                        {/* <Text style={[H2, {color: COLORS.grey, marginRight: 5}]}>500</Text> */}
+                        <PointIcon style={{marginTop: 18, marginRight: 5}}/>
+                        <AnimatedText num={point} duration={1000}/>
                     </View>
                 </View>
                 {/* Right Section */}
@@ -220,12 +252,11 @@ export default function StoreEntry({
                 <PresentationHeader
                     title={'Herausforderungen'}
                     showAllButton
+                    onPress={() => navigation.navigate('QuestOverview')}
                 />
                 {/* Quests */}
                 <View style={{marginHorizontal: 30}}>
-                    <QuestFeed />
-                    <QuestFeed />
-                    <QuestFeed />
+                    {questlist.map((quest) => (<QuestFeed key={quest.id} title={quest.title} maxProgress={quest.maxProgess} progress={quest.progress} points={quest.points} time={quest.time} handleDelete={() => handleDeleteQuest(quest)}/>))}
                 </View>
             </View>
 
@@ -271,7 +302,7 @@ export default function StoreEntry({
         </ScrollView>
 
         {/* ----------------------------- Join Queue Button */}
-        <BigButton 
+        {!joinedQueue && <BigButton 
             title={'Warteschlage beitreten'}
             bgStyle={{
                 backgroundColor: COLORS.primary,
@@ -282,8 +313,23 @@ export default function StoreEntry({
             titleStyle={{
                 color: COLORS.white
             }}
-            onPress={() => console.log('join queue')}
-        />  
+            onPress={() => dispatch(setShowQueueModal())}
+        />}
+        
+        {/* Test Store Point Buttons */}
+        <View style={{flexDirection: 'row', paddingHorizontal: 30, position: 'absolute', bottom: 100}}>
+        <Button title='increase' onPress={() => dispatch(increasePoint(100))}/>
+        <Button title='decrease' onPress={() => dispatch(decreasePoint(200))}/>
+        </View>
+
+        {/* ----------------------------- Nav Background */}
+        <Animated.View style={[styles.navHeaderBackground, animateNavBackground]}>
+            <View style={{width: width, height: 110, overflow: 'hidden'}}>
+                <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+            </View>
+            <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
+            <Animated.Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey, position: 'absolute', left: 80, bottom: 18}, animateStoreName]}>Dat Backhus</Animated.Text>
+        </Animated.View>
 
     </View>
   )
@@ -329,20 +375,18 @@ const styles = StyleSheet.create({
         width: width,
         height: 110,
         position: 'absolute',
-        backgroundColor: COLORS.white,
-        zIndex: 1,
         justifyContent: 'flex-end',
-        paddingBottom: 19,
-        paddingLeft: 0.2*width,
-    
-        shadowColor:"#686868",
+    },
+
+    shadow: {
+        shadowColor:COLORS.ivoryDark2,
         shadowOffset: {
            width: 0,
            height: 0,
         },
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.8,
         shadowRadius: 10,
         elevation: 0
-    }
+      }
 })
 

@@ -1,13 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import Icons, { icons } from '../../components/components_universal/Icons'
 import { COLORS } from '../../index/constantsindex'
-import { width } from '../../constants/size'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
+import { height, width } from '../../constants/size'
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
 
-import { useDispatch} from 'react-redux'
-import { setPage } from '../../redux/slices/mainNavSlice'
+import { useDispatch, useSelector} from 'react-redux'
+import { setLock, setPage, setUnlock } from '../../redux/slices/mainNavSlice'
+import { BlurView } from 'expo-blur'
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -29,24 +30,26 @@ export default function TabNavigator({
     const animateStores = useSharedValue(0)
     const animateProfile = useSharedValue(0)
 
+    useEffect(() => {
     switch (page) {
         case 'discover': 
-            animateDiscover.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateDiscover.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) )  
             handleShowDiscover()
             break
         case 'coupons': 
-            animateCoupons.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateCoupons.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) ) 
             handleShowCoupons()
             break
         case 'stores':
-            animateStores.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateStores.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) )  
             handleShowStores()
             break
         case 'profile':
-            animateProfile.value = withDelay(100, withSequence(withTiming(1, {duration: 100}), withTiming(0, {duration: 100}) ) )
+            animateProfile.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 200, easing: Easing.bezier(0.26, 0.73, 0.68, 1.02)}) )  
             handleShowProfile()
             break
     }
+    }, [page])
 
     const animationDiscover = useAnimatedStyle( () =>{
         const scale = interpolate(animateDiscover.value, [0,1,0], [1,0.8,1,1])
@@ -79,14 +82,29 @@ export default function TabNavigator({
             }
         }
     )
-
+    const [lock, setLock] = useState(false)
+    const changePage = (pageName) => {
+        if (!lock) {
+            dispatch(setPage(pageName))
+            setLock(true)
+            // console.log('lock')
+            setTimeout(() => {
+                setLock(false)
+                // console.log('unlock')
+            }, 300)
+        }
+    }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     return (
 
         <View style={[styles.tabNavigationContainer, style]}>
 
         {/* -------------------------------------------------------------------- Discover */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('discover'))}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'discover' ? changePage('discover') : null}
+            // onPressIn={() => animateDiscover.value = withSequence(withTiming(1, {duration: 50}), withTiming(0, {duration: 100}) ) }
+        >
             <Animated.View style={[styles.iconContainer, animationDiscover]}>
                 <Icons
                     icon={icons.Octicons} 
@@ -99,7 +117,10 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Coupons */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('coupons'))}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'coupons' ? changePage('coupons') : null}
+        >
             <Animated.View style={[styles.iconContainer, animationCoupons]}> 
                 <Icons 
                     routeName={'coupons'} 
@@ -113,7 +134,10 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Stores */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('stores'))}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'stores' ? changePage('stores') : null} 
+        >
             <Animated.View style={[styles.iconContainer, animationStores]}> 
                 <Icons 
                     routeName={'stores'} 
@@ -127,7 +151,10 @@ export default function TabNavigator({
         </Pressable>
 
         {/* -------------------------------------------------------------------- Profile */}
-        <Pressable style={styles.navIconContainer} onPress={() => dispatch(setPage('profile'))}>
+        <Pressable 
+            style={styles.navIconContainer} 
+            onPressIn={() => page != 'profile' ? changePage('profile') : null}
+        >
             <Animated.View style={[styles.iconContainer, animationProfile]}>
                 <Icons 
                     routeName={'profile'} 
@@ -151,7 +178,7 @@ const styles = StyleSheet.create({
     tabNavigationContainer: {
         height: 85,
         width: width,
-        backgroundColor: COLORS.white,
+        backgroundColor: 'transparent',
         bottom: 0,
         position: 'absolute', 
         zIndex: 2,
@@ -159,6 +186,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingBottom: 25,
+        overflow: 'hidden'
     },
 
     navIconContainer: {
@@ -181,5 +209,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium', 
         fontSize: 10, 
         color: COLORS.subPrimary
-    }
+    },
 })

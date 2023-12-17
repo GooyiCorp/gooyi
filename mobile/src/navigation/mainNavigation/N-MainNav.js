@@ -1,6 +1,6 @@
 import { StyleSheet, View, Button } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import Animated, { acc, interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+import Animated, { Easing, acc, interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 import { height, width } from '../../constants/size.js'
 
@@ -17,6 +17,8 @@ import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../../redu
 import { store } from '../../redux/store.js'
 import { setPage } from '../../redux/slices/mainNavSlice.js'
 import Request from '../../helper/request.js'
+import QueueModal from '../../components/components_stores_screen/queue/queueModal.js'
+import { BlurView } from 'expo-blur'
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export default function MainNav({route}) {
@@ -56,31 +58,31 @@ export default function MainNav({route}) {
     const showProfile = useSharedValue(0)
     
     const handleShowDiscover = () => {
-        showDiscover.value = withTiming(1, {duration: 500})  
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})  
+        showCoupons.value = withDelay(300, withTiming(0, {duration: 0}))
+        showStores.value = withDelay(300, withTiming(0, {duration: 0}))
+        showProfile.value = withDelay(300, withTiming(0, {duration: 0}))
     }
 
     const handleShowCoupons = () => {
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withTiming(1, {duration: 500})
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withDelay(300, withTiming(0, {duration: 0}))
+        showCoupons.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})
+        showStores.value = withDelay(300, withTiming(0, {duration: 0}))
+        showProfile.value = withDelay(300, withTiming(0, {duration: 0}))
     }
 
     const handleShowStores = () => {
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withTiming(1, {duration: 500})
-        showProfile.value = withDelay(500, withTiming(0))
+        showDiscover.value = withDelay(300, withTiming(0, {duration: 0}))
+        showCoupons.value = withDelay(300, withTiming(0, {duration: 0}))
+        showStores.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})
+        showProfile.value = withDelay(300, withTiming(0, {duration: 0}))
     }
 
     const handleShowProfile = () => {
-        showDiscover.value = withDelay(500, withTiming(0))
-        showCoupons.value = withDelay(500, withTiming(0))
-        showStores.value = withDelay(500, withTiming(0))
-        showProfile.value = withTiming(1, {duration: 500})
+        showDiscover.value = withDelay(300, withTiming(0, {duration: 0}))
+        showCoupons.value = withDelay(300, withTiming(0, {duration: 0}))
+        showStores.value = withDelay(300, withTiming(0, {duration: 0}))
+        showProfile.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.08, 0.35, 0.38, 0.99)})
     }
       
     const transitionDiscover = useAnimatedStyle( () =>{
@@ -160,21 +162,10 @@ export default function MainNav({route}) {
                 handleShowStores={handleShowStores}
                 handleShowProfile={handleShowProfile}
                 
-                style={{ 
-                    backgroundColor: COLORS.white,
-                            
-                    shadowColor:"#686868",
-                    shadowOffset: {
-                       width: 0,
-                       height: 0,
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 10,
-                    elevation: 0
-                      
-                }}
             />
         </Animated.View>
+
+
 
         {/* -------------------------------------------------------------------- Discover */}
         <Animated.View style={[
@@ -212,7 +203,15 @@ export default function MainNav({route}) {
             <ProfileScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
+
+        <Animated.View style={[styles.navBackground, animateBottomTab]}>
+            <View style={{width: width, height: 110, overflow: 'hidden'}}>
+            <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+            </View>
+            <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
+        </Animated.View>
     </View>
+    
     
     )
 }
@@ -227,5 +226,24 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: COLORS.white,
     },
+
+    navBackground: {
+        width: width,
+        height: 85,
+        position: 'absolute',
+        zIndex: 1,
+        bottom: 0,
+    },
+
+    shadow: {
+        shadowColor:COLORS.ivoryDark2,
+        shadowOffset: {
+           width: 0,
+           height: 0,
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 10,
+        elevation: 0
+      }
 
 })

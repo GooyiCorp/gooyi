@@ -31,6 +31,8 @@ import { setPage } from '../../redux/slices/mainNavSlice'
 import { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
 import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
+import CustomAlert from '../../components/components_stores_screen/queue/QueueAlert';
+import { BlurView } from 'expo-blur';
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
@@ -153,7 +155,7 @@ export default function DiscoverScreen( {
     <View style={[{height: height, width: width, overflow: 'hidden'}]}>
       {/* <LocateRequired/> */}
       <LocateModal />
-      <ScreenOverlay locate/>
+      <ScreenOverlay locate delay={0}/>
 
       {/* ---------------------------------------------------------------- Header */}
       {/* Main Header */} 
@@ -167,8 +169,6 @@ export default function DiscoverScreen( {
         onPressQRButton={() => navigation.navigate('QRScan')}
         navigateButton
       />
-     
-      <Animated.View style={[styles.shadow, translateMainHeaderBackground]}></Animated.View>
       </Animated.View>
 
       {/* Sub Header */} 
@@ -308,7 +308,13 @@ export default function DiscoverScreen( {
       />
       </Animated.View>
 
-      
+      {/* ----------------------------- Nav Background */}
+      <Animated.View style={[styles.navHeaderBackground, translateMainHeader, translateMainHeaderBackground]}>
+        <View style={{width: width, height: 110, overflow: 'hidden'}}>
+          <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+        </View>
+        <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
+      </Animated.View>
 
     </View>
   )
@@ -324,18 +330,20 @@ const styles = StyleSheet.create({
     
   },
 
-  shadow: {
+  navHeaderBackground: {
     width: width,
     height: 110,
     position: 'absolute',
-    backgroundColor: 'white',
+    justifyContent: 'flex-end',
+  },
 
-    shadowColor:"#686868",
+  shadow: {
+    shadowColor:COLORS.ivoryDark2,
     shadowOffset: {
        width: 0,
        height: 0,
     },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 0
   }

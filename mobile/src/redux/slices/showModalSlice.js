@@ -9,6 +9,8 @@ export const showModalSlice = createSlice({
         activityHistoryModal: false,
         locateModal: false,
         filterModal: false,
+        queueModal: false,
+        queueOverviewModal: false,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -41,6 +43,25 @@ export const showModalSlice = createSlice({
             state.filterModal = false
         },
 
+        // ------------------------------------------- Activity History Modal
+        setShowQueueModal: (state) => {
+            state.queueModal = true
+        },
+
+        setHideQueueModal: (state) => {
+            state.queueModal = false
+        },
+
+        // ------------------------------------------- Activity History Modal
+        setShowQueueOverviewModal: (state) => {
+            state.queueOverviewModal = true
+        },
+
+        setHideQueueOverviewModal: (state) => {
+            state.queueOverviewModal = false
+        },
+        
+
     }
 })
 
@@ -54,6 +75,12 @@ export const {
 
     setShowFilterModal,
     setHideFilterModal,
+
+    setShowQueueModal,
+    setHideQueueModal,
+
+    setShowQueueOverviewModal,
+    setHideQueueOverviewModal,
 
  } = showModalSlice.actions;
  

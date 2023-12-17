@@ -7,12 +7,13 @@ import { H3, T2 } from '../../constants/text-style'
 export default function PresentationHeader({
     style,
     title,
-    showAllButton
+    showAllButton,
+    onPress,
 }) {
   return (
         <View style={[styles.headerBar, style]}>
             <Text style={H3}>{title}</Text>
-            {showAllButton && <TouchableOpacity style={styles.buttonStyle}>
+            {showAllButton && <TouchableOpacity style={styles.buttonStyle} onPress={onPress}>
                 <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr anzeigen</Text>
             </TouchableOpacity>}
         </View>

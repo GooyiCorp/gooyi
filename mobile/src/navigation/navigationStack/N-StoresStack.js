@@ -7,6 +7,8 @@ import AwardOverview from '../../screens/sub-screens/store_screens/AwardOverview
 import CouponsOverview from '../../screens/sub-screens/store_screens/CouponsOverview';
 import QuestOverview from '../../screens/sub-screens/store_screens/QuestOverview';
 import SendFeedback from '../../screens/sub-screens/store_screens/SendFeedback';
+import QueueOverview from '../../components/components_stores_screen/queue/queueOverview';
+import StoreInformation from '../../screens/sub-screens/store_screens/StoreInformation';
 
 const StoresStack = createStackNavigator()
 
@@ -41,6 +43,11 @@ export default function StoresStackNav() {
       <StoresStack.Screen 
         name='SendFeedback'
         component={SendFeedback}
+      />
+
+      <StoresStack.Screen 
+        name='StoreInformation'
+        component={StoreInformation}
       />
 
     </StoresStack.Navigator>

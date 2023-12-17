@@ -69,7 +69,7 @@ export default function FinderScreen({navigation, navigation: {goBack}}) {
     <View style={{flex: 1}}>
 
       <LocateModal />
-      <ScreenOverlay locate/>
+      <ScreenOverlay locate delay={0}/>
 
       {headerArea}
 
