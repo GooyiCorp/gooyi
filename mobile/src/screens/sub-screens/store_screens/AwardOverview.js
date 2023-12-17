@@ -12,6 +12,13 @@ import { useSelector } from 'react-redux'
 export default function AwardOverview({
   navigation: {goBack}
 }) {
+
+  const rewardList = [
+    {id: 1, title: 'kostenloses Getränk', info: 'Größe M', price: 200, type: 'ticket-percent'},
+    {id: 2, title: 'kostenloses Getränk', info: 'Größe L', price: 300, type: 'ticket-percent'},
+    {id: 2, title: 'Strohhalm aus Metall', info: 'Wiederverwendbar', price: 500, type: 'gift'},
+  ]
+
   const [headerHeight, setHeaderHeight] = useState(0)
   const point = useSelector((state) => state.point.point)
   const handleGoBack = () => {
@@ -53,7 +60,7 @@ export default function AwardOverview({
       {/* Content Section */}
       {/* ------------------------------------------------------------- */}
       <View style={[styles.contentSection, {height: height-headerHeight}]}>
-      <RewardCard />
+       {rewardList.map((reward) => (<RewardCard key={reward.id} title={reward.title} information={reward.info} price={reward.price} type={reward.type} currentPoint={point}/>))}
       </View>
     </View>
   )

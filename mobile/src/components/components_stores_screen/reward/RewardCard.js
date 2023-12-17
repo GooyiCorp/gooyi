@@ -7,11 +7,27 @@ import PointIcon from '../../components_universal/PointIcon'
 import { H3, H4, T1, T2, T3, T4 } from '../../../constants/text-style'
 import RoundButton from '../../components_universal/RoundButton'
 import IconLabelButton from '../../components_universal/IconLabelButton'
+import { useDispatch } from 'react-redux'
+import { decreasePoint } from '../../../redux/slices/pointSlice'
 
-export default function RewardCard() {
+export default function RewardCard({
+    title,
+    information,
+    price,
+    type,
+    currentPoint,
+}) {
+    const dispatch = useDispatch()
+    
+    const handleGetButton = () => {
+        if (currentPoint - price >= 0) {
+            dispatch(decreasePoint(price))
+        }
+    }
+
   return (
     <View style={styles.card}>
-
+        {/* Info Button */}
         <Icons
             icon={icons.Ionicons}
             iconName={'ios-information-circle-outline'}
@@ -23,38 +39,33 @@ export default function RewardCard() {
                 right: 5, 
             }}
         />
-
-
-        {/* <Text style={T4}>Dat Backhus</Text> */}
-        
+        {/* Reward Information Section */}
         <View style={{flexDirection: 'row', margin: 5}}>
-
-        <Icons
-            icon={icons.MaterialCommunityIcons}
-            iconName={'ticket-percent'}
-            iconSize={20}
-            iconColor={COLORS.grey}
-        />
-
-        <View style={{marginLeft: 10}}>
-            <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>1x kostenloses Getränk</Text>
-            <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>Größe M</Text>
+            {/* Reward Type */}
+            <Icons
+                icon={icons.MaterialCommunityIcons}
+                iconName={type}
+                iconSize={20}
+                iconColor={COLORS.grey}
+            />
+            {/* Reward Info */}
+            <View style={{marginLeft: 10}}>
+                {/* Title  */}
+                <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>{title}</Text>
+                {/* Information */}
+                <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>{information}</Text>
+            </View>
         </View>
-
-        </View>
-
-        {/* <View style={{width: '100%', borderWidth: 0.5, borderColor: COLORS.ivoryDark2}}></View> */}
+        {/* Get Reward Section */}
         <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
-
-
+            {/* Price */}
             <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 15}}>
-                <Text style={[H3, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>200</Text>
+                {/* Points */}
+                <Text style={[H3, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>{price}</Text>
+                {/* Coin Icon */}
                 <PointIcon style={{marginLeft: 5, backgroundColor: COLORS.primary}}/>
             </View>
-        
-
-
-            {/* Button */}
+            {/* Get Button */}
             <View>
                 <IconLabelButton 
                 label={'Einlösen'}
@@ -66,9 +77,9 @@ export default function RewardCard() {
                     fontFamily: 'RH-Medium',
                     color: COLORS.grey
                 }}
+                onPressButton={handleGetButton}
                 />
-            </View>
-            
+            </View>    
         </View>
     </View>
   )
@@ -80,6 +91,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.ivory,
         borderRadius: 16,
         padding: 10,
+        marginBottom: 10
     },
 
     text: {
