@@ -1,8 +1,9 @@
+version: '1.0'
 services:
     postgres:
         container_name: postgres
         restart: always
-        image: postgres
+        image: postgis/postgis
         ports:
           - 5432:5432
         volumes:
@@ -11,7 +12,6 @@ services:
           - POSTGRES_USER=gooyi
           - POSTGRES_PASSWORD=gooyi
           - POSTGERS_DB=gooyi
-          - POSTGERS_HOST_AUTH_METHOD=md55
 
     gooyi:
         build: .
