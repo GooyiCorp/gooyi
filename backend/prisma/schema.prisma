@@ -9,6 +9,7 @@ datasource db {
   extensions = [postgis]
 }
 
+// ------------ User ------------------------------------------------
 model User {
   user_id    Int      @id @unique @default(autoincrement())
   first_name String
@@ -20,57 +21,71 @@ model User {
   last_login DateTime
   create_at  DateTime @default(now())
   update_at  DateTime @updatedAt
+
+  FavoriteStores Store[]    @relation("FavoriteStore")
+  UserPoint      UserPoint?
 }
 
 model Setting {
   user_id Int  @unique
-  user    User @relation(fields: [user_id], references: [user_id])
+  user    User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
 
   message Boolean
   terms   Boolean
 }
 
-model Store  {
-  store_id        Int @id @default(autoincrement())
-  name            String
-  category        Category
-  Address         Address?
-  OpeningHour     OpeningHour?
-  active          Boolean
-  description     String
-  enter_date      DateTime
-  create_at       DateTime @default(now())
-  update_at       DateTime @updatedAt
+// ------------ Store ----------------------------------------------
+model Store {
+  store_id    Int          @id @default(autoincrement())
+  name        String
+  category    Category
+  Address     Address?
+  OpeningHour OpeningHour?
+  active      Boolean      @default(false)
+  description String
+  enter_date  DateTime
+  create_at   DateTime     @default(now())
+  update_at   DateTime     @updatedAt
 
+  FavoritedUsers User[]     @relation("FavoriteStore")
+  UserPoint      UserPoint?
 }
 
 model Address {
-  store_id        Int @unique
-  store           Store @relation(fields: [store_id], references: [store_id])
-  location        Unsupported("geography(Point, 4326)")
-  street          String
-  postcode        String
-  city            String
-  detail          String
+  store_id Int                                   @unique
+  store    Store                                 @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  location Unsupported("geography(Point, 4326)")
+  street   String
+  postcode String
+  city     String
+  detail   String
 }
 
 model OpeningHour {
-  store_id        Int @unique
-  store           Store @relation(fields: [store_id], references: [store_id])
-  Mon             String
-  Tue             String
-  Wed             String
-  Thu             String
-  Fri             String
-  Sat             String
-  Sun             String
+  store_id Int    @unique
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  Mon      String
+  Tue      String
+  Wed      String
+  Thu      String
+  Fri      String
+  Sat      String
+  Sun      String
 }
-
-
-
 
 enum Category {
   restaurant
   beverage
   sushi
+}
+
+// ------- User Point --------------------------------
+
+model UserPoint {
+  user_id  Int   @unique
+  user     User  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  store_id Int   @unique
+  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+
+  point Int
 }

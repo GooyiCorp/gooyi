@@ -31,13 +31,15 @@ app.use(morgan(morgan_log))
 
 // Server Route Configuration
 import adminRoute from "./router/admin/index.js";
-import authRoute from "./router/auth.js";
-import userRoute from "./router/user.js";
+import authRoute from "./router/auth/index.js";
+import userRoute from "./router/user/index.js";
+import storeRoute from "./router/store/index.js";
 import Redis from "./cache/index.js";
 
 app.use("/api/admin", adminRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
+app.use("/api/store", storeRoute)
 
 export var debuggerHost = process.env.APP_SCHEMA
 export function changeHost(host) {debuggerHost = host}

@@ -21,6 +21,25 @@ module.exports = {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "rules": {
-    }
+    rules: {
+        '@ts-safeql/check-sql': [
+            'error',
+            {
+                connections: [
+                    {
+                        connectionUrl: process.env.DATABASE_URL,
+                        // The migrations path:
+                        migrationsDir: './prisma/migrations',
+                        targets: [
+                            // This makes `prisma.$queryRaw` and `prisma.$executeRaw` commands linted
+                            { tag: 'prisma.+($queryRaw|$executeRaw)', transform: '{type}[]' },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+    "plugins": [
+        "@ts-safeql/eslint-plugin"
+    ]
 }

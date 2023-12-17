@@ -1,23 +1,22 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { generate_key, sendAutoMail, sendError, sendServerError, sendSuccess } from "../helper/client.js";
-import { email_validate, redirect_validate, register_validate } from "../validation/user.js";
-import { USER } from "../constant/role.js";
-import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../constant/jwt.js";
-import { ACTIVE_USER, TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../index.js";
+import { generate_key, sendAutoMail, sendError, sendServerError, sendSuccess } from "../../helper/client.js";
+import { email_validate, redirect_validate, register_validate } from "../../validation/user.js";
+import { USER } from "../../constant/role.js";
+import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../../constant/jwt.js";
+import { ACTIVE_USER, TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../../index.js";
 import path from 'path';
-import { __dirname } from "../index.js";
-import { render } from "../template/index.js";
-import { verifyToken } from "../middleware/index.js";
-import { logger } from "../helper/logger.js";
-import Redis from "../cache/index.js";
-import { PrismaClient } from "@prisma/client";
+import { __dirname } from "../../index.js";
+import { render } from "../../template/index.js";
+import { verifyToken } from "../../middleware/index.js";
+import { logger } from "../../helper/logger.js";
+import Redis from "../../cache/index.js";
 
-const prisma = new PrismaClient()
+import prisma from "../../prisma/client/index.js";
 
-const userRoute = express.Router();
+const profileRoute = express.Router();
 
-userRoute.get('/info', verifyToken, async (req, res) => {
+profileRoute.get('/info', verifyToken, async (req, res) => {
     const id = req.user.id
     try {
         const user = await prisma.user.findUnique({where: {user_id: id}})
@@ -28,7 +27,7 @@ userRoute.get('/info', verifyToken, async (req, res) => {
     }
 })
 
-userRoute.post("/email-login", async (req, res) => {
+profileRoute.post("/email-login", async (req, res) => {
     const { email } = req.body
     const error = email_validate(email)
     if (error) return sendError(res, error)
@@ -96,7 +95,7 @@ userRoute.post("/email-login", async (req, res) => {
 
 })
 
-userRoute.post('/register', async(req, res) => {
+profileRoute.post('/register', async(req, res) => {
     const {
         first_name,
         last_name,
@@ -161,7 +160,7 @@ userRoute.post('/register', async(req, res) => {
     
 })
 
-userRoute.get("/login-redirect", async (req, res) => {
+profileRoute.get("/login-redirect", async (req, res) => {
     const err = redirect_validate(req.query)
     if (err) return sendError(res, err);
     const {
@@ -191,7 +190,7 @@ userRoute.get("/login-redirect", async (req, res) => {
         sendServerError(res)
     }
 });
-userRoute.get('/register-redirect', async (req, res) => {
+profileRoute.get('/register-redirect', async (req, res) => {
     const { exp, email, key } = req.query
     try {
         const verified_code = await Redis.hGet("verified_code", email)
@@ -208,7 +207,7 @@ userRoute.get('/register-redirect', async (req, res) => {
         return sendServerError(res)
     }
 })
-userRoute.post("/logout", verifyToken, (req, res) => {
+profileRoute.post("/logout", verifyToken, (req, res) => {
     const { refreshToken } = req.body
     if (refreshToken in TOKEN_LIST) delete TOKEN_LIST[refreshToken]
     else return sendError(res, "Invalid refresh token")
@@ -224,7 +223,7 @@ userRoute.post("/logout", verifyToken, (req, res) => {
 
     return sendSuccess(res, "Logged out successfully")
 })
-userRoute.put("/update", verifyToken, async (req, res) => {
+profileRoute.put("/update", verifyToken, async (req, res) => {
     const {first_name, last_name} = req.body
     const id = req.user.id
     try {
@@ -237,7 +236,7 @@ userRoute.put("/update", verifyToken, async (req, res) => {
         sendServerError(res)
     }
 })
-userRoute.delete("/delete", verifyToken, async (req, res) => {
+profileRoute.delete("/delete", verifyToken, async (req, res) => {
     try {
         const id = req.user.id
         const user = await prisma.user.findUnique({where: {user_id: id }})
@@ -250,4 +249,4 @@ userRoute.delete("/delete", verifyToken, async (req, res) => {
     }
 })
 
-export default userRoute
+export default profileRoute

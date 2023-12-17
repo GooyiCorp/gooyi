@@ -1,11 +1,11 @@
 import express from 'express';
 import jwt from "jsonwebtoken"
-import { TOKEN_BLACKLIST, TOKEN_LIST } from '../index.js';
-import { JWT_EXPIRED } from '../constant/jwt.js';
-import { sendError, sendSuccess } from '../helper/client.js';
-const authRoute = express.Router();
+import { TOKEN_BLACKLIST, TOKEN_LIST } from '../../index.js';
+import { JWT_EXPIRED } from '../../constant/jwt.js';
+import { sendError, sendSuccess } from '../../helper/client.js';
+const tokenRoute = express.Router();
 
-authRoute.post('/verify-token', (req, res) => {
+tokenRoute.post('/verify-token', (req, res) => {
     const { accessToken, refreshToken } = req.body
     try {
         if (accessToken in TOKEN_LIST || accessToken in TOKEN_BLACKLIST) return sendError(res, "Unauthorzied.", 401)
@@ -58,4 +58,4 @@ authRoute.post('/verify-token', (req, res) => {
 })
 
 
-export default authRoute
+export default tokenRoute

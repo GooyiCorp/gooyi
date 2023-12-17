@@ -3,9 +3,8 @@ import { ACTIVE_USER } from "../../index.js";
 import { sendError, sendServerError, sendSuccess } from "../../helper/client.js";
 import { register_validate } from "../../validation/user.js";
 import { logger } from "../../helper/logger.js";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../prisma/client/index.js";
 
-const prisma = new PrismaClient
 const userRoute = express.Router();
 
 userRoute.get('/', async (req, res) => {
