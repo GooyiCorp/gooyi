@@ -21,7 +21,7 @@ export default function AwardOverview({
   const rewardList = [
     {id: 1, title: 'kostenloses Getränk', info: 'Größe M', price: 200, type: 'ticket-percent'},
     {id: 2, title: 'kostenloses Getränk', info: 'Größe L', price: 300, type: 'ticket-percent'},
-    {id: 2, title: 'Strohhalm aus Metall', info: 'Wiederverwendbar', price: 500, type: 'gift'},
+    {id: 3, title: 'Strohhalm aus Metall', info: 'Wiederverwendbar', price: 500, type: 'gift'},
   ]
 
   const [headerHeight, setHeaderHeight] = useState(0)

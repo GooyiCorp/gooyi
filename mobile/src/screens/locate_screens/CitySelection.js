@@ -28,6 +28,7 @@ export default function CitySelection({navigation: {goBack}}) {
             onPressGoBack={() => goBack()}
             header
             headerText={'Stadt Auswahl'}
+            iconStyle={COLORS.mainBackground}
         />
 
         <View style={styles.headerContainer}>

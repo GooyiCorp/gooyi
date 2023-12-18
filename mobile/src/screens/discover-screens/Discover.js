@@ -1,38 +1,38 @@
 import React, {useEffect, useRef } from 'react'
 import { Button, ScrollView, StyleSheet,View } from 'react-native'
+// Reanimated
 import Animated, { interpolate, runOnJS, runOnUI, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+// Haptics
 import * as Haptics from 'expo-haptics';
-
-
-import { height, width } from '../../constants/size'
+// React Navigation
 import { useNavigation } from '@react-navigation/native'
+// Constant
+import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
-
+// Helpers
 import { Delete } from '../../helper/store'
 import Request from '../../helper/request'
-
-import { MainHeader, SubHeader } from '../../index/navIndex'
-import PresentationHeader from '../../components/components_universal/PresentationHeader'
-import LocateModal from '../../components/components_locate_screen/LocateModal'
-import { icons } from '../../components/components_universal/Icons'
-import NewOfferBox from '../../components/components_discover_screen/NewOfferBox'
-import NewShopsBox from '../../components/components_discover_screen/NewShopsBox'
-
-import RoundButton from '../../components/components_universal/RoundButton'
-import CouponCard from '../../components/components_universal/CouponCard'
-import LogInRequiredBox from '../../components/components_discover_screen/LogInRequiredBox'
-import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
-import ScrollToNavigateButton from '../../components/components_universal/ScrollToNavigateButton'
-
-
+// Expo Blur
+import { BlurView } from 'expo-blur';
+// Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 import { setPage } from '../../redux/slices/mainNavSlice'
 import { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
 import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
-import CustomAlert from '../../components/components_stores_screen/queue/QueueAlert';
-import { BlurView } from 'expo-blur';
+// Components
+import { MainHeader, SubHeader } from '../../index/navIndex'
+import PresentationHeader from '../../components/components_universal/PresentationHeader'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
+import { icons } from '../../components/components_universal/Icons'
+import NewOfferBox from '../../components/components_discover_screen/NewOfferBox'
+import NewShopsBox from '../../components/components_discover_screen/NewShopsBox'
+import RoundButton from '../../components/components_universal/RoundButton'
+import CouponCard from '../../components/components_universal/CouponCard'
+import LogInRequiredBox from '../../components/components_discover_screen/LogInRequiredBox'
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
+import ScrollToNavigateButton from '../../components/components_universal/ScrollToNavigateButton'
 import Category from '../../components/components_discover_screen/Category';
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ export default function DiscoverScreen( {
             // }}
             onScrollEndDrag={(e) => {
               if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
-                navigation.navigate('Finder')
+                navigation.navigate('ShowAllOffers')
               }
             }}
             scrollEventThrottle={16}
