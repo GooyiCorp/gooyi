@@ -2,7 +2,7 @@
 CREATE EXTENSION IF NOT EXISTS "postgis";
 
 -- CreateEnum
-CREATE TYPE "Category" AS ENUM ('restaurant', 'beverage', 'sushi');
+CREATE TYPE "Category" AS ENUM ('restaurant', 'bubbleTea', 'sushi', 'bar');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -31,7 +31,7 @@ CREATE TABLE "Store" (
     "store_id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "category" "Category" NOT NULL,
-    "active" BOOLEAN NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT NOT NULL,
     "enter_date" TIMESTAMP(3) NOT NULL,
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

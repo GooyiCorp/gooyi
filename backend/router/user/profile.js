@@ -121,6 +121,7 @@ profileRoute.post('/register', async(req, res) => {
     }
     try {
         const user = await prisma.user.create({data: {first_name, last_name, email, phone, active: true}})
+        const setting = await prisma.setting.create({data: {user_id: user.user_id, message: true, term: true}})
         const userData = {
             id: user.user_id,
             email: user.email || null,
