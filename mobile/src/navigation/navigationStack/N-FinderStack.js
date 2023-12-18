@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
-import FinderScreen from '../../screens/root-screens/S-Finder';
+import FinderScreen from '../../screens/finder-screens/Finder';
 
 
 

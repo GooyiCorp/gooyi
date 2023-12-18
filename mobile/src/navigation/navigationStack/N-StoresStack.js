@@ -2,13 +2,13 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import StoreEntry from '../../screens/sub-screens/store_screens/StoreEntry';
-import AwardOverview from '../../screens/sub-screens/store_screens/AwardOverview';
-import CouponsOverview from '../../screens/sub-screens/store_screens/CouponsOverview';
-import QuestOverview from '../../screens/sub-screens/store_screens/QuestOverview';
-import SendFeedback from '../../screens/sub-screens/store_screens/SendFeedback';
-import QueueOverview from '../../components/components_stores_screen/queue/queueOverview';
-import StoreInformation from '../../screens/sub-screens/store_screens/StoreInformation';
+import StoreEntry from '../../screens/store_screens/StoreEntry';
+import AwardOverview from '../../screens/store_screens/AwardOverview';
+import CouponsOverview from '../../screens/store_screens/CouponsOverview';
+import QuestOverview from '../../screens/store_screens/QuestOverview';
+import SendFeedback from '../../screens/store_screens/SendFeedback';
+
+import StoreInformation from '../../screens/store_screens/StoreInformation';
 
 const StoresStack = createStackNavigator()
 

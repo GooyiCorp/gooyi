@@ -1,18 +1,17 @@
 import React from 'react'
-
+// React Navigation
 import { createStackNavigator } from '@react-navigation/stack';
+// Screens
+import SettingOverview from '../../screens/profile_screens/settings_screens/SettingOverview';
+import EditProfile from '../../screens/profile_screens/settings_screens/EditProfile';
+import ChangePIN from '../../screens/profile_screens/settings_screens/ChangePIN';
+import FaceID from '../../screens/profile_screens/settings_screens/FaceID';
+import PaymentData from '../../screens/profile_screens/settings_screens/PaymentData';
+import TermsCondition from '../../screens/profile_screens/settings_screens/TermsCondition';
+import About from '../../screens/profile_screens/settings_screens/About';
+import Support from '../../screens/profile_screens/settings_screens/Support';
 
-import { ROUTES } from '../../index/constantsindex'
-
-import SettingOverview from '../../screens/sub-screens/settings_screens/SettingOverview';
-import EditProfile from '../../screens/sub-screens/settings_screens/EditProfile';
-import ChangePIN from '../../screens/sub-screens/settings_screens/ChangePIN';
-import FaceID from '../../screens/sub-screens/settings_screens/FaceID';
-import PaymentData from '../../screens/sub-screens/settings_screens/PaymentData';
-import TermsCondition from '../../screens/sub-screens/settings_screens/TermsCondition';
-import About from '../../screens/sub-screens/settings_screens/About';
-import Support from '../../screens/sub-screens/settings_screens/Support';
-import Notification from '../../screens/sub-screens/profile_screens/Notification';
+import Notification from '../../screens/profile_screens/Notification';
 
 //---------------------------------------------------------------------------------------------------------------------
 

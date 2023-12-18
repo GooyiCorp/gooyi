@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { View, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import QRCode from '../../screens/root-screens/S-QRCode';
-import Scanner from '../../screens/root-screens/S-Scanner';
+import QRCode from '../../screens/qr-scanner-screens/QRCode';
+import Scanner from '../../screens/qr-scanner-screens/Scanner';
 
-import Selector from '../../components/atoms/Selector';
-import NavBackButton from '../../components/atoms/NavBackButton';
+import NavBackButton from '../../components/components_qrscan_screen/NavBackButton';
 import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 import { height, width } from '../../constants/size';
 import { moderateScale } from '../../helper/scale';
+import Selector from '../../components/components_qrscan_screen/Selector';
 
 
 //---------------------------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 // Navigation Bar -------------------------------------------------------------------------------------------------------------------
-export {default as MainHeader} from '../navigation/navigationComponents/MainHeader.js'
-export {default as SubHeader} from '../navigation/navigationComponents/SubHeader.js'
+export {default as MainHeader} from '../components/components_navigation/MainHeader.js'
+export {default as SubHeader} from '../components/components_navigation/SubHeader.js'
 
 
 

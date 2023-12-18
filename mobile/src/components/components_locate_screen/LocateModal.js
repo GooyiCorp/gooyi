@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native'
 import LocateSelector from './LocateSelector'
 import IconLabelButton from '../components_universal/IconLabelButton'
 import LocateButton from './LocateButton'
-import LocateRequired from '../../screens/root-screens/LocateRequired'
+import LocateRequired from '../../screens/locate_screens/LocateRequired'
 import CurrentPositionFeed from './CurrentPositionFeed'
 
 const LOCATION_TASK_NAME = 'background-location-task';
@@ -233,7 +233,7 @@ export default function LocateModal() {
 
     {/* Top Section */}
     <View style={styles.topSectionContainer}>
-            <Text style={H3}>Standort Auswahl</Text>
+            <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Standort Auswahl</Text>
     </View>
 
     {/* Mid Section */}
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   
     topSectionContainer: {
       width: width,
-      marginTop: 10,
+      marginTop: 15,
       paddingHorizontal: 30,
       justifyContent: 'flex-end',
       paddingBottom: 20,

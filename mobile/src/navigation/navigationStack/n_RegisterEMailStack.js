@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import EnterEmail from '../../screens/sub-screens/register_email_screens/EnterEmail'
-import CheckEmail from '../../screens/sub-screens/register_email_screens/CheckEmail'
-import EnterUserInformation from '../../screens/sub-screens/register_email_screens/EnterUserInformation'
+import EnterEmail from '../../screens/register-screens/register_email_screens/EnterEmail'
+import CheckEmail from '../../screens/register-screens/register_email_screens/CheckEmail'
+import EnterUserInformation from '../../screens/register-screens/register_email_screens/EnterUserInformation'
 
 
 //---------------------------------------------------------------------------------------------------------------------

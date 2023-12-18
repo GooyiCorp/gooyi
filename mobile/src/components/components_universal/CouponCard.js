@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
-import CustomButton from '../atoms/CustomButton'
+
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { COLORS } from '../../index/constantsindex'
 import IconLabelButton from './IconLabelButton'

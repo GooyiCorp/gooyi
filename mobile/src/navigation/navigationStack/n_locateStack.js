@@ -2,8 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack'
-import EnterPosition from '../../screens/sub-screens/locate_screens/EnterPosition'
-import CitySelection from '../../screens/sub-screens/locate_screens/CitySelection'
+import EnterPosition from '../../screens/locate_screens/EnterPosition'
+import CitySelection from '../../screens/locate_screens/CitySelection'
 
 export default function LocateStack() {
     const locate = createStackNavigator()
