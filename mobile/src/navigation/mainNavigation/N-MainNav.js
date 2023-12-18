@@ -19,7 +19,7 @@ import CouponsScreen from '../../screens/coupons-screens/Coupons.js'
 import StoresScreen from '../../screens/store_screens/Stores.js'
 import ProfileScreen from '../../screens/profile_screens/Profile.js'
 // Navigation Components
-import TabNavigator from '../navigationComponents/TabNavigator.js'
+import TabNavigator from '../../components/components_navigation/TabNavigator.js'
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

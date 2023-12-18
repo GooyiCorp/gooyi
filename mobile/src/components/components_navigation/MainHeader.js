@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React from 'react'
 // Constant
-import { COLORS } from '../../index/constantsindex'
-import { width } from '../../constants/size'
+import { COLORS } from '../../index/constantsindex.js'
+import { width } from '../../constants/size.js'
 // Helpers
-import { moderateScale } from '../../helper/scale'
+import { moderateScale } from '../../helper/scale.js'
 // Components
 import { Feather, Fontisto, MaterialCommunityIcons} from '@expo/vector-icons'
 
-import RoundButton from '../../components/components_universal/RoundButton'
-import { icons } from '../../components/components_universal/Icons.js'
-import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelector/CategorySelectorCarousel.js'
+import RoundButton from '../components_universal/RoundButton.js'
+import { icons } from '../components_universal/Icons.js'
+import CategorySelectorCarousel from '../components_finder_screen/CategorySelector/CategorySelectorCarousel.js'
 
 
 // -----------------------------------------------------------------------------------------------------------------------------------------

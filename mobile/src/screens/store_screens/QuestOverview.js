@@ -7,11 +7,11 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { T3 } from '../../constants/text-style'
 // Components
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
 import PointIcon from '../../components/components_universal/PointIcon'
 import AnimatedText from '../../components/components_universal/pointCounter/AnimatedText'
 import QuestFeed from '../../components/components_stores_screen/quest/QuestFeed'
 import SeasonQuest from '../../components/components_stores_screen/quest/SeasonQuest'
+import SettingHeader from '../../components/components_navigation/SettingHeader'
 
 export default function QuestOverview({
   navigation: {goBack},

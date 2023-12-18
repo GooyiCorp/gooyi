@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
+import SettingHeader from '../../components/components_navigation/SettingHeader'
 
 export default function CouponsOverview({
   navigation: {goBack}

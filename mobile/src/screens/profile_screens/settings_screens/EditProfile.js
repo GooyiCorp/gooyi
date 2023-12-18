@@ -1,17 +1,19 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
+// Constant
 import { height, width } from '../../../constants/size'
 import { COLORS } from '../../../index/constantsindex'
-import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
-import { useNavigation } from '@react-navigation/native'
-import { moderateScale } from '../../../helper/scale'
-import RoundButton from '../../../components/components_universal/RoundButton'
-import { icons } from '../../../components/components_universal/Icons'
-import NewInput from '../../../components/components_LogIn/NewInput'
-import SettingInput from '../../../components/components_profile_screen/SettingInput'
 import { H3 } from '../../../constants/text-style'
+// React Navigation
+import { useNavigation } from '@react-navigation/native'
+// Helpers
 import Request from '../../../helper/request.js'
+// Redux
 import { useSelector } from 'react-redux'
+// Components
+
+import SettingInput from '../../../components/components_profile_screen/SettingInput'
+import SettingHeader from '../../../components/components_navigation/SettingHeader.js'
 
 
 export default function EditProfile({

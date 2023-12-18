@@ -1,17 +1,17 @@
 import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { COLORS } from '../../index/constantsindex'
+// Redux
+import { useDispatch } from 'react-redux'
+import { setShowFilterModal } from '../../redux/slices/showModalSlice'
+// Constants
 import { height, width } from '../../constants/size'
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
-import { H3 } from '../../constants/text-style'
+import { COLORS } from '../../index/constantsindex'
+// Components
 import SearchBox from '../../components/components_search_screen/SearchBox'
-import SearchFeed from '../../components/components_search_screen/SearchFeed'
 import FilterModal from '../../components/components_search_screen/FilterModal'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
-import { useDispatch } from 'react-redux'
-import { setShowFilterModal } from '../../redux/slices/showModalSlice'
 
 export default function Search({navigation: {goBack}}) {
   const dispatch = useDispatch()

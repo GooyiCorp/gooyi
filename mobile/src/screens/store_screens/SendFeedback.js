@@ -9,12 +9,12 @@ import { useDispatch } from 'react-redux'
 import { setShowLeaveScreenAlert, setShowMessageSendAlert } from '../../redux/slices/sendFeedbackSlice'
 import { setPage } from '../../redux/slices/mainNavSlice'
 // Components
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
 import BigButton from '../../components/components_LogIn/BigButton'
 import Icons, { icons } from '../../components/components_universal/Icons'
 import RoundButton from '../../components/components_universal/RoundButton'
 import LeaveScreenAlert from '../../components/components_stores_screen/send_feedback/LeaveScreenAlert'
 import MessageSendAlert from '../../components/components_stores_screen/send_feedback/MessageSendAlert'
+import SettingHeader from '../../components/components_navigation/SettingHeader'
 
 
 // ----------------------------------------------------------------------------------------------------------------

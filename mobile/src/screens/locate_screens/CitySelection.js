@@ -7,8 +7,9 @@ import { H1, H3, H4, T1 } from '../../constants/text-style'
 // Redux
 import { useDispatch } from 'react-redux'
 import { setCurrentPosition, setSelected, setSupplement } from '../../redux/slices/locateSlice'
-// Constant
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
+// Components
+import SettingHeader from '../../components/components_navigation/SettingHeader'
+
 
 export default function CitySelection({navigation: {goBack}}) {
 

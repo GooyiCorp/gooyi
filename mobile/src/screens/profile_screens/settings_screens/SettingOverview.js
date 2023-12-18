@@ -1,21 +1,23 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { height, width } from '../../../constants/size'
-import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
-import { useNavigation } from '@react-navigation/native'
-import RoundButton from '../../../components/components_universal/RoundButton'
-import { icons } from '../../../components/components_universal/Icons'
-import { moderateScale } from '../../../helper/scale'
-import { COLORS } from '../../../index/constantsindex'
-import SettingButton from '../../../components/components_profile_screen/SettingButton'
-import Switch from '../../../components/components_universal/Switch'
-import IconLabelButton from '../../../components/components_universal/IconLabelButton'
+// Constant
+import { height, width } from '../../../constants/size.js'
 import { H3, T1, T2 } from '../../../constants/text-style'
-import Request from '../../../helper/request.js'
+import { COLORS } from '../../../index/constantsindex'
+// Redux
 import {useSelector, useDispatch} from 'react-redux'
 import { setLoggedOut, setRefreshToken, setToken } from '../../../redux/slices/userSlice.js'
+// React Navigation
+import { useNavigation } from '@react-navigation/native'
+// Helpers
 import { Delete } from '../../../helper/store.js'
-import { store } from '../../../redux/store.js'
+import Request from '../../../helper/request.js'
+import { moderateScale } from '../../../helper/scale'
+// Conponents
+import { icons } from '../../../components/components_universal/Icons'
+import SettingButton from '../../../components/components_profile_screen/SettingButton'
+import IconLabelButton from '../../../components/components_universal/IconLabelButton'
+import SettingHeader from '../../../components/components_navigation/SettingHeader.js'
 
 export default function SettingOverview() {
     const navigation = useNavigation()

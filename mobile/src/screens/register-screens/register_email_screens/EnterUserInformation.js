@@ -1,26 +1,25 @@
 import { Pressable, StyleSheet, Text, View, ViewComponent } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import RoundButton from '../../../components/components_universal/RoundButton'
-
+// Helpers
 import { moderateScale } from '../../../helper/scale'
+import { Save } from '../../../helper/store'
+import Request from '../../../helper/request'
+// Constant
 import { COLORS } from '../../../index/constantsindex'
 import { height, width } from '../../../constants/size'
+import { H3, T1, T3, T4 } from '../../../constants/text-style'
+// React Navigation
 import { useNavigation } from '@react-navigation/native'
-import InputBox from '../../../components/components_LogIn/InputBox'
-import Animated, { interpolate, log, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+// Redux
+import { setLoggedIn, setRefreshToken, setToken } from '../../../redux/slices/userSlice'
+import { useDispatch } from 'react-redux'
+// Components
 import BigButton from '../../../components/components_LogIn/BigButton'
 import CheckBox from '../../../components/components_universal/CheckBox'
 import NewInput from '../../../components/components_LogIn/NewInput'
-import * as Linking from "expo-linking";
-import { api_url } from '../../../constants/api'
-import axios from 'axios'
-import { Get, Save } from '../../../helper/store'
-import { useDispatch } from 'react-redux'
-import { setLoggedIn, setRefreshToken, setToken } from '../../../redux/slices/userSlice'
-import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
-import { H3, T1, T3, T4 } from '../../../constants/text-style'
 import Icons, { icons } from '../../../components/components_universal/Icons'
-import Request from '../../../helper/request'
+import SettingHeader from '../../../components/components_navigation/SettingHeader'
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation({route}) {
   const {email, key} = route.params;

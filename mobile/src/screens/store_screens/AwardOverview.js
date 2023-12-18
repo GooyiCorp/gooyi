@@ -10,7 +10,8 @@ import { COLORS } from '../../index/constantsindex'
 import RewardCard from '../../components/components_stores_screen/reward/RewardCard'
 import PointIcon from '../../components/components_universal/PointIcon'
 import AnimatedText from '../../components/components_universal/pointCounter/AnimatedText'
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
+import SettingHeader from '../../components/components_navigation/SettingHeader'
+
 
 
 export default function AwardOverview({

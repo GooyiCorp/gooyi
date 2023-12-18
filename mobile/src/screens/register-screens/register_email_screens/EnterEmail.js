@@ -1,22 +1,26 @@
 import { Button, Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { height, width } from '../../../constants/size'
-
+// Redux
+// React Navigation
 import { useNavigation } from '@react-navigation/native'
+// Constant
+import { height, width } from '../../../constants/size'
 import { COLORS } from '../../../index/constantsindex'
-import InputBox from '../../../components/components_LogIn/InputBox'
-
-import BigButton from '../../../components/components_LogIn/BigButton'
-import RoundButton from '../../../components/components_universal/RoundButton'
-import { icons } from '../../../components/components_universal/Icons'
+import { H1, H3, T1 } from '../../../constants/text-style'
+// Helpers
 import { moderateScale } from '../../../helper/scale'
-import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
+// API
 import axios from 'axios'
 import { api_url } from '../../../constants/api'
+// Reanimated
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated'
+// Components
+import BigButton from '../../../components/components_LogIn/BigButton'
 import ErrorModal from '../../../components/components_LogIn/ErrorModal'
 import NewInput from '../../../components/components_LogIn/NewInput'
-import { H1, H3, T1 } from '../../../constants/text-style'
-import SettingHeader from '../../../navigation/navigationComponents/SettingHeader'
+import SettingHeader from '../../../components/components_navigation/SettingHeader'
+
+
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterEmail() {

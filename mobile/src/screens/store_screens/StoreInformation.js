@@ -5,8 +5,8 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { H4, T1, T2, T3, T4 } from '../../constants/text-style'
 // Components
-import SettingHeader from '../../navigation/navigationComponents/SettingHeader'
 import Keywords from '../../components/components_search_screen/Keywords'
+import SettingHeader from '../../components/components_navigation/SettingHeader'
 
 export default function StoreInformation({
     navigation: {goBack}
