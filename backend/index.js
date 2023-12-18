@@ -29,6 +29,9 @@ import { morgan_log } from "./config/morgan.js";
 import { logger } from "./helper/logger.js";
 app.use(morgan(morgan_log))
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Server Route Configuration
 import adminRoute from "./router/admin/index.js";
 import authRoute from "./router/auth/index.js";

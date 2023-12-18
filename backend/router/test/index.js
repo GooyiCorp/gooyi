@@ -1,5 +1,4 @@
 import express from 'express';
-import axios from 'axios';
 import { sendServerError, sendSuccess } from './../../helper/client.js';
 import { logger } from '../../helper/logger.js';
 import stores from './store_data.json' assert { type: 'json' };
