@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native'
 import React from 'react'
-
+// Expo Vector Icons
 import { Ionicons } from '@expo/vector-icons'
 
 export default function ProfileScreenHeader({
@@ -11,7 +11,8 @@ export default function ProfileScreenHeader({
     editButton,
     onPressEditButton
 }) {
-  return (
+
+return (
     <View style={styles.subHeaderContainer}>
 
             {/* Go Back Button  */}
@@ -28,7 +29,7 @@ export default function ProfileScreenHeader({
             </TouchableOpacity>}
 
     </View>
-  )
+)
 }
 
 const styles = StyleSheet.create({

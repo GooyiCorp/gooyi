@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native'
 import LocateSelector from './LocateSelector'
 import IconLabelButton from '../components_universal/IconLabelButton'
 import LocateButton from './LocateButton'
-import LocateRequired from '../../screens/root-screens/LocateRequired'
+import LocateRequired from '../../screens/locate_screens/LocateRequired'
 import CurrentPositionFeed from './CurrentPositionFeed'
 
 const LOCATION_TASK_NAME = 'background-location-task';

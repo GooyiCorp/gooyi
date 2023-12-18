@@ -1,29 +1,34 @@
-import { StyleSheet, View, Button } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
-import Animated, { Easing, acc, interpolate, runOnUI, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
-
-import { height, width } from '../../constants/size.js'
-
-import DiscoverScreen from '../../screens/root-screens/S-Discover.js'
-import CouponsScreen from '../../screens/root-screens/S-Coupons.js'
-import TabNavigator from '../navigationComponents/TabNavigator.js'
-import StoresScreen from '../../screens/sub-screens/store_screens/Stores.js'
-import ProfileScreen from '../../screens/sub-screens/profile_screens/Profile.js'
-import { COLORS } from '../../index/constantsindex.js'
-import { Delete, Get, Save } from '../../helper/store.js'
-import { Link, useNavigation } from '@react-navigation/native'
+import { StyleSheet, View } from 'react-native'
+import React, { useEffect } from 'react'
+// Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoggedIn, setLoggedOut, setRefreshToken, setToken } from '../../redux/slices/userSlice.js'
-import { store } from '../../redux/store.js'
-import { setPage } from '../../redux/slices/mainNavSlice.js'
-import Request from '../../helper/request.js'
-import QueueModal from '../../components/components_stores_screen/queue/queueModal.js'
+// Reanimated
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+// Expo
 import { BlurView } from 'expo-blur'
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Constant
+import { height, width } from '../../constants/size.js'
+import { COLORS } from '../../index/constantsindex.js'
+// Helpers
+import { Delete, Get, Save } from '../../helper/store.js'
+import Request from '../../helper/request.js'
+// Screens
+import DiscoverScreen from '../../screens/discover-screens/Discover.js'
+import CouponsScreen from '../../screens/coupons-screens/Coupons.js'
+import StoresScreen from '../../screens/store_screens/Stores.js'
+import ProfileScreen from '../../screens/profile_screens/Profile.js'
+// Navigation Components
+import TabNavigator from '../navigationComponents/TabNavigator.js'
 
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function MainNav({route}) {
+
+    // Redux
     const dispatch = useDispatch()
 
+    // Token Check
     const { accessToken, refreshToken } = (typeof route.params != 'undefined') ? route.params : {accessToken: '', refreshToken: ''} 
     const checkLogin = async (accessToken, refreshToken) => {
         const access = accessToken ? accessToken : await Get('accessToken')
@@ -45,10 +50,12 @@ export default function MainNav({route}) {
         await Delete('accessToken')
         await Delete('refreshToken')
     }
+
     useEffect(() => {
         checkLogin(accessToken, refreshToken)
     }, [route.params])
     
+    // Animation
     // ---------------------------------------------------------------------- Screens Transition
     const page = useSelector((state) => state.page.page)
     
@@ -148,10 +155,10 @@ export default function MainNav({route}) {
     )
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
-    return (
+return (
 
     <View style={{flex:1}}>
+
         {/* -------------------------------------------------------------------- Tab Navigation */}
         <Animated.View style={[{zIndex: 2, position: 'absolute', bottom: 0}, animateBottomTab]}>
             <TabNavigator
@@ -164,8 +171,6 @@ export default function MainNav({route}) {
                 
             />
         </Animated.View>
-
-
 
         {/* -------------------------------------------------------------------- Discover */}
         <Animated.View style={[
@@ -203,17 +208,16 @@ export default function MainNav({route}) {
             <ProfileScreen hideTabNav={hideBottomTab} showTabNav={showBottomTab}/>
         </Animated.View>
 
-
+        {/* Bottom Tab Blured Background */}
         <Animated.View style={[styles.navBackground, animateBottomTab]}>
             <View style={{width: width, height: 110, overflow: 'hidden'}}>
-            <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+                <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
             </View>
             <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
         </Animated.View>
+    
     </View>
-    
-    
-    )
+)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -244,6 +248,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 10,
         elevation: 0
-      }
+    },
 
 })

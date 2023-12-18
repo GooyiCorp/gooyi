@@ -1,16 +1,19 @@
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React from 'react'
-
-import { Feather, Fontisto, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelectorCarousel'
+// Constant
 import { COLORS } from '../../index/constantsindex'
+import { width } from '../../constants/size'
+// Helpers
 import { moderateScale } from '../../helper/scale'
+// Components
+import { Feather, Fontisto, MaterialCommunityIcons} from '@expo/vector-icons'
+
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons.js'
-import { width } from '../../constants/size'
+import CategorySelectorCarousel from '../../components/components_finder_screen/CategorySelector/CategorySelectorCarousel.js'
 
 
-// Main Declaration -----------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------------------
 export default function MainHeader({
     title, 
     headerContainerStyle,
@@ -24,10 +27,10 @@ export default function MainHeader({
     onPressNotificationButton,
     categorySelector,
     quickSelection,
-    onPressQuickSelection
+    onPressQuickSelection,
 }) {
 
-    // ------------------------------------------------------------------------------------------------------------------------- Right View
+    // Right View
     const RightView = () => (
         rightComponent ? rightComponent : 
         <View style={[styles.view, styles.rightView]}>
@@ -76,10 +79,10 @@ export default function MainHeader({
                 onPressButton={onPressQuickSelection}
             />}
 
-        </View>
+        </View>       
     )
 
-    // ------------------------------------------------------------------------------------------------------------------------- Title View
+    // Title View
     const TitleView = () => (
         <View>
             <Text style={[styles.titleDefaultStyle, titleStyle]}>{title}</Text>
@@ -87,17 +90,18 @@ export default function MainHeader({
     )
   
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    return (
-        <View style={[styles.headerDefaultContainer, headerContainerStyle]}>
-            <View style={styles.headerJustifyView}>
-                <TitleView />
-                <RightView />
-            </View>
+return (
+
+    <View style={[styles.headerDefaultContainer, headerContainerStyle]}>
+        <View style={styles.headerJustifyView}>
+            <TitleView />
+            <RightView />
         </View>
-  )
+    </View>
+
+)
 }
 
-// Styles ---------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
     
     headerDefaultContainer: {
