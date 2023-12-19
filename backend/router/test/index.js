@@ -4,9 +4,11 @@ import { logger } from '../../helper/logger.js';
 import stores from './store_data.json' assert { type: 'json' };
 import prisma from '../../prisma/client/index.js';
 import { store_create_validate } from '../../validation/store.js';
+import { rm } from 'fs';
 
 const testRoute = express.Router();
-
+const host = process.env.host
+const port = process.env.port
 async function createStore(store) {
     const error = store_create_validate(store);
     if (error) return error;
@@ -14,6 +16,8 @@ async function createStore(store) {
         category,
         active,
         description,
+        logo,
+        background,
         enter_date,
         longitude,
         latitude,
@@ -24,12 +28,19 @@ async function createStore(store) {
         opening_hours
     } = store;
     try {
-        const store = await prisma.store.create({ data: { name, category, active, description, enter_date: new Date(enter_date) } })
+        const store = await prisma.store.create({ data: { name, category, active, description, logo, background ,enter_date: new Date(enter_date) } })
+        const image = await prisma.store.update({
+            where: { store_id: store.store_id }, data: {
+                logo: `http://${host}:${port}/store/${store.store_id}/logo.png`,
+                background: `http://${host}:${port}/store/${store.store_id}/background.png`
+            }
+        })
         const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city, detail: add_detail } })
         const openingHour = await prisma.openingHour.create({ data: { ...opening_hours, store_id: store.store_id } })
 
     } catch (err) {
         console.log(err);
+        return sendServerError(err);
     }
 
 }
@@ -50,7 +61,13 @@ testRoute.post('/create-test-stores', async (req, res) => {
 
 testRoute.delete('/delete-all-stores', async (req, res) => {
     try {
-        await prisma.store.deleteMany()
+        await prisma.$queryRaw
+        `
+            TRUNCATE TABLE "Store" RESTART IDENTITY CASCADE
+        `
+        rm(`public/store`, function (err) {
+            if (err) return sendError(res, "Cannot delete store's image.")
+        })
         return sendSuccess(res, "success");
     } catch (err) {
         logger.error(err);

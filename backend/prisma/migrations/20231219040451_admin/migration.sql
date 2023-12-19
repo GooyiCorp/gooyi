@@ -5,6 +5,16 @@ CREATE EXTENSION IF NOT EXISTS "postgis";
 CREATE TYPE "Category" AS ENUM ('restaurant', 'bubbleTea', 'sushi', 'bar');
 
 -- CreateTable
+CREATE TABLE "Admin" (
+    "admin_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "Admin_pkey" PRIMARY KEY ("admin_id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "user_id" SERIAL NOT NULL,
     "first_name" TEXT NOT NULL,
@@ -33,6 +43,8 @@ CREATE TABLE "Store" (
     "category" "Category" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT NOT NULL,
+    "logo" TEXT,
+    "background" TEXT,
     "enter_date" TIMESTAMP(3) NOT NULL,
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_at" TIMESTAMP(3) NOT NULL,
@@ -74,6 +86,9 @@ CREATE TABLE "_FavoriteStore" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_username_key" ON "Admin"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_user_id_key" ON "User"("user_id");

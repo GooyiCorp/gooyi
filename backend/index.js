@@ -4,6 +4,8 @@ import cors from "cors"
 import morgan from "morgan";
 import bodyParser from "body-parser"
 import path from "path"
+import fileUpload from "express-fileupload";
+
 export const __dirname = path.resolve(path.dirname(''))
 dotenv.config()
 
@@ -14,6 +16,7 @@ export const TOKEN_BLACKLIST = {}
 export const ACTIVE_USER = {}
 import { clearTokenList } from "./helper/jwt.js"
 // Cache connection
+import Redis from "./cache/index.js";
 try {
     await Redis.connect()
 } catch (error) {
@@ -25,6 +28,12 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(fileUpload({
+    createParentPath: true,
+    limits: {
+        fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
+    },
+}));
 import { morgan_log } from "./config/morgan.js";
 import { logger } from "./helper/logger.js";
 app.use(morgan(morgan_log))

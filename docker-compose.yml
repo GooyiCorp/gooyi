@@ -1,5 +1,12 @@
 version: '1.0'
 services:
+    web:
+        container_name: web
+        restart: always
+        image: iamthienthanh/gooyi-web
+        ports:
+          - 80:3000
+
     postgres:
         container_name: postgres
         restart: always
@@ -12,16 +19,18 @@ services:
           - POSTGRES_USER=gooyi
           - POSTGRES_PASSWORD=gooyi
           - POSTGERS_DB=gooyi
+          - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
+          - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
 
     gooyi:
-        build: .
         container_name: gooyi
         restart: always
         image: iamthienthanh/gooyi
         ports:
           - 8000:8000
         volumes:
-          - gooyi:/app
+          - logs:/app/logs
+          - public:/app/public
         depends_on:
           - postgres
 
@@ -36,5 +45,6 @@ services:
 
 volumes:
   postgres:
-  gooyi:
+  logs:
+  public:
   cache:

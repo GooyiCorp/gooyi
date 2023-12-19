@@ -8,6 +8,15 @@ datasource db {
   url        = env("DATABASE_URL")
   extensions = [postgis]
 }
+// ------------ Admin -----------------------------------------------
+
+model Admin {
+  admin_id        Int  @id @default(autoincrement())
+  name            String
+  username        String  @unique
+  password        String
+  
+}
 
 // ------------ User ------------------------------------------------
 model User {
@@ -43,6 +52,8 @@ model Store {
   OpeningHour OpeningHour?
   active      Boolean      @default(false)
   description String
+  logo        String?
+  background  String?
   enter_date  DateTime
   create_at   DateTime     @default(now())
   update_at   DateTime     @updatedAt

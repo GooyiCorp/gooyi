@@ -13,6 +13,7 @@ import { logger } from "../../helper/logger.js";
 import Redis from "../../cache/index.js";
 
 import prisma from "../../prisma/client/index.js";
+import { clearTokenList } from "../../helper/jwt.js";
 
 const profileRoute = express.Router();
 

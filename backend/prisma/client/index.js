@@ -49,6 +49,8 @@ const storeExt = Prisma.defineExtension({
                     Store.active,
                     Store.description,
                     Store.enter_date,
+                    Store.logo,
+                    Store.background,
                     Address.street || ' ' || Address.postcode || ', ' || Address.city AS address,
                     ST_Distance(Address.location, ST_MakePoint(${parseFloat(longitude)}, ${parseFloat(latitude)})) as distance,
                     json_build_object(
