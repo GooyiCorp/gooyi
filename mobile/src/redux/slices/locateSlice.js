@@ -9,8 +9,8 @@ export const locateSlice = createSlice({
         supplement: '',
 
         selected: undefined,
-        long: 0,
-        lat: 0,
+        long: '',
+        lat: '',
     },
 
     // ----------------------------------------------------------------------------------- Reducers
