@@ -27,7 +27,7 @@ model User {
   phone      String
   active     Boolean  @default(false)
   Setting    Setting?
-  last_login DateTime
+  last_login DateTime?
   create_at  DateTime @default(now())
   update_at  DateTime @updatedAt
 

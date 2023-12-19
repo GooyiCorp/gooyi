@@ -11,7 +11,20 @@ type error =  {
 export default function Page() {
     const [image, setImage] = useState<any>(null);
     const [previewUrl, setPreviewUrl] = useState<any>(null);
-    
+    const [storeCount, setStoreCount] = useState<number>(null);
+    const getStoreCount = async () => {
+        try {
+            const response = await axios.get('http://gooyi.de:8000/api/admin/store')
+            setStoreCount(response.data.data.length);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        getStoreCount();
+    }, [])
+
+
     useEffect(() => {
         if (!image) return;
         const reader = new FileReader();
@@ -39,13 +52,14 @@ export default function Page() {
 
     };
 
+
     return (
         <div>
             <p className="text-3xl font-bold my-5 py-5">Stores</p>
             <div>
                 <Card 
                     title="Total Stores"
-                    value={8}
+                    value={storeCount}
                     type="customers"
                 />
             </div>

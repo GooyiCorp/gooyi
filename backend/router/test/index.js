@@ -1,14 +1,18 @@
 import express from 'express';
-import { sendServerError, sendSuccess } from './../../helper/client.js';
+import { sendError, sendServerError, sendSuccess } from './../../helper/client.js';
 import { logger } from '../../helper/logger.js';
 import stores from './store_data.json' assert { type: 'json' };
 import prisma from '../../prisma/client/index.js';
 import { store_create_validate } from '../../validation/store.js';
 import { rm } from 'fs';
+import { USER } from '../../constant/role.js';
+import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from '../../constant/jwt.js';
+import { TOKEN_LIST } from '../../index.js';
+import jwt from 'jsonwebtoken';
 
 const testRoute = express.Router();
 const host = process.env.host
-const port = process.env.port
+const port = process.env.PORT
 async function createStore(store) {
     const error = store_create_validate(store);
     if (error) return error;
@@ -66,13 +70,73 @@ testRoute.delete('/delete-all-stores', async (req, res) => {
             TRUNCATE TABLE "Store" RESTART IDENTITY CASCADE
         `
         rm(`public/store`, function (err) {
-            if (err) return sendError(res, "Cannot delete store's image.")
+            // if (err) return sendError(res, "Cannot delete store's image.")
         })
-        return sendSuccess(res, "success");
+    return sendSuccess(res, "success");
+    
     } catch (err) {
         logger.error(err);
         return sendServerError(res)
     }
 });
 
+testRoute.post('/create-test-user', async (req, res) => {
+    const {
+        first_name,
+        last_name,
+        email,
+        phone,
+    } = req.body;
+    try {
+        const user = await prisma.user.create({ data: { first_name, last_name, email, phone, active: true } })
+        const setting = await prisma.setting.create({ data: { user_id: user.user_id, message: true, terms: true } })
+        return sendSuccess(res, "Create", user)
+    } catch (err) {
+        console.log(err);
+        return sendServerError(res)
+    }
+});
+
+testRoute.post('/user-login', async (req, res) => {
+    const {user_id} = req.body
+    try {
+        const user = await prisma.user.findUnique({where: {user_id}})
+        if (!user) return sendError(res, "User not found")
+        const userData = {
+            id: user.user_id,
+            email: user.email || null,
+            phone: user.phone || null,
+            name: user.first_name + ' ' + user.last_name,
+            role: USER
+        }
+        const accessToken = jwt.sign(
+            {
+                user: userData
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: JWT_EXPIRED
+            }
+        )
+        const refreshToken = jwt.sign(
+            {
+                user: userData
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: JWT_REFRESH_EXPIRED
+            }
+        )
+        const response = {
+            accessToken, refreshToken
+        }
+        TOKEN_LIST[refreshToken] = response
+
+        return sendSuccess(res, "Login successfully", response)
+
+    } catch (err) {
+        console.log(err);
+        return sendServerError(res)
+    }
+})
 export default testRoute

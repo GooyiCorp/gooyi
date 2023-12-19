@@ -10,6 +10,21 @@ const storeRoute = express.Router();
 const host = process.env.host
 const port = process.env.port
 
+storeRoute.get('/', async (req, res) => {
+
+    try {
+        const stores = await prisma.store.findMany()
+        return sendSuccess(res,"Get Stores successfully" ,stores)
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
+
+})
+
+
+
+
 storeRoute.post('/create', async (req, res) => {
     const { name,
         category, 
