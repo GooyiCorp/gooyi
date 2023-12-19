@@ -22,6 +22,7 @@ import RegisterEMailStack from '../navigationStack/n_RegisterEMailStack';
 import Search from '../../screens/search-screens/Search';
 import LocateStack from '../navigationStack/n_locateStack';
 import ShowAllOffers from '../../screens/showmore_screens/ShowAllOffers';
+import OfferCardDetail from '../../screens/detail-screens/OfferCardDetail';
 
 
 const Root = createStackNavigator();
@@ -100,6 +101,12 @@ export default function RootNav() {
         <Root.Screen 
             name='ShowAllOffers' 
             component={ShowAllOffers}
+        />
+
+        {/* Show Detail Screens */}
+        <Root.Screen 
+            name='OfferCardDetail' 
+            component={OfferCardDetail}
         />
         
         {/* Other Screens ----------------------------- */}

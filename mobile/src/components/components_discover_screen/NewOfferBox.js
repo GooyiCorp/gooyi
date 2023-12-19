@@ -7,6 +7,7 @@ import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, wi
 import { COLORS } from '../../index/constantsindex'
 import { H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
 import Icons, { icons } from '../components_universal/Icons'
+import { useNavigation } from '@react-navigation/native'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -26,6 +27,9 @@ const distance = '1,2 km'
 
 export default function NewOfferBox() {
 
+  // React Navigation
+  const navigation = useNavigation()
+  
   // Value --------------------------------------------------------------- Transition
   const [focus, setFocus] = useState(false)
   const [boxWidth, setBoxWidth] = useState(0)
@@ -71,7 +75,10 @@ export default function NewOfferBox() {
     }
   )
 
-   
+  const handleOnPressCard = () => {
+    navigation.navigate('OfferCardDetail')
+  }
+    
 // ---------------------------------------------------------------------------------------------------------------------
 
   return (
@@ -88,6 +95,7 @@ export default function NewOfferBox() {
         transitionVal.value = withTiming(0, {duration: 100}) ,
         textAnimation.value = 0
       ) }
+      onPress={handleOnPressCard}
     >
 
     <Animated.View style={[styles.shadowProp, boxTransition]}>
