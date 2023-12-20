@@ -14,15 +14,15 @@ import CategoryType from './CategoryType'
 const imgBoxWidth = width-60
 const imgBoxHeight = 200*0.6
 
-const shopName = 'mai-mai Asian Kitchen'
-const description = 'Asiatisch'
-const distance = '1,2 km'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 export default function StoreCard({
     onPress,
     newshop,
+    shopName,
+    description,
+    distance
 }) {
 
     const [focus, setFocus] = useState(false)
@@ -154,7 +154,7 @@ export default function StoreCard({
                 {/* Distance */}
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                   <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
-                  <Text style={[T4, {marginLeft: 5}]}>{distance}</Text>
+                  <Text style={[T4, {marginLeft: 5}]}>{parseInt(distance)} m</Text>
                 </View>
 
                 </View>
@@ -190,7 +190,8 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 16,
         overflow: 'hidden',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginVertical: 20
       },
 
       imageBox: {

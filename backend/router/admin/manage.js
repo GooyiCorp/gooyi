@@ -7,10 +7,15 @@ import Redis from "../../cache/index.js";
 const manageRoute = express.Router()
 
 manageRoute.get("/test", async (req, res) => {
-    await Redis.set("test", "ok")
-    setTimeout(() => {}, 200)
-    const test = await Redis.get("test")
-    res.send(test)
+    try {
+        await Redis.set("test", "chan qua")
+        setTimeout(() => {}, 200)
+        const test = await Redis.get("test")
+        return sendSuccess(res, "ok", test)
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
 })
 manageRoute.get("/logs", (req, res) => {
     try {

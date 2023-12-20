@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken"
 import { TOKEN_LIST, TOKEN_BLACKLIST } from "../index.js"
 import { sendError } from "../helper/client.js"
-
+import {mkdir} from 'fs'
+import { ADMIN } from "../constant/role.js"
 export const verifyToken = async (req, res, next) => {
     try {
         const data = req.headers['authorization']
@@ -10,7 +11,6 @@ export const verifyToken = async (req, res, next) => {
 
         if(token in TOKEN_LIST || token in TOKEN_BLACKLIST)
             return sendError(res, "Unauthorized.", 401)
-        
         const { payload } = jwt.verify(token, process.env.JWT_SECRET_KEY, {
             complete: true
         })
@@ -24,4 +24,16 @@ export const verifyToken = async (req, res, next) => {
     } catch (error) {
         return sendError(res, 'jwt expired.', 401)
     }
+}
+
+export const verifyAdmin = async (req, res, next) => {
+    if (req.user.role !== ADMIN)
+        return sendError(res, 'Forbidden.', 403)
+    next()
+}
+
+
+export const createLogoDir = (req, res, next) => {
+    
+    mkdir()
 }
