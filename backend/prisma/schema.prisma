@@ -1,132 +1,103 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis]
+}
+// ------------ Admin -----------------------------------------------
+
+model Admin {
+  admin_id        Int  @id @default(autoincrement())
+  name            String
+  username        String  @unique
+  password        String
+  
 }
 
-// User model
+// ------------ User ------------------------------------------------
 model User {
-  user_id        Int             @id @unique @default(autoincrement())
-  first_name     String
-  last_name      String
-  email          String          @unique
-  phone          String          @unique
-  active         Boolean         @default(false)
-  setting        Setting?
-  last_login     DateTime
-  create_at      DateTime        @default(now()) @db.Timestamptz(6)
-  update_at      DateTime        @updatedAt @db.Timestamptz(6)
-  favoriteStores FavoriteStore[]
-  feedback       Feedback[]
+  user_id    Int      @id @unique @default(autoincrement())
+  first_name String
+  last_name  String
+  email      String
+  phone      String
+  active     Boolean  @default(false)
+  Setting    Setting?
+  last_login DateTime?
+  create_at  DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  FavoriteStores Store[]    @relation("FavoriteStore")
+  UserPoint      UserPoint?
 }
 
-// Setting model
 model Setting {
-  user_id    Int     @id
-  message    Boolean @default(false)
-  terms      Boolean
-  conditions Boolean
-  // Reference to User
-  user       User    @relation(fields: [user_id], references: [user_id])
+  user_id Int  @unique
+  user    User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+
+  message Boolean
+  terms   Boolean
 }
 
-// FavoriteStore model
-model FavoriteStore {
-  user_id  Int
-  store_id Int
-  user     User  @relation(fields: [user_id], references: [user_id])
-  store    Store @relation(fields: [store_id], references: [store_id])
-
-  // Reference to User and Store
-  @@id([user_id, store_id])
-}
-
-// Coupons model
-model Coupons {
-  coupon_id   Int      @id @unique @default(autoincrement())
-  store_id    Int
-  title       String
-  description String
-  used        Boolean  @default(false)
-  used_at     DateTime
-  active_at   DateTime
-  expired_at  DateTime
-  type        String
-  active      Boolean  @default(false)
-  max_amount  Int
-
-  // Reference to Store
-  store Store @relation(fields: [store_id], references: [store_id])
-}
-
-// Store model
+// ------------ Store ----------------------------------------------
 model Store {
-  store_id       Int             @id @default(autoincrement())
-  name           String
-  category       Category
-  address_id     Int
-  opening_hour   OpeningHour     @relation(fields: [openingHourId], references: [id])
-  active         Boolean
-  description    String
-  enter_date     DateTime
-  payment_info   Int
-  address        Address         @relation(fields: [address_id], references: [address_id])
-  create_at      DateTime        @default(now()) @db.Timestamptz(6)
-  update_at      DateTime        @updatedAt @db.Timestamptz(6)
-  favoriteStores FavoriteStore[]
-  feedback       Feedback[]
-  coupons        Coupons[]
-  openingHourId  Int
+  store_id    Int          @id @default(autoincrement())
+  name        String
+  category    Category
+  Address     Address?
+  OpeningHour OpeningHour?
+  active      Boolean      @default(false)
+  description String
+  logo        String?
+  background  String?
+  enter_date  DateTime
+  create_at   DateTime     @default(now())
+  update_at   DateTime     @updatedAt
+
+  FavoritedUsers User[]     @relation("FavoriteStore")
+  UserPoint      UserPoint?
 }
 
-// Address model
 model Address {
-  address_id Int     @id @default(autoincrement())
-  longitude  String
-  latitude   String
-  street     String
-  postcode   String
-  city       String
-  detail     String
-  stores     Store[]
+  store_id Int                                   @unique
+  store    Store                                 @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  location Unsupported("geography(Point, 4326)")
+  street   String
+  postcode String
+  city     String
+  detail   String
 }
 
-// OpeningHour model
 model OpeningHour {
-  id     Int     @id @default(autoincrement())
-  Mon    String
-  Tue    String
-  Wed    String
-  Thu    String
-  Fri    String
-  Sat    String
-  Sun    String
-  stores Store[]
+  store_id Int    @unique
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  Mon      String
+  Tue      String
+  Wed      String
+  Thu      String
+  Fri      String
+  Sat      String
+  Sun      String
 }
 
-// Feedback model
-model Feedback {
-  user_id   Int
-  store_id  Int
-  feed_back String
-  create_at DateTime @default(now()) @db.Timestamptz(6)
-  update_at DateTime @updatedAt @db.Timestamptz(6)
-  user      User     @relation(fields: [user_id], references: [user_id])
-  store     Store    @relation(fields: [store_id], references: [store_id])
-
-  // Reference to User and Store
-  @@id([user_id, store_id])
-}
-
-// Enum for category
 enum Category {
   restaurant
-  spa
-  cafe
-  game
+  bubbleTea
+  sushi
   bar
-  fashion
+}
+
+// ------- User Point --------------------------------
+
+model UserPoint {
+  user_id  Int   @unique
+  user     User  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  store_id Int   @unique
+  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+
+  point Int
 }
