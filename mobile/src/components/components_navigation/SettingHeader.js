@@ -25,6 +25,8 @@ export default function SettingHeader({
     headerText,
     iconStyle,
     heartButton,
+    next,
+    onPressNext
 }) {
 
     const [edit, setEdit] = useState(false)
@@ -80,11 +82,21 @@ export default function SettingHeader({
             {header && <Text style={[H4, {width: width, position: 'absolute', textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>{headerText}</Text>}
 
 
-            {heartButton && <HeartButton 
-                icon={icons.MaterialIcons}
-                iconName={'favorite'}
+            {next && <RoundButton 
+                icon={icons.MaterialCommunityIcons}
+                iconName={'arrow-right'}
                 iconSize={30}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: 'transparent',
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    margin: 0,
+                    zIndex: 1
+                }}
+                onPressButton={onPressNext}
             />}
+
         </View>
 
     </View>
