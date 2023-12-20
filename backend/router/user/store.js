@@ -1,10 +1,11 @@
 import express from 'express';
-import prisma from '../../prisma/client/index.js';
 import { find_stores_validate } from '../../validation/store.js';
 import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
-import { logger } from '../../helper/logger.js';
-import { verifyToken } from './../../middleware/index.js';
 import { USER } from '../../constant/role.js';
+import { logger } from './../../helper/logger.js';
+import { verifyToken } from '../../middleware/index.js';
+import prisma from '../../prisma/client/index.js';
+
 
 const storeRoute = express.Router();
 
@@ -29,10 +30,10 @@ storeRoute.get("/", async (req, res) => {
 
 storeRoute.get("/find", verifyToken,async (req, res) => {
 
-    const error = find_stores_validate(req.params)
+    const error = find_stores_validate(req.query)
     if  (error) return sendError(res, error);
     
-    const {longitude, latitude, radius} = req.params
+    const {longitude, latitude, radius} = req.query
     const user_id = req.user.id
     if (!radius) radius = 1000
     try {

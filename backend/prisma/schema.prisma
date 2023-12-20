@@ -47,7 +47,7 @@ model Setting {
 model Store {
   store_id    Int          @id @default(autoincrement())
   name        String
-  category    Category
+  category    Category[]   @relation("StoreAndCategory")
   Address     Address?
   OpeningHour OpeningHour?
   active      Boolean      @default(false)
@@ -84,11 +84,10 @@ model OpeningHour {
   Sun      String
 }
 
-enum Category {
-  restaurant
-  bubbleTea
-  sushi
-  bar
+model Category {
+  category_id     Int        @id   @default(autoincrement())
+  name            String     @unique
+  Stores          Store[]    @relation("StoreAndCategory")
 }
 
 // ------- User Point --------------------------------

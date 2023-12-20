@@ -1,7 +1,17 @@
 [
     {
         "name": "Tokas",
-        "category": "bubbleTea",
+        "category": [
+            {
+                "where": { "name": "Bubble Tea"},
+                "create": { "name": "Bubble Tea"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            }
+            
+        ],
         "active": true,
         "description": "Chan qua",
         "enter_date": "2023-02-01 00:00:00.000",
@@ -23,7 +33,17 @@
     },
     {
         "name": "Mai Mai Hbf",
-        "category": "restaurant",
+        "category": [
+            
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Chinesisch"},
+                "create": {"name": "Chinesisch"}
+            }
+        ],
         "active": true,
         "description": "Do qua",
         "enter_date": "2022-09-31 00:00:00.000",
@@ -45,9 +65,27 @@
     },
     {
         "name": "Noosou Bremen",
-        "category": "restaurant",
+        "description": "haizz",
         "active": true,
-        "description": "Tam duoc",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            
+            {
+                "where": {"name": "Vietnamesich"},
+                "create": {"name": "Vietnamesich"}
+            },
+            {
+                "where": {"name": "Pho"},
+                "create": {"name": "Pho"}
+            }
+        ],
         "enter_date": "2020-10-20 00:00:00.000",
         "latitude": "53.080992243029776",
         "longitude": "8.812118005927749",
@@ -67,9 +105,18 @@
     },
     {
         "name": "Hypnotize Wings",
-        "category": "restaurant",
+        "description": "vai lz",
         "active": true,
-        "description": "Tam duoc",
+        "category": [
+            {
+                "where": {"name": "Snacks"},
+                "create": {"name": "Snacks"}
+            },
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            }
+        ],
         "enter_date": "2020-10-20 00:00:00.000",
         "latitude": "53.07850545678961",
         "longitude": "8.823873978362942",
@@ -89,7 +136,20 @@
     },
     {
         "name": "Yoko Sushi",
-        "category": "sushi",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Sushi"},
+                "create": {"name": "Sushi"} 
+            }
+        ],
         "active": true,
         "description": "Buon ngu qua",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -111,7 +171,20 @@
     },
     {
         "name": "EAT HAPPY",
-        "category": "sushi",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Sushi"},
+                "create": {"name": "Sushi"}
+            }
+        ],
         "active": true,
         "description": "Chan vl",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -133,7 +206,12 @@
     },
     {
         "name": "Hangover Bar",
-        "category": "bar",
+        "category": [
+            {
+                "where": {"name": "Bar"},
+                "create": {"name": "Bar"}
+            }
+        ],
         "active": true,
         "description": "Chan tra sua",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -155,7 +233,24 @@
     },
     {
         "name": "Mekong Grill",
-        "category": "restaurant",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Vietnamesich"},
+                "create": {"name": "Vietnamesich"}
+            },
+            {
+                "where": {"name": "Pho"},
+                "create": {"name": "Pho"}
+            }
+        ],
         "active": true,
         "description": "Thua",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -174,6 +269,358 @@
             "Sat": "11:30-22:00",
             "Sun": "13:00-22:00"
         }
+    },
+    {
+        "name": "Corona Pizza",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Pizza"},
+                "create": {"name": "Pizza"}
+            },
+            {
+                "where": {"name": "Italienish"},
+                "create": {"name": "Italienish"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.074930783789874",
+        "longitude": "8.826233585250733", 
+        "street": "Fehrfeld",
+        "postcode": "28203",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Die Mafia Pizza Bremen",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Pizza"},
+                "create": {"name": "Pizza"}
+            },
+            {
+                "where": {"name": "Italienish"},
+                "create": {"name": "Italienish"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.07423848586193",
+        "longitude": "8.794416841070586", 
+        "street": "Westerstraße",
+        "postcode": "28199",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "China Ecke",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Chinesisch"},
+                "create": {"name": "Chinesisch"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.06152200049842",
+        "longitude": "8.805537481546256", 
+        "street": "Kornstraße",
+        "postcode": "28201",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Asia Wok & Sushi",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Sushi"},
+                "create": {"name": "Sushi"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.04753002043889",
+        "longitude": "8.85096621015398", 
+        "street": "Steinsetzerstraße",
+        "postcode": "28279",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Litte Saigon",
+        "category": [
+            {
+                "where": {"name": "Restaurant"},
+                "create": {"name": "Restaurant"}
+            },
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Vietnamesich"},
+                "create": {"name": "Vietnamesich"}
+            },
+            {
+                "where": {"name": "Pho"},
+                "create": {"name": "Pho"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.04753002043889",
+        "longitude": "8.85096621015398", 
+        "street": "Steinsetzerstraße",
+        "postcode": "28279",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Burger King",
+        "category": [
+            {
+                "where": {"name": "Snacks"},
+                "create": {"name": "Snacks"}
+            },
+            {
+                "where": {"name": "Burger"},
+                "create": {"name": "Burger"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.053322032000516",
+        "longitude": "8.741350150665799", 
+        "street": "Kirchhuchtinger Landstraße",
+        "postcode": "28259",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Espresso House",
+        "category": [
+            {
+                "where": {"name": "Coffee"},
+                "create": {"name": "Coffee"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.07682460335486",
+        "longitude": "8.805714216171712", 
+        "street": "Obernstraße",
+        "postcode": "28195",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Thai Lounge Spa Massage",
+        "category": [
+            {
+                "where": {"name": "Asiatisch"},
+                "create": {"name": "Asiatisch"}
+            },
+            {
+                "where": {"name": "Spa"},
+                "create": {"name": "Spa"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.07827281382582",
+        "longitude": "8.802527433258497", 
+        "street": "Kurze Wallfahrt",
+        "postcode": "28195",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Die Sauna im Viertel",
+        "category": [
+            {
+                "where": {"name": "Spa"},
+                "create": {"name": "Spa"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.07925169529782",
+        "longitude": "8.824825281515585", 
+        "street": "Außer d. Schleifmühle",
+        "postcode": "28203",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Massage Bremen",
+        "category": [
+            {
+                "where": {"name": "Spa"},
+                "create": {"name": "Spa"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.084133080447025",
+        "longitude": "8.80360126421667", 
+        "street": "Falkenstraße",
+        "postcode": "28195",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Döner & Frites",
+        "category": [
+            {
+                "where": {"name": "Arabish"},
+                "create": {"name": "Arabish"}
+            },
+            {
+                "where": {"name": "Döner"},
+                "create": {"name": "Döner"}
+            }
+        ],
+        "active": true,
+        "description": "Chan oi la chan",
+        "enter_date": "2020-10-20 00:00:00.000",
+        "latitude": "53.078908064669825",
+        "longitude": "8.808896609799367", 
+        "street": "Sögestraße",
+        "postcode": "28195",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "11:30-22:00",
+            "Tue": "11:30-22:00",
+            "Wed": "11:30-22:00",
+            "Thu": "11:30-22:00",
+            "Fri": "11:30-22:00",
+            "Sat": "11:30-22:00",
+            "Sun": "13:00-22:00"
+        }
     }
 ]
-
