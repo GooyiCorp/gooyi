@@ -14,6 +14,9 @@ import Category from '../../components/components_discover_screen/Category'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCategory, setSelectedCategory, setResetFilter } from '../../redux/slices/searchSlice'
+import Request from './../../helper/request.js';
+import { store } from '../../redux/store.js'
+import * as Location from 'expo-location';
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,20 +26,35 @@ export default function StoresScreen({
 }) {
 
   const dispatch = useDispatch()
-
   const navigation = useNavigation()
-  const [fetchedData, setFetchedData] = useState([]);
-    const getData = async () => {
-      try {
-        const res = await axios.get('https://jsonplaceholder.typicode.com/users');
-        
 
-        console.log(res.data)
-      } catch (error) {
-    
-        console.log(error)
+  const [stores, setStores] = useState([]);
+  const [radius, setRadius] = useState(1000);
+  // Duc Anh: chinh radius o day
+  const getStores = async () => {
+    try {
+      let { status } = await Location.requestBackgroundPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Permission to access location was denied');  //Duc anh: Tu choi location
+        return;
       }
-    }  
+      let location = await Location.getCurrentPositionAsync({});
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      // Duc anh: Neu chua dang nhap thi goi cai nay
+      const response = await Request(`user/store?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET")
+      // Neu dang nhap roi thi goi cai nay
+      // const accessToken = store.getState().user.accessToken
+      // const response = await Request(`user/store/find?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET",data={},token=accessToken)
+      
+      setStores(response.data)
+    } catch (error) {  
+      console.log(error.response.data)
+    }
+  }  
+  useEffect(() => {
+    getStores();
+  }, [radius])
 
   const pageSelected = useSelector((state) => state.subNav.storeNavPage)
     
@@ -96,7 +114,13 @@ export default function StoresScreen({
           style={{marginTop: 25}}
         />
         <View style={{marginLeft: 30}}>
-          <StoreCard onPress={()=> navigation.navigate('Store')} newshop/>
+          {
+            stores && stores.map((store, index) => {
+              return (
+                <StoreCard key={index} onPress={()=> navigation.navigate('Store')} newshop shopName={store.name} description={store.description} distance={store.distance}/>
+              )
+            })
+          }
         </View>
 
       </ScrollView>

@@ -1,5 +1,5 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View} from 'react-native'
+import React, { useEffect } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming, ReduceMotion, reduceMotion} from 'react-native-reanimated'
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setHideLocateModal } from '../../redux/slices/showModalSlice'
 import { H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
 import LocateSelectionButton from './LocateSelectionButton'
-import { setSelected, setUnselected,  setLocation, setCurrentPosition, setResetPosition, setSupplement } from '../../redux/slices/locateSlice'
+import { setSelected, setUnselected, setCurrentPosition, setResetPosition, setSupplement, setLocation } from '../../redux/slices/locateSlice'
 
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager'
@@ -23,6 +23,7 @@ import IconLabelButton from '../components_universal/IconLabelButton'
 import LocateButton from './LocateButton'
 import LocateRequired from '../../screens/locate_screens/LocateRequired'
 import CurrentPositionFeed from './CurrentPositionFeed'
+import { store } from '../../redux/store'
 
 const LOCATION_TASK_NAME = 'background-location-task';
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -31,8 +32,8 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     return;
   }
   if (data) {
-    const { locations } = data;
-    console.log(locations);
+    const { longitude, latitude } = data.locations[0].coords;
+    store.dispatch(setLocation({ lat: latitude, long: longitude }));
   }
 });
 export default function LocateModal() {

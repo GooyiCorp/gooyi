@@ -9,6 +9,7 @@ import BigButton from '../components_LogIn/BigButton'
 import CloseSaveButton from '../components_profile_screen/CloseSaveButton'
 import IconLabelButton from '../components_universal/IconLabelButton'
 import { H2, H3, H4, T2 } from '../../constants/text-style'
+import HeartButton from '../components_universal/HeartButton'
 
 export default function SettingHeader({
     goBack,
@@ -23,6 +24,9 @@ export default function SettingHeader({
     header,
     headerText,
     iconStyle,
+    heartButton,
+    next,
+    onPressNext
 }) {
 
     const [edit, setEdit] = useState(false)
@@ -76,6 +80,22 @@ export default function SettingHeader({
             }
 
             {header && <Text style={[H4, {width: width, position: 'absolute', textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>{headerText}</Text>}
+
+
+            {next && <RoundButton 
+                icon={icons.MaterialCommunityIcons}
+                iconName={'arrow-right'}
+                iconSize={30}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: 'transparent',
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    margin: 0,
+                    zIndex: 1
+                }}
+                onPressButton={onPressNext}
+            />}
 
         </View>
 

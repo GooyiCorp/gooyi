@@ -10,12 +10,12 @@ const storeRoute = express.Router();
 
 
 storeRoute.get("/", async (req, res) => {
-    const error = find_stores_validate(req.body)
+    const error = find_stores_validate(req.query)
     if  (error) return sendError(res, error);
-    const {longitude, latitude, radius} = req.body
+    const {longitude, latitude, radius} = req.query
     if (!radius) radius = 1000
     try {
-        const stores = await prisma.store.findClosestStores({longitude, latitude, radius})
+        const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
         const result = stores.map(item => {
             item.favorite = false
             return item
@@ -29,10 +29,10 @@ storeRoute.get("/", async (req, res) => {
 
 storeRoute.get("/find", verifyToken,async (req, res) => {
 
-    const error = find_stores_validate(req.body)
+    const error = find_stores_validate(req.params)
     if  (error) return sendError(res, error);
     
-    const {longitude, latitude, radius} = req.body
+    const {longitude, latitude, radius} = req.params
     const user_id = req.user.id
     if (!radius) radius = 1000
     try {
@@ -41,7 +41,7 @@ storeRoute.get("/find", verifyToken,async (req, res) => {
         const FavoriteStores = []
         user.FavoriteStores.forEach((item) => { FavoriteStores.push(item.store_id) })
 
-        const stores = await prisma.store.findClosestStores({longitude, latitude, radius})
+        const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
         const results = stores.map((item) => {
             if (FavoriteStores.includes(item.store_id)) item.favorite = true
             else item.favorite = false

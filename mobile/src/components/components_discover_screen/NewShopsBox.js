@@ -7,6 +7,7 @@ import { T1, T4 } from '../../constants/text-style'
 import HeartButton from '../components_universal/HeartButton'
 import Icons, { icons } from '../components_universal/Icons'
 import { height, width } from '../../constants/size'
+import { useNavigation } from '@react-navigation/native'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -21,6 +22,7 @@ const distance = '1,2 km'
 
 export default function NewShopsBox() {
 
+    const navigation = useNavigation()
     const [focus, setFocus] = useState(false)
 
     // Value --------------------------------------------------------------- Transition
@@ -74,7 +76,10 @@ export default function NewShopsBox() {
         }
       )
     
-       
+  
+      const handleOnPressCard = () => {
+        navigation.navigate('Store', {screen: 'StoreEntry'})
+      }
 // ---------------------------------------------------------------------------------------------------------------------
     
   return (
@@ -92,6 +97,7 @@ export default function NewShopsBox() {
         transitionVal.value = withTiming(0, {duration: 100}) ,
         textAnimation.value = 0
       ) }
+      onPress={handleOnPressCard}
     >
 
     <Animated.View style={[styles.shadowProp, boxTransition]}>

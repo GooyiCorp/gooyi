@@ -3,12 +3,6 @@ import { api_url } from "../constants/api";
 import { Get, Save} from "./store.js"
 import { store } from "../redux/store.js";
 import { setToken } from "../redux/slices/userSlice.js";
-async function getToken() {
-    return await Get("accessToken")
-}
-async function getRefreshToken() {
-    return await Get("refreshToken")
-}
 
 async function Request(path, method, data, token) {
     const url = api_url + path
