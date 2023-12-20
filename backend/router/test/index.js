@@ -131,6 +131,7 @@ testRoute.post('/user-login', async (req, res) => {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
+        await prisma.user.update({ where: { user_id: userData.id }, data: { last_login: new Date() } })
 
         return sendSuccess(res, "Login successfully", response)
 

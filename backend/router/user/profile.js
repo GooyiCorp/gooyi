@@ -153,6 +153,7 @@ profileRoute.post('/register', async(req, res) => {
         }
         TOKEN_LIST[refreshToken] = response
         ACTIVE_USER[userData.id] = {name : userData.name}
+        await prisma.user.update({ where: { user_id: userData.id }, data: { last_login : new Date()}})
         return sendSuccess(res, "Register successfully", {accessToken, refreshToken, userData})
     }
     catch (err) {
@@ -186,6 +187,7 @@ profileRoute.get("/login-redirect", async (req, res) => {
         }
         TOKEN_LIST[refreshToken] = response
         ACTIVE_USER[payload.user.id] = {name: payload.user.name}
+        await prisma.user.update({ where: { user_id: userData.id }, data: { last_login: new Date() } })
         return res.send(render(redirect_page, {redirect_link: link + `?accessToken=${accessToken}&refreshToken=${refreshToken}`}))
     } catch (err) {
         logger.error(err);
