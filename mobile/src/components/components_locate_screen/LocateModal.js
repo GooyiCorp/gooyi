@@ -51,11 +51,11 @@ export default function LocateModal() {
         });
       }
     }
-    // let { status } = await Location.requestBackgroundPermissionsAsync();
-    // if (status !== 'granted') {
-    //   alert('Permission to access location was denied');  //Duc anh: Tu choi location
-    //   return;
-    // }
+    let { status } = await Location.requestBackgroundPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission to access location was denied');  //Duc anh: Tu choi location
+      return;
+    }
     try {
       let location = await Location.getCurrentPositionAsync({});
       const latitude = location.coords.latitude;
@@ -65,7 +65,7 @@ export default function LocateModal() {
       const address = response.data.address;
 
       // set State
-      dispatch(setCurrentPosition(`${address.road} ${address.house_number}`))
+      dispatch(setCurrentPosition(`${address.road} ${address.house_number ? address.house_number: ''}`))
       dispatch(setSupplement(`${address.postcode} ${address.city}, ${address.country}`))
       dispatch(setSelected('navigate'))
       
