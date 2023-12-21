@@ -79,7 +79,7 @@ storeRoute.get('/search', async (req, res) => {
     try {
         const points = await prisma.address.findClosestPoints({ longitude, latitude, radius: parseInt(radius) })
         const ids = points.map(point => point.store_id)
-        const result = await prisma.store.findMany({where: {
+        let result = await prisma.store.findMany({where: {
             AND: {
                 store_id: {
                     in: ids,
@@ -100,11 +100,23 @@ storeRoute.get('/search', async (req, res) => {
                 ]
             }
         },
-        include: {
-            category: true
-        }
-        
+        select: {
+            store_id: true,
+            name: true,
+            category: {
+                select: {
+                    name: true
+                }
+            }
+        },
         })
+        result = result.map(store => {
+            const matchingPoint = points.find(point => point.store_id === store.store_id);
+            return {
+                ...store,
+                distance: matchingPoint ? matchingPoint.distance : null,
+            };
+        });
         return sendSuccess(res, "ok", result)
        
     

@@ -28,12 +28,13 @@ export default function SearchFeed({
                   <Text style={T4}>{description.map((item, index) => index !== description.length - 1 ? <Text>{item.name}, </Text> : <Text>{item.name}</Text>)}</Text>
             </View>
 
+
             <View style={{height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
 
                 {/* Distance */}
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                   <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
-                  <Text style={[T4, {marginLeft: 5}]}>{distance}</Text>
+                  <Text style={[T4, {marginLeft: 5}]}>{Math.ceil(distance)} m</Text>
                 </View>
 
             </View>
