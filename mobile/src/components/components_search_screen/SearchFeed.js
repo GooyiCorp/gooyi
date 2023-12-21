@@ -25,7 +25,7 @@ export default function SearchFeed({
 
             <View style={{height: '70%'}}>
                 <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]} >{shopName}</Text>
-                <Text style={T4}>{description}</Text>
+                  <Text style={T4}>{description.map((item, index) => index !== description.length - 1 ? <Text>{item.name}, </Text> : <Text>{item.name}</Text>)}</Text>
             </View>
 
             <View style={{height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>

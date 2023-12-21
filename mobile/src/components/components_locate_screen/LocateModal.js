@@ -50,10 +50,12 @@ export default function LocateModal() {
           accuracy: Location.Accuracy.Balanced,
         });
       }
+    } else {
+      alert('Permission to access location was denied');  //Duc anh: Tu choi location
+
     }
     // let { status } = await Location.requestBackgroundPermissionsAsync();
     // if (status !== 'granted') {
-    //   alert('Permission to access location was denied');  //Duc anh: Tu choi location
     //   return;
     // }
     try {
@@ -65,7 +67,7 @@ export default function LocateModal() {
       const address = response.data.address;
 
       // set State
-      dispatch(setCurrentPosition(`${address.road} ${address.house_number}`))
+      dispatch(setCurrentPosition(`${address.road} ${(typeof address.house_number != 'undefined' ? address.house_number : '')}`))
       dispatch(setSupplement(`${address.postcode} ${address.city}, ${address.country}`))
       dispatch(setSelected('navigate'))
       
