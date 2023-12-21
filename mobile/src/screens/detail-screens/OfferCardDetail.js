@@ -1,14 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-// React Navigation
-import { useNavigation } from '@react-navigation/native'
 // Constant
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { H1, H2, H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
 // Components
 import SettingHeader from '../../components/components_navigation/SettingHeader'
-import BigButton from '../../components/components_LogIn/BigButton'
 import EndInTimer from '../../components/components_universal/EndInTimer'
 import DiscountBanner from '../../components/components_discover_screen/OfferCard/DiscountBanner'
 import HeartButton from '../../components/components_universal/HeartButton'

@@ -1,17 +1,22 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
 
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { COLORS } from '../../index/constantsindex'
-import IconLabelButton from './IconLabelButton'
-import { T4 } from '../../constants/text-style'
+import IconLabelButton from '../components_universal/IconLabelButton'
+import { T1, T2, T3, T4 } from '../../constants/text-style'
+import Icons, { icons } from '../components_universal/Icons'
+import { useNavigation } from '@react-navigation/native'
 
 const distance = '1,2 km'
-const shopName = 'NOUSOU'
+const shopName = 'Yoko Sushi'
 const validity = '30.06.2023'
 
 export default function CouponCard() {
+
+  // React Navigation
+  const navigation = useNavigation()
 
     // Value --------------------------------------------------------------- Transition
     const transitionVal = useSharedValue(0)
@@ -27,6 +32,10 @@ export default function CouponCard() {
         }
       )
 
+      const handleOnPressCard = () => {
+        navigation.navigate('CouponCardDetail')
+      }
+
   return (
 
     <Pressable 
@@ -36,17 +45,36 @@ export default function CouponCard() {
       onPressOut={ () => ( 
         transitionVal.value = withTiming(0, {duration: 100})
       ) }
+      onPress={handleOnPressCard}
     >
 
     <Animated.View style={[styles.shadowProp, boxTransition]}>
         <View style={styles.contentBox}>
 
-        <View style={{height: '15%'}}>
-            <Text style={T4}>{shopName}</Text>
-            
+        {/* Logo Box */}
+        <View style={{height: 40, width: 40, backgroundColor: COLORS.white, position: 'absolute', top: 10, right: 10, borderRadius: 8, justifyContent: 'center', alignItems: 'center'}}>
+          <Image source={require('../../../assets/image/Yoko_Logo_WEB.png')} resizeMode='contain' style={{maxWidth: '80%'}}/>
         </View>
 
-        <View style={{height: '40%'}}>
+        <View style={{height: '55%'}}>
+          {/* Reward Information Section */}
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
+            {/* Reward Type */}
+            <Icons
+                icon={icons.MaterialCommunityIcons}
+                iconName={'ticket-percent'}
+                iconSize={18}
+                iconColor={COLORS.grey}
+            />
+            <Text style={[T4, {marginLeft: 5}]}>{shopName}</Text>
+        </View>
+            {/* Reward Info */}
+            <View>
+                {/* Title  */}
+                <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>1x kostenloses Getränk</Text>
+                {/* Information */}
+                <Text style={[T4, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>Größe M</Text>
+            </View>
         </View>
 
         {/* Bottom Section */}
@@ -69,12 +97,12 @@ export default function CouponCard() {
             <IconLabelButton 
               label={'Einlösen'}
               style={{
-                backgroundColor: COLORS.white,
+                backgroundColor: COLORS.ivoryDark2,
                 paddingHorizontal: 15,
               }}
               labelStyle={{
                 fontFamily: 'RH-Medium',
-                color: COLORS.grey
+                color: COLORS.ivory
               }}
             />
         </View>

@@ -23,6 +23,7 @@ import Search from '../../screens/search-screens/Search';
 import LocateStack from '../navigationStack/n_locateStack';
 import ShowAllOffers from '../../screens/showmore_screens/ShowAllOffers';
 import OfferCardDetail from '../../screens/detail-screens/OfferCardDetail';
+import CouponCardDetail from '../../screens/detail-screens/CouponCardDetail';
 
 
 const Root = createStackNavigator();
@@ -107,6 +108,11 @@ export default function RootNav() {
         <Root.Screen 
             name='OfferCardDetail' 
             component={OfferCardDetail}
+        />
+
+        <Root.Screen 
+            name='CouponCardDetail' 
+            component={CouponCardDetail}
         />
         
         {/* Other Screens ----------------------------- */}
