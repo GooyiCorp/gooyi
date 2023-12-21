@@ -30,6 +30,7 @@ export default function SearchBox({
         {id: 7, keyword: 'Sushi'},
         {id: 8, keyword: 'Chinesisch'},
         {id: 9, keyword: 'Neu'},
+        {id: 10, keyword: 'Geöffnet'},
     ]
 
     // const feedList = [

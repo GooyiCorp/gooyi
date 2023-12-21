@@ -4,6 +4,7 @@ import stores from './store_data.json' assert { type: 'json' };
 import prisma from '../../prisma/client/index.js';
 import { store_create_validate } from '../../validation/store.js';
 import { rm } from 'fs';
+import { checkNewStore, checkOpeningStore } from '../../helper/schedule.js';
 
 const storeRoute = express.Router()
 
@@ -47,7 +48,7 @@ async function createStore(store) {
         const openingHour = await prisma.openingHour.create({ data: { ...opening_hours, store_id: store.store_id } })
 
     } catch (err) {
-        await createStore(store)
+        console.log(err);
     }
 
 }
@@ -56,9 +57,9 @@ async function createStore(store) {
 storeRoute.post('/create-stores', async (req, res) => {
 
     try {
-        stores.forEach(async (store) => {
-            createStore(store);
-        })
+        for (const store of stores) {
+            await createStore(store);
+        }
         return sendSuccess(res, "ok")
     } catch (err) {
         logger.error(err);
@@ -87,5 +88,15 @@ storeRoute.delete('/delete-stores', async (req, res) => {
     }
 });
 
+
+storeRoute.put('/check-opening', async (req, res) => {
+    const result = await checkOpeningStore()
+    return sendSuccess(res, "success", result);
+})
+
+storeRoute.put('/check-new-store', async (req, res) => {
+    const result = await checkNewStore()
+    return sendSuccess(res, "success", result);
+})
 
 export default storeRoute

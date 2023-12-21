@@ -117,6 +117,7 @@ storeRoute.get('/search', async (req, res) => {
                 distance: matchingPoint ? matchingPoint.distance : null,
             };
         });
+        result  = result.sort((a, b) => (a.distance || 0) - (b.distance || 0));
         return sendSuccess(res, "ok", result)
        
     

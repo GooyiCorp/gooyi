@@ -5,6 +5,7 @@ import morgan from "morgan";
 import bodyParser from "body-parser"
 import path from "path"
 import fileUpload from "express-fileupload";
+import { scheduleJob } from "node-schedule";
 
 export const __dirname = path.resolve(path.dirname(''))
 dotenv.config()
@@ -57,6 +58,17 @@ app.use("/api/test", testRoute)
 export var debuggerHost = process.env.APP_SCHEMA
 export function changeHost(host) {debuggerHost = host}
 const PORT = process.env.PORT || 8000
+
+// Schedule 
+import { checkNewStore, checkOpeningStore } from "./helper/schedule.js";
+
+const job = scheduleJob('opening', '* * * * *', () => {
+    checkOpeningStore();
+})
+const neu = scheduleJob('new', '0 0 * * *', () => {
+    checkNewStore();
+})
+
 app.listen(PORT, () => {
     logger.info("Listening on port 8000");
 })

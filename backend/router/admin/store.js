@@ -22,9 +22,6 @@ storeRoute.get('/', async (req, res) => {
 
 })
 
-
-
-
 storeRoute.post('/create', async (req, res) => {
     const { name,
         category, 
@@ -42,14 +39,23 @@ storeRoute.post('/create', async (req, res) => {
     const error = store_create_validate(req.body);
     if (error) return sendError(res,error);
     try {
-        const store = await prisma.store.create({data: {name, category, active, description, enter_date: new Date(enter_date)}})
-        const image = await prisma.store.update({where: {store_id: store.store_id}, data: {
-            logo: `http://${host}:${port}/store/${store.store_id}/logo.png`,
-            background: `http://${host}:${port}/store/${store.store_id}/background.png`
-        }})
-        const address = await  prisma.address.create({data: {store_id: store.store_id, longitude, latitude, street, postcode, city, detail: add_detail}})
-        const openingHour = await prisma.openingHour.create({data: {...opening_hours, store_id: store.store_id}})
-        return res.send({store, address, openingHour});
+        const store = await prisma.store.create({
+            data: {
+                name, active, description, enter_date: new Date(enter_date),
+                category: {
+                    connectOrCreate: category
+                }
+            }
+        })
+        const image = await prisma.store.update({
+            where: { store_id: store.store_id }, data: {
+                logo: `http://${host}:${port}/store/${store.store_id}/logo.png`,
+                background: `http://${host}:${port}/store/${store.store_id}/background.png`
+            }
+        })
+        const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city, detail: add_detail } })
+        const openingHour = await prisma.openingHour.create({ data: { ...opening_hours, store_id: store.store_id } })
+        return sendSuccess(res, "Create store successfully",{ store, address, openingHour })
 
     } catch (err) {
         console.log(err);
