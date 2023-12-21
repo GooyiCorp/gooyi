@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setShowFilterModal } from '../../redux/slices/showModalSlice'
 import SearchLabel from './SearchLabel'
 import { setRemoveFilter } from '../../redux/slices/searchSlice'
+import Request from '../../helper/request'
 
 export default function SearchBox({
     onPressGoBack
@@ -31,11 +32,11 @@ export default function SearchBox({
         {id: 9, keyword: 'Neu'},
     ]
 
-    const feedList = [
-        {id: 1, shopName: 'Asia Hung - City Center', description: 'Asiatisch, Thai', distance: '1,5 km'},
-        {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
-    ]
-
+    // const feedList = [
+    //     {id: 1, shopName: 'Asia Hung - City Center', description: 'Asiatisch, Thai', distance: '1,5 km'},
+    //     {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
+    // ]
+    const [feedList, setFeedList] = useState([]) 
     const filterList = useSelector((state) => state.search.filter)  
     const dispatch = useDispatch()
 
@@ -63,7 +64,9 @@ export default function SearchBox({
     }
 
     // --------------------------------------- handle Search
-    const handleSearch = (input) => {
+    const longitude = useSelector((state) => state.locate.long)
+    const latitude = useSelector((state) => state.locate.lat)
+    const handleSearch = async (input) => {
         if (input) {
         keywordsTransition.value = withTiming(1, {duration: 500})
         setTimeout(() => {
@@ -72,9 +75,8 @@ export default function SearchBox({
         console.log('search:', input)
 
         // Thanh - Search API ---------------------------------------------------------
-
-
-
+        const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&keyword=${input}`)
+        setFeedList(response.data)
         // ----------------------------------------------------------------------------
 
         }
@@ -210,7 +212,7 @@ export default function SearchBox({
     {!showKeyWords && 
     <Animated.View style={[{zIndex: 2, paddingHorizontal: 30}, translateFeed]}>
         
-        {feedList.map((feed) => (<SearchFeed key={feed.id} shopName={feed.shopName} description={feed.description} distance={feed.distance}/>))}
+        {feedList.map((feed) => (<SearchFeed key={feed.store_id} shopName={feed.name} description={feed.category} distance={feed.distance}/>))}
 
     </Animated.View>
     
