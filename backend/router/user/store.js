@@ -17,18 +17,14 @@ storeRoute.get("/", async (req, res) => {
     if (!radius) radius = 1000
     try {
         const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
-        const result = stores.map(item => {
-            item.favorite = false
-            return item
-        })
-        return sendSuccess(res, "Get Nearby Stores", result)
+        return sendSuccess(res, "Get Nearby Stores", stores)
     } catch (error) {
         logger.error(error);
         return sendServerError(res, error);
     }
 })
 
-storeRoute.get("/find", verifyToken,async (req, res) => {
+storeRoute.get("/find", verifyToken, async (req, res) => {
 
     const error = find_stores_validate(req.query)
     if  (error) return sendError(res, error);
@@ -37,17 +33,14 @@ storeRoute.get("/find", verifyToken,async (req, res) => {
     const user_id = req.user.id
     if (!radius) radius = 1000
     try {
-        const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: true}})
-        
-        const FavoriteStores = []
-        user.FavoriteStores.forEach((item) => { FavoriteStores.push(item.store_id) })
-
+        const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: { select: {store_id: true}}}})
+        if (!user) return sendError(res, "Unauthorized", 403)
+        const favoriteStoreIds = user.FavoriteStores.map((item) => item.store_id);
         const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
-        const results = stores.map((item) => {
-            if (FavoriteStores.includes(item.store_id)) item.favorite = true
-            else item.favorite = false
-            return item
-        })
+        const results = stores.map((item) => ({
+            ...item,
+            favorite: favoriteStoreIds.includes(item.store_id)
+        }));
         return res.send(results)
     } catch (error) {
         logger.error(error);
@@ -57,32 +50,71 @@ storeRoute.get("/find", verifyToken,async (req, res) => {
 
 storeRoute.post("/like", verifyToken, async (req, res) => {
     if (req.user.role !== USER) return sendError(res, "You must be user")
-
-    const user_id = req.user.id
-    const store_id = req.body.store_id
+    const {id: user_id} = req.user
+    const { store_id } = req.body
     try {
         const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: true}})
+        if (!user) return sendError(res, "Unauthorized", 403)
         const store = await prisma.store.findUnique({where: {store_id}})
         if (!store) return sendError(res, "No store found")
-
-        let FavoriteStores = [] 
-        user.FavoriteStores.forEach((item) => { FavoriteStores.push({store_id: item.store_id})})
-
-        const check = FavoriteStores.map(item => item.store_id).includes(store_id)
+        const check = user.FavoriteStores.some(item => store_id === item.store_id)
         if (check) {
-            FavoriteStores = FavoriteStores.filter(item => item.store_id != store_id)
-            await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { set: [...FavoriteStores] } } })
+            await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { disconnect: [{store_id}] } } })
             return sendSuccess(res, "Disliked.");
 
         }
-
-        await prisma.user.update({ where: { user_id }, data: { FavoriteStores: {set: [... FavoriteStores, {store_id}]}}})
+        await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { connect: [{ store_id}] } } })
         return sendSuccess(res, "Liked.");
     } catch (err) {
-        console.log(err);
+        logger.error(err);
         return sendServerError(res)
     }
     
+})
+
+storeRoute.get('/search', async (req, res) => {
+    const error = find_stores_validate(req.query)
+    if (error) return sendError(res, error);
+    const { longitude, latitude, radius, keyword } = req.query
+    try {
+        const points = await prisma.address.findClosestPoints({ longitude, latitude, radius: parseInt(radius) })
+        const ids = points.map(point => point.store_id)
+        const result = await prisma.store.findMany({where: {
+            AND: {
+                store_id: {
+                    in: ids,
+                },
+                OR: [
+                    {name: {
+                        contains: keyword,
+                        mode: 'insensitive'
+                    }},
+                    {category: {
+                        some: {
+                            name: {
+                                contains: keyword,
+                                mode: 'insensitive'
+                            }
+                        },
+                    }}
+                ]
+            }
+        },
+        include: {
+            category: true
+        }
+        
+        })
+        return sendSuccess(res, "ok", result)
+       
+    
+    } catch (err) {
+        logger.error(err);
+        return sendServerError(res);
+    }
+
+
+
 })
 
 export default storeRoute

@@ -19,17 +19,33 @@ const addressExt = Prisma.defineExtension({
                 }
                 const point = `POINT(${add.location.longitude} ${add.location.latitude})`;
                 await prisma.$queryRaw`
-                    INSERT INTO "Address" (store_id, location, street, postcode, city, detail) 
-                    VALUES (
-                        ${add.store_id}, 
-                        ST_GeomFromText(${point}, 4326),
-                        ${add.street},
-                        ${add.postcode},
-                        ${add.city},
-                        ${add.detail}
+                INSERT INTO "Address" (store_id, location, street, postcode, city, detail) 
+                VALUES (
+                    ${add.store_id}, 
+                    ST_GeomFromText(${point}, 4326),
+                    ${add.street},
+                    ${add.postcode},
+                    ${add.city},
+                    ${add.detail}
                     );
+                    `
+                    return add
+                },
+            async findClosestPoints({ longitude, latitude, radius }) {
+                const ids = await prisma.$queryRaw
                 `
-                return add
+                    SELECT 
+                        store_id,
+                        ST_Distance(Address.location, ST_MakePoint(${parseFloat(longitude)}, ${parseFloat(latitude)})) as distance
+                    FROM "Address" Address
+                    WHERE ST_DWithin(
+                    Address.location,
+                    ST_MakePoint(${parseFloat(longitude)}, ${parseFloat(latitude)}),
+                    ${radius}         
+                )
+                    ORDER BY distance
+                `
+                return ids
             }
         },
 
