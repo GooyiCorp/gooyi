@@ -126,6 +126,46 @@ storeRoute.get('/search', async (req, res) => {
         return sendServerError(res);
     }
 
+})
+storeRoute.post('/feedback', verifyToken, async (req, res) => {
+    const { store_id, text } = req.body;
+    if (!text || !store_id) return sendError(res, "text and store_id is required")
+    const user_id = req.user.id
+
+    try {
+        const store = await prisma.store.findUnique({where: {store_id}})
+        if (!store) return sendError(res, "Store not found", 403)
+
+        const user = await prisma.user.findUnique({where: {user_id}, select: {
+            FeedBack: {
+                where: {store_id},
+                orderBy: {
+                    create_at: 'desc'
+                }
+            }
+        }})
+        if (!user) return sendError(res, "Unauthorized", 403)
+        if (user.FeedBack.length > 0) {
+            const last_feedback_date = new Date(user.FeedBack[0].create_at).getDate()
+            const today = new Date().getDate()
+            
+            if (last_feedback_date === today) return sendError(res, "One Feedback per day", 403)
+        }
+
+        const feedback = await prisma.user.update({where: {user_id}, data: {
+            FeedBack: {
+                create: {
+                    store_id, text   
+                }
+            }
+        }})
+
+        return sendSuccess(res, "Feedback successfully sent")
+
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
 
 
 })
