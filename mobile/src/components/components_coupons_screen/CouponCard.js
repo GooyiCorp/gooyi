@@ -52,24 +52,27 @@ export default function CouponCard() {
         <View style={styles.contentBox}>
 
         {/* Logo Box */}
-        <View style={{height: 40, width: 40, backgroundColor: COLORS.white, position: 'absolute', top: 10, right: 10, borderRadius: 8, justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={require('../../../assets/image/Yoko_Logo_WEB.png')} resizeMode='contain' style={{maxWidth: '80%'}}/>
-        </View>
+
+
 
         <View style={{height: '55%'}}>
           {/* Reward Information Section */}
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
             {/* Reward Type */}
-            <Icons
-                icon={icons.MaterialCommunityIcons}
-                iconName={'ticket-percent'}
-                iconSize={18}
-                iconColor={COLORS.grey}
-            />
-            <Text style={[T4, {marginLeft: 5}]}>{shopName}</Text>
-        </View>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>
+              <Text style={[T4]}>{shopName}</Text>
+              <Icons
+                  icon={icons.MaterialCommunityIcons}
+                  iconName={'ticket-percent'}
+                  iconSize={18}
+                  iconColor={COLORS.grey}
+                  iconStyle={{
+                    marginRight: -2
+                  }}
+              />
+            </View>
             {/* Reward Info */}
-            <View>
+
+            <View >
                 {/* Title  */}
                 <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>1x kostenloses Getränk</Text>
                 {/* Information */}
@@ -79,32 +82,39 @@ export default function CouponCard() {
 
         {/* Bottom Section */}
         <View style={{height: '45%', alignItems:'flex-start', justifyContent: 'flex-end'}}>
-          
-          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingLeft: 1}}>
-          <Entypo name="time-slot" size={12} color={COLORS.grey} />
-          <Text style={[T4, {marginLeft: 5}]}>{validity}</Text>
-          </View>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: -1}}>
+                  <Entypo name="time-slot" size={12} color={COLORS.grey} />
+                  <Text style={[T4, {marginLeft: 5}]}>{validity}</Text>
+                </View>     
+
           {/* Distance */}
-          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <MaterialCommunityIcons name="map-marker" size={14} color={COLORS.primary}/>
+          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft:-2}}>
+            <MaterialCommunityIcons name="map-marker" size={14} color={COLORS.primary} />
             <Text style={[T4, {marginLeft: 5}]}>{distance}</Text>
           </View>
 
         </View>
 
-        {/* Button */}
-        <View style={{position: 'absolute', bottom: 10, right: 10}}>
-            <IconLabelButton 
-              label={'Einlösen'}
-              style={{
-                backgroundColor: COLORS.ivoryDark2,
-                paddingHorizontal: 15,
-              }}
-              labelStyle={{
-                fontFamily: 'RH-Medium',
-                color: COLORS.ivory
-              }}
-            />
+
+
+        <View style={{position: 'absolute', bottom: 10, right: 10, flexDirection: 'row',}}>
+          {/* Logo */}
+          <View style={{height: 40, width: 40, backgroundColor: COLORS.white, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight: 8, overflow: 'hidden'}}>
+            <Image source={require('../../../assets/image/Yoko_Logo_WEB.png')} resizeMode='contain' style={{maxWidth: '80%'}}/>
+          </View>
+          {/* Button */}
+          <IconLabelButton 
+            label={'Einlösen'}
+            style={{
+              height: 40,
+              backgroundColor: COLORS.ivoryDark,
+              paddingHorizontal: 10,
+            }}
+            labelStyle={{
+              fontFamily: 'RH-Medium',
+              color: COLORS.grey
+            }}
+          />
         </View>
 
         </View>
