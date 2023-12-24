@@ -15,9 +15,11 @@ import { setShowFilterModal } from '../../redux/slices/showModalSlice'
 import SearchLabel from './SearchLabel'
 import { setRemoveFilter } from '../../redux/slices/searchSlice'
 import Request from '../../helper/request'
+import SubHeader from '../components_navigation/SubHeader'
 
 export default function SearchBox({
-    onPressGoBack
+    onPressGoBack,
+    onPressShowFilterModal
 }) {
 
     const keywordsList = [
@@ -123,7 +125,6 @@ export default function SearchBox({
                 height: moderateScale(38,0.2),
                 width: moderateScale(38,0.2),
                 margin: 0,
-                marginRight: 10
             }}
             onPressButton={onPressGoBack}
         />
@@ -133,7 +134,7 @@ export default function SearchBox({
                 placeholderTextColor={COLORS.grey}
                 style={{
                     flex: 1,
-                    paddingLeft: 20,
+                    paddingLeft: 15,
                     paddingRight: 50,
                     fontFamily: 'RH-Regular',
                     fontSize: 15,
@@ -179,27 +180,42 @@ export default function SearchBox({
                 />
             </View>
         </View>
+            <RoundButton 
+                icon={icons.FontAwesome}
+                iconName={'sliders'}
+                iconSize={26}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: 'transparent',
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    margin: 0,
+                    zIndex: 1,
+                }}
+                onPressButton={onPressShowFilterModal}
+            />
         
     </View>
 
+        
     {/* -------------------------------------------------------- Search for Section */}
     <View style={{marginBottom: 15, marginHorizontal: 25}}>
 
         <View style={{flexDirection: 'row', marginHorizontal: 5}}>
-
+            
             {/* Category */}
-            <View style={{width: '28%'}}>
+            {/* <View style={{width: '28%'}}>
                 <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Suche in</Text>
                 <SearchLabel label={categorySelected} onPress={() => dispatch(setShowFilterModal())}/>
-            </View>
+            </View> */}
 
             {/* Filter */}
-            <View style={{width: '72%'}}>
+            {/* <View style={{width: '72%'}}>
                 <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>{filterSelected.length !== 0 ? 'Filter' : ''}</Text>
                 <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
                     {filterList.map((filter) => (<SearchLabel key={filter.id} label={filter.filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
                 </View>
-            </View>
+            </View> */}
 
         </View>
 
@@ -225,12 +241,13 @@ export default function SearchBox({
 
 const styles = StyleSheet.create({
     container: {
-        width: width,
+        width: width-60,
         height: 50,
         // backgroundColor: 'yellow',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 30,
+        justifyContent: 'space-between',
+        marginHorizontal: 30,
         // position: 'absolute',
         marginTop: 55,
         marginBottom: 15,
@@ -239,12 +256,14 @@ const styles = StyleSheet.create({
     },
 
     inputContainer: {
-        width: width-60-48,
-        height: 50,
-        backgroundColor: COLORS.mainBackground,
+        width: width-60-48-43,
+        marginLeft: 10,
+        marginRight: 5,
+        height: 46,
+        backgroundColor: COLORS.white,
         borderRadius: 50,
         justifyContent: 'center',
-        borderWidth: 0.5,
+        // borderBottomWidth: 0.2,
         borderColor: COLORS.grey,
     },
 

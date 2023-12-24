@@ -12,11 +12,19 @@ import FilterModal from '../../components/components_search_screen/FilterModal'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
+import { setLeaveSearchScreen } from '../../redux/slices/searchSlice'
 
 export default function Search({navigation: {goBack}}) {
   const dispatch = useDispatch()
+  const handleLeaveSearch = () => {
+    dispatch(setLeaveSearchScreen())
+    goBack()
+  }
   return (
     <View style={styles.screen}>
+      <LocateModal onSearchScreen/>
+      <ScreenOverlay locate delay={0}/>
       <FilterModal />
       <ScreenOverlay search delay={0}/>
       <Pressable
@@ -27,10 +35,13 @@ export default function Search({navigation: {goBack}}) {
         }} 
         onPress={() => Keyboard.dismiss()} 
       >
-      <SearchBox onPressGoBack={() => goBack()}/>
+      <SearchBox 
+        onPressGoBack={handleLeaveSearch}
+        onPressShowFilterModal={() => dispatch(setShowFilterModal())}
+      />
       </Pressable>
 
-      <RoundButton 
+      {/* <RoundButton 
         icon={icons.FontAwesome}
         iconName={'sliders'}
         iconSize={22}
@@ -44,7 +55,7 @@ export default function Search({navigation: {goBack}}) {
             margin: 0
         }}
         onPressButton={() => dispatch(setShowFilterModal())}
-      />
+      /> */}
     </View>
   )
 }

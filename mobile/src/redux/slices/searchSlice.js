@@ -5,6 +5,8 @@ export const searchSlice = createSlice({
     name: 'search',
     
     initialState: {
+        filterModalIndex: 5,
+        onSearchScreen: false,
         selectedCategory: 1,
         category: 'Geschäfte',
         filter: [],
@@ -32,6 +34,20 @@ export const searchSlice = createSlice({
 
         setResetFilter: (state) => {
             state.filter = []
+        },
+
+        setOnSearchScreen: (state) => {
+            state.onSearchScreen = true
+            console.log(state.onSearchScreen)
+        },
+
+        setLeaveSearchScreen: (state) => {
+            state.onSearchScreen = false
+            console.log(state.onSearchScreen)
+        },
+
+        setFilterModalIndex: (state, action) => {
+            state.filterModalIndex = action.payload
         }
 
     }
@@ -44,6 +60,9 @@ export const {
     setFilter,
     setRemoveFilter,
     setResetFilter,
+    setOnSearchScreen,
+    setLeaveSearchScreen,
+    setFilterModalIndex
 
  } = searchSlice.actions;
  

@@ -9,7 +9,7 @@ import RoundButton from '../components_universal/RoundButton'
 import { moderateScale } from '../../helper/scale'
 import Icons, { icons } from '../components_universal/Icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideLocateModal } from '../../redux/slices/showModalSlice'
+import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
 import { H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
 import LocateSelectionButton from './LocateSelectionButton'
 import { setSelected, setUnselected, setCurrentPosition, setResetPosition, setSupplement, setLocation } from '../../redux/slices/locateSlice'
@@ -24,6 +24,7 @@ import LocateButton from './LocateButton'
 import LocateRequired from '../../screens/locate_screens/LocateRequired'
 import CurrentPositionFeed from './CurrentPositionFeed'
 import { store } from '../../redux/store'
+import { setFilterModalIndex } from '../../redux/slices/searchSlice'
 
 const LOCATION_TASK_NAME = 'background-location-task';
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -36,9 +37,12 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     store.dispatch(setLocation({ lat: latitude, long: longitude }));
   }
 });
-export default function LocateModal() {
+export default function LocateModal({
+  
+}) {
 
   const navigation = useNavigation()
+  const onSearchScreen = useSelector((state) => state.search.onSearchScreen)
 
   // Thanh API
   const getLocation = async () => {
@@ -103,12 +107,12 @@ export default function LocateModal() {
     const showLocateModal = useSelector((state) => state.showModal.locateModal)
 
     // handle Close ---------------------------------------------------
-    const handleOnEnd = () => {
-        dispatch(setHideLocateModal())
-    }
 
     const handleClose = () => {
         dispatch(setHideLocateModal())
+        if (onSearchScreen) {
+          dispatch(setFilterModalIndex(5))
+        }
     } 
 
     // handle Gesture -------------------------------------------------

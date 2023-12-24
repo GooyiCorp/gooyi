@@ -26,7 +26,9 @@ export default function SettingHeader({
     iconStyle,
     heartButton,
     next,
-    onPressNext
+    onPressNext,
+    setting,
+    onPressSettingShowMore
 }) {
 
     const [edit, setEdit] = useState(false)
@@ -95,6 +97,21 @@ export default function SettingHeader({
                     zIndex: 1
                 }}
                 onPressButton={onPressNext}
+            />}
+
+            {setting && <RoundButton
+                icon={icons.FontAwesome}
+                iconName={'sliders'}
+                iconSize={26}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: 'transparent',
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    margin: 0,
+                    zIndex: 1
+                }}
+                onPressButton={onPressSettingShowMore}
             />}
 
         </View>

@@ -11,10 +11,12 @@ import { icons } from '../components_universal/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { H3, H4 } from '../../constants/text-style'
-import { setHideFilterModal } from '../../redux/slices/showModalSlice'
+import { setHideFilterModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 import Keywords from './Keywords'
 import Filter from './Filter'
-import { setCategory, setFilter, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setFilter, setFilterModalIndex, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import SubHeader from '../components_navigation/SubHeader'
+import LocateButton from '../components_locate_screen/LocateButton'
 
 
 export default function FilterModal() {
@@ -160,62 +162,68 @@ export default function FilterModal() {
             {id: 2, filter: 'hot'},
         ]
     }
-
+    const filterModalIndex = useSelector((state) => state.search.filterModalIndex)
+    const handleLocateSearchScreen = () => {
+        dispatch(setHideFilterModal())
+        dispatch(setShowLocateModal())
+    }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     <GestureDetector gesture={gesture}>
             
             {/* Modal Container ---------------------------------------------------- */}
-            <Animated.View style={[styles.modalContainer, animatedStyle]}>
+            <Animated.View style={[styles.modalContainer, {zIndex: filterModalIndex}, animatedStyle]}>
 
             {/* -------------------------------------------------------------------- Line */}
             <View style={styles.line}></View>
 
             {/* -------------------------------------------------------------------- Close Button */}
+            <View style={{width: width, marginTop: 6, paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, alignItems: 'center'}}>
+                <LocateButton small onPressSmall={handleLocateSearchScreen}/>
+                <View style={{flexDirection: 'row'}}>
+                    <RoundButton 
+                        icon={icons.MaterialIcons}
+                        iconName={'undo'}
+                        iconSize={22}
+                        iconColor={COLORS.grey}
+                        style={{
+                            backgroundColor: COLORS.ivoryDark,
+                            height: moderateScale(34,0.2),
+                            width: moderateScale(34,0.2),
+                            margin: 0,
+                            marginRight: 10, 
+                            borderRadius: 8,
+                        }}
+                        onPressButton={() => dispatch(setResetFilter())}
+                    />
 
-            <View style={{position: 'absolute', top: 25,right: 25, zIndex: 2, flexDirection: 'row'}}>
+                    <RoundButton 
+                        icon={icons.MaterialIcons}
+                        iconName={'close'}
+                        iconSize={moderateScale(22,0.2)}
+                        iconColor={COLORS.white}
+                        style={{
+                            backgroundColor: COLORS.grey,
+                            height: moderateScale(34,0.2),
+                            width: moderateScale(34,0.2),
+                            margin: 0,
+                        }}
+                        onPressButton={handleClose}
+                    />
 
-                <RoundButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'undo'}
-                    iconSize={22}
-                    iconColor={COLORS.grey}
-                    style={{
-                        backgroundColor: COLORS.ivoryDark,
-                        height: moderateScale(34,0.2),
-                        width: moderateScale(34,0.2),
-                        margin: 0,
-                        marginRight: 10, 
-                        borderRadius: 8,
-                    }}
-                    onPressButton={() => dispatch(setResetFilter())}
-                />
-
-                <RoundButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'close'}
-                    iconSize={moderateScale(22,0.2)}
-                    iconColor={COLORS.white}
-                    style={{
-                        backgroundColor: COLORS.grey,
-                        height: moderateScale(34,0.2),
-                        width: moderateScale(34,0.2),
-                        margin: 0,
-                    }}
-                    onPressButton={handleClose}
-                />
-
-
+                </View>
             </View>
+            
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
-                    <Text style={H3}>Suche in</Text>
+                    <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Filtern nach</Text>
             </View>
 
             {/* -------------------------------------------------------------------- Mid Section */}
             <View style={styles.midSectionContainer}>
+
 
                 {/* Search by Category */}
                 <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Kategorie</Text>
@@ -265,6 +273,7 @@ export default function FilterModal() {
 
             </View>
 
+        
         </Animated.View>
     </GestureDetector>
     

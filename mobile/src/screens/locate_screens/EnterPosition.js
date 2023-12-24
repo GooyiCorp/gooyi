@@ -2,7 +2,7 @@ import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-na
 import React, { useState } from 'react'
 // Redux
 import { setCurrentPosition, setSelected, setSupplement } from '../../redux/slices/locateSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // Constant
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -12,10 +12,12 @@ import { moderateScale } from '../../helper/scale'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
 import PositionFeed from '../../components/components_locate_screen/PositionFeed'
+import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
 
 export default function EnterPosition({navigation: {goBack}}) {
 
     const dispatch = useDispatch()
+    const onSearchScreen = useSelector((state) => state.search.onSearchScreen)
 
     const position = [
         {id: 1, street: 'Bahnhofsplatz 21', positionInfo: '22195 Hamburg, Deutschland'},
@@ -35,7 +37,13 @@ export default function EnterPosition({navigation: {goBack}}) {
         dispatch(setSelected('add'))
         dispatch(setCurrentPosition(position.street))
         dispatch(setSupplement(position.positionInfo))
-        goBack()
+        dispatch(setHideLocateModal())
+        if (onSearchScreen) {
+            dispatch(setShowFilterModal())
+        }
+        setTimeout(() => {
+          goBack()
+        }, 500)
     }
 
 

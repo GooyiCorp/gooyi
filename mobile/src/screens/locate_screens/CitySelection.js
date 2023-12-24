@@ -5,21 +5,32 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { H1, H3, H4, T1 } from '../../constants/text-style'
 // Redux
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentPosition, setSelected, setSupplement } from '../../redux/slices/locateSlice'
 // Components
 import SettingHeader from '../../components/components_navigation/SettingHeader'
+import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
+import { setFilterModalIndex } from '../../redux/slices/searchSlice'
 
 
-export default function CitySelection({navigation: {goBack}}) {
+export default function CitySelection({
+  navigation: {goBack},
+}) {
 
   const dispatch = useDispatch()
+  const onSearchScreen = useSelector((state) => state.search.onSearchScreen)
 
   const handleSetPosition = () => {
     dispatch(setSelected('city'))
     dispatch(setCurrentPosition('Bremen'))
     dispatch(setSupplement('Bremen, Deutschland'))
-    goBack()
+    dispatch(setHideLocateModal())
+    if (onSearchScreen) {
+      dispatch(setShowFilterModal())
+    }
+    setTimeout(() => {
+      goBack()
+    }, 500)
 }
   return (
     <View style={styles.screen}>
