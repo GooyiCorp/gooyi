@@ -25,12 +25,12 @@ export default function CitySelection({
     dispatch(setCurrentPosition('Bremen'))
     dispatch(setSupplement('Bremen, Deutschland'))
     dispatch(setHideLocateModal())
-    if (onSearchScreen) {
-      dispatch(setShowFilterModal())
-    }
+    goBack()
     setTimeout(() => {
-      goBack()
-    }, 500)
+      if (onSearchScreen) {
+        dispatch(setShowFilterModal())
+      }
+    }, 200)
 }
   return (
     <View style={styles.screen}>

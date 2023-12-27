@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, set, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
-import { Gesture, GestureDetector, TextInput } from 'react-native-gesture-handler'
+import { Gesture, GestureDetector, ScrollView, TextInput } from 'react-native-gesture-handler'
 
 import RoundButton from '../components_universal/RoundButton'
 import { moderateScale } from '../../helper/scale'
@@ -14,14 +14,16 @@ import { H3, H4 } from '../../constants/text-style'
 import { setHideFilterModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 import Keywords from './Keywords'
 import Filter from './Filter'
-import { setCategory, setFilter, setFilterModalIndex, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setFilter, setFilterModalIndex, setRemoveFilter, setResetFilter, setResetSortCategory, setSelectedCategory, setSortCategory } from '../../redux/slices/searchSlice'
 import SubHeader from '../components_navigation/SubHeader'
 import LocateButton from '../components_locate_screen/LocateButton'
+import BigButton from '../components_LogIn/BigButton'
 
 
 export default function FilterModal() {
 
-    const dispatch = useDispatch()
+// Redux
+const dispatch = useDispatch()
 
 // ----------------------------  
 // Modal Setting 
@@ -85,23 +87,25 @@ export default function FilterModal() {
 // Selection Setting 
 // ----------------------------
 
-    // Value -----------------------------------------------------------
+    // :::::::::::::::::::::::::: State
     const selectedCategory = useSelector((state) => state.search.selectedCategory)
     const selectedFilter = useSelector((state) => state.search.filter)
+    const selectedSortCategory = useSelector((state) => state.search.sortCategory)
 
-    const test = useSelector((state) => state.search.filter)
-
-    // Category Handle ------------------------------------------------
+    const selected = selectedFilter.length + (selectedSortCategory != '' ? 1: 0)
+    
+    // :::::::::::::::::::::::::: Handle
+    // Category Handle
     const handleSelectCategory = (row) => {
         dispatch(setSelectedCategory(row.id))
         dispatch(setCategory(row.category))
         if (selectedCategory != row.id) {
-            // setSelectedFilter(new Set([]))
             dispatch(setResetFilter())
+            dispatch(setResetSortCategory())
         }
     }
 
-    // Filter Handle ------------------------------------------------
+    // Filter Handle
     const checkFilter = (row) => {
         for (const [i, value] of selectedFilter.entries()) {
             if (row.id == value.id) {
@@ -113,26 +117,21 @@ export default function FilterModal() {
     const handleSelectFilter = (row) => {
         if (checkFilter(row)) dispatch(setRemoveFilter(row))
         else dispatch(setFilter(row))
-            // if (row.id == item.id) {
-            //     console.log('trung');
-            //     return;
-            // }
-
-
-        // if (!(row in selectedFilter)) {
-        //     console.log(row)
-        //     setSelectedFilter(prev => new Set(prev.add(row.id)))
-        //     dispatch(setFilter(row))
-        // } else {
-        //     setSelectedFilter(prev => new Set([...prev].filter(x => x !== row.id)))
-        //     dispatch(setRemoveFilter(row))
-            
-        // }
     }
 
-    console.log(test)
-    
-    // List ------------------------------------------------------------
+    // Sort By Handle
+    const handleSelectSortCategory = (row) => {
+        if(row.id == selectedSortCategory.id) dispatch(setResetSortCategory())
+        else dispatch(setSortCategory(row))
+    }
+
+    // handle Reset
+    const handleReset = () => {
+        dispatch(setResetFilter())
+        dispatch(setResetSortCategory())
+    }
+
+    // :::::::::::::::::::::::::: List
     // Category List
     const categoryList = [
         {id: 1, category: 'Geschäfte'},
@@ -144,12 +143,20 @@ export default function FilterModal() {
     let filterList = []
     if (selectedCategory == 1) {
         filterList = [
-            {id: 1, filter: 'neu'},
-            {id: 2, filter: 'beliebt'},
-            {id: 3, filter: 'favorit'},
-            {id: 4, filter: 'geöffnet'},
-            {id: 5, filter: 'kartenzahlung'},
+            {id: 1, filter: 'Kaffee'},
+            {id: 2, filter: 'Sushi'},
+            {id: 3, filter: 'Asiatisch'},
+            {id: 4, filter: 'Indisch'},
+            {id: 5, filter: 'Pizza'},
+            {id: 6, filter: 'Steak'},
+            {id: 7, filter: 'Snacks'},
+            {id: 8, filter: 'Spa'},
+            {id: 9, filter: 'Chinesich'},
+            {id: 10, filter: 'Eiscreme'},
+            {id: 11, filter: 'Halal'},
+            {id: 12, filter: 'Orientalisch'},
         ]
+
     } else if (selectedCategory == 2) {
         filterList = [
             {id: 1, filter: 'neu'},
@@ -162,7 +169,14 @@ export default function FilterModal() {
             {id: 2, filter: 'hot'},
         ]
     }
-    const filterModalIndex = useSelector((state) => state.search.filterModalIndex)
+
+    // Sort By List
+    const sortByList = [
+        {id: 1, sortCategory: 'Geöffnet'},
+        {id: 2, sortCategory: 'Entfernung'},
+        {id: 3, sortCategory: 'Neuerscheinung'},
+    ]
+
     const handleLocateSearchScreen = () => {
         dispatch(setHideFilterModal())
         dispatch(setShowLocateModal())
@@ -173,7 +187,7 @@ export default function FilterModal() {
     <GestureDetector gesture={gesture}>
             
             {/* Modal Container ---------------------------------------------------- */}
-            <Animated.View style={[styles.modalContainer, {zIndex: filterModalIndex}, animatedStyle]}>
+            <Animated.View style={[styles.modalContainer, animatedStyle]}>
 
             {/* -------------------------------------------------------------------- Line */}
             <View style={styles.line}></View>
@@ -195,7 +209,7 @@ export default function FilterModal() {
                             marginRight: 10, 
                             borderRadius: 8,
                         }}
-                        onPressButton={() => dispatch(setResetFilter())}
+                        onPressButton={handleReset}
                     />
 
                     <RoundButton 
@@ -218,18 +232,19 @@ export default function FilterModal() {
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
-                    <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Filtern nach</Text>
+                    <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Sucheinstellungen</Text>
             </View>
 
             {/* -------------------------------------------------------------------- Mid Section */}
             <View style={styles.midSectionContainer}>
 
-
-                {/* Search by Category */}
+                {/* ------------------------------------------------ */}
+                {/* Category */}
+                {/* ------------------------------------------------ */}
+                {/* Title */}
                 <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Kategorie</Text>
-
-                <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
-
+                {/* Selector */}
+                <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -5}}>
                     {categoryList.map((category) => (
                         <Filter 
                             key={category.id} 
@@ -244,35 +259,77 @@ export default function FilterModal() {
                             }}
                         />
                     ))}
-
                 </View>
 
-                <View style={styles.line2}></View>
+                {/* ------------------------------------------------ */}
+                {/* Filter */}
+                {/* ------------------------------------------------ */}
+                {/* Title */}
+                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Filter</Text>
+                {/* Selector */}
+                <View>
+                    {/* ----------- */}
+                    <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                    >
+                        {/* ----------- */}
+                        <View style={{flexWrap: 'wrap', flexDirection: 'row', marginLeft: -5, width: width*2}}>
+                            {filterList.map((filter) => (
+                                <Filter
+                                    key={filter.id}
+                                    keyword={filter.filter}
+                                    onPress={() => handleSelectFilter(filter)}
+                                    bgStyle={{
+                                        backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
+                                        borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey
+                                    }}
+                                    textStyle={{
+                                        color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
+                                    }}
+                                />
+                            ))}
+                        </View>
+                        {/* ----------- */}
+                    </ScrollView>
+                    {/* ----------- */}
+                </View>
 
-                {/* Search Filter */}
-                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Filter</Text>
-                
-                <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
-
-                    {filterList.map((filter) => (
-                        <Filter
-                            key={filter.id}
-                            keyword={filter.filter}
-                            onPress={() => handleSelectFilter(filter)}
+                {/* ------------------------------------------------ */}
+                {/* Sort by */}
+                {/* ------------------------------------------------ */}
+                {/* Title */}
+                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Sortieren nach</Text>
+                <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -5}}>
+                    {sortByList.map((sortList) => (
+                        <Filter 
+                            key={sortList.id} 
+                            keyword={sortList.sortCategory} 
+                            onPress={() => handleSelectSortCategory(sortList)}
                             bgStyle={{
-                                backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
-                                borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey
+                                backgroundColor: selectedSortCategory.id == sortList.id? COLORS.ivoryDark : 'transparent',
+                                borderColor: selectedSortCategory.id == sortList.id? COLORS.ivoryDark : COLORS.borderGrey
                             }}
                             textStyle={{
-                                color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
+                                color: selectedSortCategory.id == sortList.id? COLORS.grey : COLORS.lightGrey,
                             }}
                         />
                     ))}
-
                 </View>
-
             </View>
-
+        
+        {/* <BigButton 
+            title={'Anwenden'}
+            bgStyle={{
+                backgroundColor: COLORS.primary,
+                position: 'absolute',
+                zIndex: 2,
+                bottom: 30+(0.05*height),
+            }}
+            titleStyle={{
+                color: COLORS.white
+            }}
+        /> */}
         
         </Animated.View>
     </GestureDetector>
@@ -322,9 +379,9 @@ const styles = StyleSheet.create({
     },
   
     midSectionContainer: {
-      height: (0.44*height),
+    //   height: (0.44*height),
       width: width,
-      paddingHorizontal: 25,
+      paddingLeft: 25,
       overflow: 'hidden',
     // backgroundColor: 'yellow'
     },

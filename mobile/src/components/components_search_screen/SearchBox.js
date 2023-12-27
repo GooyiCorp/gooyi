@@ -9,18 +9,25 @@ import Keywords from './Keywords'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { ScrollView } from 'react-native-gesture-handler'
 import SearchFeed from './SearchFeed'
-import { T2, T3 } from '../../constants/text-style'
+import { H4, T2, T3 } from '../../constants/text-style'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowFilterModal } from '../../redux/slices/showModalSlice'
 import SearchLabel from './SearchLabel'
-import { setRemoveFilter } from '../../redux/slices/searchSlice'
+import { setCategory, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 import Request from '../../helper/request'
 import SubHeader from '../components_navigation/SubHeader'
+import Filter from './Filter'
 
 export default function SearchBox({
     onPressGoBack,
     onPressShowFilterModal
 }) {
+    // Category List
+    const categoryList = [
+        {id: 1, category: 'Geschäfte'},
+        {id: 2, category: 'Coupons'},
+        {id: 3, category: 'Angebote'},
+    ]
 
     const keywordsList = [
         {id: 1, keyword: 'Snacks'},
@@ -41,11 +48,15 @@ export default function SearchBox({
     // ]
     const [feedList, setFeedList] = useState([]) 
     const filterList = useSelector((state) => state.search.filter)  
+    const selectedCategory = useSelector((state) => state.search.selectedCategory)
     const dispatch = useDispatch()
 
     // --------------------------------------- Value
     const categorySelected = useSelector((state) => state.search.category)
     const filterSelected = useSelector((state) => state.search.filter)
+    const selectedSortCategory = useSelector((state) => state.search.sortCategory)
+
+    const selectedCount = filterSelected.length + (selectedSortCategory != '' ? 1: 0)
 
     const [data, setData] = useState('')
     // const [focus, setFocus] = useState(false)
@@ -78,13 +89,22 @@ export default function SearchBox({
         console.log('search:', input)
 
         // Thanh - Search API ---------------------------------------------------------
-        const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&keyword=${input}`)
-        setFeedList(response.data)
+        // const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&keyword=${input}`)
+        // setFeedList(response.data)
         // ----------------------------------------------------------------------------
 
         }
     }
 
+    // Category Handle ------------------------------------------------
+    const handleSelectCategory = (row) => {
+        dispatch(setSelectedCategory(row.id))
+        dispatch(setCategory(row.category))
+        if (selectedCategory != row.id) {
+            // setSelectedFilter(new Set([]))
+            dispatch(setResetFilter())
+        }
+    }
     // --------------------------------------- Animation
     const keywordsTransition = useSharedValue(0)
     const feedTransition = useSharedValue(0)
@@ -181,6 +201,8 @@ export default function SearchBox({
             </View>
         </View>
             <RoundButton 
+                badges={selectedCount != 0? true : false}
+                count={selectedCount}
                 icon={icons.FontAwesome}
                 iconName={'sliders'}
                 iconSize={26}
@@ -199,7 +221,32 @@ export default function SearchBox({
 
         
     {/* -------------------------------------------------------- Search for Section */}
-    <View style={{marginBottom: 15, marginHorizontal: 25}}>
+    <View style={{width: width, paddingHorizontal: 25}}>
+
+    <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Suche in Kategorie</Text>
+    <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
+
+    {categoryList.map((category) => (
+        <Filter 
+            key={category.id} 
+            keyword={category.category} 
+            onPress={() => handleSelectCategory(category)}
+            bgStyle={{
+                backgroundColor: selectedCategory == category.id? COLORS.ivoryDark : 'transparent',
+                borderColor: selectedCategory == category.id? COLORS.ivoryDark : COLORS.borderGrey
+            }}
+            textStyle={{
+                color: selectedCategory == category.id? COLORS.grey : COLORS.lightGrey,
+            }}
+        />
+    ))}
+
+    <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Keywords</Text>
+    {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
+        {keywordsList.map((list) => (<Keywords key={list.id} keyword={list.keyword} onPress={() => handlePress(list)}/>))}
+    </Animated.View>}
+
+    </View>
 
         <View style={{flexDirection: 'row', marginHorizontal: 5}}>
             
@@ -222,9 +269,6 @@ export default function SearchBox({
 
     </View>
 
-    {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
-        {keywordsList.map((list) => (<Keywords key={list.id} keyword={list.keyword} onPress={() => handlePress(list)}/>))}
-    </Animated.View>}
 
     {!showKeyWords && 
     <Animated.View style={[{zIndex: 2, paddingHorizontal: 30}, translateFeed]}>
@@ -279,8 +323,8 @@ const styles = StyleSheet.create({
     },
 
     keywordsContainer: {
-        width: width,
-        paddingHorizontal: 25,
+        width: width-50,
+        // paddingHorizontal: 25,
         // justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
