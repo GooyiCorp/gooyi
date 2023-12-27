@@ -1,9 +1,9 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable } from 'react-native'
+import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable, ScrollView, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, set, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
-import { Gesture, GestureDetector, ScrollView, TextInput } from 'react-native-gesture-handler'
+import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 
 import RoundButton from '../components_universal/RoundButton'
 import { moderateScale } from '../../helper/scale'
@@ -140,9 +140,9 @@ const dispatch = useDispatch()
     ]
 
     // Filter List
-    let filterList = []
-    if (selectedCategory == 1) {
-        filterList = [
+    // let filterList = []
+    // if (selectedCategory == 1) {
+    const filterList = [
             {id: 1, filter: 'Kaffee'},
             {id: 2, filter: 'Sushi'},
             {id: 3, filter: 'Asiatisch'},
@@ -157,18 +157,18 @@ const dispatch = useDispatch()
             {id: 12, filter: 'Orientalisch'},
         ]
 
-    } else if (selectedCategory == 2) {
-        filterList = [
-            {id: 1, filter: 'neu'},
-            {id: 2, filter: 'kurze Gültigkeit'},
-            {id: 3, filter: 'im Besitz'},
-        ]
-    } else {
-        filterList = [
-            {id: 1, filter: 'neu'},
-            {id: 2, filter: 'hot'},
-        ]
-    }
+    // } else if (selectedCategory == 2) {
+    //     filterList = [
+    //         {id: 1, filter: 'neu'},
+    //         {id: 2, filter: 'kurze Gültigkeit'},
+    //         {id: 3, filter: 'im Besitz'},
+    //     ]
+    // } else {
+    //     filterList = [
+    //         {id: 1, filter: 'neu'},
+    //         {id: 2, filter: 'hot'},
+    //     ]
+    // }
 
     // Sort By List
     const sortByList = [
@@ -251,11 +251,12 @@ const dispatch = useDispatch()
                             keyword={category.category} 
                             onPress={() => handleSelectCategory(category)}
                             bgStyle={{
-                                backgroundColor: selectedCategory == category.id? COLORS.ivoryDark : 'transparent',
-                                borderColor: selectedCategory == category.id? COLORS.ivoryDark : COLORS.borderGrey
+                                backgroundColor: selectedCategory == category.id? COLORS.grey : 'transparent',
+                                borderColor: selectedCategory == category.id? COLORS.grey : COLORS.borderGrey,
+                                borderRadius: 10,
                             }}
                             textStyle={{
-                                color: selectedCategory == category.id? COLORS.grey : COLORS.lightGrey,
+                                color: selectedCategory == category.id? COLORS.white : COLORS.lightGrey,
                             }}
                         />
                     ))}
@@ -267,13 +268,15 @@ const dispatch = useDispatch()
                 {/* Title */}
                 <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Filter</Text>
                 {/* Selector */}
-                <View>
-                    {/* ----------- */}
+                {/* <FlatList 
+                    data={filterList}
+                    renderItem={({item}) => <Filter keyword={item.filter}/>}
+                    keyExtractor={(filter) => filter.id}
+                /> */}
                     <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                     >
-                        {/* ----------- */}
                         <View style={{flexWrap: 'wrap', flexDirection: 'row', marginLeft: -5, width: width*2}}>
                             {filterList.map((filter) => (
                                 <Filter
@@ -290,10 +293,7 @@ const dispatch = useDispatch()
                                 />
                             ))}
                         </View>
-                        {/* ----------- */}
                     </ScrollView>
-                    {/* ----------- */}
-                </View>
 
                 {/* ------------------------------------------------ */}
                 {/* Sort by */}

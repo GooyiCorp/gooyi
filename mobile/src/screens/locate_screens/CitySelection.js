@@ -30,7 +30,7 @@ export default function CitySelection({
       if (onSearchScreen) {
         dispatch(setShowFilterModal())
       }
-    }, 200)
+    }, 0)
 }
   return (
     <View style={styles.screen}>

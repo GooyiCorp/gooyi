@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
@@ -35,11 +35,10 @@ export default function SearchBox({
         {id: 3, keyword: 'Asiatisch'},
         {id: 4, keyword: 'Coffee'},
         {id: 5, keyword: 'Spa'},
-        {id: 6, keyword: 'Angebote'},
+        {id: 6, keyword: 'Indisch'},
         {id: 7, keyword: 'Sushi'},
         {id: 8, keyword: 'Chinesisch'},
-        {id: 9, keyword: 'Neu'},
-        {id: 10, keyword: 'Geöffnet'},
+        {id: 9, keyword: 'Pizza'},
     ]
 
     // const feedList = [
@@ -223,26 +222,38 @@ export default function SearchBox({
     {/* -------------------------------------------------------- Search for Section */}
     <View style={{width: width, paddingHorizontal: 25}}>
 
-    <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Suche in Kategorie</Text>
+    {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Suche in Kategorie</Text> */}
+    
     <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
-
-    {categoryList.map((category) => (
+    {/* {categoryList.map((category) => (
         <Filter 
             key={category.id} 
             keyword={category.category} 
             onPress={() => handleSelectCategory(category)}
             bgStyle={{
-                backgroundColor: selectedCategory == category.id? COLORS.ivoryDark : 'transparent',
-                borderColor: selectedCategory == category.id? COLORS.ivoryDark : COLORS.borderGrey
+                backgroundColor: selectedCategory == category.id? COLORS.grey : 'transparent',
+                borderColor: selectedCategory == category.id? COLORS.grey : COLORS.borderGrey
             }}
             textStyle={{
-                color: selectedCategory == category.id? COLORS.grey : COLORS.lightGrey,
+                color: selectedCategory == category.id? COLORS.mainBackground : COLORS.lightGrey,
             }}
         />
-    ))}
+    ))} */}
 
-    <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Keywords</Text>
+    {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Keywords</Text> */}
     {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
+        <Filter 
+            keyword={categorySelected}
+            bgStyle={{
+                backgroundColor: COLORS.grey,
+                borderColor: COLORS.grey,
+                borderRadius: 10,
+            }}
+            textStyle={{
+                color: COLORS.mainBackground,
+            }}
+            onPress={onPressShowFilterModal}
+        />
         {keywordsList.map((list) => (<Keywords key={list.id} keyword={list.keyword} onPress={() => handlePress(list)}/>))}
     </Animated.View>}
 
