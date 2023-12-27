@@ -20,7 +20,9 @@ import LocateButton from '../components_locate_screen/LocateButton'
 import BigButton from '../components_LogIn/BigButton'
 
 
-export default function FilterModal() {
+export default function FilterModal({
+    showCategorySelection,
+}) {
 
 // Redux
 const dispatch = useDispatch()
@@ -241,8 +243,11 @@ const dispatch = useDispatch()
                 {/* ------------------------------------------------ */}
                 {/* Category */}
                 {/* ------------------------------------------------ */}
+                
+                {showCategorySelection && 
+                <View>
                 {/* Title */}
-                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5}]}>Kategorie</Text>
+                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Kategorie</Text>
                 {/* Selector */}
                 <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -5}}>
                     {categoryList.map((category) => (
@@ -261,6 +266,8 @@ const dispatch = useDispatch()
                         />
                     ))}
                 </View>
+                </View>
+                }
 
                 {/* ------------------------------------------------ */}
                 {/* Filter */}
@@ -318,7 +325,7 @@ const dispatch = useDispatch()
                 </View>
             </View>
         
-        {/* <BigButton 
+        <BigButton 
             title={'Anwenden'}
             bgStyle={{
                 backgroundColor: COLORS.primary,
@@ -329,7 +336,7 @@ const dispatch = useDispatch()
             titleStyle={{
                 color: COLORS.white
             }}
-        /> */}
+        />
         
         </Animated.View>
     </GestureDetector>
@@ -375,7 +382,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 30,
       justifyContent: 'flex-end',
       backgroundColor: COLORS.white,
-      paddingBottom: 20
+      paddingBottom: 10
     },
   
     midSectionContainer: {

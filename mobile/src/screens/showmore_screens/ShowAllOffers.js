@@ -6,9 +6,12 @@ import { COLORS } from '../../index/constantsindex'
 // Components
 import SettingHeader from '../../components/components_navigation/SettingHeader'
 import { useDispatch } from 'react-redux'
-import { setShowSettingShowMoreModal } from '../../redux/slices/showModalSlice'
-import SettingShowMoreModal from '../../components/components-showMore-screen/SettingShowMoreModal'
+import { setShowFilterModal, setShowSettingShowMoreModal } from '../../redux/slices/showModalSlice'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
+import ShowMoreOfferModal from '../../components/components-showMore-screen/ShowMoreOfferModal'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
+import FilterModal from '../../components/components_search_screen/FilterModal'
+import { setLeaveSearchScreen } from '../../redux/slices/searchSlice'
 
 export default function ShowAllOffers({
   navigation: {goBack}
@@ -16,16 +19,22 @@ export default function ShowAllOffers({
 
   const dispatch = useDispatch()
   const handleShowSettingModal = () => {
-    dispatch(setShowSettingShowMoreModal())
+    dispatch(setShowFilterModal())
+    // dispatch(setShowSettingShowMoreModal())
   }
   // handle Go Back Button
   const handleGoBack = () => {
     goBack()
+    dispatch(setLeaveSearchScreen())
   }
   return (
     <View style={styles.card}>
-      <SettingShowMoreModal />
-      <ScreenOverlay settingShowMore delay={0}/>
+      <LocateModal onSearchScreen/>
+      <ScreenOverlay locate delay={0}/>
+      <FilterModal />
+      <ScreenOverlay search delay={0}/>
+      {/* <ShowMoreOfferModal />
+      <ScreenOverlay settingShowMore delay={0}/> */}
       {/* Header Back Button */}
       <SettingHeader
         goBack
@@ -36,7 +45,7 @@ export default function ShowAllOffers({
         setting
         onPressSettingShowMore={handleShowSettingModal}
       />    
-    </View>
+    </View> 
   )
 }
 

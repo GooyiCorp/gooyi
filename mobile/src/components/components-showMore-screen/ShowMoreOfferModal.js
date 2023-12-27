@@ -11,11 +11,12 @@ import { icons } from '../components_universal/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { H3, H4 } from '../../constants/text-style'
-import { setHideSettingShowMoreModal } from '../../redux/slices/showModalSlice'
+import { setHideFilterModal, setHideSettingShowMoreModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
+import LocateButton from '../components_locate_screen/LocateButton'
 
 
 
-export default function SettingShowMoreModal() {
+export default function ShowMoreOfferModal() {
 
     const dispatch = useDispatch()
 
@@ -77,6 +78,11 @@ export default function SettingShowMoreModal() {
         }
     }, [showSettingShowMoreModal])
 
+    const handleLocateSearchScreen = () => {
+        dispatch(setHideFilterModal())
+        dispatch(setShowLocateModal())
+    }
+
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -91,44 +97,45 @@ export default function SettingShowMoreModal() {
 
             {/* -------------------------------------------------------------------- Close Button */}
 
-            <View style={{position: 'absolute', top: 25,right: 25, zIndex: 2, flexDirection: 'row'}}>
+            <View style={{width: width, marginTop: 6, paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, alignItems: 'center'}}>
+                <LocateButton small onPressSmall={handleLocateSearchScreen}/>
+                <View style={{flexDirection: 'row'}}>
+                    <RoundButton 
+                        icon={icons.MaterialIcons}
+                        iconName={'undo'}
+                        iconSize={22}
+                        iconColor={COLORS.grey}
+                        style={{
+                            backgroundColor: COLORS.ivoryDark,
+                            height: moderateScale(34,0.2),
+                            width: moderateScale(34,0.2),
+                            margin: 0,
+                            marginRight: 10, 
+                            borderRadius: 8,
+                        }}
+                        // onPressButton={handleReset}
+                    />
 
-                <RoundButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'undo'}
-                    iconSize={22}
-                    iconColor={COLORS.grey}
-                    style={{
-                        backgroundColor: COLORS.ivoryDark,
-                        height: moderateScale(34,0.2),
-                        width: moderateScale(34,0.2),
-                        margin: 0,
-                        marginRight: 10, 
-                        borderRadius: 8,
-                    }}
-                    onPressButton={() => dispatch(setResetFilter())}
-                />
+                    <RoundButton 
+                        icon={icons.MaterialIcons}
+                        iconName={'close'}
+                        iconSize={moderateScale(22,0.2)}
+                        iconColor={COLORS.white}
+                        style={{
+                            backgroundColor: COLORS.grey,
+                            height: moderateScale(34,0.2),
+                            width: moderateScale(34,0.2),
+                            margin: 0,
+                        }}
+                        // onPressButton={handleClose}
+                    />
 
-                <RoundButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'close'}
-                    iconSize={moderateScale(22,0.2)}
-                    iconColor={COLORS.white}
-                    style={{
-                        backgroundColor: COLORS.grey,
-                        height: moderateScale(34,0.2),
-                        width: moderateScale(34,0.2),
-                        margin: 0,
-                    }}
-                    onPressButton={handleClose}
-                />
-
-
+                </View>
             </View>
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
-                    <Text style={H3}>Filtern nach</Text>
+                    <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Filtereinstellungen</Text>
             </View>
 
 

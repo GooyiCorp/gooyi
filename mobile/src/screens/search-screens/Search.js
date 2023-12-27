@@ -25,7 +25,9 @@ export default function Search({navigation: {goBack}}) {
     <View style={styles.screen}>
       <LocateModal onSearchScreen/>
       <ScreenOverlay locate delay={0}/>
-      <FilterModal />
+      <FilterModal 
+        showCategorySelection
+      />
       <ScreenOverlay search delay={0}/>
       <Pressable
         style={{
