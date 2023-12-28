@@ -1,25 +1,29 @@
 import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, Touchable, ScrollView, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
+// Gesture Handler
+import { Gesture, GestureDetector } from 'react-native-gesture-handler'
+// Reanimated
+import Animated, { Easing, Extrapolate, interpolate, runOnJS, set, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
+// Constants
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
-import Animated, { Easing, Extrapolate, interpolate, runOnJS, set, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
-import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-
-import RoundButton from '../components_universal/RoundButton'
-import { moderateScale } from '../../helper/scale'
-import { icons } from '../components_universal/Icons'
-import { useDispatch, useSelector } from 'react-redux'
-
 import { H3, H4 } from '../../constants/text-style'
+// Helpers
+import { moderateScale } from '../../helper/scale'
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategory, setFilter, setRemoveFilter, setResetFilter, setResetSortCategory, setSortCategory } from '../../redux/slices/searchSlice'
 import { setHideFilterModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
-import Keywords from './Keywords'
+// Components
+import RoundButton from '../components_universal/RoundButton'
+import { icons } from '../components_universal/Icons'
 import Filter from './Filter'
-import { setCategory, setFilter, setFilterModalIndex, setRemoveFilter, setResetFilter, setResetSortCategory, setSelectedCategory, setSortCategory } from '../../redux/slices/searchSlice'
-import SubHeader from '../components_navigation/SubHeader'
 import LocateButton from '../components_locate_screen/LocateButton'
 import BigButton from '../components_LogIn/BigButton'
 
-
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function FilterModal({
     showCategorySelection,
 }) {
@@ -30,14 +34,12 @@ const dispatch = useDispatch()
 // ----------------------------  
 // Modal Setting 
 // ---------------------------- 
-
-    // Animation -----------------------------------------------------------------------------------------------------------
-    // Value ----------------------------------------------------------
+    // ---- Value 
     const translateY = useSharedValue(height)
     const context = useSharedValue({y: 0})
     const showFilterModal = useSelector((state) => state.showModal.filterModal)
 
-    // handle Close ---------------------------------------------------
+    // ---- handle Close 
     const handleOnEnd = () => {
         setTimeout(() => {
             dispatch(setHideFilterModal())
@@ -48,7 +50,7 @@ const dispatch = useDispatch()
         dispatch(setHideFilterModal())
     } 
 
-    // handle Gesture -------------------------------------------------
+    // ---- handle Gesture 
     const gesture = Gesture.Pan()
     .onStart(() => {
         context.value = { y: translateY.value }
@@ -68,14 +70,13 @@ const dispatch = useDispatch()
         }
     })
 
-    // handle Animation ------------------------------------------------
+    // ---- handle Animation
     // position Update
     const animatedStyle = useAnimatedStyle(() => {
         return {
         transform: [{ translateY: translateY.value }]
         }
     })
-
     // check status
     useEffect(()=>{
         if (showFilterModal) {
@@ -89,265 +90,284 @@ const dispatch = useDispatch()
 // Selection Setting 
 // ----------------------------
 
-    // :::::::::::::::::::::::::: State
-    const selectedCategory = useSelector((state) => state.search.selectedCategory)
+    // ---- State
+    const selectedCategory = useSelector((state) => state.search.category)
     const selectedFilter = useSelector((state) => state.search.filter)
     const selectedSortCategory = useSelector((state) => state.search.sortCategory)
-
-    const selected = selectedFilter.length + (selectedSortCategory != '' ? 1: 0)
     
-    // :::::::::::::::::::::::::: Handle
-    // Category Handle
-    const handleSelectCategory = (row) => {
-        dispatch(setSelectedCategory(row.id))
-        dispatch(setCategory(row.category))
-        if (selectedCategory != row.id) {
+    // ---- Handler
+        // handle Reset
+        const handleReset = () => {
             dispatch(setResetFilter())
             dispatch(setResetSortCategory())
         }
-    }
-
-    // Filter Handle
-    const checkFilter = (row) => {
-        for (const [i, value] of selectedFilter.entries()) {
-            if (row.id == value.id) {
-                return true
+        // handle open Locate Modal
+        const handleLocateSearchScreen = () => {
+            dispatch(setHideFilterModal())
+            dispatch(setShowLocateModal())
+        }
+        // * Category Handler 
+        const handleSelectCategory = (row) => {
+            dispatch(setCategory(row.category))
+            if (selectedCategory != row.category) {
+                dispatch(setResetFilter())
+                dispatch(setResetSortCategory())
             }
         }
-        return false
-    } 
-    const handleSelectFilter = (row) => {
-        if (checkFilter(row)) dispatch(setRemoveFilter(row))
-        else dispatch(setFilter(row))
-    }
+        // * Filter Handler
+        const checkFilter = (row) => {
+            for (const [i, value] of selectedFilter.entries()) {
+                if (row.id == value.id) {
+                    return true
+                }
+            }
+            return false
+        } 
+        const handleSelectFilter = (row) => {
+            if (checkFilter(row)) dispatch(setRemoveFilter(row))
+            else dispatch(setFilter(row))
+        }
+        // * Sort By Handler
+        const handleSelectSortCategory = (row) => {
+            if (row.sortCategory == selectedSortCategory) dispatch(setResetSortCategory())
+            else dispatch(setSortCategory(row.sortCategory))
+        }
 
-    // Sort By Handle
-    const handleSelectSortCategory = (row) => {
-        if(row.id == selectedSortCategory.id) dispatch(setResetSortCategory())
-        else dispatch(setSortCategory(row))
-    }
+// ----------------------------  
+// List Section 
+// ----------------------------
 
-    // handle Reset
-    const handleReset = () => {
-        dispatch(setResetFilter())
-        dispatch(setResetSortCategory())
-    }
-
-    // :::::::::::::::::::::::::: List
-    // Category List
-    const categoryList = [
-        {id: 1, category: 'Geschäfte'},
-        {id: 2, category: 'Coupons'},
-        {id: 3, category: 'Angebote'},
-    ]
-
-    // Filter List
-    // let filterList = []
-    // if (selectedCategory == 1) {
-    const filterList = [
-            {id: 1, filter: 'Kaffee'},
-            {id: 2, filter: 'Sushi'},
-            {id: 3, filter: 'Asiatisch'},
-            {id: 4, filter: 'Indisch'},
-            {id: 5, filter: 'Pizza'},
-            {id: 6, filter: 'Steak'},
-            {id: 7, filter: 'Snacks'},
-            {id: 8, filter: 'Spa'},
-            {id: 9, filter: 'Chinesich'},
-            {id: 10, filter: 'Eiscreme'},
-            {id: 11, filter: 'Halal'},
-            {id: 12, filter: 'Orientalisch'},
-        ]
-
-    // } else if (selectedCategory == 2) {
-    //     filterList = [
-    //         {id: 1, filter: 'neu'},
-    //         {id: 2, filter: 'kurze Gültigkeit'},
-    //         {id: 3, filter: 'im Besitz'},
-    //     ]
-    // } else {
-    //     filterList = [
-    //         {id: 1, filter: 'neu'},
-    //         {id: 2, filter: 'hot'},
-    //     ]
-    // }
-
-    // Sort By List
-    const sortByList = [
-        {id: 1, sortCategory: 'Geöffnet'},
-        {id: 2, sortCategory: 'Entfernung'},
-        {id: 3, sortCategory: 'Neuerscheinung'},
-    ]
-
-    const handleLocateSearchScreen = () => {
-        dispatch(setHideFilterModal())
-        dispatch(setShowLocateModal())
-    }
+// Category List
+const categoryList = [
+    {category: 'Angebote'}, {category: 'Coupons'}, {category: 'Geschäfte'},
+]
+// Filter List
+const filterList = selectedCategory == 'Angebote'? [
+    {id: 1, filter: 'Kaffee'},
+    {id: 2, filter: 'Sushi'},
+    {id: 3, filter: 'Asiatisch'},
+    {id: 4, filter: 'Indisch'},
+    {id: 5, filter: 'Pizza'},
+    {id: 6, filter: 'Steak'},
+    {id: 7, filter: 'Snacks'},
+    {id: 8, filter: 'Spa'},
+    {id: 9, filter: 'Chinesich'},
+    {id: 10, filter: 'Eiscreme'},
+    {id: 11, filter: 'Halal'},
+    {id: 12, filter: 'Orientalisch'},
+    {id: 13, filter: 'Pommes'},
+    {id: 14, filter: 'Amerikanisch'},
+] : selectedCategory == 'Coupons'? [
+    {id: 1, filter: 'Kaffee'},
+    {id: 2, filter: 'Sushi'},
+    {id: 3, filter: 'Asiatisch'},
+    {id: 4, filter: 'Indisch'},
+    {id: 5, filter: 'Pizza'},
+    {id: 6, filter: 'Steak'},
+    {id: 7, filter: 'Snacks'},
+    {id: 8, filter: 'Spa'},
+] : [
+    {id: 1, filter: 'Kaffee'},
+    {id: 2, filter: 'Sushi'},
+    {id: 3, filter: 'Asiatisch'},
+    {id: 4, filter: 'Indisch'},
+    {id: 5, filter: 'Pizza'},
+]
+// Sort By List
+const sortByList = selectedCategory == 'Angebote'? [
+    {sortCategory: 'Neuerscheinung'},
+    {sortCategory: 'Entfernung'},
+    {sortCategory: 'Rabatt'},
+] : selectedCategory == 'Coupons'? [
+    {sortCategory: 'Gültigkeit'},
+    {sortCategory: 'Neu'},
+] : [
+    {sortCategory: 'Geöffnet'},
+    {sortCategory: 'Entfernung'},
+    {sortCategory: 'Neu'},
+    {sortCategory: 'Beliebtheit'},
+]
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  return (
-    <GestureDetector gesture={gesture}>
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+// Gesture Handler
+<GestureDetector gesture={gesture}>
             
-            {/* Modal Container ---------------------------------------------------- */}
-            <Animated.View style={[styles.modalContainer, animatedStyle]}>
+    {/* Modal Container */}
+    <Animated.View style={[styles.modalContainer, animatedStyle]}>
 
-            {/* -------------------------------------------------------------------- Line */}
-            <View style={styles.line}></View>
+    {/* Line */}
+    <View style={styles.line}></View>
 
-            {/* -------------------------------------------------------------------- Close Button */}
-            <View style={{width: width, marginTop: 6, paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, alignItems: 'center'}}>
-                <LocateButton small onPressSmall={handleLocateSearchScreen}/>
-                <View style={{flexDirection: 'row'}}>
-                    <RoundButton 
-                        icon={icons.MaterialIcons}
-                        iconName={'undo'}
-                        iconSize={22}
-                        iconColor={COLORS.grey}
-                        style={{
-                            backgroundColor: COLORS.ivoryDark,
-                            height: moderateScale(34,0.2),
-                            width: moderateScale(34,0.2),
-                            margin: 0,
-                            marginRight: 10, 
-                            borderRadius: 8,
-                        }}
-                        onPressButton={handleReset}
-                    />
+    {/* ---- start Button Container */}
+    <View style={{width: width, marginTop: 6, paddingHorizontal: 25, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, alignItems: 'center'}}>
+        {/* Left View */}
+            {/* Locate Button */}
+            <LocateButton small onPressSmall={handleLocateSearchScreen}/>
+        {/* Right View */}
+        <View style={{flexDirection: 'row'}}>
+            {/* Reset Button */}
+            <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'undo'}
+                iconSize={22}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: COLORS.ivoryDark,
+                    height: moderateScale(34,0.2),
+                    width: moderateScale(34,0.2),
+                    margin: 0,
+                    marginRight: 10, 
+                    borderRadius: 8,
+                }}
+                onPressButton={handleReset}
+            />
+            {/* Exit Button */}
+            <RoundButton 
+                icon={icons.MaterialIcons}
+                iconName={'close'}
+                iconSize={moderateScale(22,0.2)}
+                iconColor={COLORS.white}
+                style={{
+                    backgroundColor: COLORS.grey,
+                    height: moderateScale(34,0.2),
+                    width: moderateScale(34,0.2),
+                    margin: 0,
+                }}
+                onPressButton={handleClose}
+            />
+        </View>
+    </View>
+    {/* ---- end Button Container */}
+    
+    {/* Header */}
+    <View style={styles.topSectionContainer}>
+        <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Sucheinstellungen</Text>
+    </View>
 
-                    <RoundButton 
-                        icon={icons.MaterialIcons}
-                        iconName={'close'}
-                        iconSize={moderateScale(22,0.2)}
-                        iconColor={COLORS.white}
-                        style={{
-                            backgroundColor: COLORS.grey,
-                            height: moderateScale(34,0.2),
-                            width: moderateScale(34,0.2),
-                            margin: 0,
-                        }}
-                        onPressButton={handleClose}
-                    />
+    {/* ---- start mid Section */}
+    <View style={styles.midSectionContainer}>
 
-                </View>
-            </View>
-            
-
-            {/* -------------------------------------------------------------------- Top Section */}
-            <View style={styles.topSectionContainer}>
-                    <Text style={[H4, {fontFamily: 'RH-Bold', color: COLORS.grey}]}>Sucheinstellungen</Text>
-            </View>
-
-            {/* -------------------------------------------------------------------- Mid Section */}
-            <View style={styles.midSectionContainer}>
-
-                {/* ------------------------------------------------ */}
-                {/* Category */}
-                {/* ------------------------------------------------ */}
-                
-                {showCategorySelection && 
-                <View>
+        {/* ------------------------------------------------ */}
+        {/* Category */}
+        {/* ------------------------------------------------ */}
+        {showCategorySelection && 
+            <>
                 {/* Title */}
-                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Kategorie</Text>
+                <Text style={[H4, styles.subTitle]}>Kategorie</Text>
                 {/* Selector */}
                 <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -5}}>
-                    {categoryList.map((category) => (
+                    {categoryList.map((category, index) => (
                         <Filter 
-                            key={category.id} 
+                            key={index} 
                             keyword={category.category} 
                             onPress={() => handleSelectCategory(category)}
                             bgStyle={{
-                                backgroundColor: selectedCategory == category.id? COLORS.grey : 'transparent',
-                                borderColor: selectedCategory == category.id? COLORS.grey : COLORS.borderGrey,
+                                backgroundColor: selectedCategory == category.category? COLORS.grey : 'transparent',
+                                borderColor: selectedCategory == category.category? COLORS.grey : COLORS.borderGrey,
                                 borderRadius: 10,
                             }}
                             textStyle={{
-                                color: selectedCategory == category.id? COLORS.white : COLORS.lightGrey,
+                                color: selectedCategory == category.category? COLORS.white : COLORS.lightGrey,
                             }}
                         />
                     ))}
                 </View>
-                </View>
-                }
+            </>
+        }
 
-                {/* ------------------------------------------------ */}
-                {/* Filter */}
-                {/* ------------------------------------------------ */}
-                {/* Title */}
-                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Filter</Text>
-                {/* Selector */}
-                {/* <FlatList 
-                    data={filterList}
-                    renderItem={({item}) => <Filter keyword={item.filter}/>}
-                    keyExtractor={(filter) => filter.id}
-                /> */}
-                    <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <View style={{flexWrap: 'wrap', flexDirection: 'row', marginLeft: -5, width: width*2}}>
-                            {filterList.map((filter) => (
-                                <Filter
-                                    key={filter.id}
-                                    keyword={filter.filter}
-                                    onPress={() => handleSelectFilter(filter)}
-                                    bgStyle={{
-                                        backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
-                                        borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey
-                                    }}
-                                    textStyle={{
-                                        color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
-                                    }}
-                                />
-                            ))}
-                        </View>
-                    </ScrollView>
-
-                {/* ------------------------------------------------ */}
-                {/* Sort by */}
-                {/* ------------------------------------------------ */}
-                {/* Title */}
-                <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, paddingHorizontal: 5, marginBottom: 5, marginTop: 10}]}>Sortieren nach</Text>
-                <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -5}}>
-                    {sortByList.map((sortList) => (
-                        <Filter 
-                            key={sortList.id} 
-                            keyword={sortList.sortCategory} 
-                            onPress={() => handleSelectSortCategory(sortList)}
-                            bgStyle={{
-                                backgroundColor: selectedSortCategory.id == sortList.id? COLORS.ivoryDark : 'transparent',
-                                borderColor: selectedSortCategory.id == sortList.id? COLORS.ivoryDark : COLORS.borderGrey
-                            }}
-                            textStyle={{
-                                color: selectedSortCategory.id == sortList.id? COLORS.grey : COLORS.lightGrey,
-                            }}
-                        />
-                    ))}
-                </View>
+        {/* ------------------------------------------------ */}
+        {/* Filter */}
+        {/* ------------------------------------------------ */}
+        {/* Title */}
+        <Text style={[H4, styles.subTitle]}>Filter</Text>
+        {/* Selector */}
+            <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={{overflow: 'visible'}}
+            >
+            <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: -5, width: width*2}} >
+                {filterList.map((filter) => (
+                    <Filter
+                        key={filter.id}
+                        keyword={filter.filter}
+                        onPress={() => handleSelectFilter(filter)}
+                        bgStyle={{
+                            backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
+                            borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey,
+                        }}
+                        textStyle={{
+                            color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
+                        }}
+                    />
+                ))}
             </View>
-        
-        <BigButton 
-            title={'Anwenden'}
-            bgStyle={{
-                backgroundColor: COLORS.primary,
-                position: 'absolute',
-                zIndex: 2,
-                bottom: 30+(0.05*height),
-            }}
-            titleStyle={{
-                color: COLORS.white
-            }}
-        />
-        
-        </Animated.View>
-    </GestureDetector>
+            </ScrollView>
+
+        {/* ------------------------------------------------ */}
+        {/* Sort by */}
+        {/* ------------------------------------------------ */}
+        {/* Title */}
+        <Text style={[H4, styles.subTitle]}>Sortieren nach</Text>
+        {/* Selector */}
+            <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={{overflow: 'visible'}}
+            >
+            <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -5}}>
+                {sortByList.map((sortList, index) => (
+                    <Filter 
+                        key={index} 
+                        keyword={sortList.sortCategory} 
+                        onPress={() => handleSelectSortCategory(sortList)}
+                        bgStyle={{
+                            backgroundColor: selectedSortCategory == sortList.sortCategory? COLORS.ivoryDark : 'transparent',
+                            borderColor: selectedSortCategory == sortList.sortCategory? COLORS.ivoryDark : COLORS.borderGrey
+                        }}
+                        textStyle={{
+                            color: selectedSortCategory == sortList.sortCategory? COLORS.grey : COLORS.lightGrey,
+                        }}
+                    />
+                ))}
+            </View>
+            </ScrollView>
+
+    </View>
+    {/* ---- end Mid Section */}
     
-  )
+    {/* Apply Button */}
+    <BigButton 
+        title={'Anwenden'}
+        bgStyle={{
+            backgroundColor: COLORS.primary,
+            position: 'absolute',
+            zIndex: 2,
+            bottom: 30+(0.05*height),
+        }}
+        titleStyle={{
+            color: COLORS.white
+        }}
+        onPress={() => console.log('apply filter - call API')}
+    />
+
+    </Animated.View>
+</GestureDetector>
+)
+
 }
 
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
 
     modalContainer: {
-        height: 0.6*height,
+        height: 0.65*height,
         width: width,
         position: 'absolute',
         zIndex: 5,
@@ -363,42 +383,35 @@ const styles = StyleSheet.create({
     },
   
     line:{
-      width: 75,
-      height: 4,
-      backgroundColor: COLORS.default,
-      alignSelf: 'center',
-      marginTop: 15,
-      borderRadius: 2
+        width: 75,
+        height: 4,
+        backgroundColor: COLORS.default,
+        alignSelf: 'center',
+        marginTop: 15,
+        borderRadius: 2
     },
 
-    h3: {
-        fontFamily: 'RH-Light',
-        fontSize: 24,
-      },
-  
     topSectionContainer: {
-      width: width,
-      marginTop: 10,
-      paddingHorizontal: 30,
-      justifyContent: 'flex-end',
-      backgroundColor: COLORS.white,
-      paddingBottom: 10
+        width: width,
+        marginTop: 10,
+        paddingHorizontal: 30,
+        justifyContent: 'flex-end',
+        backgroundColor: COLORS.white,
+        paddingBottom: 10
     },
   
     midSectionContainer: {
-    //   height: (0.44*height),
-      width: width,
-      paddingLeft: 25,
-      overflow: 'hidden',
-    // backgroundColor: 'yellow'
+        width: width,
+        paddingLeft: 25,
+        overflow: 'hidden',
     },
 
-    line2: {
-        borderWidth: 0.5,
-        borderColor: COLORS.borderGrey,
-        marginTop: 15,
-        marginBottom: 15
-      },
+    subTitle: {
+        fontFamily: 'RH-Regular', 
+        color: COLORS.grey, 
+        paddingHorizontal: 5, 
+        marginBottom: 5,
+        marginTop: 10
+    },
   
-  
-  })
+})

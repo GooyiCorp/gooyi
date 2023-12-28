@@ -5,19 +5,17 @@ export const searchSlice = createSlice({
     name: 'search',
     
     initialState: {
-        onSearchScreen: false,
-        selectedCategory: 1,
-        category: 'Geschäfte',
-        sortCategory: '',
+        // Selected
+        category: 'Angebote',
+        sortCategory: [],
         filter: [],
+
+        onSearchScreen: false,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
     reducers: {
         // Catergory Reducers
-        setSelectedCategory: (state, action) => {
-            state.selectedCategory = action.payload
-        },
         setCategory: (state, action) => {
             state.category = action.payload
         },
@@ -57,7 +55,6 @@ export const searchSlice = createSlice({
 
 export const {
 
-    setSelectedCategory,
     setCategory,
     setFilter,
     setRemoveFilter,

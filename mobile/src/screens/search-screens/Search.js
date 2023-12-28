@@ -1,8 +1,9 @@
 import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 // Redux
 import { useDispatch } from 'react-redux'
 import { setShowFilterModal } from '../../redux/slices/showModalSlice'
+import { setLeaveSearchScreen, setOnSearchScreen, setResetFilter, setResetSortCategory } from '../../redux/slices/searchSlice'
 // Constants
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -10,25 +11,57 @@ import { COLORS } from '../../index/constantsindex'
 import SearchBox from '../../components/components_search_screen/SearchBox'
 import FilterModal from '../../components/components_search_screen/FilterModal'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
-import RoundButton from '../../components/components_universal/RoundButton'
-import { icons } from '../../components/components_universal/Icons'
 import LocateModal from '../../components/components_locate_screen/LocateModal'
-import { setLeaveSearchScreen } from '../../redux/slices/searchSlice'
 
-export default function Search({navigation: {goBack}}) {
-  const dispatch = useDispatch()
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export default function Search({
+  navigation,
+  navigation: {goBack}
+}) {
+
+// Redux
+const dispatch = useDispatch()
+
+// ---- start - Exit Screen Handler
+  // Handle Exit Button
   const handleLeaveSearch = () => {
-    dispatch(setLeaveSearchScreen())
+
     goBack()
   }
+  // Listener Exit Screen - Reset all selected
+  useEffect(() => {
+    const enterScreen = navigation.addListener('focus', () => {
+      dispatch(setOnSearchScreen())
+      console.log('enter')
+    })
+    const exitScreen = navigation.addListener('blur', () => {
+      dispatch(setResetFilter())
+      dispatch(setResetSortCategory())
+      dispatch(setLeaveSearchScreen())
+      console.log('exit')
+    })
+    return exitScreen, enterScreen
+  }, [navigation])
+// ---- end - Exit Screen Handler
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     <View style={styles.screen}>
-      <LocateModal onSearchScreen/>
-      <ScreenOverlay locate delay={0}/>
-      <FilterModal 
-        showCategorySelection
-      />
-      <ScreenOverlay search delay={0}/>
+
+      {/* ---- Modal Section */}
+        {/* Locate Modal */}
+          <LocateModal onSearchScreen/>
+          <ScreenOverlay locate delay={0}/>
+        {/* Filter Modal */}
+          <FilterModal showCategorySelection/>
+          <ScreenOverlay search delay={0}/>
+      
+      {/* ---- start - Background Touch - Exit Input Field */}
       <Pressable
         style={{
           height: height, 
@@ -37,32 +70,27 @@ export default function Search({navigation: {goBack}}) {
         }} 
         onPress={() => Keyboard.dismiss()} 
       >
-      <SearchBox 
-        onPressGoBack={handleLeaveSearch}
-        onPressShowFilterModal={() => dispatch(setShowFilterModal())}
-      />
-      </Pressable>
 
-      {/* <RoundButton 
-        icon={icons.FontAwesome}
-        iconName={'sliders'}
-        iconSize={22}
-        iconColor={COLORS.white}
-        activeOpacity={1}
-        style={{
-            backgroundColor: COLORS.primary,
-            position: 'absolute',
-            right: 30,
-            bottom: 30,
-            margin: 0
-        }}
-        onPressButton={() => dispatch(setShowFilterModal())}
-      /> */}
+        {/* ------------------------------------------------ */}
+        {/* Main Component */}
+        {/* ------------------------------------------------ */}
+        <SearchBox 
+          onPressGoBack={handleLeaveSearch}
+          onPressShowFilterModal={() => dispatch(setShowFilterModal())}
+        />
+
+      </Pressable>
+      {/* ---- end - Background Touch - Exit Input Field */}
+
     </View>
   )
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
+
     screen: {
         height: height,
         width: width,

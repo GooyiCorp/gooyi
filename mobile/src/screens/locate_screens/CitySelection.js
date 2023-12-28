@@ -10,10 +10,11 @@ import { setCurrentPosition, setSelected, setSupplement } from '../../redux/slic
 // Components
 import SettingHeader from '../../components/components_navigation/SettingHeader'
 import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
-import { setFilterModalIndex } from '../../redux/slices/searchSlice'
+
 
 
 export default function CitySelection({
+  navigation,
   navigation: {goBack},
 }) {
 

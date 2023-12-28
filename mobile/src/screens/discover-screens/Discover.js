@@ -178,10 +178,8 @@ export default function DiscoverScreen( {
             search
             onPressSearch={() => (
               navigation.navigate('Search'), 
-              dispatch(setOnSearchScreen()),
-              dispatch(setCategory('Angebote')), 
-              dispatch(setSelectedCategory(3)),
-              dispatch(setResetFilter())
+              // dispatch(setOnSearchScreen()),
+              dispatch(setCategory('Angebote'))
             )}
             locateButton
             onPressLocate={handleLocate}
