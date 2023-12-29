@@ -1,8 +1,11 @@
 import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
+// React Navigation
+import { useNavigationState } from '@react-navigation/native'
 // Redux
 import { setCurrentPosition, setSelected, setSupplement } from '../../redux/slices/locateSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
 // Constant
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -12,47 +15,70 @@ import { moderateScale } from '../../helper/scale'
 import RoundButton from '../../components/components_universal/RoundButton'
 import { icons } from '../../components/components_universal/Icons'
 import PositionFeed from '../../components/components_locate_screen/PositionFeed'
-import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
 
-export default function EnterPosition({navigation: {goBack}}) {
 
-    const dispatch = useDispatch()
-    const onSearchScreen = useSelector((state) => state.search.onSearchScreen)
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export default function EnterPosition({
+    navigation: {goBack}
+}) {
 
+// Redux
+const dispatch = useDispatch()
+
+// Input Data
+const [data, setData] = useState('')
+
+    // Get Route Name
+    const routes = useNavigationState(state => state.routes)
+    const prevRoute = routes[routes.length - 2];
+
+    // Test List
     const position = [
         {id: 1, street: 'Bahnhofsplatz 21', positionInfo: '22195 Hamburg, Deutschland'},
         {id: 2, street: 'Bismarkstraße 45', positionInfo: '22767 Bremen, Deutschland'}
     ] 
 
-    const [data, setData] = useState('')
-
-    // --------------------------------------- handle Clear Button
+// ----------------------------  
+// Handler Section
+// ---------------------------- 
+    // Handle Clear Button
     const handleClear = () => {
         setData('')
         Keyboard.dismiss()
     }
-
+    // Handle Set Position
     const handleSetPosition = (position) => {
+        // Set Input Data
         setData(position.street + ' - ' + position.positionInfo)
+        
         dispatch(setSelected('add'))
         dispatch(setCurrentPosition(position.street))
         dispatch(setSupplement(position.positionInfo))
-        dispatch(setHideLocateModal())
-        if (onSearchScreen) {
-            dispatch(setShowFilterModal())
-        }
+        // start - Thanh: set latitude / longtitude ----------------------------------------------
+
+
+
+        // end - Thanh: set latitude / longtitude ------------------------------------------------
+        goBack()
+        // Check Previous Screen
         setTimeout(() => {
-          goBack()
-        }, 500)
+            dispatch(setHideLocateModal())
+            if (prevRoute.name == 'Search' || prevRoute.name == 'ShowAllOffers') {
+            dispatch(setShowFilterModal())
+            }
+        }, 100)
     }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+<View style={styles.screen}>
 
-  return (
-    <View style={styles.screen}>
-
-    {/* ------------------------------------------------------- Header Section  */}
+    {/* ---- start - Header Section */}
     <View style={styles.container}>
-
         {/* Go Back Button  */}
         <RoundButton
             icon={icons.Ionicons}
@@ -69,14 +95,17 @@ export default function EnterPosition({navigation: {goBack}}) {
             onPressButton={() => goBack()}
         />
 
+        {/* ---------------------------- */}
         {/* Input */}
+        {/* ---------------------------- */}
         <View style={styles.inputContainer}>
+            {/* ---- Input Setting */}
             <TextInput
                 placeholder='Straße und Hausnummer?'
                 placeholderTextColor={COLORS.grey}
                 style={{
                     flex: 1,
-                    paddingLeft: 20,
+                    paddingLeft: 15,
                     paddingRight: 50,
                     fontFamily: 'RH-Regular',
                     fontSize: 15,
@@ -94,14 +123,13 @@ export default function EnterPosition({navigation: {goBack}}) {
                 // onSubmitEditing={() => handleSearch(data)}
             />
 
-            {/* Clear Button  */}
+            {/* ---- start - Right View */}
             <View 
                 style={[
                     styles.rightView,
                     {zIndex: data? 1 : 0}
                 ]}
             >
-
                 {/* Clear Button */}
                 <RoundButton
                     icon={icons.Ionicons}
@@ -117,16 +145,19 @@ export default function EnterPosition({navigation: {goBack}}) {
                             {scaleX: data? 1 : 0}
                         ],
                     }}
-
                     // handle Clear
                     onPressButton={handleClear}
                 />
-
             </View>
+            {/* ---- end - Right View */}
         </View>
+
     </View>
-    {/* ------------------------------------------------------- Content Section  */}
+    {/* ---- end - Header Section */}
+
+    {/* ---- Content Section */}
     <View style={{marginBottom: 15, marginHorizontal: 30, zIndex: 2}}>
+
         {position.map((position) => (<PositionFeed 
             key={position.id}
             street={position.street} 
@@ -136,7 +167,7 @@ export default function EnterPosition({navigation: {goBack}}) {
 
     </View>
 
-    {/* ------------------------------------------------------- Background Section  */}
+    {/* ---- Background Section */}
     {/* Background Touch  */}
     <Pressable
         style={{
@@ -148,11 +179,15 @@ export default function EnterPosition({navigation: {goBack}}) {
     >
     </Pressable>
 
-    </View>
-  )
+</View>
+)
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
+
     screen: {
         height: height,
         width: width,
@@ -175,12 +210,12 @@ const styles = StyleSheet.create({
 
     inputContainer: {
         width: width-60-48,
-        height: 50,
-        backgroundColor: COLORS.mainBackground,
+        height: 46,
+        backgroundColor: COLORS.white,
         borderRadius: 50,
         justifyContent: 'center',
-        borderWidth: 0.5,
-        borderColor: COLORS.grey,
+        // borderWidth: 0.5,
+        // borderColor: COLORS.grey,
     },
 
     rightView: {
@@ -193,4 +228,5 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 2,
     },
+
 })

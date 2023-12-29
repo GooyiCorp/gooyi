@@ -283,7 +283,7 @@ return (
           style={{
             backgroundColor: selected == 'add'? COLORS.primary : COLORS.ivoryDark,
           }}
-          onPress={() => navigation.navigate('Locate', {screen: 'EnterPosition'})}
+          onPress={() => navigation.navigate('EnterPosition')}
         />
         {/* City Selection Button */}
         <LocateSelector
@@ -294,7 +294,7 @@ return (
           style={{
             backgroundColor: selected == 'city'? COLORS.primary : COLORS.ivoryDark,
           }}
-          onPress={() => navigation.navigate('Locate', {screen: 'CitySelection'})}
+          onPress={() => navigation.navigate('SelectCity')}
         />
       </View>
       {/* ---- end - Button Section */}

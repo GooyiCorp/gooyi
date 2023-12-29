@@ -1,33 +1,48 @@
 import { Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategory, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+// Reanimated
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+// Constants
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
+// Helpers
+import { moderateScale } from '../../helper/scale'
+// Components
 import RoundButton from '../components_universal/RoundButton'
 import Icons, { icons } from '../components_universal/Icons'
-import { moderateScale } from '../../helper/scale'
 import Keywords from './Keywords'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
-import { ScrollView } from 'react-native-gesture-handler'
 import SearchFeed from './SearchFeed'
-import { H4, T2, T3 } from '../../constants/text-style'
-import { useDispatch, useSelector } from 'react-redux'
-import { setShowFilterModal } from '../../redux/slices/showModalSlice'
-import SearchLabel from './SearchLabel'
-import { setCategory, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
-import Request from '../../helper/request'
-import SubHeader from '../components_navigation/SubHeader'
 import Filter from './Filter'
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function SearchBox({
     onPressGoBack,
     onPressShowFilterModal
 }) {
-    // Category List
-    const categoryList = [
-        {id: 1, category: 'Geschäfte'},
-        {id: 2, category: 'Coupons'},
-        {id: 3, category: 'Angebote'},
-    ]
+    
+// Redux
+const dispatch = useDispatch()
+
+// Value
+const longitude = useSelector((state) => state.locate.long)
+const latitude = useSelector((state) => state.locate.lat)
+
+const categorySelected = useSelector((state) => state.search.category)
+const filterSelected = useSelector((state) => state.search.filter)
+const selectedSortCategory = useSelector((state) => state.search.sortCategory)
+
+const selectedCount = filterSelected.length + (selectedSortCategory != '' ? 1: 0)
+
+const [data, setData] = useState('')
+
+const [containerHeight, setContainerHeight] = useState(0)
+const [showKeyWords, setShowKeywords] = useState(true)
+
 
     const keywordsList = [
         {id: 1, keyword: 'Snacks'},
@@ -46,39 +61,25 @@ export default function SearchBox({
     //     {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
     // ]
     const [feedList, setFeedList] = useState([]) 
-    const filterList = useSelector((state) => state.search.filter)  
-    const selectedCategory = useSelector((state) => state.search.selectedCategory)
-    const dispatch = useDispatch()
 
-    // --------------------------------------- Value
-    const categorySelected = useSelector((state) => state.search.category)
-    const filterSelected = useSelector((state) => state.search.filter)
-    const selectedSortCategory = useSelector((state) => state.search.sortCategory)
 
-    const selectedCount = filterSelected.length + (selectedSortCategory != '' ? 1: 0)
 
-    const [data, setData] = useState('')
-    // const [focus, setFocus] = useState(false)
-    const [containerHeight, setContainerHeight] = useState(0)
-    const [showKeyWords, setShowKeywords] = useState(true)
-
-    // --------------------------------------- handle Clear Button
+// ----------------------------  
+// Handler Section
+// ---------------------------- 
+    // ---- handle Clear Button
     const handleClear = () => {
         setData('')
         setShowKeywords(true)
         keywordsTransition.value = withTiming(0, {duration: 500})
         Keyboard.dismiss()
     }
-
-    // --------------------------------------- OnPress Keyword
+    // ---- OnPress Keyword
     const handlePress = (row) => {
         setData(row.keyword)
         handleSearch(row.keyword)
     }
-
-    // --------------------------------------- handle Search
-    const longitude = useSelector((state) => state.locate.long)
-    const latitude = useSelector((state) => state.locate.lat)
+    // ---- handle Search
     const handleSearch = async (input) => {
         if (input) {
         keywordsTransition.value = withTiming(1, {duration: 500})
@@ -95,34 +96,31 @@ export default function SearchBox({
         }
     }
 
-    // Category Handle ------------------------------------------------
-    const handleSelectCategory = (row) => {
-        dispatch(setSelectedCategory(row.id))
-        dispatch(setCategory(row.category))
-        if (selectedCategory != row.id) {
-            // setSelectedFilter(new Set([]))
-            dispatch(setResetFilter())
-        }
-    }
-    // --------------------------------------- Animation
+// ----------------------------  
+// Animation Section
+// ---------------------------- 
+    // ---- Value
     const keywordsTransition = useSharedValue(0)
     const feedTransition = useSharedValue(0)
 
-    const translateKeywordsContainer = useAnimatedStyle(() => {
-        return {
-            opacity: interpolate(keywordsTransition.value, [0,0.3], [1,0]),
-            transform: [
-                {translateY: interpolate(keywordsTransition.value, [0,1], [0, -containerHeight])}
-            ]
-        }
-    })
+    // ---- Animated Style
+        // Keywords Container Animation
+        const translateKeywordsContainer = useAnimatedStyle(() => {
+            return {
+                opacity: interpolate(keywordsTransition.value, [0,0.3], [1,0]),
+                transform: [
+                    {translateY: interpolate(keywordsTransition.value, [0,1], [0, -containerHeight])}
+                ]
+            }
+        })
+        // Feed Animation
+        const translateFeed = useAnimatedStyle(() => {
+            return {
+                opacity: feedTransition.value
+            }
+        })
 
-    const translateFeed = useAnimatedStyle(() => {
-        return {
-            opacity: feedTransition.value
-        }
-    })
-
+    // ---- Animation Trigger
     useEffect(() => {
         if (!showKeyWords) {
             feedTransition.value = withTiming(1, {duration: 200})
@@ -131,7 +129,10 @@ export default function SearchBox({
         }
     }, [showKeyWords])
 
-  return (
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
     <View>
     <View style={styles.container}>
         <RoundButton 
@@ -294,7 +295,11 @@ export default function SearchBox({
   )
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
+
     container: {
         width: width-60,
         height: 50,

@@ -9,12 +9,11 @@ export const searchSlice = createSlice({
         category: 'Angebote',
         sortCategory: [],
         filter: [],
-
-        onSearchScreen: false,
     },
 
     // ----------------------------------------------------------------------------------- Reducers
     reducers: {
+
         // Catergory Reducers
         setCategory: (state, action) => {
             state.category = action.payload
@@ -39,28 +38,18 @@ export const searchSlice = createSlice({
             state.filter = []
         },
 
-        // Search Screen OnScreen Reducers
-        setOnSearchScreen: (state) => {
-            state.onSearchScreen = true
-            console.log(state.onSearchScreen)
-        },
-        setLeaveSearchScreen: (state) => {
-            state.onSearchScreen = false
-            console.log(state.onSearchScreen)
-        },
-
-
     }
 })
 
 export const {
-
+    
+    // ---- Category
     setCategory,
+    // ---- Filter
     setFilter,
     setRemoveFilter,
     setResetFilter,
-    setOnSearchScreen,
-    setLeaveSearchScreen,
+    // ---- SortCategory
     setSortCategory,
     setResetSortCategory,
 

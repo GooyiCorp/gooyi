@@ -178,7 +178,6 @@ export default function DiscoverScreen( {
             search
             onPressSearch={() => (
               navigation.navigate('Search'), 
-              // dispatch(setOnSearchScreen()),
               dispatch(setCategory('Angebote'))
             )}
             locateButton
@@ -236,7 +235,6 @@ export default function DiscoverScreen( {
             onScrollEndDrag={(e) => {
               if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
                 navigation.navigate('ShowAllOffers')
-                dispatch(setOnSearchScreen())
               }
             }}
             scrollEventThrottle={16}

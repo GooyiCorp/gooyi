@@ -25,7 +25,6 @@ export default function ShowAllOffers({
   // handle Go Back Button
   const handleGoBack = () => {
     goBack()
-    dispatch(setLeaveSearchScreen())
   }
   return (
     <View style={styles.card}>

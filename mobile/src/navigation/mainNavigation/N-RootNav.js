@@ -20,29 +20,35 @@ import MainNav from './N-MainNav';
 import StoresStackNav from '../navigationStack/N-StoresStack';
 import RegisterEMailStack from '../navigationStack/n_RegisterEMailStack';
 import Search from '../../screens/search-screens/Search';
-import LocateStack from '../navigationStack/n_locateStack';
 import ShowAllOffers from '../../screens/showmore_screens/ShowAllOffers';
 import OfferCardDetail from '../../screens/detail-screens/OfferCardDetail';
 import CouponCardDetail from '../../screens/detail-screens/CouponCardDetail';
+import CitySelection from '../../screens/locate_screens/CitySelection';
+import EnterPosition from '../../screens/locate_screens/EnterPosition';
 
-
+// --- Create Stack Navigator
 const Root = createStackNavigator();
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function RootNav() {
 
-    // Redux ---------------------------------
-    const dispatch = useDispatch()
-    const showQueueSmall = useSelector((state) => state.queue.showQueueSmall)
+// Redux
+const dispatch = useDispatch()
+const showQueueSmall = useSelector((state) => state.queue.showQueueSmall)
 
-  return (
-    <View style={{height: height, width: width, justifyContent: 'center'}}>
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+<View style={{height: height, width: width, justifyContent: 'center'}}>
 
     <QueueOverviewModal />
     <ScreenOverlay queueOverview delay={0}/>
 
-    {/* ----------------------------------------------------------------------------------------------------------- */}
-    {/* Navigation Section */}
-    {/* ----------------------------------------------------------------------------------------------------------- */}
+    {/* ---- start - Navigation Section */}
     <Root.Navigator
         initialRouteName='Main'
         screenOptions={{
@@ -50,7 +56,7 @@ export default function RootNav() {
         }}
     >
         
-        {/* Main Screens ----------------------------- */}
+        {/* ----------------------------- Main Screens */}
         {/* Main Navigation*/}
         <Root.Screen 
             name='Main' 
@@ -85,19 +91,26 @@ export default function RootNav() {
             component={ProfileStackNav}
         />
 
-        {/* Functional Screens ----------------------------- */}
+        {/* ----------------------------- Functional Screens */}
         {/* Search */}
         <Root.Screen 
             name='Search' 
             component={Search}
         />
-        {/* Locate */}
+
+        {/* ----------------------------- Locate Screens */}
+        {/* Enter Position */}
         <Root.Screen 
-            name='Locate' 
-            component={LocateStack}
+            name='EnterPosition' 
+            component={EnterPosition}
+        />
+        {/* City Selection */}
+        <Root.Screen 
+            name='SelectCity' 
+            component={CitySelection}
         />
 
-        {/* Show All Screens ----------------------------- */}
+        {/* ----------------------------- Show All Screens */}
         {/* Show All Offers */}
         <Root.Screen 
             name='ShowAllOffers' 
@@ -115,7 +128,7 @@ export default function RootNav() {
             component={CouponCardDetail}
         />
         
-        {/* Other Screens ----------------------------- */}
+        {/* ----------------------------- Other Screens */}
         <Root.Screen 
             name='Onboard' 
             component={Onboarding}
@@ -129,14 +142,12 @@ export default function RootNav() {
         />
 
     </Root.Navigator>
-    {/* ----------------------------------------------------------------------------------------------------------- */}
-    {/* Navigation Section End */}
-    {/* ----------------------------------------------------------------------------------------------------------- */}
-        
+    {/* ---- end - Navigation Section */}
+
     {showQueueSmall && <QueueSmall />}
 
-    </View>
-  )
+</View>
+)
 }
 
 const styles = StyleSheet.create({})

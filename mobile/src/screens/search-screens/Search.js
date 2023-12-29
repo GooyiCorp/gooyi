@@ -33,17 +33,11 @@ const dispatch = useDispatch()
   }
   // Listener Exit Screen - Reset all selected
   useEffect(() => {
-    const enterScreen = navigation.addListener('focus', () => {
-      dispatch(setOnSearchScreen())
-      console.log('enter')
-    })
     const exitScreen = navigation.addListener('blur', () => {
       dispatch(setResetFilter())
       dispatch(setResetSortCategory())
-      dispatch(setLeaveSearchScreen())
-      console.log('exit')
     })
-    return exitScreen, enterScreen
+    return exitScreen
   }, [navigation])
 // ---- end - Exit Screen Handler
 
