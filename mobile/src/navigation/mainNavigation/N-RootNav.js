@@ -25,6 +25,7 @@ import OfferCardDetail from '../../screens/detail-screens/OfferCardDetail';
 import CouponCardDetail from '../../screens/detail-screens/CouponCardDetail';
 import CitySelection from '../../screens/locate_screens/CitySelection';
 import EnterPosition from '../../screens/locate_screens/EnterPosition';
+import SendAsGift from '../../screens/cart-screens/SendAsGift';
 
 // --- Create Stack Navigator
 const Root = createStackNavigator();
@@ -139,6 +140,13 @@ return (
         <Root.Screen 
             name='Loading' 
             component={Loading}
+        />
+
+        {/* ----------------------------- Cart Screens */}
+        {/* Send As Gift */}
+        <Root.Screen 
+            name='SendAsGift' 
+            component={SendAsGift}
         />
 
     </Root.Navigator>

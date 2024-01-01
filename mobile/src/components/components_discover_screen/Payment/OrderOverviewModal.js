@@ -122,12 +122,14 @@ export default function OrderOverviewModal() {
                 {/* Title */}
                 <Text style={[H4, styles.subTitle]}>Warenkorb</Text>
                 
-                <View style={{width: '100%'}}>
-                    <Text style={[T1, {fontFamily: 'RH-Bold'}]}>Udon Set für 2 Personen</Text>
-                    <Text style={T4}>Noosou Asia Kitchen</Text>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
+                <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View>
+                        <Text style={[T1, {fontFamily: 'RH-Bold'}]}>Udon Set für 2 Personen</Text>
+                        <Text style={T4}>Noosou Asia Kitchen</Text>
+                    </View>
+                    <View style={{alignItems: 'flex-end'}}>
                         <UnitSetting/>
-                        <Text style={[T1, {marginLeft: 20, fontFamily: 'RH-Medium'}]}>{price} €</Text>
+                        <Text style={[T1, {marginTop: 10, fontFamily: 'RH-Medium'}]}>{price.toFixed(2)} €</Text>
                     </View>
                 </View>
 
@@ -179,7 +181,7 @@ export default function OrderOverviewModal() {
                     <View style={{width: '100%', borderBottomWidth: 0.5, borderColor: COLORS.grey, marginBottom: 5, marginTop: 10}}></View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>Summe</Text>
-                    <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>{price} €</Text>
+                    <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.primary}]}>{price.toFixed(2)} €</Text>
                 </View>
 
                 <Text style={[T3,{marginTop: 30}]}>Durch Klicken auf die Schaltfläche stimme ich den <Text onPress={() => console.log('press Datenschutz')} style={[T4, {fontFamily: 'RH-Bold'}]}>Nutzungs- und Verkaufsbedingungen</Text> zu, und bestätige, dass ich die <Text onPress={() => console.log('press Datenschutz')} style={[T4, {fontFamily: 'RH-Bold'}]}>Datenschutzerklärung</Text> gelesen habe.</Text>

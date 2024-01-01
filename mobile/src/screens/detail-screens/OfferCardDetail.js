@@ -42,6 +42,10 @@ const dispatch = useDispatch()
     dispatch(setShowOrderOverviewModal())
   }
 
+  const handleSendAsGift = () => {
+    navigation.navigate('SendAsGift')
+  }
+
   return (
     <View style={styles.card}>
 
@@ -131,6 +135,7 @@ const dispatch = useDispatch()
           innerContainerStyle={{
               alignItems: 'baseline'
           }}
+          onPressButton={handleSendAsGift}
         />
         {/* Buy Button */}
         <IconLabelButton
