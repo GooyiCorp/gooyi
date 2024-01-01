@@ -4,7 +4,7 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
-import { setHideFilterModal, setHideLocateModal, setHideQueueModal, setHideQueueOverviewModal, setHideSettingShowMoreModal } from '../../redux/slices/showModalSlice'
+import { setHideFilterModal, setHideLocateModal, setHideOrderOverviewModal, setHideQueueModal, setHideQueueOverviewModal, setHideSettingShowMoreModal } from '../../redux/slices/showModalSlice'
 import { setHideQueueAlert } from '../../redux/slices/queueSlice'
 
 export default function ScreenOverlay({
@@ -16,6 +16,7 @@ export default function ScreenOverlay({
     delay,
     cardStyle,
     settingShowMore,
+    orderOverview,
 }) {
 
     const dispatch = useDispatch()
@@ -33,6 +34,8 @@ export default function ScreenOverlay({
         modal = useSelector((state) => state.showModal.queueOverviewModal)
     } else if (settingShowMore) {
         modal = useSelector((state) => state.showModal.settingShowMoreModal)
+    } else if (orderOverview) {
+        modal = useSelector((state) => state.showModal.orderOverviewModal)
     }
     
     const [showOverlay, setShowOverlay] = useState(false)
@@ -70,6 +73,8 @@ export default function ScreenOverlay({
             dispatch(setHideQueueOverviewModal())
         } else if (settingShowMore) {
             dispatch(setHideSettingShowMoreModal())
+        } else if (orderOverview) {
+            dispatch(setHideOrderOverviewModal())
         }
     }
 
