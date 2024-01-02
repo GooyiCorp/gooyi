@@ -1,24 +1,48 @@
-import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategory, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+// Reanimated
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
+// Constants
 import { COLORS } from '../../index/constantsindex'
 import { height, width } from '../../constants/size'
+// Helpers
+import { moderateScale } from '../../helper/scale'
+// Components
 import RoundButton from '../components_universal/RoundButton'
 import Icons, { icons } from '../components_universal/Icons'
-import { moderateScale } from '../../helper/scale'
 import Keywords from './Keywords'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
-import { ScrollView } from 'react-native-gesture-handler'
 import SearchFeed from './SearchFeed'
-import { T2, T3 } from '../../constants/text-style'
-import { useDispatch, useSelector } from 'react-redux'
-import { setShowFilterModal } from '../../redux/slices/showModalSlice'
-import SearchLabel from './SearchLabel'
-import { setRemoveFilter } from '../../redux/slices/searchSlice'
-import Request from '../../helper/request'
+import Filter from './Filter'
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function SearchBox({
-    onPressGoBack
+    onPressGoBack,
+    onPressShowFilterModal
 }) {
+    
+// Redux
+const dispatch = useDispatch()
+
+// Value
+const longitude = useSelector((state) => state.locate.long)
+const latitude = useSelector((state) => state.locate.lat)
+
+const categorySelected = useSelector((state) => state.search.category)
+const filterSelected = useSelector((state) => state.search.filter)
+const selectedSortCategory = useSelector((state) => state.search.sortCategory)
+
+const selectedCount = filterSelected.length + (selectedSortCategory != '' ? 1: 0)
+
+const [data, setData] = useState('')
+
+const [containerHeight, setContainerHeight] = useState(0)
+const [showKeyWords, setShowKeywords] = useState(true)
+
 
     const keywordsList = [
         {id: 1, keyword: 'Snacks'},
@@ -26,11 +50,10 @@ export default function SearchBox({
         {id: 3, keyword: 'Asiatisch'},
         {id: 4, keyword: 'Coffee'},
         {id: 5, keyword: 'Spa'},
-        {id: 6, keyword: 'Angebote'},
+        {id: 6, keyword: 'Indisch'},
         {id: 7, keyword: 'Sushi'},
         {id: 8, keyword: 'Chinesisch'},
-        {id: 9, keyword: 'Neu'},
-        {id: 10, keyword: 'Geöffnet'},
+        {id: 9, keyword: 'Pizza'},
     ]
 
     // const feedList = [
@@ -38,35 +61,25 @@ export default function SearchBox({
     //     {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
     // ]
     const [feedList, setFeedList] = useState([]) 
-    const filterList = useSelector((state) => state.search.filter)  
-    const dispatch = useDispatch()
 
-    // --------------------------------------- Value
-    const categorySelected = useSelector((state) => state.search.category)
-    const filterSelected = useSelector((state) => state.search.filter)
 
-    const [data, setData] = useState('')
-    // const [focus, setFocus] = useState(false)
-    const [containerHeight, setContainerHeight] = useState(0)
-    const [showKeyWords, setShowKeywords] = useState(true)
 
-    // --------------------------------------- handle Clear Button
+// ----------------------------  
+// Handler Section
+// ---------------------------- 
+    // ---- handle Clear Button
     const handleClear = () => {
         setData('')
         setShowKeywords(true)
         keywordsTransition.value = withTiming(0, {duration: 500})
         Keyboard.dismiss()
     }
-
-    // --------------------------------------- OnPress Keyword
+    // ---- OnPress Keyword
     const handlePress = (row) => {
         setData(row.keyword)
         handleSearch(row.keyword)
     }
-
-    // --------------------------------------- handle Search
-    const longitude = useSelector((state) => state.locate.long)
-    const latitude = useSelector((state) => state.locate.lat)
+    // ---- handle Search
     const handleSearch = async (input) => {
         if (input) {
         keywordsTransition.value = withTiming(1, {duration: 500})
@@ -76,32 +89,38 @@ export default function SearchBox({
         console.log('search:', input)
 
         // Thanh - Search API ---------------------------------------------------------
-        const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&keyword=${input}`)
-        setFeedList(response.data)
+        // const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&keyword=${input}`)
+        // setFeedList(response.data)
         // ----------------------------------------------------------------------------
 
         }
     }
 
-    // --------------------------------------- Animation
+// ----------------------------  
+// Animation Section
+// ---------------------------- 
+    // ---- Value
     const keywordsTransition = useSharedValue(0)
     const feedTransition = useSharedValue(0)
 
-    const translateKeywordsContainer = useAnimatedStyle(() => {
-        return {
-            opacity: interpolate(keywordsTransition.value, [0,0.3], [1,0]),
-            transform: [
-                {translateY: interpolate(keywordsTransition.value, [0,1], [0, -containerHeight])}
-            ]
-        }
-    })
+    // ---- Animated Style
+        // Keywords Container Animation
+        const translateKeywordsContainer = useAnimatedStyle(() => {
+            return {
+                opacity: interpolate(keywordsTransition.value, [0,0.3], [1,0]),
+                transform: [
+                    {translateY: interpolate(keywordsTransition.value, [0,1], [0, -containerHeight])}
+                ]
+            }
+        })
+        // Feed Animation
+        const translateFeed = useAnimatedStyle(() => {
+            return {
+                opacity: feedTransition.value
+            }
+        })
 
-    const translateFeed = useAnimatedStyle(() => {
-        return {
-            opacity: feedTransition.value
-        }
-    })
-
+    // ---- Animation Trigger
     useEffect(() => {
         if (!showKeyWords) {
             feedTransition.value = withTiming(1, {duration: 200})
@@ -110,7 +129,10 @@ export default function SearchBox({
         }
     }, [showKeyWords])
 
-  return (
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
     <View>
     <View style={styles.container}>
         <RoundButton 
@@ -123,7 +145,6 @@ export default function SearchBox({
                 height: moderateScale(38,0.2),
                 width: moderateScale(38,0.2),
                 margin: 0,
-                marginRight: 10
             }}
             onPressButton={onPressGoBack}
         />
@@ -133,7 +154,7 @@ export default function SearchBox({
                 placeholderTextColor={COLORS.grey}
                 style={{
                     flex: 1,
-                    paddingLeft: 20,
+                    paddingLeft: 15,
                     paddingRight: 50,
                     fontFamily: 'RH-Regular',
                     fontSize: 15,
@@ -179,41 +200,92 @@ export default function SearchBox({
                 />
             </View>
         </View>
+            <RoundButton 
+                badges={selectedCount != 0? true : false}
+                count={selectedCount}
+                icon={icons.FontAwesome}
+                iconName={'sliders'}
+                iconSize={26}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: 'transparent',
+                    height: moderateScale(38,0.2),
+                    width: moderateScale(38,0.2),
+                    margin: 0,
+                    zIndex: 1,
+                }}
+                onPressButton={onPressShowFilterModal}
+            />
         
     </View>
 
+        
     {/* -------------------------------------------------------- Search for Section */}
-    <View style={{marginBottom: 15, marginHorizontal: 25}}>
+    <View style={{width: width, paddingHorizontal: 25}}>
+
+    {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Suche in Kategorie</Text> */}
+    
+    <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
+    {/* {categoryList.map((category) => (
+        <Filter 
+            key={category.id} 
+            keyword={category.category} 
+            onPress={() => handleSelectCategory(category)}
+            bgStyle={{
+                backgroundColor: selectedCategory == category.id? COLORS.grey : 'transparent',
+                borderColor: selectedCategory == category.id? COLORS.grey : COLORS.borderGrey
+            }}
+            textStyle={{
+                color: selectedCategory == category.id? COLORS.mainBackground : COLORS.lightGrey,
+            }}
+        />
+    ))} */}
+
+    {/* <Text style={[H4, {fontFamily: 'RH-Regular', color: COLORS.grey, marginBottom: 8, marginTop: 10, marginHorizontal: 10}]}>Keywords</Text> */}
+    {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
+        <Filter 
+            keyword={categorySelected}
+            bgStyle={{
+                backgroundColor: COLORS.grey,
+                borderColor: COLORS.grey,
+                borderRadius: 10,
+            }}
+            textStyle={{
+                color: COLORS.mainBackground,
+            }}
+            onPress={onPressShowFilterModal}
+        />
+        {keywordsList.map((list) => (<Keywords key={list.id} keyword={list.keyword} onPress={() => handlePress(list)}/>))}
+    </Animated.View>}
+
+    </View>
 
         <View style={{flexDirection: 'row', marginHorizontal: 5}}>
-
+            
             {/* Category */}
-            <View style={{width: '28%'}}>
+            {/* <View style={{width: '28%'}}>
                 <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>Suche in</Text>
                 <SearchLabel label={categorySelected} onPress={() => dispatch(setShowFilterModal())}/>
-            </View>
+            </View> */}
 
             {/* Filter */}
-            <View style={{width: '72%'}}>
+            {/* <View style={{width: '72%'}}>
                 <Text style={[T3, {color: COLORS.grey, marginLeft: 5}]}>{filterSelected.length !== 0 ? 'Filter' : ''}</Text>
                 <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
                     {filterList.map((filter) => (<SearchLabel key={filter.id} label={filter.filter} onPress={() => dispatch(setRemoveFilter(filter))} style={{backgroundColor: COLORS.ivoryDark, color: COLORS.grey}}/>))}
                 </View>
-            </View>
+            </View> */}
 
         </View>
 
 
     </View>
 
-    {showKeyWords && <Animated.View style={[styles.keywordsContainer, translateKeywordsContainer]} onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}>
-        {keywordsList.map((list) => (<Keywords key={list.id} keyword={list.keyword} onPress={() => handlePress(list)}/>))}
-    </Animated.View>}
 
     {!showKeyWords && 
     <Animated.View style={[{zIndex: 2, paddingHorizontal: 30}, translateFeed]}>
         
-        {feedList.map((feed) => (<SearchFeed key={feed.store_id} shopName={feed.name} description={feed.category} distance={feed.distance}/>))}
+        {feedList.map((feed) => (<SearchFeed key={feed.store_id} shopName={feed.name} description={feed.category.slice(0,3)} distance={feed.distance}/>))}
 
     </Animated.View>
     
@@ -223,14 +295,19 @@ export default function SearchBox({
   )
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
+
     container: {
-        width: width,
+        width: width-60,
         height: 50,
         // backgroundColor: 'yellow',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 30,
+        justifyContent: 'space-between',
+        marginHorizontal: 30,
         // position: 'absolute',
         marginTop: 55,
         marginBottom: 15,
@@ -239,12 +316,14 @@ const styles = StyleSheet.create({
     },
 
     inputContainer: {
-        width: width-60-48,
-        height: 50,
-        backgroundColor: COLORS.mainBackground,
+        width: width-60-48-43,
+        marginLeft: 10,
+        marginRight: 5,
+        height: 46,
+        backgroundColor: COLORS.white,
         borderRadius: 50,
         justifyContent: 'center',
-        borderWidth: 0.5,
+        // borderBottomWidth: 0.2,
         borderColor: COLORS.grey,
     },
 
@@ -260,8 +339,8 @@ const styles = StyleSheet.create({
     },
 
     keywordsContainer: {
-        width: width,
-        paddingHorizontal: 25,
+        width: width-50,
+        // paddingHorizontal: 25,
         // justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 50,
         backgroundColor: COLORS.ivoryDark,
-        alignSelf: 'baseline',
+        // alignSelf: 'baseline',
         margin: 5,
         borderWidth: 0.5,
     }

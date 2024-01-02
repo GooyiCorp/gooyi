@@ -5,45 +5,53 @@ export const searchSlice = createSlice({
     name: 'search',
     
     initialState: {
-        selectedCategory: 1,
-        category: 'Geschäfte',
+        // Selected
+        category: 'Angebote',
+        sortCategory: [],
         filter: [],
     },
 
     // ----------------------------------------------------------------------------------- Reducers
     reducers: {
 
-        // ------------------------------------------- Activity History Modal
-        setSelectedCategory: (state, action) => {
-            state.selectedCategory = action.payload
-        },
-
+        // Catergory Reducers
         setCategory: (state, action) => {
             state.category = action.payload
         },
 
+        // Sort Catergory Reducers
+        setSortCategory: (state, action) => {
+            state.sortCategory = action.payload
+        },
+        setResetSortCategory: (state) => {
+            state.sortCategory = []
+        },
+
+        // Filter Reducers
         setFilter: (state, action) => {
             state.filter.push(action.payload)
         },
-
         setRemoveFilter: (state, action) => {
             state.filter = state.filter.filter(item => item.id !== action.payload.id)
         },
-
         setResetFilter: (state) => {
             state.filter = []
-        }
+        },
 
     }
 })
 
 export const {
-
-    setSelectedCategory,
+    
+    // ---- Category
     setCategory,
+    // ---- Filter
     setFilter,
     setRemoveFilter,
     setResetFilter,
+    // ---- SortCategory
+    setSortCategory,
+    setResetSortCategory,
 
  } = searchSlice.actions;
  

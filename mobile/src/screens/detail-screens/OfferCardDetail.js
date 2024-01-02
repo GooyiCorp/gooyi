@@ -12,12 +12,18 @@ import HeartButton from '../../components/components_universal/HeartButton'
 import { icons } from '../../components/components_universal/Icons'
 import BulletPointText from '../../components/components_universal/BulletPointText'
 import IconLabelButton from '../../components/components_universal/IconLabelButton'
+import OrderOverviewModal from '../../components/components_discover_screen/Payment/OrderOverviewModal'
+import { useDispatch } from 'react-redux'
+import { setShowOrderOverviewModal } from '../../redux/slices/showModalSlice'
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 
 
 export default function OfferCardDetail({
   navigation,
   navigation: {goBack},
 }) {
+// Redux
+const dispatch = useDispatch()
 
   const price = 23.99
   const discountPrice = 19.99
@@ -31,8 +37,21 @@ export default function OfferCardDetail({
   const handleGoBack = () => {
     goBack()
   }
+
+  const handleShowOrderOverview = () => {
+    dispatch(setShowOrderOverviewModal())
+  }
+
+  const handleSendAsGift = () => {
+    navigation.navigate('SendAsGift')
+  }
+
   return (
     <View style={styles.card}>
+
+      <OrderOverviewModal />
+      <ScreenOverlay orderOverview delay={0}/>
+
       {/* Header */}
       <SettingHeader
         goBack
@@ -116,6 +135,7 @@ export default function OfferCardDetail({
           innerContainerStyle={{
               alignItems: 'baseline'
           }}
+          onPressButton={handleSendAsGift}
         />
         {/* Buy Button */}
         <IconLabelButton
@@ -138,6 +158,7 @@ export default function OfferCardDetail({
           innerContainerStyle={{
               alignItems: 'baseline'
           }}
+          onPressButton={handleShowOrderOverview}
         />
 
       </View>

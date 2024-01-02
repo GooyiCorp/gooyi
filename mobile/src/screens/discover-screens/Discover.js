@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../redux/store'
 import { setPage } from '../../redux/slices/mainNavSlice'
 import { setLoggedOut, setLoggedIn, setToken, setRefreshToken } from '../../redux/slices/userSlice'
-import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setOnSearchScreen, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
 import { setHideLocateModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 // Components
 import { MainHeader, SubHeader } from '../../index/navIndex'
@@ -178,9 +178,7 @@ export default function DiscoverScreen( {
             search
             onPressSearch={() => (
               navigation.navigate('Search'), 
-              dispatch(setCategory('Angebote')), 
-              dispatch(setSelectedCategory(3)),
-              dispatch(setResetFilter())
+              dispatch(setCategory('Angebote'))
             )}
             locateButton
             onPressLocate={handleLocate}

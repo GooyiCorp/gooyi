@@ -43,12 +43,12 @@ export default function LocateRequired({
                 title={'Manuelle Eingabe'} 
                 bgStyle={{backgroundColor: COLORS.ivoryDark, maxWidth: '80%'}}
                 titleStyle={{color: COLORS.grey, fontFamily: 'RH-Medium'}}
-                onPress={() => navigation.navigate('Locate', {screen: 'EnterPosition'})}
+                onPress={() => navigation.navigate('EnterPosition')}
             />
 
             {/* City */}
             <TouchableOpacity style={{height: 50, width: '17%', backgroundColor: COLORS.ivoryDark, marginVertical: 5, borderRadius: 16, justifyContent: 'center', alignItems: 'center', marginLeft: 10}}
-                onPress={() => navigation.navigate('Locate', {screen: 'CitySelection'})}
+                onPress={() => navigation.navigate('SelectCity')}
             >
                 <Icons 
                     icon={icons.MaterialIcons}
