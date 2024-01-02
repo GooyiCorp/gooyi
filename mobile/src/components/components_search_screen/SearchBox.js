@@ -285,7 +285,7 @@ return (
     {!showKeyWords && 
     <Animated.View style={[{zIndex: 2, paddingHorizontal: 30}, translateFeed]}>
         
-        {feedList.map((feed) => (<SearchFeed key={feed.store_id} shopName={feed.name} description={feed.category} distance={feed.distance}/>))}
+        {feedList.map((feed) => (<SearchFeed key={feed.store_id} shopName={feed.name} description={feed.category.slice(0,3)} distance={feed.distance}/>))}
 
     </Animated.View>
     
