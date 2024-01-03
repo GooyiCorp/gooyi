@@ -5,9 +5,11 @@ import { COLORS } from '../../index/constantsindex'
 import Icons, { icons } from '../components_universal/Icons'
 import { width } from '../../constants/size'
 
-export default function UserFeed() {
+export default function UserFeed({
+    onPress,
+}) {
   return (
-    <TouchableOpacity style={styles.feedContainer}>
+    <TouchableOpacity style={styles.feedContainer} onPress={onPress}>
        
         <View style={styles.iconBox}>
             <Icons

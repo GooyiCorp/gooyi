@@ -26,6 +26,7 @@ import CouponCardDetail from '../../screens/detail-screens/CouponCardDetail';
 import CitySelection from '../../screens/locate_screens/CitySelection';
 import EnterPosition from '../../screens/locate_screens/EnterPosition';
 import SendAsGift from '../../screens/cart-screens/SendAsGift';
+import GiftMessage from '../../screens/cart-screens/GiftMessage';
 
 // --- Create Stack Navigator
 const Root = createStackNavigator();
@@ -147,6 +148,11 @@ return (
         <Root.Screen 
             name='SendAsGift' 
             component={SendAsGift}
+        />
+        {/* Gift Message */}
+        <Root.Screen 
+            name='GiftMessage' 
+            component={GiftMessage}
         />
 
     </Root.Navigator>

@@ -8,6 +8,7 @@ import { moderateScale } from '../../helper/scale'
 import UserFeed from '../../components/components_cart_screen/UserFeed'
 
 export default function SendAsGift({
+    navigation,
     navigation: {goBack}
 }) {
 
@@ -88,7 +89,7 @@ export default function SendAsGift({
             </View>
         </View>
         <View style={{width: width, paddingHorizontal: 30}}>
-            <UserFeed />
+            <UserFeed onPress={() => navigation.navigate('GiftMessage')}/>
 
         </View>
     </View>

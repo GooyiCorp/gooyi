@@ -190,7 +190,7 @@ export default function OrderOverviewModal() {
             
             
             <BigButton 
-            title={'Bezahlen'}
+            title={'Zahlung abschließen'}
             bgStyle={{
                 backgroundColor: COLORS.primary,
                 position: 'absolute',
