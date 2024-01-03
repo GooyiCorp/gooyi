@@ -25,7 +25,7 @@ export default function SettingOverview() {
     const accessToken = useSelector(state => state.user.accessToken)
     const refreshToken = useSelector(state => state.user.refreshToken)
     const handleLogOut = async () => {
-        const response = await Request("user/logout", "POST", {refreshToken}, accessToken)
+        const response = await Request("user/profile/logout", "POST", {refreshToken}, accessToken)
         console.log(response);
         if (response.success) {
             dispatch(setLoggedOut())

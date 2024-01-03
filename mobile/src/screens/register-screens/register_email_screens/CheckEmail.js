@@ -20,7 +20,7 @@ export default function CheckEmail({navigation, route}) {
     // console.log(returnEmail)
 
     const handleSendNewLink = async () => {
-        const url = api_url + 'user/email-login/'
+        const url = api_url + 'user/profile/email-login/'
             try {
                 const response = await axios.post(url, {
                 "email": returnEmail.toLowerCase()

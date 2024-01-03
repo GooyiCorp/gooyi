@@ -41,7 +41,7 @@ export default function ProfileScreen({
   const dispatch = useDispatch()
   const accessToken = useSelector(state => state.user.accessToken)
   const getInfo = async () => {
-    const response = await Request('user/info', 'get', null, accessToken)
+    const response = await Request('user/profile/info', 'get', null, accessToken)
     console.log(response.data);
     return response.data
     // Duc anh: set data vao 

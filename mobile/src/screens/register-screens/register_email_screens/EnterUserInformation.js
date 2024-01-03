@@ -1,3 +1,4 @@
+
 import { Pressable, StyleSheet, Text, View, ViewComponent } from 'react-native'
 import React, { useEffect, useState } from 'react'
 // Helpers
@@ -113,7 +114,7 @@ export default function EnterUserInformation({route}) {
   
   const handleSubmit = async () => {
     try {
-      const response = await Request('user/register', "post", {
+      const response = await Request('user/profile/register', "post", {
         first_name: inputDataFN,
         last_name: inputDataLN,
         email: email,

@@ -75,8 +75,7 @@ export default function EnterEmail() {
   }, [checkSuccess])
 
   const handleServerRequest = async () => {
-    console.log('handle Request')
-    const url = api_url + 'user/email-login/'
+    const url = api_url + 'user/profile/email-login/'
       try {
         const response = await axios.post(url, {
           "email": inputData.toLowerCase()

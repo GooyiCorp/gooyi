@@ -31,7 +31,7 @@ export default function EditProfile({
     const accessToken = useSelector(state => state.user.accessToken)
     const handleSave = async () => {
       setEditable(false)
-      const response = await Request('user/update', 'put', {first_name: inputDataFN, last_name: inputDataLN}, accessToken)
+      const response = await Request('user/profile/update', 'put', {first_name: inputDataFN, last_name: inputDataLN}, accessToken)
       console.log(response);
       // Duc anh : thong bao success hay loi ? , xem response.success
     }
