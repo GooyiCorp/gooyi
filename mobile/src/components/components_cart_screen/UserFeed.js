@@ -6,6 +6,8 @@ import Icons, { icons } from '../components_universal/Icons'
 import { width } from '../../constants/size'
 
 export default function UserFeed({
+    email,
+    id,
     onPress,
 }) {
   return (
@@ -21,8 +23,8 @@ export default function UserFeed({
         </View>
 
         <View style={{height: '100%', width: '75%'}}>
-            <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>sebastian.122@gmail.com</Text>
-            <Text style={[T2, {color: COLORS.grey}]}>277.8796.244</Text>
+            <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>{email}</Text>
+            <Text style={[T2, {color: COLORS.grey}]}>{id}</Text>
         </View>
 
         <View style={{justifyContent: 'center', alignItems: 'flex-end', width: '10%'}}>

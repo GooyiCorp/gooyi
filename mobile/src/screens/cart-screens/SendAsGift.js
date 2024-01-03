@@ -6,26 +6,37 @@ import RoundButton from '../../components/components_universal/RoundButton'
 import { height, width } from '../../constants/size'
 import { moderateScale } from '../../helper/scale'
 import UserFeed from '../../components/components_cart_screen/UserFeed'
+import Request from './../../helper/request.js';
+import { useSelector } from 'react-redux';
 
 export default function SendAsGift({
     navigation,
     navigation: {goBack}
 }) {
 
-    const [data, setData] = useState('')
+    const [input, setInput] = useState('')
+    const [data, setData] = useState({})
+    const accessToken = useSelector(state => state.user.accessToken)
 // ----------------------------  
 // Handler Section
 // ---------------------------- 
     // ---- handle Clear Button
     const handleClear = () => {
-        setData('')
+        setInput('')
         Keyboard.dismiss()
     }
     // ---- handle Go Back Button
     const handleGoBack = () => {
         goBack()
     }
-
+    const handleSearch = async () => {
+        const result = await Request(`user/find?searchString=${input}`, 'get', {}, accessToken)
+        if (!result.success) alert(result.message) // Duc Anh -- Invalid
+        else {
+            console.log(result);
+            setData(result.data[0])
+        }
+    }
   return (
     <View style={styles.card}>
         <View style={styles.container}>
@@ -59,13 +70,14 @@ export default function SendAsGift({
                     autoCorrect={false}
                     keyboardAppearance='dark'
 
-                    value={data}
-                    onChangeText={(e) => setData(e)}
+                    value={input}
+                    onChangeText={(e) => setInput(e)}
+                    onSubmitEditing={handleSearch}
                 />
                 <View 
                     style={[
                         styles.rightView,
-                        {zIndex: data? 1 : 0}
+                        {zIndex: input? 1 : 0}
                     ]}
                 >
                     {/* Clear Button */}
@@ -78,9 +90,9 @@ export default function SendAsGift({
                             backgroundColor: 'transparent',
                             margin: 0,
                             marginRight: 5, 
-                            opacity: data? 1 : 0, 
+                            opacity: input? 1 : 0, 
                             transform: [
-                                {scaleX: data? 1 : 0}
+                                {scaleX: input? 1 : 0}
                             ],
                         }}
                         onPressButton={handleClear}
@@ -89,7 +101,7 @@ export default function SendAsGift({
             </View>
         </View>
         <View style={{width: width, paddingHorizontal: 30}}>
-            <UserFeed onPress={() => navigation.replace('GiftMessage')}/>
+            {data && <UserFeed email={data.email} id={data.user_id} onPress={() => navigation.replace('GiftMessage')}/>}
 
         </View>
     </View>

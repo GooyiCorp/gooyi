@@ -149,7 +149,7 @@ const supplement = useSelector((state) => state.locate.supplement)
       dispatch(setSelected('navigate'))
       
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
     }
   }
 
