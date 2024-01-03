@@ -33,14 +33,7 @@ services:
           - public:/app/public
         depends_on:
           - postgres
-        environment:
-          - PORT = 8000
-          - host = "gooyi.de"
-          - MAIL_HOST = 'info@gooyi.de'
-          - PASS_MAIL_HOST = 'fdjdPPT3p4X4Xk&'
-          - APP_SCHEMA = "exp://192.168.1.9:19000"
-          - JWT_SECRET_KEY = "abcdefghijklmnopqrstuvwxyz"
-          - DATABASE_URL="postgresql://gooyi:gooyi@153.92.223.235:5432/gooyi?schema=public"
+
     redis:
         container_name: redis
         image: redis
