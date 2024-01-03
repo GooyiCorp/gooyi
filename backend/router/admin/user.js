@@ -1,5 +1,4 @@
 import express from "express"
-import { ACTIVE_USER } from "../../index.js";
 import { sendError, sendServerError, sendSuccess } from "../../helper/client.js";
 import { register_validate } from "../../validation/user.js";
 import { logger } from "../../helper/logger.js";
@@ -27,22 +26,6 @@ userRoute.get('/', async (req, res) => {
         logger.error(err)
         return sendServerError(res)
     }
-})
-userRoute.get('/active', async (req, res) => {
-    try {
-        const result = []
-        for (const user_id in ACTIVE_USER) {
-            result.push({
-                id: user_id,
-                name:ACTIVE_USER[user_id].name
-            })
-        }
-        return sendSuccess(res, "Get active user", result)
-    } catch (err) {
-        logger.error(err)
-        return sendServerError(res)
-    }
-    
 })
 
 userRoute.post('/create', async (req, res) => {

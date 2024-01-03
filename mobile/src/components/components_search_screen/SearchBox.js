@@ -2,7 +2,7 @@ import { Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, Vie
 import React, { useEffect, useState } from 'react'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { setCategory, setRemoveFilter, setResetFilter, setSelectedCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setFeedList, setRemoveFilter, setResetFilter, setSearchString, setSelectedCategory } from '../../redux/slices/searchSlice'
 // Reanimated
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 // Constants
@@ -16,6 +16,7 @@ import Icons, { icons } from '../components_universal/Icons'
 import Keywords from './Keywords'
 import SearchFeed from './SearchFeed'
 import Filter from './Filter'
+import Request from '../../helper/request'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
@@ -33,12 +34,11 @@ const longitude = useSelector((state) => state.locate.long)
 const latitude = useSelector((state) => state.locate.lat)
 
 const categorySelected = useSelector((state) => state.search.category)
-const filterSelected = useSelector((state) => state.search.filter)
+const selectedFilter = useSelector((state) => state.search.filter)
 const selectedSortCategory = useSelector((state) => state.search.sortCategory)
-
-const selectedCount = filterSelected.length + (selectedSortCategory != '' ? 1: 0)
-
-const [data, setData] = useState('')
+const searchString = useSelector((state) => state.search.searchString)
+const selectedCount = selectedFilter.length + (selectedSortCategory != '' ? 1: 0)
+const feedList = useSelector((state) => state.search.feedList)
 
 const [containerHeight, setContainerHeight] = useState(0)
 const [showKeyWords, setShowKeywords] = useState(true)
@@ -60,37 +60,36 @@ const [showKeyWords, setShowKeywords] = useState(true)
     //     {id: 1, shopName: 'Asia Hung - City Center', description: 'Asiatisch, Thai', distance: '1,5 km'},
     //     {id: 2, shopName: 'Momo Street Kitchen Borkum', description: 'Bowl, Smoothies', distance: '1,0 km'}
     // ]
-    const [feedList, setFeedList] = useState([]) 
 
 
 
-// ----------------------------  
+// ----------------------------
 // Handler Section
 // ---------------------------- 
     // ---- handle Clear Button
     const handleClear = () => {
-        setData('')
+        dispatch(setSearchString(''))
         setShowKeywords(true)
         keywordsTransition.value = withTiming(0, {duration: 500})
         Keyboard.dismiss()
     }
     // ---- OnPress Keyword
     const handlePress = (row) => {
-        setData(row.keyword)
-        handleSearch(row.keyword)
+        dispatch(setSearchString(row.keyword))
+        handleSearch()
     }
     // ---- handle Search
-    const handleSearch = async (input) => {
-        if (input) {
+    const handleSearch = async () => {
+        if (searchString) {
         keywordsTransition.value = withTiming(1, {duration: 500})
         setTimeout(() => {
             setShowKeywords(false)
         }, 500)
-        console.log('search:', input)
+        const category = selectedFilter.map(item => item.filter)
 
         // Thanh - Search API ---------------------------------------------------------
-        // const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&keyword=${input}`)
-        // setFeedList(response.data)
+        const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&searchString=${searchString}&category=${category}&sort=${selectedSortCategory}`)
+        dispatch(setFeedList(response.data))
         // ----------------------------------------------------------------------------
 
         }
@@ -165,17 +164,17 @@ return (
                 keyboardAppearance='dark'
 
 
-                value={data}
+                value={searchString}
                 // onFocus={() => setFocus(true)}
                 // onBlur={() => setFocus(false)}
-                onChangeText={(e) => setData(e)}
-                onSubmitEditing={() => handleSearch(data)}
+                onChangeText={(e) => dispatch(setSearchString(e))}
+                onSubmitEditing={handleSearch}
             />
 
             <View 
                 style={[
                     styles.rightView,
-                    {zIndex: data? 1 : 0}
+                    {zIndex: searchString? 1 : 0}
                 ]}
             >
 
@@ -189,9 +188,9 @@ return (
                         backgroundColor: 'transparent',
                         margin: 0,
                         marginRight: 5, 
-                        opacity: data? 1 : 0, 
+                        opacity: searchString? 1 : 0, 
                         transform: [
-                            {scaleX: data? 1 : 0}
+                            {scaleX: searchString? 1 : 0}
                         ],
                     }}
 

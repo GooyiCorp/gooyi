@@ -81,6 +81,14 @@ CREATE TABLE "Category" (
 );
 
 -- CreateTable
+CREATE TABLE "Status" (
+    "status_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "Status_pkey" PRIMARY KEY ("status_id")
+);
+
+-- CreateTable
 CREATE TABLE "UserPoint" (
     "user_id" INTEGER NOT NULL,
     "store_id" INTEGER NOT NULL,
@@ -130,6 +138,12 @@ CREATE TABLE "_StoreAndCategory" (
     "B" INTEGER NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "_StoreStatus" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_username_key" ON "Admin"("username");
 
@@ -149,6 +163,9 @@ CREATE UNIQUE INDEX "OpeningHour_store_id_key" ON "OpeningHour"("store_id");
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Status_name_key" ON "Status"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserPoint_user_id_key" ON "UserPoint"("user_id");
 
 -- CreateIndex
@@ -165,6 +182,12 @@ CREATE UNIQUE INDEX "_StoreAndCategory_AB_unique" ON "_StoreAndCategory"("A", "B
 
 -- CreateIndex
 CREATE INDEX "_StoreAndCategory_B_index" ON "_StoreAndCategory"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_StoreStatus_AB_unique" ON "_StoreStatus"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_StoreStatus_B_index" ON "_StoreStatus"("B");
 
 -- AddForeignKey
 ALTER TABLE "Setting" ADD CONSTRAINT "Setting_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -204,3 +227,9 @@ ALTER TABLE "_StoreAndCategory" ADD CONSTRAINT "_StoreAndCategory_A_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "_StoreAndCategory" ADD CONSTRAINT "_StoreAndCategory_B_fkey" FOREIGN KEY ("B") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_StoreStatus" ADD CONSTRAINT "_StoreStatus_A_fkey" FOREIGN KEY ("A") REFERENCES "Status"("status_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_StoreStatus" ADD CONSTRAINT "_StoreStatus_B_fkey" FOREIGN KEY ("B") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;

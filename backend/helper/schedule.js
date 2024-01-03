@@ -10,7 +10,7 @@ export async function checkOpeningStore() {
         for (const hour of hours) {
             if (isOpening(hour)) {
                const update = await prisma.store.update({where: { store_id: hour.store_id}, data: {
-                    category: {
+                    status: {
                        connectOrCreate: [
                         {
                             "where": { "name": "Geöffnet" },
@@ -24,7 +24,7 @@ export async function checkOpeningStore() {
             } else {
                 const update = await prisma.store.update({
                     where: { store_id: hour.store_id }, data: {
-                        category: {
+                        status: {
                             disconnect: [
                                 {name: "Geöffnet"}
                             ]
@@ -47,7 +47,7 @@ export async function checkNewStore() {
         for (const store of stores) {
             if (isNew(store.enter_date)) {
                 const update = await prisma.store.update({where: {store_id: store.store_id}, data: {
-                    category: {
+                    status: {
                         connectOrCreate: [
                             {
                                 where: {"name": "Neu"},
@@ -58,7 +58,7 @@ export async function checkNewStore() {
                 }})
             } else {
                 const update = await prisma.store.update({where: {store_id: store.store_id}, data: {
-                    category: {
+                    status: {
                         disconnect: [
                             {"name": "Neu"}
                         ]

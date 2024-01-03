@@ -51,6 +51,7 @@ model Store {
   store_id    Int          @id @default(autoincrement())
   name        String
   category    Category[]   @relation("StoreAndCategory")
+  status      Status[]     @relation("StoreStatus")
   Address     Address?
   OpeningHour OpeningHour?
   active      Boolean      @default(false)
@@ -93,6 +94,12 @@ model Category {
   category_id Int     @id @default(autoincrement())
   name        String  @unique
   Stores      Store[] @relation("StoreAndCategory")
+}
+
+model Status {
+  status_id Int     @id @default(autoincrement())
+  name      String  @unique
+  Stores    Store[] @relation("StoreStatus")
 }
 
 // ------- Store and User --------------------------------

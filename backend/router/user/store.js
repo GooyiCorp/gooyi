@@ -75,7 +75,27 @@ storeRoute.post("/like", verifyToken, async (req, res) => {
 storeRoute.get('/search', async (req, res) => {
     const error = find_stores_validate(req.query)
     if (error) return sendError(res, error);
-    const { longitude, latitude, radius, keyword } = req.query
+    const { longitude, latitude, radius, searchString, category, sort } = req.query
+    const filter = (category === '') ? searchString : category.split(',')
+    const categoriesFilter = typeof filter != 'string' ? filter.map(item => ({
+        category: {
+            some: {
+                name: {
+                    contains: item,
+                    mode: 'insensitive'
+                }
+            }
+        }
+    })) : {
+            category: {
+                some: {
+                    name: {
+                        contains: filter,
+                        mode: 'insensitive'
+                    }
+                }
+            }
+    }
     try {
         const points = await prisma.address.findClosestPoints({ longitude, latitude, radius: parseInt(radius) })
         const ids = points.map(point => point.store_id)
@@ -84,20 +104,27 @@ storeRoute.get('/search', async (req, res) => {
                 store_id: {
                     in: ids,
                 },
-                OR: [
-                    {name: {
-                        contains: keyword,
-                        mode: 'insensitive'
-                    }},
-                    {category: {
-                        some: {
-                            name: {
-                                contains: keyword,
-                                mode: 'insensitive'
-                            }
+                status: sort ? {
+                    some: {
+                        name: {
+                            contains: sort,
+                            mode: 'insensitive'
                         },
-                    }}
-                ]
+                    }
+                } : {},
+                OR: typeof filter != 'string' ? categoriesFilter : [
+                    categoriesFilter,
+                    {
+                        name: {
+                            contains: filter,
+                            mode: 'insensitive'
+                        }
+                    }
+                ],
+                name: typeof filter != 'string' ? {
+                    contains: searchString,
+                    mode: 'insensitive'
+                } : {}
             }
         },
         select: {
@@ -118,6 +145,7 @@ storeRoute.get('/search', async (req, res) => {
             };
         });
         result  = result.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+
         return sendSuccess(res, "ok", result)
        
     

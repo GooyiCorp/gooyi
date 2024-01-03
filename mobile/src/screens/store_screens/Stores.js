@@ -77,7 +77,6 @@ export default function StoresScreen({
         onPressSearch={() => (
           navigation.navigate('Search'),
           dispatch(setCategory('Geschäfte')),
-          dispatch(setSelectedCategory(1)),
           dispatch(setResetFilter())
         )}
         topnavbutton

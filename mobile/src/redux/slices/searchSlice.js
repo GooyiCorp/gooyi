@@ -7,8 +7,10 @@ export const searchSlice = createSlice({
     initialState: {
         // Selected
         category: 'Angebote',
+        searchString: '',
         sortCategory: [],
         filter: [],
+        feedList: [],
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -37,6 +39,12 @@ export const searchSlice = createSlice({
         setResetFilter: (state) => {
             state.filter = []
         },
+        setSearchString: (state, action) => {
+            state.searchString = action.payload
+        },
+        setFeedList: (state, action) => {
+            state.feedList = action.payload
+        }
 
     }
 })
@@ -52,6 +60,8 @@ export const {
     // ---- SortCategory
     setSortCategory,
     setResetSortCategory,
+    setSearchString,
+    setFeedList
 
  } = searchSlice.actions;
  

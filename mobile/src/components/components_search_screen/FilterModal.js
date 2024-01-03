@@ -12,7 +12,7 @@ import { H3, H4 } from '../../constants/text-style'
 import { moderateScale } from '../../helper/scale'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { setCategory, setFilter, setRemoveFilter, setResetFilter, setResetSortCategory, setSortCategory } from '../../redux/slices/searchSlice'
+import { setCategory, setFeedList, setFilter, setRemoveFilter, setResetFilter, setResetSortCategory, setSortCategory } from '../../redux/slices/searchSlice'
 import { setHideFilterModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 // Components
 import RoundButton from '../components_universal/RoundButton'
@@ -20,6 +20,7 @@ import { icons } from '../components_universal/Icons'
 import Filter from './Filter'
 import LocateButton from '../components_locate_screen/LocateButton'
 import BigButton from '../components_LogIn/BigButton'
+import Request from './../../helper/request';
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
@@ -38,7 +39,8 @@ const dispatch = useDispatch()
     const translateY = useSharedValue(height)
     const context = useSharedValue({y: 0})
     const showFilterModal = useSelector((state) => state.showModal.filterModal)
-
+    const longitude = useSelector((state) => state.locate.long)
+    const latitude = useSelector((state) => state.locate.lat)
     // ---- handle Close 
     const handleOnEnd = () => {
         setTimeout(() => {
@@ -94,6 +96,7 @@ const dispatch = useDispatch()
     const selectedCategory = useSelector((state) => state.search.category)
     const selectedFilter = useSelector((state) => state.search.filter)
     const selectedSortCategory = useSelector((state) => state.search.sortCategory)
+    const searchString = useSelector((state) => state.search.searchString)
     
     // ---- Handler
         // handle Reset
@@ -132,7 +135,15 @@ const dispatch = useDispatch()
             if (row.sortCategory == selectedSortCategory) dispatch(setResetSortCategory())
             else dispatch(setSortCategory(row.sortCategory))
         }
-
+        // Handle Search
+        const handleSearch = async () => {
+            // Lam search store truoc
+            if (selectedCategory === 'Geschäfte') {
+                const category = selectedFilter.map(item => item.filter)
+                const response = await Request(`user/store/search?longitude=${longitude}&latitude=${latitude}&radius=10000&searchString=${searchString}&category=${category}&sort=${selectedSortCategory}`)
+                dispatch(setFeedList(response.data))
+            }
+        }
 // ----------------------------  
 // List Section 
 // ----------------------------
@@ -143,7 +154,7 @@ const categoryList = [
 ]
 // Filter List
 const filterList = selectedCategory == 'Angebote'? [
-    {id: 1, filter: 'Kaffee'},
+    {id: 1, filter: 'Coffee'},
     {id: 2, filter: 'Sushi'},
     {id: 3, filter: 'Asiatisch'},
     {id: 4, filter: 'Indisch'},
@@ -158,7 +169,7 @@ const filterList = selectedCategory == 'Angebote'? [
     {id: 13, filter: 'Pommes'},
     {id: 14, filter: 'Amerikanisch'},
 ] : selectedCategory == 'Coupons'? [
-    {id: 1, filter: 'Kaffee'},
+    {id: 1, filter: 'Coffee'},
     {id: 2, filter: 'Sushi'},
     {id: 3, filter: 'Asiatisch'},
     {id: 4, filter: 'Indisch'},
@@ -167,7 +178,7 @@ const filterList = selectedCategory == 'Angebote'? [
     {id: 7, filter: 'Snacks'},
     {id: 8, filter: 'Spa'},
 ] : [
-    {id: 1, filter: 'Kaffee'},
+    {id: 1, filter: 'Coffee'},
     {id: 2, filter: 'Sushi'},
     {id: 3, filter: 'Asiatisch'},
     {id: 4, filter: 'Indisch'},
@@ -351,7 +362,7 @@ return (
         titleStyle={{
             color: COLORS.white
         }}
-        onPress={() => console.log('apply filter - call API')}
+        onPress={handleSearch}
     />
 
     </Animated.View>
