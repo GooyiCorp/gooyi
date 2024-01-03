@@ -18,8 +18,8 @@ CREATE TABLE "User" (
     "user_id" SERIAL NOT NULL,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
+    "email" TEXT,
+    "phone" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT false,
     "last_login" TIMESTAMP(3),
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -149,6 +149,12 @@ CREATE UNIQUE INDEX "Admin_username_key" ON "Admin"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_user_id_key" ON "User"("user_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Setting_user_id_key" ON "Setting"("user_id");

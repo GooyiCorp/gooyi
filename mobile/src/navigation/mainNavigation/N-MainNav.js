@@ -34,7 +34,7 @@ export default function MainNav({route}) {
         const access = accessToken ? accessToken : await Get('accessToken')
         const refresh = refreshToken ? refreshToken : await Get('refreshToken')
         if (access && refresh) {
-            const response = await Request('auth/verify-token', 'POST', {accessToken: access, refreshToken: refresh})
+            const response = await Request('auth/token/verify-token', 'POST', {accessToken: access, refreshToken: refresh})
             if (response.success) {
                 dispatch(setLoggedIn())
                 dispatch(setToken(access))

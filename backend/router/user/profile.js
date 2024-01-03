@@ -35,7 +35,7 @@ profileRoute.post("/email-login", async (req, res) => {
     try {
         const host = process.env.host
         const port = process.env.PORT
-        const user = await prisma.user.findUnique({ where: { email: email}})
+        const user = await prisma.user.findUnique({ where: { email }})
         if (user) {
             const userData = {
                 id: user.user_id,
@@ -67,7 +67,7 @@ profileRoute.post("/email-login", async (req, res) => {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Log in ',
-                html: `<a href="http://${host}:${port}/api/user/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
+                html: `<a href="http://${host}:${port}/api/user/profile/login-redirect?exp=${new Date().getTime()}&accessToken=${accessToken}&refreshToken=${refreshToken}"> Sign in </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -81,7 +81,7 @@ profileRoute.post("/email-login", async (req, res) => {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
                 subject: '[Gooyi] Registration',
-                html: `<a href="http://${host}:${port}/api/user/register-redirect?exp=${new Date().getTime()}&email=${email}&key=${key}"> Registration </a>`
+                html: `<a href="http://${host}:${port}/api/user/profile/register-redirect?exp=${new Date().getTime()}&email=${email}&key=${key}"> Registration </a>`
             }
             const sendmail = await sendAutoMail(options)
             if (!sendmail) return sendError(res, "Send mail failed")
@@ -171,7 +171,7 @@ profileRoute.get("/login-redirect", async (req, res) => {
     } = req.query
     try {
         const now = new Date().getTime()
-        const link = debuggerHost + "/--/main"
+        const link = debuggerHost + "main"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link+"?error=expired"}))
         if (refreshToken in TOKEN_LIST) return res.send(render(redirect_page, {redirect_link: link+"?error=used"}))
@@ -183,7 +183,7 @@ profileRoute.get("/login-redirect", async (req, res) => {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
-        await prisma.user.update({ where: { user_id: userData.id }, data: { last_login: new Date() } })
+        await prisma.user.update({ where: { user_id: payload.user.id }, data: { last_login: new Date() } })
         return res.send(render(redirect_page, {redirect_link: link + `?accessToken=${accessToken}&refreshToken=${refreshToken}`}))
     } catch (err) {
         logger.error(err);
@@ -198,7 +198,7 @@ profileRoute.get('/register-redirect', async (req, res) => {
         const user = await prisma.user.findUnique({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
-        const link = debuggerHost + "/--/register/enterinfo"
+        const link = debuggerHost + "register/enterinfo"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link + "?error=expired"}))
         return res.send(render(redirect_page, {redirect_link: link + `?email=${email}&key=${key}`}))

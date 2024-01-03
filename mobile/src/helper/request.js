@@ -28,7 +28,7 @@ async function Request(path, method, data, token) {
             const refreshToken =  store.getState().user.refreshToken
             if (!accessToken || !refreshToken) return {error: "NEW_LOGIN_REQUIRED"}
             try {
-                const res = await axios.post(api_url + "auth/verify-token",{accessToken, refreshToken})
+                const res = await axios.post(api_url + "auth/token/verify-token",{accessToken, refreshToken})
                 const token = res.data.data.accessToken
                 await Save("accessToken", token)
                 store.dispatch(setToken(token))

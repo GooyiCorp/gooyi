@@ -89,6 +89,7 @@ export default function EnterUserInformation({route}) {
   // Send Link Button
   const handleSendLink = () => {
     setSubmit(true)
+    handleSubmit()
     check2? setErrorCheck2(false) : setErrorCheck2(true)
     check3? setErrorCheck3(false) : setErrorCheck3(true)
     setTimeout(() => {
