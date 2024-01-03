@@ -89,7 +89,7 @@ export default function SendAsGift({
             </View>
         </View>
         <View style={{width: width, paddingHorizontal: 30}}>
-            <UserFeed onPress={() => navigation.navigate('GiftMessage')}/>
+            <UserFeed onPress={() => navigation.replace('GiftMessage')}/>
 
         </View>
     </View>

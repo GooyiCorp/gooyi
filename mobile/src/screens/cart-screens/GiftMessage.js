@@ -31,8 +31,8 @@ const dispatch = useDispatch()
 
     // ---- Go Back Handler
     const handleGoBack = () => {
-        // goBack()
-        navigation.navigate('OfferCardDetail')
+        goBack()
+        // navigation.navigate('OfferCardDetail')
     }
 
     // Input Clear Button
