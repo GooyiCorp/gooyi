@@ -115,8 +115,9 @@ const supplement = useSelector((state) => state.locate.supplement)
   const handleReset = () => {
     dispatch(setResetPosition())
   }
-
   // ---- start - Thanh API Section
+  const long = useSelector((state) => state.locate.long)
+  const lat = useSelector((state) => state.locate.lat)
   const getLocation = async () => {
     const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
     if (foregroundStatus === 'granted') {
@@ -153,8 +154,10 @@ const supplement = useSelector((state) => state.locate.supplement)
   }
 
   useEffect(() =>{
-    getLocation();
-  }, [])
+    if (!long || !lat) {
+      getLocation()
+    }
+  }, [long, lat])
 
   // ---- end - Thanh API Section
 

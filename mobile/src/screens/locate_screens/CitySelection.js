@@ -8,7 +8,7 @@ import { H1, H3, H4, T1 } from '../../constants/text-style'
 import { useNavigationState } from '@react-navigation/native'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentPosition, setSelected, setSupplement } from '../../redux/slices/locateSlice'
+import { setCurrentPosition, setLocation, setSelected, setSupplement } from '../../redux/slices/locateSlice'
 import { setHideLocateModal, setShowFilterModal } from '../../redux/slices/showModalSlice'
 // Components
 import SettingHeader from '../../components/components_navigation/SettingHeader'
@@ -35,9 +35,7 @@ const dispatch = useDispatch()
     dispatch(setCurrentPosition('Bremen'))
     dispatch(setSupplement('Bremen, Deutschland'))
     // start - Thanh: set latitude / longtitude ----------------------------------------------
-
-
-
+    dispatch(setLocation({ lat: '53.08321806032241', long: '8.813551517730717' }))
     // end - Thanh: set latitude / longtitude ------------------------------------------------
     goBack()
     // Check Previous Screen

@@ -31,22 +31,15 @@ export default function StoresScreen({
   const [stores, setStores] = useState([]);
   const [radius, setRadius] = useState(1000);
   // Duc Anh: chinh radius o day
+  const longitude = useSelector((state) => state.locate.long)
+  const latitude = useSelector((state) => state.locate.lat)
   const getStores = async () => {
     try {
-      let { status } = await Location.requestBackgroundPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Permission to access location was denied');  //Duc anh: Tu choi location
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      const latitude = location.coords.latitude;
-      const longitude = location.coords.longitude;
       // Duc anh: Neu chua dang nhap thi goi cai nay
       const response = await Request(`user/store?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET")
       // Neu dang nhap roi thi goi cai nay
       // const accessToken = store.getState().user.accessToken
       // const response = await Request(`user/store/find?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET",data={},token=accessToken)
-      
       setStores(response.data)
     } catch (error) {  
       console.log(error.response.data)
@@ -54,7 +47,7 @@ export default function StoresScreen({
   }  
   useEffect(() => {
     getStores();
-  }, [radius])
+  }, [radius, longitude, latitude])
 
   const pageSelected = useSelector((state) => state.subNav.storeNavPage)
     
