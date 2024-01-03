@@ -8,31 +8,34 @@ datasource db {
   url        = env("DATABASE_URL")
   extensions = [postgis]
 }
+
 // ------------ Admin -----------------------------------------------
 
 model Admin {
-  admin_id        Int  @id @default(autoincrement())
-  name            String
-  username        String  @unique
-  password        String
-  
+  admin_id  Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  password  String
+  create_at DateTime @default(now())
+  update_at DateTime @updatedAt
 }
 
 // ------------ User ------------------------------------------------
 model User {
-  user_id    Int      @id @unique @default(autoincrement())
+  user_id    Int       @id @unique @default(autoincrement())
   first_name String
   last_name  String
   email      String
   phone      String
-  active     Boolean  @default(false)
+  active     Boolean   @default(false)
   Setting    Setting?
   last_login DateTime?
-  create_at  DateTime @default(now())
-  update_at  DateTime @updatedAt
+  create_at  DateTime  @default(now())
+  update_at  DateTime  @updatedAt
 
-  FavoriteStores Store[]    @relation("FavoriteStore")
-  UserPoint      UserPoint?
+  FavoriteStores Store[]     @relation("FavoriteStore")
+  UserPoint      UserPoint[]
+  FeedBack       FeedBack[]
 }
 
 model Setting {
@@ -48,6 +51,7 @@ model Store {
   store_id    Int          @id @default(autoincrement())
   name        String
   category    Category[]   @relation("StoreAndCategory")
+  status      Status[]     @relation("StoreStatus")
   Address     Address?
   OpeningHour OpeningHour?
   active      Boolean      @default(false)
@@ -58,8 +62,10 @@ model Store {
   create_at   DateTime     @default(now())
   update_at   DateTime     @updatedAt
 
-  FavoritedUsers User[]     @relation("FavoriteStore")
-  UserPoint      UserPoint?
+  FavoritedUsers User[]      @relation("FavoriteStore")
+  UserPoint      UserPoint[]
+  FeedBack       FeedBack[]
+  Quest          Quest[]
 }
 
 model Address {
@@ -85,17 +91,58 @@ model OpeningHour {
 }
 
 model Category {
-  category_id     Int        @id   @default(autoincrement())
-  name            String     @unique
-  Stores          Store[]    @relation("StoreAndCategory")
+  category_id Int     @id @default(autoincrement())
+  name        String  @unique
+  Stores      Store[] @relation("StoreAndCategory")
 }
 
-// ------- User Point --------------------------------
+model Status {
+  status_id Int     @id @default(autoincrement())
+  name      String  @unique
+  Stores    Store[] @relation("StoreStatus")
+}
+
+// ------- Store and User --------------------------------
 
 model UserPoint {
   user_id  Int   @unique
   user     User  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
   store_id Int   @unique
+  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+
+  point Int
+}
+
+model FeedBack {
+  feedback_id Int @id @default(autoincrement())
+
+  user_id Int
+  user    User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+
+  store_id Int
+  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+
+  text          String
+  create_at     DateTime        @default(now())
+  update_at     DateTime        @updatedAt
+  FeedBackReply FeedBackReply[]
+}
+
+model FeedBackReply {
+  feedback_id Int      @id
+  feedback    FeedBack @relation(fields: [feedback_id], references: [feedback_id], onDelete: Cascade, onUpdate: Cascade)
+
+  reply     String
+  create_at DateTime @default(now())
+  update_at DateTime @updatedAt
+}
+
+// ------------ Quest ---------------------------------
+
+model Quest {
+  quest_id Int @id @default(autoincrement())
+
+  store_id Int
   store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   point Int

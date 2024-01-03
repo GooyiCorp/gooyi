@@ -14,7 +14,6 @@ dotenv.config()
 // Token 
 export const TOKEN_LIST = {}
 export const TOKEN_BLACKLIST = {}
-export const ACTIVE_USER = {}
 import { clearTokenList } from "./helper/jwt.js"
 // Cache connection
 import Redis from "./cache/index.js";
@@ -62,7 +61,7 @@ const PORT = process.env.PORT || 8000
 // Schedule 
 import { checkNewStore, checkOpeningStore } from "./helper/schedule.js";
 
-const job = scheduleJob('opening', '* * * * *', () => {
+const opening = scheduleJob('opening', '* * * * *', () => {
     checkOpeningStore();
 })
 const neu = scheduleJob('new', '0 0 * * *', () => {

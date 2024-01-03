@@ -75,7 +75,27 @@ storeRoute.post("/like", verifyToken, async (req, res) => {
 storeRoute.get('/search', async (req, res) => {
     const error = find_stores_validate(req.query)
     if (error) return sendError(res, error);
-    const { longitude, latitude, radius, keyword } = req.query
+    const { longitude, latitude, radius, searchString, category, sort } = req.query
+    const filter = (category === '') ? searchString : category.split(',')
+    const categoriesFilter = typeof filter != 'string' ? filter.map(item => ({
+        category: {
+            some: {
+                name: {
+                    contains: item,
+                    mode: 'insensitive'
+                }
+            }
+        }
+    })) : {
+            category: {
+                some: {
+                    name: {
+                        contains: filter,
+                        mode: 'insensitive'
+                    }
+                }
+            }
+    }
     try {
         const points = await prisma.address.findClosestPoints({ longitude, latitude, radius: parseInt(radius) })
         const ids = points.map(point => point.store_id)
@@ -84,20 +104,27 @@ storeRoute.get('/search', async (req, res) => {
                 store_id: {
                     in: ids,
                 },
-                OR: [
-                    {name: {
-                        contains: keyword,
-                        mode: 'insensitive'
-                    }},
-                    {category: {
-                        some: {
-                            name: {
-                                contains: keyword,
-                                mode: 'insensitive'
-                            }
+                status: sort ? {
+                    some: {
+                        name: {
+                            contains: sort,
+                            mode: 'insensitive'
                         },
-                    }}
-                ]
+                    }
+                } : {},
+                OR: typeof filter != 'string' ? categoriesFilter : [
+                    categoriesFilter,
+                    {
+                        name: {
+                            contains: filter,
+                            mode: 'insensitive'
+                        }
+                    }
+                ],
+                name: typeof filter != 'string' ? {
+                    contains: searchString,
+                    mode: 'insensitive'
+                } : {}
             }
         },
         select: {
@@ -118,6 +145,7 @@ storeRoute.get('/search', async (req, res) => {
             };
         });
         result  = result.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+
         return sendSuccess(res, "ok", result)
        
     
@@ -126,6 +154,46 @@ storeRoute.get('/search', async (req, res) => {
         return sendServerError(res);
     }
 
+})
+storeRoute.post('/feedback', verifyToken, async (req, res) => {
+    const { store_id, text } = req.body;
+    if (!text || !store_id) return sendError(res, "text and store_id is required")
+    const user_id = req.user.id
+
+    try {
+        const store = await prisma.store.findUnique({where: {store_id}})
+        if (!store) return sendError(res, "Store not found", 403)
+
+        const user = await prisma.user.findUnique({where: {user_id}, select: {
+            FeedBack: {
+                where: {store_id},
+                orderBy: {
+                    create_at: 'desc'
+                }
+            }
+        }})
+        if (!user) return sendError(res, "Unauthorized", 403)
+        if (user.FeedBack.length > 0) {
+            const last_feedback_date = new Date(user.FeedBack[0].create_at).getDate()
+            const today = new Date().getDate()
+            
+            if (last_feedback_date === today) return sendError(res, "One Feedback per day", 403)
+        }
+
+        const feedback = await prisma.user.update({where: {user_id}, data: {
+            FeedBack: {
+                create: {
+                    store_id, text   
+                }
+            }
+        }})
+
+        return sendSuccess(res, "Feedback successfully sent")
+
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
 
 
 })

@@ -1,15 +1,14 @@
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "postgis";
 
--- CreateEnum
-CREATE TYPE "Category" AS ENUM ('restaurant', 'bubbleTea', 'sushi', 'bar');
-
 -- CreateTable
 CREATE TABLE "Admin" (
     "admin_id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Admin_pkey" PRIMARY KEY ("admin_id")
 );
@@ -22,7 +21,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
-    "last_login" TIMESTAMP(3) NOT NULL,
+    "last_login" TIMESTAMP(3),
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_at" TIMESTAMP(3) NOT NULL,
 
@@ -40,7 +39,6 @@ CREATE TABLE "Setting" (
 CREATE TABLE "Store" (
     "store_id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "category" "Category" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT NOT NULL,
     "logo" TEXT,
@@ -75,6 +73,22 @@ CREATE TABLE "OpeningHour" (
 );
 
 -- CreateTable
+CREATE TABLE "Category" (
+    "category_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("category_id")
+);
+
+-- CreateTable
+CREATE TABLE "Status" (
+    "status_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "Status_pkey" PRIMARY KEY ("status_id")
+);
+
+-- CreateTable
 CREATE TABLE "UserPoint" (
     "user_id" INTEGER NOT NULL,
     "store_id" INTEGER NOT NULL,
@@ -82,7 +96,50 @@ CREATE TABLE "UserPoint" (
 );
 
 -- CreateTable
+CREATE TABLE "FeedBack" (
+    "feedback_id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "store_id" INTEGER NOT NULL,
+    "text" TEXT NOT NULL,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "FeedBack_pkey" PRIMARY KEY ("feedback_id")
+);
+
+-- CreateTable
+CREATE TABLE "FeedBackReply" (
+    "feedback_id" INTEGER NOT NULL,
+    "reply" TEXT NOT NULL,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "FeedBackReply_pkey" PRIMARY KEY ("feedback_id")
+);
+
+-- CreateTable
+CREATE TABLE "Quest" (
+    "quest_id" SERIAL NOT NULL,
+    "store_id" INTEGER NOT NULL,
+    "point" INTEGER NOT NULL,
+
+    CONSTRAINT "Quest_pkey" PRIMARY KEY ("quest_id")
+);
+
+-- CreateTable
 CREATE TABLE "_FavoriteStore" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_StoreAndCategory" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_StoreStatus" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
@@ -103,6 +160,12 @@ CREATE UNIQUE INDEX "Address_store_id_key" ON "Address"("store_id");
 CREATE UNIQUE INDEX "OpeningHour_store_id_key" ON "OpeningHour"("store_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Status_name_key" ON "Status"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserPoint_user_id_key" ON "UserPoint"("user_id");
 
 -- CreateIndex
@@ -113,6 +176,18 @@ CREATE UNIQUE INDEX "_FavoriteStore_AB_unique" ON "_FavoriteStore"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_FavoriteStore_B_index" ON "_FavoriteStore"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_StoreAndCategory_AB_unique" ON "_StoreAndCategory"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_StoreAndCategory_B_index" ON "_StoreAndCategory"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_StoreStatus_AB_unique" ON "_StoreStatus"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_StoreStatus_B_index" ON "_StoreStatus"("B");
 
 -- AddForeignKey
 ALTER TABLE "Setting" ADD CONSTRAINT "Setting_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -130,7 +205,31 @@ ALTER TABLE "UserPoint" ADD CONSTRAINT "UserPoint_user_id_fkey" FOREIGN KEY ("us
 ALTER TABLE "UserPoint" ADD CONSTRAINT "UserPoint_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "FeedBack" ADD CONSTRAINT "FeedBack_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FeedBack" ADD CONSTRAINT "FeedBack_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FeedBackReply" ADD CONSTRAINT "FeedBackReply_feedback_id_fkey" FOREIGN KEY ("feedback_id") REFERENCES "FeedBack"("feedback_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Quest" ADD CONSTRAINT "Quest_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_FavoriteStore" ADD CONSTRAINT "_FavoriteStore_A_fkey" FOREIGN KEY ("A") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FavoriteStore" ADD CONSTRAINT "_FavoriteStore_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_StoreAndCategory" ADD CONSTRAINT "_StoreAndCategory_A_fkey" FOREIGN KEY ("A") REFERENCES "Category"("category_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_StoreAndCategory" ADD CONSTRAINT "_StoreAndCategory_B_fkey" FOREIGN KEY ("B") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_StoreStatus" ADD CONSTRAINT "_StoreStatus_A_fkey" FOREIGN KEY ("A") REFERENCES "Status"("status_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_StoreStatus" ADD CONSTRAINT "_StoreStatus_B_fkey" FOREIGN KEY ("B") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;

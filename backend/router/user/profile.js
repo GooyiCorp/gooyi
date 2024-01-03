@@ -4,7 +4,7 @@ import { generate_key, sendAutoMail, sendError, sendServerError, sendSuccess } f
 import { email_validate, redirect_validate, register_validate } from "../../validation/user.js";
 import { USER } from "../../constant/role.js";
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../../constant/jwt.js";
-import { ACTIVE_USER, TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../../index.js";
+import { TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../../index.js";
 import path from 'path';
 import { __dirname } from "../../index.js";
 import { render } from "../../template/index.js";
@@ -77,7 +77,6 @@ profileRoute.post("/email-login", async (req, res) => {
         else {
             const key = generate_key()
             await Redis.hSet("verified_code", email, key)
-            console.log(key);
             const options = {
                 from: "Gooyi.de <info@gooyi.de>",
                 to: email,
@@ -152,7 +151,6 @@ profileRoute.post('/register', async(req, res) => {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
-        ACTIVE_USER[userData.id] = {name : userData.name}
         await prisma.user.update({ where: { user_id: userData.id }, data: { last_login : new Date()}})
         return sendSuccess(res, "Register successfully", {accessToken, refreshToken, userData})
     }
@@ -181,12 +179,10 @@ profileRoute.get("/login-redirect", async (req, res) => {
             jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
         } catch (e) {return sendError(res, "jwt expired. Please try again!")}
         const { payload } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY, {complete: true})
-            // if (ACTIVE_USER[payload.user.id]) return res.send(render(redirect_page, {redirect_link: link+"?error=logged_in"}))
         const response = {
             accessToken, refreshToken
         }
         TOKEN_LIST[refreshToken] = response
-        ACTIVE_USER[payload.user.id] = {name: payload.user.name}
         await prisma.user.update({ where: { user_id: userData.id }, data: { last_login: new Date() } })
         return res.send(render(redirect_page, {redirect_link: link + `?accessToken=${accessToken}&refreshToken=${refreshToken}`}))
     } catch (err) {
@@ -223,8 +219,6 @@ profileRoute.post("/logout", verifyToken, (req, res) => {
         TOKEN_BLACKLIST[req.verifyToken] = req.verifyToken
         clearTokenList(TOKEN_BLACKLIST)
     } catch (error) { }
-    delete ACTIVE_USER[payload.user.id]
-
     return sendSuccess(res, "Logged out successfully")
 })
 profileRoute.put("/update", verifyToken, async (req, res) => {
