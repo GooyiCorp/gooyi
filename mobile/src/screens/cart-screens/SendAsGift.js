@@ -30,10 +30,9 @@ export default function SendAsGift({
         goBack()
     }
     const handleSearch = async () => {
-        const result = await Request(`user/find?searchString=${input}`, 'get', {}, accessToken)
+        const result = await Request(`user/find?searchString=${input.toLowerCase()}`, 'GET', null, accessToken)
         if (!result.success) alert(result.message) // Duc Anh -- Invalid
         else {
-            console.log(result);
             setData(result.data[0])
         }
     }

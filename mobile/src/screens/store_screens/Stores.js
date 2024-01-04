@@ -43,7 +43,7 @@ export default function StoresScreen({
 
 
   const [stores, setStores] = useState([]);
-  const [radius, setRadius] = useState(1000);
+  const [radius, setRadius] = useState(10000);
   // Duc Anh: chinh radius o day
   const longitude = useSelector((state) => state.locate.long)
   const latitude = useSelector((state) => state.locate.lat)
