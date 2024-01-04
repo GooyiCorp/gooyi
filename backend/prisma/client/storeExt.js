@@ -18,7 +18,7 @@ const storeExt = Prisma.defineExtension({
                     Store.background,
                     Address.street || ' ' || Address.postcode || ', ' || Address.city AS address,
                     ST_Distance(Address.location, ST_MakePoint(${parseFloat(longitude)}, ${parseFloat(latitude)})) as distance,
-                    CASE WHEN Status.name = 'Neu' THEN 1 ELSE 0 END AS "isNew",
+                    CASE WHEN Status.name = 'Neu' THEN true ELSE false END AS "isNew",
                     json_build_object(
                         'Mon', OpeningHour."Mon",
                         'Tue', OpeningHour."Tue",
