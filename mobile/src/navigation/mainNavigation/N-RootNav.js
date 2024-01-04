@@ -71,7 +71,7 @@ return (
             options={{
                 presentation: 'transparentModal',
             }}
-        />    
+        />     
         {/* Finder */}
         <Root.Screen 
             name='Finder' 

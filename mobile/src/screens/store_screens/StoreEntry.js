@@ -43,6 +43,9 @@ export default function StoreEntry({
     navigation: {goBack},
 }) {
 
+    // Thanh - Pass Store_ID Params done 
+    const {store_id} = route.params
+    console.log(store_id)
 
     const [questlist, setQuestList] = useState([
         {id: 1, title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},
