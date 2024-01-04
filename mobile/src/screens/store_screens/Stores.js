@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet,View, Text, Button } from 'react-native'
+import { StyleSheet,View, Text, Button, FlatList } from 'react-native'
 
 import { MainHeader, SubHeader, BottomTabNavigation } from '../../index/navIndex'
 
@@ -27,6 +27,20 @@ export default function StoresScreen({
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
+
+  // Categories fetching
+  const [categories, setCategories] = useState([])
+  const getCategories = async () => {
+    const response = await Request(`user/categories?longitude=${longitude}&latitude=${latitude}&radius=${10000}`)
+    if (response.success) {
+      setCategories(response.data)
+    }
+  }
+  useEffect(() => {
+    getCategories()
+  }, [longitude, latitude])
+
+
 
   const [stores, setStores] = useState([]);
   const [radius, setRadius] = useState(1000);
@@ -93,9 +107,11 @@ export default function StoresScreen({
         // showAllButton
         />
         <View style={{marginLeft: 30}}>
-          <Category
-            title={'Sushi'}
-            number={16}
+          <FlatList
+            data={categories}
+            renderItem={({ item }) => <Category title={item.name} number={item.count} />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
           />
         </View>
 
@@ -109,7 +125,7 @@ export default function StoresScreen({
           {
             stores && stores.map((store, index) => {
               return (
-                <StoreCard key={index} onPress={()=> navigation.navigate('Store')} newshop shopName={store.name} description={store.description} distance={store.distance}/>
+                <StoreCard key={index} onPress={() => navigation.navigate('Store', {store_id: "ok"})} newshop shopName={store.name} description={store.description} distance={store.distance}/>
               )
             })
           }

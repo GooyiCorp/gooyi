@@ -18,6 +18,7 @@ import RoundButton from '../../components/components_universal/RoundButton.js'
 import IconLabelButton from '../../components/components_universal/IconLabelButton.js'
 import TapButton from '../../components/components_universal/TapButton.js'
 import ActivityHistoryModal from '../../components/components_profile_screen/ActivityHistoryModal.js'
+import { setEntryDate, setUserId, setUserName } from '../../redux/slices/userSlice.js'
 
 
 
@@ -31,25 +32,31 @@ export default function ProfileScreen({
 }) {
 
   // ------------------------------------------ Get API
-  const userName = 'Thanh Nguyen'
-  const userID = '122.3422.997'
-  const entryDate = 'Oktober 2023'
+  const userName = useSelector(state => state.user.user_name)
+  const userID = useSelector(state => state.user.user_id)
+  const entryDate = useSelector(state => state.user.entryDate)
   const couponsAvailable = 15
   const couponsShortValidity = 5
   
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const accessToken = useSelector(state => state.user.accessToken)
+
   const getInfo = async () => {
-    const response = await Request('user/profile/info', 'get', null, accessToken)
-    console.log(response.data);
-    return response.data
+    if (!userName) {
+      const response = await Request('user/profile/info', 'get', null, accessToken)
+      if (response.success) {
+        dispatch(setUserId(response.data.user_id))
+        dispatch(setUserName(response.data.first_name + ' ' + response.data.last_name))
+        const date = new Date(response.data.create_at)
+        const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        dispatch(setEntryDate(month[date.getMonth()] + ' ' + date.getFullYear()))
+        console.log("ok");
+      }
+    }
     // Duc anh: set data vao 
   }
-  useEffect(() => {
-    getInfo()
-  }, []) // Loi: lau lau k load dc, nghi cach cho rerender ?
-  
+  getInfo()
   // Global State, userSlide - LogIn required? show/hide
   const logIn = !useSelector((state) => state.user.isLoggedIn)
   // const token = useSelector((state) => state.user.accessToken)

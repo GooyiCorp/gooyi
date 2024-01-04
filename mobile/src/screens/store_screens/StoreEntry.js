@@ -38,9 +38,12 @@ const storeImgHeaderHeight = 0.35 * height
 
 // ---------------------------------------------------------------------------------------------------------------------
 export default function StoreEntry({
+    route,
     navigation, 
     navigation: {goBack},
 }) {
+
+    console.log(navigation.getParams);
 
     const [questlist, setQuestList] = useState([
         {id: 1, title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},

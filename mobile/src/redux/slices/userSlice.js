@@ -9,6 +9,9 @@ export const userSlice = createSlice({
         isLoggedIn: false,
         accessToken: '',
         refreshToken: '',
+        user_id: 0,
+        user_name: '',
+        entryDate: '',
     },
 
     // ----------------------------------------------------------------------------------- Reducers
@@ -41,6 +44,15 @@ export const userSlice = createSlice({
             state.refreshToken = ''
         },
 
+        setUserId: (state, action) => {
+            state.user_id = action.payload
+        },
+        setUserName: (state, action) => {
+            state.user_name = action.payload
+        },
+        setEntryDate: (state, action) => {
+            state.entryDate = action.payload
+        }
     }
 })
 
@@ -52,6 +64,9 @@ export const {
     deleteToken,
     setRefreshToken,
     deleteRefreshToken,
+    setUserId,
+    setUserName,
+    setEntryDate
 
  } = userSlice.actions;
  
