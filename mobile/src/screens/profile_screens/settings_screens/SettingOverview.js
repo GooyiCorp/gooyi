@@ -27,14 +27,12 @@ export default function SettingOverview() {
     const handleLogOut = async () => {
         const response = await Request("user/profile/logout", "POST", {refreshToken}, accessToken)
         console.log(response);
-        if (response.success) {
-            dispatch(setLoggedOut())
-            dispatch(setToken(''))
-            dispatch(setRefreshToken(''))
-            await Delete('accessToken')
-            await Delete('refreshToken')
+        dispatch(setLoggedOut())
+        dispatch(setToken(''))
+        dispatch(setRefreshToken(''))
+        await Delete('accessToken')
+        await Delete('refreshToken')
             // Duc anh: Navigate sang trang khac sau khi log out
-        }
         // console.log(store.getState().user.accessToken)
     }
   
