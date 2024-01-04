@@ -76,6 +76,7 @@ CREATE TABLE "OpeningHour" (
 CREATE TABLE "Category" (
     "category_id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "image" TEXT,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("category_id")
 );
@@ -127,6 +128,17 @@ CREATE TABLE "Quest" (
 );
 
 -- CreateTable
+CREATE TABLE "Coupon" (
+    "coupon_id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
+    "expired_in" TIMESTAMP(3) NOT NULL,
+    "description" TEXT NOT NULL,
+    "store_id" INTEGER NOT NULL,
+
+    CONSTRAINT "Coupon_pkey" PRIMARY KEY ("coupon_id")
+);
+
+-- CreateTable
 CREATE TABLE "_FavoriteStore" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -140,6 +152,12 @@ CREATE TABLE "_StoreAndCategory" (
 
 -- CreateTable
 CREATE TABLE "_StoreStatus" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_FavoriteCoupons" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
@@ -169,6 +187,9 @@ CREATE UNIQUE INDEX "OpeningHour_store_id_key" ON "OpeningHour"("store_id");
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Category_image_key" ON "Category"("image");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Status_name_key" ON "Status"("name");
 
 -- CreateIndex
@@ -194,6 +215,12 @@ CREATE UNIQUE INDEX "_StoreStatus_AB_unique" ON "_StoreStatus"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_StoreStatus_B_index" ON "_StoreStatus"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_FavoriteCoupons_AB_unique" ON "_FavoriteCoupons"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_FavoriteCoupons_B_index" ON "_FavoriteCoupons"("B");
 
 -- AddForeignKey
 ALTER TABLE "Setting" ADD CONSTRAINT "Setting_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -223,6 +250,9 @@ ALTER TABLE "FeedBackReply" ADD CONSTRAINT "FeedBackReply_feedback_id_fkey" FORE
 ALTER TABLE "Quest" ADD CONSTRAINT "Quest_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Coupon" ADD CONSTRAINT "Coupon_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_FavoriteStore" ADD CONSTRAINT "_FavoriteStore_A_fkey" FOREIGN KEY ("A") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -239,3 +269,9 @@ ALTER TABLE "_StoreStatus" ADD CONSTRAINT "_StoreStatus_A_fkey" FOREIGN KEY ("A"
 
 -- AddForeignKey
 ALTER TABLE "_StoreStatus" ADD CONSTRAINT "_StoreStatus_B_fkey" FOREIGN KEY ("B") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_FavoriteCoupons" ADD CONSTRAINT "_FavoriteCoupons_A_fkey" FOREIGN KEY ("A") REFERENCES "Coupon"("coupon_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_FavoriteCoupons" ADD CONSTRAINT "_FavoriteCoupons_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;

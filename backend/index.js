@@ -64,7 +64,7 @@ import { checkNewStore, checkOpeningStore } from "./helper/schedule.js";
 const opening = scheduleJob('opening', '* * * * *', () => {
     checkOpeningStore();
 })
-const neu = scheduleJob('new', '0 0 * * *', () => {
+const neu = scheduleJob('new', '* * * * *', () => {
     checkNewStore();
 })
 

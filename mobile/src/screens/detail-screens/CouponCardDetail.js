@@ -14,6 +14,8 @@ import { setPage } from '../../redux/slices/mainNavSlice'
 import BulletPointText from '../../components/components_universal/BulletPointText'
 import { ScrollView } from 'react-native-gesture-handler'
 
+import openMap from 'react-native-open-maps';
+
 export default function CouponCardDetail({
     navigation,
     navigation: {goBack}
@@ -25,6 +27,10 @@ export default function CouponCardDetail({
     const handleShowShop = () => {
         navigation.navigate('Main')
         dispatch(setPage('coupons'))
+    }
+    const handleOpenMap = () => {
+        const options = { latitude: 53.07602610774151, longitude: 8.807934375600366, zoom: 20, query: "Rathaus"}
+        openMap(options)
     }
   return (
     <View style={styles.card}>
@@ -87,7 +93,7 @@ export default function CouponCardDetail({
                 {/* Address */}
                 <Text style={T2}>Bahnhofsplatz 42 {"\n"}22195 Bremen</Text>
                 {/* Map Button */}
-                <TouchableOpacity style={styles.buttonStyle} onPress={() => console.log('open Map App')}>
+                <TouchableOpacity style={styles.buttonStyle} onPress={handleOpenMap}>
                     <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Karte öffnen</Text>
                 </TouchableOpacity>
         </View>

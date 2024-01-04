@@ -25,17 +25,18 @@ model User {
   user_id    Int       @id @unique @default(autoincrement())
   first_name String
   last_name  String
-  email      String?    @unique
-  phone      String?    @unique
+  email      String?   @unique
+  phone      String?   @unique
   active     Boolean   @default(false)
   Setting    Setting?
   last_login DateTime?
   create_at  DateTime  @default(now())
   update_at  DateTime  @updatedAt
 
-  FavoriteStores Store[]     @relation("FavoriteStore")
-  UserPoint      UserPoint[]
-  FeedBack       FeedBack[]
+  FavoriteStores  Store[]     @relation("FavoriteStore")
+  UserPoints      UserPoint[]
+  FeedBacks       FeedBack[]
+  FavoriteCoupons Coupon[]    @relation("FavoriteCoupons")
 }
 
 model Setting {
@@ -63,9 +64,10 @@ model Store {
   update_at   DateTime     @updatedAt
 
   FavoritedUsers User[]      @relation("FavoriteStore")
-  UserPoint      UserPoint[]
-  FeedBack       FeedBack[]
-  Quest          Quest[]
+  UserPoints     UserPoint[]
+  FeedBacks      FeedBack[]
+  Quests         Quest[]
+  Coupons        Coupon[]
 }
 
 model Address {
@@ -93,6 +95,7 @@ model OpeningHour {
 model Category {
   category_id Int     @id @default(autoincrement())
   name        String  @unique
+  image       String? @unique
   Stores      Store[] @relation("StoreAndCategory")
 }
 
@@ -146,4 +149,18 @@ model Quest {
   store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   point Int
+}
+
+// ----------- Coupon --------------------------------
+model Coupon {
+  coupon_id Int @id @default(autoincrement())
+
+  title       String
+  expired_in  DateTime
+  description String
+
+  store_id Int
+  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+
+  likedUsers User[] @relation("FavoriteCoupons")
 }

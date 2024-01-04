@@ -165,7 +165,7 @@ storeRoute.post('/feedback', verifyToken, async (req, res) => {
         if (!store) return sendError(res, "Store not found", 403)
 
         const user = await prisma.user.findUnique({where: {user_id}, select: {
-            FeedBack: {
+            FeedBacks: {
                 where: {store_id},
                 orderBy: {
                     create_at: 'desc'
@@ -173,15 +173,15 @@ storeRoute.post('/feedback', verifyToken, async (req, res) => {
             }
         }})
         if (!user) return sendError(res, "Unauthorized", 403)
-        if (user.FeedBack.length > 0) {
-            const last_feedback_date = new Date(user.FeedBack[0].create_at).getDate()
+        if (user.FeedBacks.length > 0) {
+            const last_feedback_date = new Date(user.FeedBacks[0].create_at).getDate()
             const today = new Date().getDate()
             
             if (last_feedback_date === today) return sendError(res, "One Feedback per day", 403)
         }
 
         const feedback = await prisma.user.update({where: {user_id}, data: {
-            FeedBack: {
+            FeedBacks: {
                 create: {
                     store_id, text   
                 }
