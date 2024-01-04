@@ -14,7 +14,7 @@ storeRoute.get("/", async (req, res) => {
     const error = find_stores_validate(req.query)
     if  (error) return sendError(res, error);
     const {longitude, latitude, radius} = req.query
-    if (!radius) radius = 1000
+    if (!radius) radius = 10000
     try {
         const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
         return sendSuccess(res, "Get Nearby Stores", stores)

@@ -1,5 +1,5 @@
-import React, {useEffect, useRef } from 'react'
-import { Button, ScrollView, StyleSheet,View } from 'react-native'
+import React, {useEffect, useRef, useState } from 'react'
+import { Button, FlatList, ScrollView, StyleSheet,View } from 'react-native'
 // Reanimated
 import Animated, { interpolate, runOnJS, runOnUI, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 // Haptics
@@ -147,7 +147,19 @@ export default function DiscoverScreen( {
     }
   });
   // const [animation, setAnimation] = useState(0) 
-  
+  const longitude = useSelector((state) => state.locate.long)
+  const latitude = useSelector((state) => state.locate.lat)
+  // Categories fetching
+  const [categories, setCategories] = useState([])
+  const getCategories = async () => {
+    const response = await Request(`user/categories?longitude=${longitude}&latitude=${latitude}&radius=${10000}`)
+    if (response.success) {
+      setCategories(response.data)
+    }
+  } 
+  useEffect(() => {
+    getCategories()
+  }, [longitude, latitude])
 
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Main Section
@@ -208,10 +220,16 @@ export default function DiscoverScreen( {
           // showAllButton
         />
         <View style={{marginLeft: 30}}>
-          <Category 
+          <FlatList 
+            data={categories}
+            renderItem={({item}) => <Category title={item.name} number={item.count}/>}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+          {/* <Category 
             title={'Sushi'}
             number={16}
-          />
+          /> */}
         </View>
 
         {/* -------------------------------- New Offers Section */}
