@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, Button, Pressable, Image } from 'react-native'
 import React from 'react'
+// Reanimated
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming, interpolate,} from 'react-native-reanimated'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+// Constants
 import { COLORS } from '../../index/constantsindex'
 import { T1, T2, T3, T4 } from '../../constants/text-style'
-import Icons, { icons } from '../components_universal/Icons'
+
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -13,6 +14,7 @@ import Icons, { icons } from '../components_universal/Icons'
 export default function Category({
   title,
   number,
+  onPressCategory,
 }) {
 
   // Value --------------------------------------------------------------- Transition
@@ -52,10 +54,11 @@ return (
   <Pressable 
     onPressIn={ () => ( flashValue.value = withTiming( 1, {duration: 400}), transitionVal.value = withTiming(1, {duration: 100}) ) } 
     onPressOut={ () => (flashValue.value = withTiming(2, {duration: 400}, (finished) => (flashValue.value = 0)), transitionVal.value = withTiming(0, {duration: 100}) ) }
+    onPress={onPressCategory}
   >
     
     <View style={styles.container}>
-      
+
       {/* ---- Image Container */}
       <Animated.View style={[styles.imgContainer, boxTransition]}>
         <Animated.View style={[ { height: diagonal, width: diagonal, backgroundColor: '#fff', position: 'absolute', opacity: 0.3, zIndex: 1, }, flashOverlay ]}></Animated.View>

@@ -27,6 +27,7 @@ import CitySelection from '../../screens/locate_screens/CitySelection';
 import EnterPosition from '../../screens/locate_screens/EnterPosition';
 import SendAsGift from '../../screens/cart-screens/SendAsGift';
 import GiftMessage from '../../screens/cart-screens/GiftMessage';
+import ListByCategory from '../../screens/showmore_screens/ListByCategory';
 
 // --- Create Stack Navigator
 const Root = createStackNavigator();
@@ -118,8 +119,13 @@ return (
             name='ShowAllOffers' 
             component={ShowAllOffers}
         />
+        {/* List By Category */}
+        <Root.Screen 
+            name='ListByCategory' 
+            component={ListByCategory}
+        />
 
-        {/* Show Detail Screens */}
+        {/* ----------------------------- Show Detail Screens */}
         <Root.Screen 
             name='OfferCardDetail' 
             component={OfferCardDetail}
