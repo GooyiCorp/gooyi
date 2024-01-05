@@ -5,6 +5,7 @@ import { USER } from '../../constant/role.js';
 import { logger } from './../../helper/logger.js';
 import { verifyToken } from '../../middleware/index.js';
 import prisma from '../../prisma/client/index.js';
+import { isOpening } from '../../helper/time.js';
 
 
 const storeRoute = express.Router();
@@ -21,7 +22,8 @@ storeRoute.get('/info/:id', async (req, res) => {
             FROM "Address"
             WHERE store_id = ${store_id}
         `
-        store["location"] = location
+        store.location = location[0]
+        store.is_opening = isOpening(store.OpeningHour)
         return sendSuccess(res, "ok", store)
     } catch (err) {
         logger.error(err)
@@ -45,6 +47,7 @@ storeRoute.get('/loggedin/info/:id', verifyToken, async (req, res) => {
         if (user.UserPoints.length > 0) point = user.UserPoints[0].point
         store.location = location[0]
         store.point = point
+        store.is_opening = isOpening(store.OpeningHour)
         return sendSuccess(res, "ok", store)
     } catch (err) {
         logger.error(err)
