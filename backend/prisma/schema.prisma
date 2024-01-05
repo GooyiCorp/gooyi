@@ -108,12 +108,14 @@ model Status {
 // ------- Store and User --------------------------------
 
 model UserPoint {
-  user_id  Int   @unique
+  user_id  Int
   user     User  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
-  store_id Int   @unique
+  store_id Int
   store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   point Int
+
+  @@id([user_id, store_id])
 }
 
 model FeedBack {

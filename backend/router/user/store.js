@@ -9,6 +9,49 @@ import prisma from '../../prisma/client/index.js';
 
 const storeRoute = express.Router();
 
+storeRoute.get('/info/:id', async (req, res) => {
+
+    const store_id = parseInt(req.params.id)
+    if (!store_id) return sendError(res, "Invalid id provided")
+    try {
+        const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true, _count: { select: { FavoritedUsers :true}}}})
+        const location = await prisma.$queryRaw 
+        `
+            SELECT ST_X(ST_GeometryN("location"::geometry, 1)) AS longitude, ST_Y(ST_GeometryN("location"::geometry, 1)) AS latitude
+            FROM "Address"
+            WHERE store_id = ${store_id}
+        `
+        store["location"] = location
+        return sendSuccess(res, "ok", store)
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }    
+})
+storeRoute.get('/loggedin/info/:id', verifyToken, async (req, res) => {
+    const user_id = req.user.id
+    const store_id = parseInt(req.params.id)
+    if (!store_id) return sendError(res, "Invalid id provided")
+    try {
+        const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true, _count: { select: { FavoritedUsers :true}}}})
+        const location = await prisma.$queryRaw 
+        `
+            SELECT ST_X(ST_GeometryN("location"::geometry, 1)) AS longitude, ST_Y(ST_GeometryN("location"::geometry, 1)) AS latitude
+            FROM "Address"
+            WHERE store_id = ${store_id}
+        `
+        const user = await prisma.user.findUnique({ where: { user_id }, select: { UserPoints: { where: { store_id } } } })
+        var point = 0
+        if (user.UserPoints.length > 0) point = user.UserPoints[0].point
+        store.location = location[0]
+        store.point = point
+        return sendSuccess(res, "ok", store)
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }    
+})
+
 
 storeRoute.get("/", async (req, res) => {
     const error = find_stores_validate(req.query)
