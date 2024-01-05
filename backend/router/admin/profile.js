@@ -87,7 +87,6 @@ profileRoute.post('/login', async (req, res) => {
 })
 
 profileRoute.post("/logout", verifyToken, verifyAdmin ,(req, res) => {
-    console.log("ok");
     const { refreshToken } = req.body
     if (refreshToken in TOKEN_LIST) delete TOKEN_LIST[refreshToken]
     else return sendError(res, "Invalid refresh token")

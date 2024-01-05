@@ -30,6 +30,7 @@ import RoundButton from '../../components/components_universal/RoundButton'
 import AnimatedText from '../../components/components_universal/pointCounter/AnimatedText'
 import QueueModal from '../../components/components_stores_screen/queue/queueModal'
 import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
+import Request from './../../helper/request';
 
 
 
@@ -45,7 +46,6 @@ export default function StoreEntry({
 
     // Thanh - Pass Store_ID Params done 
     const {store_id} = route.params
-    console.log(store_id)
 
     const [questlist, setQuestList] = useState([
         {id: 1, title: 'Besuche Dat Backhus 5 Tage in Folge', maxProgess: 5, progress: 5, points: 200, time: '20d'},
@@ -100,10 +100,29 @@ export default function StoreEntry({
     // ---------------------------------- User Point
     // Value Section
     const point = useSelector((state) => state.point.point)
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn)
+    const accessToken = useSelector(state => state.user.accessToken);
+
+    const [name, setName] = useState('')
+    const [address, setAddress] = useState('')
+    const [like, setLike] = useState(0)
+    const [description, setDescription] = useState('')
+    const getStoreInfo = async () => {
+        if (isLoggedIn) {
+            const response = await Request(`user/store/loggedin/info/${store_id}`, "GET", null, accessToken)
+            if (response.success) {
+                setName(response.data.name)
+                setAddress(response.data.Address.street + ", " + response.data.Address.postcode + " " + response.data.Address.city)
+                setLike(response.data._count.FavoritedUsers)
+                setDescription(response.data.description)
+                dispatch(setPoint(response.data.point))
+
+            }
+        }
+    }
     // Set User Point 
     useEffect(() => {
-        // Thanh - lay Store Point nhet vao day 
-        dispatch(setPoint(1270))
+        getStoreInfo();
     }, [])
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -162,9 +181,9 @@ export default function StoreEntry({
             {/* --------- Header Section */}
             <View style={{marginHorizontal: 30, marginTop: 30}}>
                 {/* Store Name */}
-                <Text style={H1}>Dat Backhus</Text>
+                <Text style={H1}>{name}</Text>
                 {/* Address */}
-                <Text style={T2}>Bahnhofsplatz 42, 22195 Bremen</Text>
+                <Text style={T2}>{address}</Text>
                 {/* Follower */}
                 <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
                     <Icons 
@@ -173,10 +192,10 @@ export default function StoreEntry({
                         iconSize={16}
                         iconColor={COLORS.primary}
                     />
-                    <Text style={[T2, {marginLeft: 5}]}>20</Text>
+                    <Text style={[T2, {marginLeft: 5}]}>{like}</Text>
                 </View>
                 {/* Description */}
-                <Text style={[T1, {marginTop: 20}]}>Frische handgemachte Brötchen, Kuchen und Gebäcke.</Text>
+                <Text style={[T1, {marginTop: 20}]}>{description}</Text>
                 {/* Opening hours */}
                 <View style={{marginTop: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
                     {/* Left Section */}
@@ -190,7 +209,7 @@ export default function StoreEntry({
                         <Text style={[T2, {marginLeft: 5}]}>10:00 - 20:00</Text>
                     </View>
                     {/* Right Section */}
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('StoreInformation')}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('StoreInformation', {store_id: store_id})}>
                         <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr Informationen</Text>
                     </TouchableOpacity>
                 </View>

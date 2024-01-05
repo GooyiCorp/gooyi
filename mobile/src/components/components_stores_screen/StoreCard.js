@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         overflow: 'hidden',
         justifyContent: 'space-between',
-        marginVertical: 20
+        marginBottom: 12,
       },
 
       imageBox: {

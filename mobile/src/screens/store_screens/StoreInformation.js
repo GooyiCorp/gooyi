@@ -9,8 +9,12 @@ import Keywords from '../../components/components_search_screen/Keywords'
 import SettingHeader from '../../components/components_navigation/SettingHeader'
 
 export default function StoreInformation({
+    route,
     navigation: {goBack}
 }) {
+
+    const {store_id} = route.params
+    console.log(store_id)
   return (
     <View style={styles.card}>
         {/* Header */}

@@ -39,7 +39,7 @@ export default function StoresScreen({
   useEffect(() => {
     getCategories()
   }, [longitude, latitude])
-
+  
 
 
   const [stores, setStores] = useState([]);
@@ -108,6 +108,7 @@ export default function StoresScreen({
         // showAllButton
         />
         <View style={{marginLeft: 30}}>
+          {/* <Category title={'test'} number={'12'} /> */}
           <FlatList
             data={categories}
             renderItem={({ item }) => <Category title={item.name} number={item.count} />}
@@ -126,7 +127,7 @@ export default function StoresScreen({
           {
             stores && stores.map((store, index) => {
               return (
-                <StoreCard key={index} onPress={() => navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id: "ok"}})} newshop shopName={store.name} description={store.description} distance={store.distance}/>
+                <StoreCard key={index} onPress={() => navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id: store.store_id}})} newshop={store.isNew} shopName={store.name} description={store.description} distance={store.distance}/>
               )
             })
           }

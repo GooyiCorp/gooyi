@@ -24,7 +24,6 @@ export default function SettingHeader({
     header,
     headerText,
     iconStyle,
-    heartButton,
     next,
     onPressNext,
     setting,
