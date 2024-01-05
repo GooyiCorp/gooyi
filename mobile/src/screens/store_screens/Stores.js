@@ -127,7 +127,7 @@ export default function StoresScreen({
           {
             stores && stores.map((store, index) => {
               return (
-                <StoreCard key={index} onPress={() => navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id: "ok"}})} newshop={store.isNew} shopName={store.name} description={store.description} distance={store.distance}/>
+                <StoreCard key={index} onPress={() => navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id: store.store_id}})} newshop={store.isNew} shopName={store.name} description={store.description} distance={store.distance}/>
               )
             })
           }

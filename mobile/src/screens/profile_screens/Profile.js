@@ -51,7 +51,6 @@ export default function ProfileScreen({
         const date = new Date(response.data.create_at)
         const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         dispatch(setEntryDate(month[date.getMonth()] + ' ' + date.getFullYear()))
-        console.log("ok");
       }
     }
     // Duc anh: set data vao 
