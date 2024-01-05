@@ -107,17 +107,17 @@ export default function StoreEntry({
     const [address, setAddress] = useState('')
     const [like, setLike] = useState(0)
     const [description, setDescription] = useState('')
+    const [today, setToday] = useState('')
     const getStoreInfo = async () => {
-        if (isLoggedIn) {
-            const response = await Request(`user/store/loggedin/info/${store_id}`, "GET", null, accessToken)
-            if (response.success) {
-                setName(response.data.name)
-                setAddress(response.data.Address.street + ", " + response.data.Address.postcode + " " + response.data.Address.city)
-                setLike(response.data._count.FavoritedUsers)
-                setDescription(response.data.description)
-                dispatch(setPoint(response.data.point))
-
-            }
+        const response = isLoggedIn ? await Request(`user/store/loggedin/info/${store_id}`, "GET", null, accessToken) : await Request(`user/store/info/${store_id}`, "GET", null)
+        if (response.success) {
+            setName(response.data.name)
+            setAddress(response.data.Address.street + ", " + response.data.Address.postcode + " " + response.data.Address.city)
+            setLike(response.data._count.FavoritedUsers)
+            setDescription(response.data.description)
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+            setToday(response.data.OpeningHour[days[new Date().getDay()]]);
+            dispatch(setPoint(response.data.point ? response.data.point : 0))
         }
     }
     // Set User Point 
@@ -206,7 +206,7 @@ export default function StoreEntry({
                             iconSize={16}
                             iconColor={COLORS.grey}
                         />
-                        <Text style={[T2, {marginLeft: 5}]}>10:00 - 20:00</Text>
+                        <Text style={[T2, {marginLeft: 5}]}>{today}</Text>
                     </View>
                     {/* Right Section */}
                     <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('StoreInformation', {store_id: store_id})}>

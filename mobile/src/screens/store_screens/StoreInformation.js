@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // Constant
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
@@ -7,6 +7,10 @@ import { H4, T1, T2, T3, T4 } from '../../constants/text-style'
 // Components
 import Keywords from '../../components/components_search_screen/Keywords'
 import SettingHeader from '../../components/components_navigation/SettingHeader'
+import { useSelector } from 'react-redux'
+import Request from '../../helper/request.js'
+import openMap from 'react-native-open-maps';
+import OpeningHours from '../../components/components_universal/OpeningHours.js'
 
 export default function StoreInformation({
     route,
@@ -14,7 +18,34 @@ export default function StoreInformation({
 }) {
 
     const {store_id} = route.params
-    console.log(store_id)
+    const [name, setName] = useState('')
+    const [address, setAddress] = useState('')
+    const [opening, setOpening] = useState(false)
+    const [longitude, setLongitude] = useState(0)
+    const [latitude, setLatitude] = useState(0)
+    const [hours, setHours] = useState({})
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn)
+    const accessToken = useSelector(state => state.user.accessToken);
+
+    const getStoreInfo = async () => {
+        const response = isLoggedIn ? await Request(`user/store/loggedin/info/${store_id}`, "GET", null, accessToken) : await Request(`user/store/info/${store_id}`, "GET", null)
+        if (response.success) {
+            setName(response.data.name)
+            setAddress(response.data.Address.street + ", " + response.data.Address.postcode + " " + response.data.Address.city)
+            setOpening(response.data.is_opening)
+            setLongitude(response.data.location.longitude)
+            setLatitude(response.data.location.latitude)
+            setHours(response.data.OpeningHour)
+            
+        }
+    }
+    // Set User Point 
+    useEffect(() => {
+        getStoreInfo();
+    }, [])
+
+
+
   return (
     <View style={styles.card}>
         {/* Header */}
@@ -22,7 +53,7 @@ export default function StoreInformation({
             goBack
             onPressGoBack={() => goBack()}
             header
-            headerText={'Dat Backhus'}
+            headerText={name}
             iconStyle={COLORS.mainBackground}
         />
         {/* Info Section  */}
@@ -32,9 +63,9 @@ export default function StoreInformation({
             <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8}]}>Standort</Text>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 {/* Address */}
-                <Text style={T2}>Bahnhofsplatz 42 {"\n"}22195 Bremen</Text>
+                <Text style={T2}>{address}</Text>
                 {/* Map Button */}
-                <TouchableOpacity style={styles.buttonStyle} onPress={() => console.log('open Map App')}>
+                <TouchableOpacity style={styles.buttonStyle} onPress={() => openMap({longitude, latitude, query: name, zoom: 20})}>
                     <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Karte öffnen</Text>
                 </TouchableOpacity>
             </View>
@@ -43,11 +74,11 @@ export default function StoreInformation({
             <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8, marginTop: 20}]}>Öffnungszeiten</Text>
             {/* current opening state */}
             <View style={{flexDirection: 'row', marginBottom: 8, alignItems: 'center'}}>
-                <View style={{height: 10, width: 10, borderRadius: 10, backgroundColor: COLORS.green, marginRight: 10}}></View>
-                <Text style={[T3, {textTransform: 'uppercase', fontFamily: 'RH-Bold', color: COLORS.grey}]}>geöffnet</Text>
+                <View style={{height: 10, width: 10, borderRadius: 10, backgroundColor: opening ? COLORS.green : COLORS.grey, marginRight: 10}}></View>
+                <Text style={[T3, {textTransform: 'uppercase', fontFamily: 'RH-Bold', color: COLORS.grey}]}>{opening ? 'geöffnet' : 'closed'}</Text>
             </View>
             {/* Opening Hours */}
-            <Text style={T2}>Montag - Freitag: 07:00 – 17:00 Uhr {"\n"}Samstag: 07:00 – 14:00 Uhr{"\n"}Sonntag: 08:00 – 12:00 Uhr</Text>
+            <OpeningHours hours={hours}/>
             {/* Service Information ----------------------- */}
             {/* Title */}
             <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8, marginTop: 20}]}>Service</Text>
