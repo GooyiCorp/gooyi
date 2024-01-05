@@ -39,7 +39,7 @@ export default function StoresScreen({
   useEffect(() => {
     getCategories()
   }, [longitude, latitude])
-
+  
 
 
   const [stores, setStores] = useState([]);
@@ -108,6 +108,7 @@ export default function StoresScreen({
         // showAllButton
         />
         <View style={{marginLeft: 30}}>
+          {/* <Category title={'test'} number={'12'} /> */}
           <FlatList
             data={categories}
             renderItem={({ item }) => <Category title={item.name} number={item.count} />}

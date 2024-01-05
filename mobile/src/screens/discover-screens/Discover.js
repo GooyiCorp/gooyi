@@ -225,11 +225,8 @@ export default function DiscoverScreen( {
             renderItem={({item}) => <Category title={item.name} number={item.count}/>}
             horizontal
             showsHorizontalScrollIndicator={false}
+            style={{overflow: 'visible'}}
           />
-          {/* <Category 
-            title={'Sushi'}
-            number={16}
-          /> */}
         </View>
 
         {/* -------------------------------- New Offers Section */}

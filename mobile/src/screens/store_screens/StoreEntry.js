@@ -190,7 +190,7 @@ export default function StoreEntry({
                         <Text style={[T2, {marginLeft: 5}]}>10:00 - 20:00</Text>
                     </View>
                     {/* Right Section */}
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('StoreInformation')}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('StoreInformation', {store_id: store_id})}>
                         <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr Informationen</Text>
                     </TouchableOpacity>
                 </View>
