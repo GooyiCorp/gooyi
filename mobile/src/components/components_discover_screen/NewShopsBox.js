@@ -14,13 +14,17 @@ import { useNavigation } from '@react-navigation/native'
 const imgBoxWidth = 246
 const imgBoxHeight = 180*0.55
 
-const shopName = 'Day Spar Mai Anh Dao Day Spar Mai Anh Dao'
-const description = 'Maniküre, Pediküre'
-const distance = '1,2 km'
+// const shopName = 'Day Spar Mai Anh Dao Day Spar Mai Anh Dao'
+// const description = 'Maniküre, Pediküre'
+// const distance = '1,2 km'
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default function NewShopsBox() {
+export default function NewShopsBox({
+  shopName,
+  description,
+  distance,
+}) {
 
     const navigation = useNavigation()
     const [focus, setFocus] = useState(false)
@@ -156,7 +160,7 @@ export default function NewShopsBox() {
                 {/* Distance */}
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                   <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
-                  <Text style={[T4, {marginLeft: 5}]}>{distance}</Text>
+                <Text style={[T4, { marginLeft: 5 }]}>{parseFloat(distance / 1000).toFixed(2)} km</Text>
                 </View>
 
                 </View>

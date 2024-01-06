@@ -160,7 +160,15 @@ export default function DiscoverScreen( {
   useEffect(() => {
     getCategories()
   }, [longitude, latitude])
-
+  // Store fetching
+  const [stores, setStores] = useState([])
+  const getStores = async () => {
+    const response = await Request(`user/store?longitude=${longitude}&latitude=${latitude}&radius=${10000}&neu=true`)
+    setStores(response.data)
+  }
+  useEffect(() => {
+    getStores()
+  }, [longitude, latitude])
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Main Section
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -268,7 +276,13 @@ export default function DiscoverScreen( {
           style={{marginTop: 25}}
         />
         <View style={{marginLeft: 30}}>
-          <NewShopsBox />
+          <FlatList 
+            data={stores}
+            renderItem={({ item }) => <NewShopsBox shopName={item.name} description={item.description} distance={item.distance}/>}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+          
         </View>
 
         {/* -------------------------------- My Coupons Section */}
