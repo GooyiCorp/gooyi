@@ -13,11 +13,6 @@ import { useNavigation } from '@react-navigation/native'
 
 const imgBoxWidth = 246
 const imgBoxHeight = 180*0.55
-
-// const shopName = 'Day Spar Mai Anh Dao Day Spar Mai Anh Dao'
-// const description = 'Maniküre, Pediküre'
-// const distance = '1,2 km'
-
 // ---------------------------------------------------------------------------------------------------------------------
 
 export default function NewShopsBox({

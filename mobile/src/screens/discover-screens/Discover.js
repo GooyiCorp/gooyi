@@ -230,7 +230,7 @@ export default function DiscoverScreen( {
         <View style={{marginLeft: 30}}>
           <FlatList 
             data={categories}
-            renderItem={({item}) => <Category title={item.name} number={item.count} onPressCategory={() => navigation.navigate('ListByCategory')}/>}
+            renderItem={({item}) => <Category title={item.name} number={item.count} onPressCategory={() => navigation.navigate('ListByCategory', {name: item.name})}/>}
             horizontal
             showsHorizontalScrollIndicator={false}
             style={{overflow: 'visible'}}
