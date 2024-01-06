@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
 import React, { useState } from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withRepeat, withTiming, withDelay, withSequence } from 'react-native-reanimated'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { COLORS } from '../../index/constantsindex'
-import { T1, T4 } from '../../constants/text-style'
+import { T1, T2, T3, T4 } from '../../constants/text-style'
 import HeartButton from '../components_universal/HeartButton'
 import Icons, { icons } from '../components_universal/Icons'
 import { height, width } from '../../constants/size'
@@ -106,12 +106,20 @@ export default function StoreCard({
                 
             <View style={styles.imageBox}>
                 <Animated.View style={[styles.logoBox, opacity]}>
-                    <Icons 
+                  <Image 
+                    source={require('../../../assets/image/datbackhus.png')}
+                    resizeMode='contain'
+                    style={{
+                      maxWidth: '80%'
+                    }}
+                  />
+                
+                    {/* <Icons 
                       icon={icons.AntDesign}
                       iconName={'picture'}
                       iconSize={30}
                       iconColor={COLORS.ivory}
-                    />
+                    /> */}
                 </Animated.View>
 
                 
@@ -126,51 +134,61 @@ export default function StoreCard({
                     type={'restaurant'}
                     />
                 </View>
-                <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3}, flashOverlay]}></Animated.View>
-                <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
+                <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3, position: 'absolute', zIndex: 1}, flashOverlay]}></Animated.View>
+                <Image 
+                  source={require('../../../assets/image/test.jpg')}
+                  resizeMode='contain'
+                  style={{
+                    maxWidth: '100%'
+                  }}
+                />
+                {/* <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
                   <Icons 
                       icon={icons.AntDesign}
                       iconName={'picture'}
                       iconSize={30}
                       iconColor={COLORS.ivoryDark}
                     />
-                </View>
+                </View> */}
             </View>
 
             {/* Content Box -------------------------------------------------------------------------------------------------------- */}
             <View style={styles.contentBox}>
                 
-                <View style={{height: '70%', width: '90%', overflow: 'hidden'}} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
+                <View style={{width: '90%', overflow: 'hidden', }} onLayout={(e) => setBoxWidth(e.nativeEvent.layout.width)}>
                     <Animated.View style={[{flexWrap: focus? 'wrap' : 'nowrap'}, boxWidth > textWidth ? 0 : xVal]}>  
                         <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.grey}]} onLayout={(e) => setTextWidth(e.nativeEvent.layout.width)} numberOfLines={1}>{shopName}</Text>
                     </Animated.View>
-
-                    <Text style={T4}>{description}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {/* Distance */}
+                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -2}}>
+                      <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
+                      <Text style={[T4, {marginLeft: 2}]}>{parseInt(distance)} m</Text>
+                    </View>
+                    <View style={styles.bulletPoint}></View>
+                    <Text style={T3}>{description}</Text>
+                  </View>
                 </View>
 
                 {/* Bottom Section */}
                 <View style={{height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
 
-                {/* Distance */}
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                  <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
-                  <Text style={[T4, {marginLeft: 5}]}>{parseInt(distance)} m</Text>
-                </View>
 
                 </View>
 
-                <View style={{position: 'absolute', bottom: 10, right: 10, flexDirection: 'row'}}>
+                <View style={{position: 'absolute', bottom: 10, right: 10}}>
 
-                
+                  
+                  
 
-                {/* Heart Button */}
-                <View style={{height: 30, width: 30, justifyContent: 'center', alignItems: 'center'}}>
-                  <HeartButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'favorite'}
-                    iconSize={30}
-                    />
-                </View>
+                  {/* Heart Button */}
+                  <View style={{height: 30, width: 30, justifyContent: 'center', alignItems: 'center'}}>
+                    <HeartButton 
+                      icon={icons.MaterialIcons}
+                      iconName={'favorite'}
+                      iconSize={30}
+                      />
+                  </View>
 
                 </View>
 
@@ -187,7 +205,7 @@ const styles = StyleSheet.create({
 
     boxContainer: {
         width: width-60,
-        height: 200,
+        height: 180,
         borderRadius: 16,
         overflow: 'hidden',
         justifyContent: 'space-between',
@@ -196,7 +214,7 @@ const styles = StyleSheet.create({
 
       imageBox: {
         width: '100%',
-        height: '60%',
+        height: '65%',
         backgroundColor: COLORS.noImage,
         zIndex: 1,
         justifyContent: 'center',
@@ -206,7 +224,7 @@ const styles = StyleSheet.create({
     
       contentBox: {
         width: '100%',
-        height: '40%',
+        height: '35%',
         backgroundColor: COLORS.ivory,
         paddingVertical: 10,
         paddingHorizontal: 15,
@@ -222,7 +240,16 @@ const styles = StyleSheet.create({
         bottom: 10,
         left: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex: 2,
       },
+
+      bulletPoint: {
+        width: 5,
+        height: 5, 
+        backgroundColor: COLORS.grey, 
+        borderRadius: 10,
+        marginHorizontal: 8
+    }
 
 })

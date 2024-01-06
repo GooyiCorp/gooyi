@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
 import React, { useState } from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, interpolate, withRepeat, withTiming, withDelay, withSequence } from 'react-native-reanimated'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -106,22 +106,37 @@ export default function NewShopsBox() {
             {/* Image Box ---------------------------------------------------------------------------------------------------------- */}
             <View style={styles.imageBox}>
                 <Animated.View style={[styles.logoBox, opacity]}>
-                    <Icons 
+                  <Image 
+                    source={require('../../../assets/image/Yoko_Logo_WEB.png')}
+                    resizeMode='contain'
+                    style={{
+                      maxWidth: '80%'
+                    }}
+                  />
+
+                    {/* <Icons 
                       icon={icons.AntDesign}
                       iconName={'picture'}
                       iconSize={30}
                       iconColor={COLORS.ivory}
-                    />
+                    /> */}
                 </Animated.View>
-                <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3}, flashOverlay]}></Animated.View>
-                <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
+                <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3, position: 'absolute', zIndex: 1}, flashOverlay]}></Animated.View>
+                <Image 
+                  source={require('../../../assets/image/test.jpg')}
+                  resizeMode='contain'
+                  style={{
+                    maxWidth: '100%'
+                  }}
+                />
+                {/* <View style={{height: '100%', width: '100%', position: 'absolute', zIndex: -1, justifyContent: 'center', alignItems: 'center'}}>
                   <Icons 
                       icon={icons.AntDesign}
                       iconName={'picture'}
                       iconSize={30}
                       iconColor={COLORS.ivoryDark}
                     />
-                </View>
+                </View> */}
             </View>
 
             {/* Content Box -------------------------------------------------------------------------------------------------------- */}
@@ -202,7 +217,8 @@ const styles = StyleSheet.create({
         bottom: 10,
         left: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex: 2
       },
 
 })

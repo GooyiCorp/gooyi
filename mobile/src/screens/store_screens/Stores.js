@@ -103,25 +103,25 @@ export default function StoresScreen({
       <ScrollView>
 
         {/* -------------------------------- Category Section */}
-        <PresentationHeader
+        {/* <PresentationHeader
         title={'Kategorien'}
         // showAllButton
-        />
+        /> */}
         <View style={{marginLeft: 30}}>
           {/* <Category title={'test'} number={'12'} /> */}
-          <FlatList
+          {/* <FlatList
             data={categories}
             renderItem={({ item }) => <Category title={item.name} number={item.count} />}
             horizontal
             showsHorizontalScrollIndicator={false}
-          />
+          /> */}
         </View>
 
         {/* -------------------------------- All Shops Section */}
         <PresentationHeader 
           title={'Alle Geschäfte'}
           // showAllButton
-          style={{marginTop: 25}}
+          // style={{marginTop: 25}}
         />
         <View style={{marginLeft: 30}}>
           {

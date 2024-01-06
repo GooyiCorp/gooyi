@@ -40,13 +40,13 @@ export default function CategoryButtonSelector() {
 //   const [data, setData] = useState([...list,...list])
   
   function handleTouchEnd(index) {
-    transitionVal.value = withDelay(300, withTiming( 0, {duration: 400, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))
+    transitionVal.value = withDelay(200, withTiming( 0, {duration: 300, easing: Easing.bezier(0.69, 0.02, 0.98, 0.72)}))
     // Thanh - show Card by Category ---------------------
     console.log(index)
     // ---------------------------------------------------
   }
   function handleTouchStart() {
-    transitionVal.value = withTiming( 1, {duration: 300})
+    transitionVal.value = withTiming( 1, {duration: 200})
   }
 
         // Value --------------------------------------------------------------- Transition
