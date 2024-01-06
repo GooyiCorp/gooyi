@@ -163,7 +163,7 @@ export default function StoreCard({
                     {/* Distance */}
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -2}}>
                       <MaterialCommunityIcons name="map-marker" size={14} color='#B84058'/>
-                      <Text style={[T4, {marginLeft: 2}]}>{parseInt(distance)} m</Text>
+                      <Text style={[T4, {marginLeft: 2}]}>{parseFloat(distance/1000).toFixed(2)} km</Text>
                     </View>
                     <View style={styles.bulletPoint}></View>
                     <Text style={T3}>{description}</Text>
