@@ -10,8 +10,8 @@ import { isOpening } from '../../helper/time.js';
 
 const storeRoute = express.Router();
 
-storeRoute.get('/info/:id', async (req, res) => {
 
+storeRoute.get('/info/:id', async (req, res) => {
     const store_id = parseInt(req.params.id)
     if (!store_id) return sendError(res, "Invalid id provided")
     try {
@@ -59,10 +59,13 @@ storeRoute.get('/loggedin/info/:id', verifyToken, async (req, res) => {
 storeRoute.get("/", async (req, res) => {
     const error = find_stores_validate(req.query)
     if  (error) return sendError(res, error);
-    const {longitude, latitude, radius} = req.query
+    const {longitude, latitude, radius, neu} = req.query
     if (!radius) radius = 10000
     try {
-        const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
+        let stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
+        if ((/true/i).test(neu)) {
+            stores = stores.filter((store) => store.isNew)
+        }
         return sendSuccess(res, "Get Nearby Stores", stores)
     } catch (error) {
         logger.error(error);
@@ -82,8 +85,8 @@ storeRoute.get("/find", verifyToken, async (req, res) => {
         const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: { select: {store_id: true}}}})
         if (!user) return sendError(res, "Unauthorized", 403)
         const favoriteStoreIds = user.FavoriteStores.map((item) => item.store_id);
-        const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
-        const results = stores.map((item) => ({
+    const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
+    const results = stores.map((item) => ({
             ...item,
             favorite: favoriteStoreIds.includes(item.store_id)
         }));
@@ -92,30 +95,6 @@ storeRoute.get("/find", verifyToken, async (req, res) => {
         logger.error(error);
         return sendServerError(res, error);
     }
-})
-
-storeRoute.post("/like", verifyToken, async (req, res) => {
-    if (req.user.role !== USER) return sendError(res, "You must be user")
-    const {id: user_id} = req.user
-    const { store_id } = req.body
-    try {
-        const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: true}})
-        if (!user) return sendError(res, "Unauthorized", 403)
-        const store = await prisma.store.findUnique({where: {store_id}})
-        if (!store) return sendError(res, "No store found")
-        const check = user.FavoriteStores.some(item => store_id === item.store_id)
-        if (check) {
-            await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { disconnect: [{store_id}] } } })
-            return sendSuccess(res, "Disliked.");
-
-        }
-        await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { connect: [{ store_id}] } } })
-        return sendSuccess(res, "Liked.");
-    } catch (err) {
-        logger.error(err);
-        return sendServerError(res)
-    }
-    
 })
 
 storeRoute.get('/search', async (req, res) => {
@@ -201,6 +180,31 @@ storeRoute.get('/search', async (req, res) => {
     }
 
 })
+
+storeRoute.post("/like", verifyToken, async (req, res) => {
+    if (req.user.role !== USER) return sendError(res, "You must be user")
+    const {id: user_id} = req.user
+    const { store_id } = req.body
+    try {
+        const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: true}})
+        if (!user) return sendError(res, "Unauthorized", 403)
+        const store = await prisma.store.findUnique({where: {store_id}})
+        if (!store) return sendError(res, "No store found")
+        const check = user.FavoriteStores.some(item => store_id === item.store_id)
+        if (check) {
+            await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { disconnect: [{store_id}] } } })
+            return sendSuccess(res, "Disliked.");
+
+        }
+        await prisma.user.update({ where: { user_id }, data: { FavoriteStores: { connect: [{ store_id}] } } })
+        return sendSuccess(res, "Liked.");
+    } catch (err) {
+        logger.error(err);
+        return sendServerError(res)
+    }
+    
+})
+
 storeRoute.post('/feedback', verifyToken, async (req, res) => {
     const { store_id, text } = req.body;
     if (!text || !store_id) return sendError(res, "text and store_id is required")
@@ -225,7 +229,6 @@ storeRoute.post('/feedback', verifyToken, async (req, res) => {
             
             if (last_feedback_date === today) return sendError(res, "One Feedback per day", 403)
         }
-
         const feedback = await prisma.user.update({where: {user_id}, data: {
             FeedBacks: {
                 create: {
@@ -233,15 +236,11 @@ storeRoute.post('/feedback', verifyToken, async (req, res) => {
                 }
             }
         }})
-
         return sendSuccess(res, "Feedback successfully sent")
-
     } catch (err) {
         logger.error(err)
         return sendServerError(res)
     }
-
-
 })
 
 export default storeRoute
