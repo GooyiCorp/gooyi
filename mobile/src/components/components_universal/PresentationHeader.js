@@ -3,12 +3,18 @@ import React from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { H3, T2 } from '../../constants/text-style'
+import RoundButton from './RoundButton'
+import { icons } from './Icons'
+import { moderateScale } from '../../helper/scale'
+import FilterIconSelector from '../components_profile_screen/FilterIconSelector/FilterIconSelector'
 
 export default function PresentationHeader({
     style,
     title,
     showAllButton,
     onPress,
+    setting,
+    filter,
 }) {
   return (
         <View style={[styles.headerBar, style]}>
@@ -16,6 +22,27 @@ export default function PresentationHeader({
             {showAllButton && <TouchableOpacity style={styles.buttonStyle} onPress={onPress}>
                 <Text style={[T2, {fontFamily: 'RH-Medium', color: COLORS.primary}]}>Mehr anzeigen</Text>
             </TouchableOpacity>}
+            {setting && <RoundButton
+                icon={icons.FontAwesome}
+                iconName={'sliders'}
+                iconSize={26}
+                iconColor={COLORS.grey}
+                style={{
+                    backgroundColor: 'transparent',
+                    height: moderateScale(30,0.2),
+                    width: moderateScale(38,0.2),
+                    margin: 0,
+                    borderRadius: 0,
+                    zIndex: 1
+                }}
+                // onPressButton={onPressSettingShowMore}
+            />}
+
+            {filter && 
+            <View style={{justifyContent: 'center', alignItems: 'center', height: 30, width: 30}}>
+                <FilterIconSelector />
+            </View>
+            }
         </View>
   )
 }
