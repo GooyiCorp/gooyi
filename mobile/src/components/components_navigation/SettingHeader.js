@@ -10,6 +10,7 @@ import CloseSaveButton from '../components_profile_screen/CloseSaveButton'
 import IconLabelButton from '../components_universal/IconLabelButton'
 import { H2, H3, H4, T2 } from '../../constants/text-style'
 import HeartButton from '../components_universal/HeartButton'
+import CategoryButtonSelector from '../components_discover_screen/CategoryButtonSelector/CategoryButtonSelector'
 
 export default function SettingHeader({
     goBack,
@@ -27,7 +28,8 @@ export default function SettingHeader({
     next,
     onPressNext,
     setting,
-    onPressSettingShowMore
+    onPressSettingShowMore,
+    selectorButton
 }) {
 
     const [edit, setEdit] = useState(false)
@@ -112,6 +114,8 @@ export default function SettingHeader({
                 }}
                 onPressButton={onPressSettingShowMore}
             />}
+
+            {selectorButton && <CategoryButtonSelector />}
 
         </View>
 
