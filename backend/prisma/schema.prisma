@@ -53,6 +53,7 @@ model Store {
   name        String
   category    Category[]   @relation("StoreAndCategory")
   status      Status[]     @relation("StoreStatus")
+  service     Service[]    @relation("StoreService")
   Address     Address?
   OpeningHour OpeningHour?
   active      Boolean      @default(false)
@@ -96,13 +97,19 @@ model Category {
   category_id Int     @id @default(autoincrement())
   name        String  @unique
   image       String? @unique
-  Stores      Store[] @relation("StoreAndCategory")
+  stores      Store[] @relation("StoreAndCategory")
 }
 
 model Status {
   status_id Int     @id @default(autoincrement())
   name      String  @unique
-  Stores    Store[] @relation("StoreStatus")
+  stores    Store[] @relation("StoreStatus")
+}
+
+model Service {
+  service_id Int     @id @default(autoincrement())
+  name       String  @unique
+  stores     Store[] @relation("StoreService")
 }
 
 // ------- Store and User --------------------------------

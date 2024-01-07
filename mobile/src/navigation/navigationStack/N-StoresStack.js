@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import StoreEntry from '../../screens/store_screens/StoreEntry';
+import StoreEntry from '../../screens/store_screens/StoreEntry.js';
 import AwardOverview from '../../screens/store_screens/AwardOverview';
 import CouponsOverview from '../../screens/store_screens/CouponsOverview';
 import QuestOverview from '../../screens/store_screens/QuestOverview';

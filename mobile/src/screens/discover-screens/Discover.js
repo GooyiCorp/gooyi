@@ -278,7 +278,7 @@ export default function DiscoverScreen( {
         <View style={{marginLeft: 30}}>
           <FlatList 
             data={stores}
-            renderItem={({ item }) => <NewShopsBox shopName={item.name} description={item.description} distance={item.distance}/>}
+            renderItem={({ item }) => <NewShopsBox store_id={item.store_id} shopName={item.name} description={item.description} distance={item.distance}/>}
             horizontal
             showsHorizontalScrollIndicator={false}
           />

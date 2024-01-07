@@ -16,6 +16,7 @@ const imgBoxHeight = 180*0.55
 // ---------------------------------------------------------------------------------------------------------------------
 
 export default function NewShopsBox({
+  store_id,
   shopName,
   description,
   distance,
@@ -77,7 +78,7 @@ export default function NewShopsBox({
     
   
       const handleOnPressCard = () => {
-        navigation.navigate('Store', {screen: 'StoreEntry'})
+        navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id}})
       }
 // ---------------------------------------------------------------------------------------------------------------------
     
