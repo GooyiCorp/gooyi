@@ -51,3 +51,18 @@ export function upload_image_validate(data) {
     if (!data.files) error.appendError("Files must be provided");
     return error.get()
 }
+
+export function update_opening_hour_validate(data) {
+    const error = new Error()
+    .isRequired(data.store_id, "Store ID")
+    .isRequired(data.timeString, "Time")
+    .isRequired(data.day, "Update Day")
+
+    const pattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!pattern.test(data.timeString)) error.appendError("Invalid time string")
+    const day = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    if (!day.includes(data.day)) error.appendError("Invalid day")
+
+    return error.get()
+
+}
