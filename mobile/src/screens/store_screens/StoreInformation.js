@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import Request from '../../helper/request.js'
 import openMap from 'react-native-open-maps';
 import OpeningHours from '../../components/components_universal/OpeningHours.js'
+import { WebView } from 'react-native-webview';
 
 export default function StoreInformation({
     route,
@@ -36,7 +37,6 @@ export default function StoreInformation({
             setLongitude(response.data.location.longitude)
             setLatitude(response.data.location.latitude)
             setHours(response.data.OpeningHour)
-            
         }
     }
     // Set User Point 
@@ -92,9 +92,9 @@ export default function StoreInformation({
             </View>
         </View>
         {/* Map Section */}
-        <View style={styles.map}>
-            <Text style={T4}>Show Store Position</Text>
-        </View>
+        <WebView style={styles.map} 
+              source={{ html: `<iframe style="border-radius:20" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=100%&amp;hl=en&amp;q=${latitude},%20${longitude}+(%20%20)&amp;t=&amp;z=20&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>`}}
+        />
     </View>
   )
 }
