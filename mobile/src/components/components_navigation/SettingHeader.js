@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
-import { width } from '../../constants/size'
+import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import RoundButton from '../components_universal/RoundButton'
 import { icons } from '../components_universal/Icons'
@@ -11,6 +11,7 @@ import IconLabelButton from '../components_universal/IconLabelButton'
 import { H2, H3, H4, T2 } from '../../constants/text-style'
 import HeartButton from '../components_universal/HeartButton'
 import CategoryButtonSelector from '../components_discover_screen/CategoryButtonSelector/CategoryButtonSelector'
+import { BlurView } from 'expo-blur'
 
 export default function SettingHeader({
     goBack,
@@ -119,6 +120,8 @@ export default function SettingHeader({
 
         </View>
 
+
+
     </View>
   )
 }
@@ -128,6 +131,7 @@ const styles = StyleSheet.create({
         width: width,
         height: 120,
         justifyContent: 'flex-end',
+        zIndex: 5,
     },
 
     justifyLayer: {

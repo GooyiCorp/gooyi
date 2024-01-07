@@ -35,48 +35,42 @@ import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
 import ScrollToNavigateButton from '../../components/components_universal/ScrollToNavigateButton'
 import Category from '../../components/components_discover_screen/Category';
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function DiscoverScreen( {
   hideTabNav,
   showTabNav,
 } ) {
-
+  
+  // Test List - (Delete)
   const offersList = [
     {id: 1},
     {id: 2},
     {id: 3},
     {id: 4}
   ] 
-  const navigation = useNavigation()
 
-  const logIn = !useSelector((state) => state.user.isLoggedIn)
+// React Navigation
+const navigation = useNavigation()
 
-  const dispatch = useDispatch()
+// Redux
+const dispatch = useDispatch()
 
-  const scrollRef = useRef()
+const logIn = !useSelector((state) => state.user.isLoggedIn)
+const longitude = useSelector((state) => state.locate.long)
+const latitude = useSelector((state) => state.locate.lat)
+const accessToken = useSelector((state) => state.user.accessToken)
+const refreshToken = useSelector((state) => state.user.refreshToken)
 
-  // Locate Modal ----------------------------------------------------------------------
-  const showLocateModal = useSelector((state) => state.showModal.locateModal)
-
-  const handleLocate = () => {
-    showLocateModal? dispatch(setHideLocateModal()) : dispatch(setShowLocateModal())
-  }
-
-  useEffect(() => {
-    showLocateModal? hideTabNav() : showTabNav()
-  }, [showLocateModal])
-  
-
+  // Test Handle (Delete)
   const handleTestPress = () => {
     dispatch(setLoggedIn())
-    //console.log(store.getState().user.isLoggedIn)
-    //console.log(store.getState().user.accessToken)
   }
-  const accessToken = useSelector((state) => state.user.accessToken)
-  const refreshToken = useSelector((state) => state.user.refreshToken)
+
   const handleLogOut = async () => {
-    console.log(accessToken);
-    console.log(refreshToken);
+    // console.log(accessToken);
+    // console.log(refreshToken);
     const response = await Request("user/profile/logout", "POST", {refreshToken}, accessToken)
     console.log(response);
     dispatch(setLoggedOut())
@@ -84,72 +78,13 @@ export default function DiscoverScreen( {
     dispatch(setRefreshToken(''))
     await Delete('accessToken')
     await Delete('refreshToken')
-    console.log(store.getState().user.accessToken)
+    // console.log(store.getState().user.accessToken)
   }
 
-
-  // Collapsible Header
-  const scrollValue = useSharedValue(0)
-  const buttonValue = useSharedValue(0)
-
-  const H_MAX_HEIGHT = 0;
-  const H_MIN_HEIGHT = 30;
-  const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
-
-  const translateSubHeader = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {translateY: scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0, -30]) : 0}
-      ],
-      opacity: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0, -(H_SCROLL_DISTANCE/2)], [1, 0]) : 1
-    }
-  })
-  
-  const translateMainHeader = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {translateY: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0,-10]) : scrollValue.value <= 0? 0 : -10}
-      ],
-      
-    }
-  })
-
-  const translateMainHeaderBackground = useAnimatedStyle(() => {
-    return {
-      opacity: scrollValue.value <= 30 && scrollValue.value >= 15? interpolate(scrollValue.value, [15,30], [0,1]) : scrollValue.value <= 15? 0 : 1,
-      // backgroundColor: interpolateColor(scrollValue.value, [-(H_SCROLL_DISTANCE/2), -H_SCROLL_DISTANCE], [COLORS.white, COLORS.mainBackground])
-    }
-  })
-
-  const translateButton = useAnimatedStyle(() => {
-    return {
-      opacity: buttonValue.value,
-      transform: [
-        {scale: buttonValue.value}
-      ],
-    }
-  })
-  const scrollXPosition = useSharedValue(0);
-  const offerBoxWidth = useSharedValue(0)
-  const inRange = useSharedValue(false)
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-        const { x } = event.contentOffset;
-        scrollXPosition.value = x+width;
-        offerBoxWidth.value = event.contentSize.width
-        if (scrollXPosition.value > offerBoxWidth.value+100) { 
-          if (inRange.value == false) {
-            runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy)
-            inRange.value = true
-          }
-        } else inRange.value = false;
-
-    }
-  });
-  // const [animation, setAnimation] = useState(0) 
-  const longitude = useSelector((state) => state.locate.long)
-  const latitude = useSelector((state) => state.locate.lat)
-  // Categories fetching
+  // ----------------------------  
+  // Get Data Section
+  // ---------------------------- 
+  // ---- Categories fetching
   const [categories, setCategories] = useState([])
   const getCategories = async () => {
     const response = await Request(`user/categories?longitude=${longitude}&latitude=${latitude}&radius=${10000}`)
@@ -160,7 +95,8 @@ export default function DiscoverScreen( {
   useEffect(() => {
     getCategories()
   }, [longitude, latitude])
-  // Store fetching
+
+  // ---- Store fetching
   const [stores, setStores] = useState([])
   const getStores = async () => {
     const response = await Request(`user/store?longitude=${longitude}&latitude=${latitude}&radius=${10000}&neu=true`)
@@ -169,18 +105,102 @@ export default function DiscoverScreen( {
   useEffect(() => {
     getStores()
   }, [longitude, latitude])
-  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  // Main Section
-  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  return ( 
-    <View style={[{height: height, width: width, overflow: 'hidden'}]}>
-      {/* <LocateRequired/> */}
-      <LocateModal />
-      <ScreenOverlay locate delay={0}/>
 
-      {/* ---------------------------------------------------------------- Header */}
-      {/* Main Header */} 
-      <Animated.View style={[{zIndex: 3}, translateMainHeader]}>
+  // ----------------------------  
+  // Show Modal Section
+  // ---------------------------- 
+  // ---- start - Locate Modal
+    // Value Section
+    const showLocateModal = useSelector((state) => state.showModal.locateModal)
+    // Handle Show Locate Modal
+    const handleLocate = () => {
+      showLocateModal? dispatch(setHideLocateModal()) : dispatch(setShowLocateModal())
+    }
+    // Check State - Hide / Show : Bottom Tab Bar
+    useEffect(() => {
+      showLocateModal? hideTabNav() : showTabNav()
+    }, [showLocateModal])
+  // ---- end - Locate Modal
+  
+  // ----------------------------  
+  // Animation Section
+  // ---------------------------- 
+  // ---- start - Main Scroll Section
+    // ---- Value Section
+    const scrollRef = useRef()
+    const scrollValue = useSharedValue(0)
+    const buttonValue = useSharedValue(0)
+    // ---- Animated Style
+      // Sub Header Style
+      const translateSubHeader = useAnimatedStyle(() => {
+        return {
+          transform: [
+            {translateY: scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0, -30]) : 0}
+          ],
+          opacity: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0, 15], [1, 1]) : 1
+        }
+      })
+      // Main Header Style
+      const translateMainHeader = useAnimatedStyle(() => {
+        return {
+          transform: [
+            {translateY: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0,-10]) : scrollValue.value <= 0? 0 : -10}
+          ],
+        }
+      })
+      // Header Background Style
+      const translateMainHeaderBackground = useAnimatedStyle(() => {
+        return {
+          opacity: scrollValue.value <= 30 && scrollValue.value >= 15? interpolate(scrollValue.value, [15,30], [0,1]) : scrollValue.value <= 15? 0 : 1,
+        }
+      })
+      // ScrollToTop Button Style
+      const translateButton = useAnimatedStyle(() => {
+        return {
+          opacity: buttonValue.value,
+          transform: [
+            {scale: buttonValue.value}
+          ],
+        }
+      })
+  // ---- end - Main Scroll Section
+
+  // ---- start - New Offer Scroll Section
+    // Value Section
+    const scrollXPosition = useSharedValue(0);
+    const offerBoxWidth = useSharedValue(0)
+    const inRange = useSharedValue(false)
+    // Scroll Handler
+    const scrollHandler = useAnimatedScrollHandler({
+      onScroll: (event) => {
+          const { x } = event.contentOffset;
+          scrollXPosition.value = x+width;
+          offerBoxWidth.value = event.contentSize.width
+          if (scrollXPosition.value > offerBoxWidth.value+100) { 
+            if (inRange.value == false) {
+              runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy)
+              inRange.value = true
+            }
+          } else inRange.value = false;
+      }
+    });
+  // ---- end - New Offer Scroll Section
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return ( 
+<View style={styles.card}>
+  {/* ---- start - Modal Section */}
+    {/* Locate Modal */}
+    <LocateModal />
+    <ScreenOverlay locate delay={0}/>
+  {/* ---- end - Modal Section */}
+
+  {/* ---- start - Header Section */}
+  {/* <View style={{position: 'absolute', zIndex: 5}}> */}
+    {/* Main Header */} 
+    <Animated.View style={[{zIndex: 3}, translateMainHeader]}>
       <MainHeader 
         title='Entdecken'
         style={{backgroundColor: 'red', alignItems: 'center'}}
@@ -190,172 +210,210 @@ export default function DiscoverScreen( {
         onPressQRButton={() => navigation.navigate('QRScan')}
         navigateButton
       />
-      </Animated.View>
+    </Animated.View>
+    {/* Sub Header */} 
+    <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
+      <SubHeader
+        search
+        onPressSearch={() => (
+          navigation.navigate('Search'), 
+          dispatch(setCategory('Angebote'))
+        )}
+        locateButton
+        onPressLocate={handleLocate}
+      /> 
+    </Animated.View>
+  {/* </View> */}
+  {/* ---- end - Header Section */} 
 
-      {/* Sub Header */} 
-      <Animated.View style={[{backgroundColor: 'transparent', zIndex: 2}, translateSubHeader]}>
-          <SubHeader
-            search
-            onPressSearch={() => (
-              navigation.navigate('Search'), 
-              dispatch(setCategory('Angebote'))
-            )}
-            locateButton
-            onPressLocate={handleLocate}
-          /> 
-      </Animated.View>
+  {/* ---- start - Main Scroll Area */}
+  {/* Scroll */}
+  <ScrollView 
+    ref={scrollRef} 
+    onScroll={(e) => {
+      scrollValue.value = e.nativeEvent.contentOffset.y/2
+      if (e.nativeEvent.contentOffset.y >= 30 && buttonValue.value == 0) {
+        buttonValue.value = withTiming(1)
+      } else if (e.nativeEvent.contentOffset.y < 30 && buttonValue.value == 1) {
+        buttonValue.value = withTiming(0)
+      }
+    }}
+    style={[styles.mainContainer, {overflow: 'visible'}]}
+    scrollEventThrottle={16}
+  >
+    {/* ------------------------------------------------ */}
+    {/* Category Container */}
+    {/* ------------------------------------------------ */}
+    {/* Header */}
+    <PresentationHeader 
+      title={'Kategorien'}
+      // showAllButton
+    />
+    {/* Map Category Items */}
+    <View style={{marginLeft: 30}}>
 
-      {/* ---------------------------------------------------------------- Scroll View / Content Section */}
-      <ScrollView 
-        ref={scrollRef} 
-        onScroll={(e) => {
-          scrollValue.value = e.nativeEvent.contentOffset.y/2
-          if (e.nativeEvent.contentOffset.y >= 30 && buttonValue.value == 0) {
-            buttonValue.value = withTiming(1)
-          } else if (e.nativeEvent.contentOffset.y < 30 && buttonValue.value == 1) {
-            buttonValue.value = withTiming(0)
-          }
-        }}
-        style={[styles.mainContainer, {overflow: 'visible'}]}
-        scrollEventThrottle={16}
-
-      >
-
-
-        {/* -------------------------------- Category Section */}
-        <PresentationHeader 
-          title={'Kategorien'}
-          // showAllButton
-        />
-        <View style={{marginLeft: 30}}>
-          <FlatList 
-            data={categories}
-            renderItem={({item}) => <Category title={item.name} number={item.count} onPressCategory={() => navigation.navigate('ListByCategory', {name: item.name})}/>}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{overflow: 'visible'}}
-          />
-        </View>
-
-        {/* -------------------------------- New Offers Section */}
-        <PresentationHeader 
-          title={'Neue Angebote'}
-          // showAllButton
-          style={{marginTop: 25}}
-        />
-        <View style={{marginLeft: 30}}>
-
-          <Animated.ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            overScrollMode={"always"}
-            onScroll={scrollHandler}
-
-            // onScrollBeginDrag={(e) => {
-            //   setOfferBoxWidth(e.nativeEvent.contentSize.width)
-            //   console.log(offerBoxWidth)
-            // }}
-            onScrollEndDrag={(e) => {
-              if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
-                navigation.navigate('ShowAllOffers')
-              }
-            }}
-            scrollEventThrottle={16}
-          >
-
-            {offersList.map((offers) => (<NewOfferBox key={offers.id}/>))}
-            <ScrollToNavigateButton startValue={offerBoxWidth} endvalue={scrollXPosition}/>
-
-          </Animated.ScrollView>
-        </View>
-
-        {/* -------------------------------- New Shops Section */}
-        <PresentationHeader 
-          title={'Neue Shops'}
-          // showAllButton
-          style={{marginTop: 25}}
-        />
-        <View style={{marginLeft: 30}}>
-          <FlatList 
-            data={stores}
-            renderItem={({ item }) => <NewShopsBox shopName={item.name} description={item.description} distance={item.distance}/>}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-          
-        </View>
-
-        {/* -------------------------------- My Coupons Section */}
-        <PresentationHeader 
-          title={'Jetzt Einlösen'}
-          // showAllButton
-          style={{marginTop: 25}}
-        />
-        <View style={{marginLeft: 30}}>
-          {logIn? <LogInRequiredBox onPress={() => runOnUI(dispatch(setPage('profile')))}/> : <CouponCard />}
-        </View>
-
-        {/* -------------------------------- More Offers Section */}
-        <PresentationHeader 
-          title={'Mehr Deals'}
-          // showAllButton
-          style={{marginTop: 25}}
-        />
-        <View style={{marginLeft: 30}}>
-          <NewOfferBox />
-        </View>
-
-
-        
-        
-        
-      
-
-      </ScrollView>
-
-      
-      {/* Test LogIn */}
-      <View style={{flexDirection: 'row', paddingHorizontal: 30, marginTop: 30, position: 'absolute', bottom: 100}}>
-          <Button title='set log in' onPress={handleTestPress} color={COLORS.borderGrey}/>
-          <Button title='set log out' onPress={handleLogOut} color={COLORS.grey}/>
-      </View>
-      {/* -------------------------------- Scroll To Top Button */}
-      <Animated.View style={[{height: 38, width: 38, justifyContent: 'center', alignItems: 'center', right: 30, bottom: 105, position: 'absolute'}, translateButton]}>
-      <RoundButton 
-        icon={icons.Ionicons}
-        iconName={'md-chevron-up'}
-        iconSize={28}
-        iconColor={COLORS.white}
-        activeOpacity={1}
-        style={{
-            backgroundColor: COLORS.grey,
-            height: 38,
-            width: 38,
-        }}
-        onPressButton={() => scrollRef.current?.scrollTo({y: 0, animated: true})}
+      <FlatList 
+        data={categories}
+        renderItem={({item}) => <Category title={item.name} number={item.count} onPressCategory={() => navigation.navigate('ListByCategory', {name: item.name})}/>}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{overflow: 'visible'}}
       />
-      </Animated.View>
-
-      {/* ----------------------------- Nav Background */}
-      <Animated.View style={[styles.navHeaderBackground, translateMainHeader, translateMainHeaderBackground]}>
-        <View style={{width: width, height: 110, overflow: 'hidden'}}>
-          <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
-        </View>
-        <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
-      </Animated.View>
 
     </View>
-  )
+
+    {/* ------------------------------------------------ */}
+    {/* New Offers Container */}
+    {/* ------------------------------------------------ */}
+    {/* Header */}
+    <PresentationHeader 
+      title={'Neue Angebote'}
+      // showAllButton
+      style={{marginTop: 25}}
+    />
+    {/* Map New Offers Items */}
+    <View style={{marginLeft: 30}}>
+      {/* ---- start - Animated Scroll */}
+      <Animated.ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        overScrollMode={"always"}
+        onScroll={scrollHandler}
+        onScrollEndDrag={(e) => {
+          if (scrollXPosition.value > e.nativeEvent.contentSize.width+100) {
+            navigation.navigate('ShowAllOffers')
+          }
+        }}
+        scrollEventThrottle={16}
+        style={{
+          overflow: 'visible',
+        }}
+      >
+
+        {/* Offer Items */}
+        {offersList.map((offers) => (
+          <NewOfferBox 
+            key={offers.id}
+          />
+        ))}
+        {/* Scroll to Navigate */}
+        <ScrollToNavigateButton startValue={offerBoxWidth} endvalue={scrollXPosition}/>
+
+      </Animated.ScrollView>
+      {/* ---- end - Animated Scroll */}
+    </View>
+
+    {/* ------------------------------------------------ */}
+    {/* New Shop Container */}
+    {/* ------------------------------------------------ */}
+    {/* Header */}
+    <PresentationHeader 
+      title={'Neue Shops'}
+      // showAllButton
+      style={{marginTop: 25}}
+    />
+    {/* Map New Shop Items */}
+    <View style={{marginLeft: 30}}>
+
+      <FlatList 
+        data={stores}
+        renderItem={({ item }) => <NewShopsBox shopName={item.name} description={item.description} distance={item.distance}/>}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      />
+          
+    </View>
+
+    {/* ------------------------------------------------ */}
+    {/* My Coupons Container */}
+    {/* ------------------------------------------------ */}
+    {/* Header */}
+    <PresentationHeader 
+      title={'Jetzt Einlösen'}
+      // showAllButton
+      style={{marginTop: 25}}
+    />
+    {/* Map Coupon Items */}
+    <View style={{marginLeft: 30}}>
+
+      {logIn? 
+        <LogInRequiredBox onPress={() => runOnUI(dispatch(setPage('profile')))}/> 
+      : 
+        <CouponCard />
+      }
+    
+    </View>
+
+    {/* ------------------------------------------------ */}
+    {/* More Offers Container */}
+    {/* ------------------------------------------------ */}
+    {/* Header */}
+    <PresentationHeader 
+      title={'Mehr Deals'}
+      // showAllButton
+      style={{marginTop: 25}}
+    />
+    {/* Map Offers Items */}
+    <View style={{marginLeft: 30}}>
+
+      <NewOfferBox />
+
+    </View>
+
+  </ScrollView>
+  {/* ---- end - Main Scroll Area */}
+
+      
+  {/* Test Element - LogIn - (Delete) */}
+  <View style={{flexDirection: 'row', paddingHorizontal: 30, marginTop: 30, position: 'absolute', bottom: 100}}>
+      <Button title='set log in' onPress={handleTestPress} color={COLORS.borderGrey}/>
+      <Button title='set log out' onPress={handleLogOut} color={COLORS.grey}/>
+  </View>
+
+  {/* Scroll To Top Button */}
+  <Animated.View style={[{height: 38, width: 38, justifyContent: 'center', alignItems: 'center', right: 30, bottom: 105, position: 'absolute'}, translateButton]}>
+    <RoundButton 
+      icon={icons.Ionicons}
+      iconName={'md-chevron-up'}
+      iconSize={28}
+      iconColor={COLORS.white}
+      activeOpacity={1}
+      style={{
+          backgroundColor: COLORS.grey,
+          height: 38,
+          width: 38,
+      }}
+      onPressButton={() => scrollRef.current?.scrollTo({y: 0, animated: true})}
+    />
+  </Animated.View>
+  {/* Header Background */}
+  <Animated.View style={[styles.navHeaderBackground, translateMainHeader, translateMainHeaderBackground]}>
+    <View style={{width: width, height: 110, overflow: 'hidden'}}>
+      <BlurView intensity={18} tint='default' style={{height: height, width: width}}></BlurView>
+    </View>
+    <View style={[{height: 110, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', opacity: 0.7}, styles.shadow]}></View>
+  </Animated.View>
+
+</View>
+)
 }
 
- //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
+
+  card: {
+    height: height,
+    width: width,
+    backgroundColor: COLORS.white,
+    overflow: 'hidden',
+  },
 
   mainContainer: {
     height: height,
     width: width,
     marginBottom: 160,
-    
   },
 
   navHeaderBackground: {
