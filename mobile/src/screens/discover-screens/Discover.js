@@ -137,7 +137,7 @@ const refreshToken = useSelector((state) => state.user.refreshToken)
           transform: [
             {translateY: scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [0, -30]) : 0}
           ],
-          opacity: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0, 15], [1, 1]) : 1
+          opacity: scrollValue.value >= 0 ? interpolate(scrollValue.value, [0, 15], [1, 0]) : 1
         }
       })
       // Main Header Style
@@ -317,7 +317,7 @@ return (
 
       <FlatList 
         data={stores}
-        renderItem={({ item }) => <NewShopsBox shopName={item.name} description={item.description} distance={item.distance}/>}
+        renderItem={({ item }) => <NewShopsBox shopName={item.name} description={item.description} distance={item.distance} onPressCard={() => navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id: item.store_id}})}/>}
         horizontal
         showsHorizontalScrollIndicator={false}
       />
