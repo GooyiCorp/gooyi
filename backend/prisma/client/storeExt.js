@@ -8,7 +8,7 @@ const storeExt = Prisma.defineExtension({
             async findClosestStores({ longitude, latitude, radius }) {
                 const result = await prisma.$queryRaw
                     `
-                SELECT DISTINCT ON (Store.store_id)
+                SELECT DISTINCT ON (distance, Store.store_id)
                     Store.store_id, 
                     Store.name,
                     Store.active,
@@ -39,7 +39,7 @@ const storeExt = Prisma.defineExtension({
                     ST_MakePoint(${parseFloat(longitude)}, ${parseFloat(latitude)}),
                     ${radius}         
                 )
-                ORDER BY Store.store_id , "isNew" DESC, distance
+                ORDER BY distance, Store.store_id , "isNew" DESC
                 `
                 return result
             }
