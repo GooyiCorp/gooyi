@@ -20,6 +20,7 @@ export default function NewShopsBox({
   shopName,
   description,
   distance,
+  onPressCard,
 }) {
 
     const navigation = useNavigation()
@@ -77,9 +78,9 @@ export default function NewShopsBox({
       )
     
   
-      const handleOnPressCard = () => {
-        navigation.navigate('Store', {screen: 'StoreEntry', params: {store_id}})
-      }
+      // const handleOnPressCard = () => {
+      //   navigation.navigate('Store', {screen: 'StoreEntry'})
+      // }
 // ---------------------------------------------------------------------------------------------------------------------
     
   return (
@@ -97,7 +98,7 @@ export default function NewShopsBox({
         transitionVal.value = withTiming(0, {duration: 100}) ,
         textAnimation.value = 0
       ) }
-      onPress={handleOnPressCard}
+      onPress={onPressCard}
     >
 
     <Animated.View style={[styles.shadowProp, boxTransition]}>
