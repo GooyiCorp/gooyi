@@ -203,7 +203,7 @@ return (
   {/* ---- end - Modal Section */}
 
   {/* ---- start - Header Section */}
-  <Animated.View style={[{zIndex: 5}, translateHeaderContainer]}>
+  <Animated.View style={[{zIndex: 5, position: 'absolute'}, translateHeaderContainer]}>
     {/* Main Header */} 
     <Animated.View style={[{zIndex: 3}, translateMainHeader]}>
       <MainHeader 
@@ -418,7 +418,8 @@ const styles = StyleSheet.create({
   mainContainer: {
     height: height,
     width: width,
-    marginBottom: 160,
+    marginBottom: 110,
+    marginTop: 170,
   },
 
   navHeaderBackground: {
