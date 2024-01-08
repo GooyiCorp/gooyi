@@ -32,7 +32,7 @@ export default function StoreCard({
   // ----------------------------  
   // Animation Section
   // ---------------------------- 
-  // ---- Value Section
+    // ---- Value Section
     const [boxWidth, setBoxWidth] = useState(0)
     const [textWidth, setTextWidth] = useState(0)
     const [focus, setFocus] = useState(false)
@@ -48,25 +48,25 @@ export default function StoreCard({
       const flashOverlay = useAnimatedStyle(() => {
         return {
           transform:[
-              {rotate: '45deg'},
-              {translateX: interpolate(flashValue.value, [0,1], [imgBoxDiagonal, 0])},
+            {rotate: '45deg'},
+            {translateX: interpolate(flashValue.value, [0,1], [imgBoxDiagonal, 0])},
           ],
         }
       })
       // Scale Card Container Style 
       const boxTransition = useAnimatedStyle(() => {
         return {
-            transform:[
-                {scale: interpolate(transitionVal.value, [0,1], [1, 0.95])},
-            ],
+          transform:[
+            {scale: interpolate(transitionVal.value, [0,1], [1, 0.95])},
+          ],
         }
       })
       // Text Animation Style
       const xVal = useAnimatedStyle(() => {
         return {
-            transform:[
-                {translateX: interpolate(textAnimation.value, [0,1], [0, boxWidth - textWidth])},
-            ],
+          transform:[
+            {translateX: interpolate(textAnimation.value, [0,1], [0, boxWidth - textWidth])},
+          ],
         }
       })
       // Logo Opacity Style
