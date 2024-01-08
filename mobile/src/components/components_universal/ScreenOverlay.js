@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: COLORS.bgTransparencyDark,
         position: 'absolute',
-        zIndex: 4,
+        zIndex: 5,
     }
 })

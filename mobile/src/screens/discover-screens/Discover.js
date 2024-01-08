@@ -203,7 +203,7 @@ return (
   {/* ---- end - Modal Section */}
 
   {/* ---- start - Header Section */}
-  <Animated.View style={[{zIndex: 5, position: 'absolute'}, translateHeaderContainer]}>
+  <Animated.View style={[{zIndex: 4, position: 'absolute'}, translateHeaderContainer]}>
     {/* Main Header */} 
     <Animated.View style={[{zIndex: 3}, translateMainHeader]}>
       <MainHeader 
