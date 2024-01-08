@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 
 
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, interpolate, withDelay, Easing, withSpring } from 'react-native-reanimated'
-import {icons} from '../../components_universal/Icons'
+import Icons, {icons} from '../../components_universal/Icons'
 import Carousel from 'react-native-reanimated-carousel';
 
 import { COLORS } from '../../../index/constantsindex';
@@ -85,6 +85,20 @@ export default function FilterIconSelector() {
         })
 
   return (
+    <View 
+      style={{ flexDirection: 'row', backgroundColor: COLORS.ivory, height: 50, alignItems: 'center', paddingHorizontal: 10, borderRadius: 16}}
+      onTouchStart={() => handleTouchStart()}
+      onTouchEnd={() => handleTouchEnd()}
+    >
+      <Icons 
+          icon={icons.FontAwesome}
+          iconName={'sort'}
+          iconSize={20}
+          iconColor={COLORS.ivoryDark2}
+          iconStyle={{
+              marginRight: 3
+          }}
+      />
     <View style={{height: 88, width: 40, justifyContent: 'center', alignItems: 'center', marginRight: -5}}>
         <Animated.View style={[{ height: 88, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }, transition]}>
             <MaskView 
@@ -92,8 +106,7 @@ export default function FilterIconSelector() {
             }>
                 <View 
                     style={styles.hiddenbox}
-                    onTouchStart={() => handleTouchStart()}
-                    onTouchEnd={() => handleTouchEnd()}
+                    
                 >
                     <Carousel 
                         data={list}
@@ -125,6 +138,7 @@ export default function FilterIconSelector() {
         </Animated.View>
         {/* ---- Background View */}
         <View style={[styles.bgView, {position: 'absolute', zIndex: -1}]}/>
+        </View>
     </View>
   )
 }

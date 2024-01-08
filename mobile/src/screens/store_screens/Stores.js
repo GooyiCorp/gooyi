@@ -71,7 +71,7 @@ const pageSelected = useSelector((state) => state.subNav.storeNavPage)
     // ---- Animated Style
       const translateHeaderContainer = useAnimatedStyle(() => {
         return {
-          height: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [170, 110]) : scrollValue.value <= 0? 170 : 110
+          height: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [160, 100]) : scrollValue.value <= 0? 160 : 100
         }
       })
       // Sub Header Style
@@ -173,10 +173,11 @@ return (
         // showAllButton
         style={{
           height: 50,
+          // marginTop: 10, backgroundColor: 'green'
         }}
       />
       {/* Map Shop Card */}
-      <View style={{marginLeft: 30}}>
+      <View style={{marginLeft: 30, marginBottom: 70}}>
         {
           stores && stores.map((store, index) => {
             return (
@@ -252,8 +253,9 @@ const styles = StyleSheet.create({
   mainContainer: {
     height: height,
     width: width,
-    marginBottom: 100,
-    marginTop: 160,
+    marginBottom: 110,
+    paddingTop: 60,
+    marginTop: 100,
   },
 
   navHeaderBackground: {

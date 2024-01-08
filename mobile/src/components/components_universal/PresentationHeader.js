@@ -38,20 +38,7 @@ export default function PresentationHeader({
                 // onPressButton={onPressSettingShowMore}
             />}
 
-            {filter && 
-            <View style={{ flexDirection: 'row', backgroundColor: COLORS.ivory, height: 50, alignItems: 'center', paddingHorizontal: 10, borderRadius: 16}}>
-                <Icons 
-                    icon={icons.FontAwesome}
-                    iconName={'sort'}
-                    iconSize={20}
-                    iconColor={COLORS.ivoryDark2}
-                    iconStyle={{
-                        marginRight: 3
-                    }}
-                />
-                <FilterIconSelector />
-            </View>
-            }
+            {filter && <FilterIconSelector />}
         </View>
   )
 }

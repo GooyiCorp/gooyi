@@ -133,7 +133,7 @@ const refreshToken = useSelector((state) => state.user.refreshToken)
     // ---- Animated Style
       const translateHeaderContainer = useAnimatedStyle(() => {
         return {
-          height: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [170, 110]) : scrollValue.value <= 0? 170 : 110
+          height: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [170, 100]) : scrollValue.value <= 0? 170 : 100
         }
       })
       // Sub Header Style
@@ -359,7 +359,7 @@ return (
       style={{marginTop: 25}}
     />
     {/* Map Offers Items */}
-    <View style={{marginLeft: 30}}>
+    <View style={{marginLeft: 30, marginBottom: 70}}>
 
       <NewOfferBox />
 
@@ -419,7 +419,8 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     marginBottom: 110,
-    marginTop: 170,
+    paddingTop: 70,
+    marginTop: 100,
   },
 
   navHeaderBackground: {
