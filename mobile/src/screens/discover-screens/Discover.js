@@ -131,6 +131,11 @@ const refreshToken = useSelector((state) => state.user.refreshToken)
     const scrollValue = useSharedValue(0)
     const buttonValue = useSharedValue(0)
     // ---- Animated Style
+      const translateHeaderContainer = useAnimatedStyle(() => {
+        return {
+          height: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [170, 110]) : scrollValue.value <= 0? 170 : 110
+        }
+      })
       // Sub Header Style
       const translateSubHeader = useAnimatedStyle(() => {
         return {
@@ -198,7 +203,7 @@ return (
   {/* ---- end - Modal Section */}
 
   {/* ---- start - Header Section */}
-  {/* <View style={{position: 'absolute', zIndex: 5}}> */}
+  <Animated.View style={[{zIndex: 5}, translateHeaderContainer]}>
     {/* Main Header */} 
     <Animated.View style={[{zIndex: 3}, translateMainHeader]}>
       <MainHeader 
@@ -223,7 +228,7 @@ return (
         onPressLocate={handleLocate}
       /> 
     </Animated.View>
-  {/* </View> */}
+  </Animated.View>
   {/* ---- end - Header Section */} 
 
   {/* ---- start - Main Scroll Area */}
