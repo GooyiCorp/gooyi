@@ -30,8 +30,8 @@ export default function CategoryIconButton({
 
 const styles = StyleSheet.create({
     buttonContainer: {
-        height: 34,
-        width: 34,
+        height: 30,
+        width: 30,
         backgroundColor: COLORS.grey,
         borderRadius: 8,
         justifyContent: 'center',

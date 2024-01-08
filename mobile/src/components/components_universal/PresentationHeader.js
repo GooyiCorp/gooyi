@@ -4,7 +4,7 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { H3, T2 } from '../../constants/text-style'
 import RoundButton from './RoundButton'
-import { icons } from './Icons'
+import Icons, { icons } from './Icons'
 import { moderateScale } from '../../helper/scale'
 import FilterIconSelector from '../components_profile_screen/FilterIconSelector/FilterIconSelector'
 
@@ -39,7 +39,16 @@ export default function PresentationHeader({
             />}
 
             {filter && 
-            <View style={{justifyContent: 'center', alignItems: 'center', height: 30, width: 30}}>
+            <View style={{ flexDirection: 'row', backgroundColor: COLORS.ivory, height: 50, alignItems: 'center', paddingHorizontal: 10, borderRadius: 16}}>
+                <Icons 
+                    icon={icons.FontAwesome}
+                    iconName={'sort'}
+                    iconSize={20}
+                    iconColor={COLORS.ivoryDark2}
+                    iconStyle={{
+                        marginRight: 3
+                    }}
+                />
                 <FilterIconSelector />
             </View>
             }

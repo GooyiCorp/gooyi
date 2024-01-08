@@ -19,21 +19,18 @@ export default function CategoryButtonSelector() {
         type: icons.MaterialCommunityIcons,
         ico: 'percent',
         size: 23,
-        bgColor: '#D1ABAA'
     },
     { 
         id: 1, 
         type: icons.MaterialCommunityIcons,
         ico: 'ticket-percent',
         size: 21,
-        bgColor: '#FFB756'
     },
     { 
         id: 2, 
         type: icons.FontAwesome5,
         ico: 'store',
-        size: 15,
-        bgColor: '#758a92'
+        size: 15
     },
   ]
 
@@ -89,8 +86,8 @@ export default function CategoryButtonSelector() {
                                 icon={item.type} 
                                 iconName={item.ico} 
                                 iconSize={item.size} 
-                                iconColor={COLORS.mainBackground} 
-                                style={{backgroundColor: item.bgColor}} 
+                                iconColor={COLORS.grey} 
+                                style={{backgroundColor: COLORS.ivory}} 
                             />
                         )}
                     />
@@ -106,16 +103,16 @@ export default function CategoryButtonSelector() {
 const styles = StyleSheet.create({
 
   hiddenbox: {
-      height: 44,
-      width: 44,
+      height: 40,
+      width: 40,
       //backgroundColor: 'grey',
       borderRadius: 50,
   },
 
   bgView: {
-    height: 34,
-    width: 34,
-    backgroundColor: COLORS.ivoryDark,
+    height: 30,
+    width: 30,
+    backgroundColor: COLORS.grey,
     borderRadius: 8,
   }
 

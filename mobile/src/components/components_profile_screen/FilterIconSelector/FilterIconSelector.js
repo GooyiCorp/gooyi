@@ -17,25 +17,46 @@ export default function FilterIconSelector() {
   const list = [
     { 
         id: 0, 
-        type: icons.MaterialCommunityIcons,
-        ico: 'percent',
-        size: 23,
-        bgColor: '#D1ABAA'
-    },
-    { 
+        type: icons.MaterialIcons,
+        ico: 'restaurant',
+        size: 20,
+        bgColor: '#FFB756'
+      },
+      { 
         id: 1, 
         type: icons.MaterialCommunityIcons,
-        ico: 'ticket-percent',
+        ico: 'coffee',
         size: 21,
-        bgColor: '#FFB756'
-    },
-    { 
+        bgColor: '#D1ABAA'
+      },
+      { 
         id: 2, 
-        type: icons.FontAwesome5,
-        ico: 'store',
-        size: 15,
+        type: icons.MaterialCommunityIcons,
+        ico: 'gamepad-square',
+        size: 22,
         bgColor: '#758a92'
-    },
+      },
+      { 
+        id: 3, 
+        type: icons.MaterialCommunityIcons,
+        ico: 'book',
+        size: 21,
+        bgColor: '#da6178'
+      },
+      { 
+        id: 4, 
+        type: icons.MaterialCommunityIcons,
+        ico: 'shopping',
+        size: 20,
+        bgColor: '#4a6c98'
+      },
+      { 
+        id: 5, 
+        type: icons.MaterialCommunityIcons,
+        ico: 'heart',
+        size: 21,
+        bgColor: '#c52b10'
+      },
   ]
 
 //   const [data, setData] = useState([...list,...list])
@@ -120,7 +141,7 @@ const styles = StyleSheet.create({
   bgView: {
     height: 30,
     width: 30,
-    backgroundColor: COLORS.ivoryDark,
+    backgroundColor: COLORS.white,
     borderRadius: 8,
   }
 

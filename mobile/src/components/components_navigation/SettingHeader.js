@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import RoundButton from '../components_universal/RoundButton'
-import { icons } from '../components_universal/Icons'
+import Icons, { icons } from '../components_universal/Icons'
 import { moderateScale } from '../../helper/scale'
 import BigButton from '../components_LogIn/BigButton'
 import CloseSaveButton from '../components_profile_screen/CloseSaveButton'
@@ -116,7 +116,20 @@ export default function SettingHeader({
                 onPressButton={onPressSettingShowMore}
             />}
 
-            {selectorButton && <CategoryButtonSelector />}
+            {selectorButton && 
+            <View style={{ flexDirection: 'row', backgroundColor: COLORS.ivoryDark2, height: 50, alignItems: 'center', paddingHorizontal: 10, borderRadius: 16}}>
+                <Icons 
+                    icon={icons.FontAwesome}
+                    iconName={'sort'}
+                    iconSize={20}
+                    iconColor={COLORS.grey}
+                    iconStyle={{
+                        marginRight: 3
+                    }}
+                />
+                <CategoryButtonSelector />
+            </View>
+            }
 
         </View>
 
