@@ -3,6 +3,7 @@
 import { Button } from "@/app/ui/button";
 import { Card } from "@/app/ui/dashboard/cards";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,8 +12,19 @@ type error =  {
     message: string;
 } 
 export default function Page() {
-
+    const [isLoggedIn, setLoggedIn] = useState<boolean>(false)
+    const router = useRouter()
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken')
+        const refreshToken = localStorage.getItem('refreshToken')
+        if (!accessToken || !refreshToken) {
+            router.push('/')
+        } else {setLoggedIn(true)}
+    }, [])
+    
+    
     // Change Store fotos
+
     
     const [image, setImage] = useState<any>(null);
     const [previewUrl, setPreviewUrl] = useState<any>(null);
@@ -47,7 +59,6 @@ export default function Page() {
             } 
         } catch (err) {
             const data: error = err.response?.data
-            console.log(data);
             for (const message of data.message) {
                 toast(message, { autoClose: 2000, type: 'error' })
             }
@@ -84,7 +95,7 @@ export default function Page() {
 
 
     return (
-        <div>
+        isLoggedIn && <div>
             <ToastContainer />
             <p className="text-3xl font-bold my-5 py-5">Stores</p>
             <div>

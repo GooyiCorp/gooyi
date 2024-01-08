@@ -1,3 +1,20 @@
+'use client'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react';
+
+
 export default function Page() {
-    return <p className="text-2xl font-semibold">Dashboard Page</p>;
+    const router = useRouter()
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken')
+        const refreshToken = localStorage.getItem('refreshToken')
+        if (!accessToken || !refreshToken) router.push('/')
+    }, [])
+
+    return (
+        <div>
+
+
+        </div>
+    )
 }
