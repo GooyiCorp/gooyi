@@ -78,7 +78,6 @@ model Address {
   street   String
   postcode String
   city     String
-  detail   String
 }
 
 model OpeningHour {

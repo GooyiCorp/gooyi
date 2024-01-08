@@ -11,7 +11,6 @@
         "street": "Bahnhofsplatz",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "12:00-20:00",
             "Tue": "12:00-20:00",
@@ -34,7 +33,6 @@
         "street": "Bahnhofsplatz",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -75,7 +73,6 @@
         "street": "Breitenweg",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -98,7 +95,6 @@
         "street": "Am Dobben",
         "postcode": "28203",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -121,7 +117,6 @@
         "street": "Auf den Häfen",
         "postcode": "28203",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -144,7 +139,6 @@
         "street": "Rewe, Hemmstraße",
         "postcode": "28215",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -167,7 +161,6 @@
         "street": "Vor dem Steintor",
         "postcode": "28203",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -190,7 +183,6 @@
         "street": "Vor dem Steintor",
         "postcode": "28203",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -213,7 +205,6 @@
         "street": "Fehrfeld",
         "postcode": "28203",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -236,7 +227,6 @@
         "street": "Westerstraße",
         "postcode": "28199",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -259,7 +249,6 @@
         "street": "Kornstraße",
         "postcode": "28201",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -282,7 +271,6 @@
         "street": "Steinsetzerstraße",
         "postcode": "28279",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -305,7 +293,6 @@
         "street": "Steinsetzerstraße",
         "postcode": "28279",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -328,7 +315,6 @@
         "street": "Kirchhuchtinger Landstraße",
         "postcode": "28259",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -351,7 +337,6 @@
         "street": "Obernstraße",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -374,7 +359,6 @@
         "street": "Kurze Wallfahrt",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -397,7 +381,6 @@
         "street": "Außer d. Schleifmühle",
         "postcode": "28203",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -420,7 +403,6 @@
         "street": "Falkenstraße",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -443,7 +425,6 @@
         "street": "Sögestraße",
         "postcode": "28195",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "11:30-22:00",
             "Tue": "11:30-22:00",
@@ -466,7 +447,6 @@
         "street": "Liegnitzstraße",
         "postcode": "28237",
         "city": "Bremen",
-        "add_detail": "no",
         "opening_hours": {
             "Mon": "12:00-20:00",
             "Tue": "12:00-20:00",

@@ -15,18 +15,16 @@ const addressExt = Prisma.defineExtension({
                     street: data.street,
                     postcode: data.postcode,
                     city: data.city,
-                    detail: data.detail
                 }
                 const point = `POINT(${add.location.longitude} ${add.location.latitude})`;
                 await prisma.$queryRaw`
-                INSERT INTO "Address" (store_id, location, street, postcode, city, detail) 
+                INSERT INTO "Address" (store_id, location, street, postcode, city) 
                 VALUES (
                     ${add.store_id}, 
                     ST_GeomFromText(${point}, 4326),
                     ${add.street},
                     ${add.postcode},
-                    ${add.city},
-                    ${add.detail}
+                    ${add.city}
                     );
                     `
                     return add

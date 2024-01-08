@@ -25,7 +25,6 @@ async function createStore(store) {
         street,
         postcode,
         city,
-        add_detail,
         opening_hours,
         service
     } = store;
@@ -59,12 +58,11 @@ async function createStore(store) {
                 background: `http://${host}:${port}/store/${store.store_id}/background.png`
             }
         })
-        const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city, detail: add_detail } })
+        const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city} })
         const openingHour = await prisma.openingHour.create({ data: { ...opening_hours, store_id: store.store_id } })
 
     } catch (err) {
-        logger.error(err)
-        return sendServerError(res)
+        return logger.error(err)
     }
 
 }
