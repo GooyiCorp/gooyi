@@ -5,8 +5,6 @@ import { width } from '../../constants/size'
 import RoundButton from '../components_universal/RoundButton'
 import Icons, { icons } from '../components_universal/Icons'
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
-import axios from 'axios'
-import { api_url } from '../../constants/api'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function NewInput({

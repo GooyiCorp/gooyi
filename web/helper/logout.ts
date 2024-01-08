@@ -1,11 +1,13 @@
 import Request from "./request"
 
 const logout = async () => {
-    const accessToken = localStorage.getItem('accessToken')
-    const refreshToken = localStorage.getItem('refreshToken')
+    const accessToken = typeof window !== "undefined" ? window.localStorage.getItem('accessToken') : false
+    const refreshToken = typeof window !== "undefined" ? window.localStorage.getItem('refreshToken') : false
     const respone = await Request('admin/profile/logout', 'POST', { refreshToken}, accessToken)
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
+    if (typeof window !== "undefined") {
+        window.localStorage.removeItem('accessToken')
+        window.localStorage.removeItem('refreshToken')
+    }
     return respone
 }
 

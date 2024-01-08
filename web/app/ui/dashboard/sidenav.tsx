@@ -12,7 +12,6 @@ export default function SideNav() {
   const handleLogout = async(event: any) => {
     event.preventDefault();
     const response = await logout()
-    console.log(response);
     toast(response.message, { autoClose: 2000, type: 'success' })
     setTimeout(() => {
       router.push('/')

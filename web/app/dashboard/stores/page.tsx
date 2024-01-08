@@ -2,7 +2,7 @@
 
 import { Button } from "@/app/ui/button";
 import { Card } from "@/app/ui/dashboard/cards";
-import axios from "axios";
+import Request from "@/helper/request";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,9 +14,9 @@ type error =  {
 export default function Page() {
     const [isLoggedIn, setLoggedIn] = useState<boolean>(false)
     const router = useRouter()
+    const accessToken = typeof window !== "undefined" ? window.localStorage.getItem('accessToken') : false
+    const refreshToken = typeof window !== "undefined" ? window.localStorage.getItem('refreshToken') : false
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken')
-        const refreshToken = localStorage.getItem('refreshToken')
         if (!accessToken || !refreshToken) {
             router.push('/')
         } else {setLoggedIn(true)}
@@ -31,8 +31,8 @@ export default function Page() {
     const [storeCount, setStoreCount] = useState<number>(null);
     const getStoreCount = async () => {
         try {
-            const response = await axios.get('http://gooyi.de:8000/api/admin/store')
-            setStoreCount(response.data.data.length);
+            const response = await Request('admin/store', "GET", null, accessToken)
+            setStoreCount(response.data.length);
         } catch (error) {
             console.log(error);
         }
@@ -53,7 +53,7 @@ export default function Page() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget)       
         try {
-            const response = await axios.post('http://gooyi.de:8000/api/admin/store/upload', formData)
+            const response = await Request('admin/store/upload', "POST", formData, accessToken)
             if (response.data.success) {
                 toast(response.data.message, { autoClose: 2000, type: 'success' })
             } 
@@ -73,7 +73,7 @@ export default function Page() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget)
         try {
-            const response = await axios.put('http://gooyi.de:8000/api/admin/opening-hours/', formData)
+            const response = await Request('admin/opening-hours/', "PUT", formData, accessToken)
             if (response.data.success) {
                 toast(response.data.message, { autoClose: 2000, type: 'success' })
             } 
@@ -95,7 +95,8 @@ export default function Page() {
 
 
     return (
-        isLoggedIn && <div>
+        isLoggedIn && 
+        <div>
             <ToastContainer />
             <p className="text-3xl font-bold my-5 py-5">Stores</p>
             <div>

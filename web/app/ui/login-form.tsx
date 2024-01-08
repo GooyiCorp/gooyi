@@ -26,8 +26,10 @@ export default function LoginForm() {
       const response = await axios.post('http://gooyi.de:8000/api/admin/profile/login', formData)
       if (response.data.success) {
         toast(response.data.message, { autoClose: 2000, type: 'success' })
-        localStorage.setItem('accessToken', response.data.data.accessToken)
-        localStorage.setItem('refreshToken', response.data.data.refreshToken)
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('accessToken', response.data.data.accessToken)
+          window.localStorage.setItem('refreshToken', response.data.data.refreshToken)
+        }
         setTimeout(() => {
           router.push('/dashboard')
         }, 1000)
