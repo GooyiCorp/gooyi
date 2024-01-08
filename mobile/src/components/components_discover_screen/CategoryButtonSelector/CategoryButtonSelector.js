@@ -86,8 +86,8 @@ export default function CategoryButtonSelector() {
                                 icon={item.type} 
                                 iconName={item.ico} 
                                 iconSize={item.size} 
-                                iconColor={COLORS.grey} 
-                                style={{backgroundColor: COLORS.ivory}} 
+                                iconColor={COLORS.ivory} 
+                                style={{backgroundColor: COLORS.primary}} 
                             />
                         )}
                     />
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   bgView: {
     height: 30,
     width: 30,
-    backgroundColor: COLORS.grey,
+    backgroundColor: COLORS.white,
     borderRadius: 8,
   }
 

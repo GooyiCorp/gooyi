@@ -117,12 +117,12 @@ export default function SettingHeader({
             />}
 
             {selectorButton && 
-            <View style={{ flexDirection: 'row', backgroundColor: COLORS.ivoryDark2, height: 50, alignItems: 'center', paddingHorizontal: 10, borderRadius: 16}}>
+            <View style={{ flexDirection: 'row', backgroundColor: COLORS.ivory, height: 50, alignItems: 'center', paddingHorizontal: 10, borderRadius: 16}}>
                 <Icons 
                     icon={icons.FontAwesome}
                     iconName={'sort'}
                     iconSize={20}
-                    iconColor={COLORS.grey}
+                    iconColor={COLORS.ivoryDark2}
                     iconStyle={{
                         marginRight: 3
                     }}
