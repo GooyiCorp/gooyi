@@ -23,7 +23,7 @@ export default function LoginForm() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget)
     try {
-      const response = await axios.post('http://gooyi.de:8000/api/admin/profile/login', formData)
+      const response = await axios.post('http://gooyi.de:8000/api/auth/admin/login', formData)
       if (response.data.success) {
         toast(response.data.message, { autoClose: 2000, type: 'success' })
         if (typeof window !== 'undefined') {

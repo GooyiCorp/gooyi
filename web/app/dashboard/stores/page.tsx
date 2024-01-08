@@ -22,20 +22,78 @@ export default function Page() {
         } else {setLoggedIn(true)}
     }, [])
     
-    
-    // Change Store fotos
+    // Create store
+    type opening = {
+        Mon: string;
+        Tue: string;
+        Wed: string;
+        Thu: string;
+        Fri: string;
+        Sat: string;
+        Sun: string;
+    } | null
+    const [name, setName] = useState<string>("")
+    const [active, setActive] = useState<boolean>(false)
+    const [description, setDescription] = useState<string>("")
+    const [enterDate, setEnterDate] = useState<string>('')
+    const [longitude, setLongitude] = useState<string>("")
+    const [latitude, setLatitude] = useState<string>("")
+    const [street, setStreet] = useState<string>("")
+    const [postcode, setPostcode] = useState<string>("")
+    const [city, setCity] = useState<string>("")
+    const [openingHours, setOpeningHours] = useState<opening>({
+        Mon: '',
+        Tue: '',
+        Wed: '',
+        Thu: '',
+        Fri: '',
+        Sat: '',
+        Sun: '',
+    })
+    const [categories, setCategories] = useState<string[]>([])
+    const [category,  setCategory] = useState<string | null>("")
+    const [services, setServices] = useState<string[]>([])
+    const [service, setService] = useState<string>("")
+    const addCategory = (event: any) => {
+        event.preventDefault();
+        setCategory('')
+        setCategories(prev => [...prev, category])    
+    }
+    const dropCategory = (event: any) => {
+        event.preventDefault();
+        setCategories(prev => prev.slice(0, -1))
+    }
+    const addService = (event: any) => {
+        event.preventDefault();
+        setService('')
+        setServices(prev => [...prev, service])    
+    }
+    const dropService = (event: any) => {
+        event.preventDefault();
+        setServices(prev => prev.slice(0, -1))
+    }
 
-    
+    const handleCreateStore = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const data = { name, active, description, enter_date: enterDate, longitude, latitude, street, postcode, city, opening_hours:openingHours, service: services, category: categories }
+        const response = await Request('admin/store/create', "POST", data, accessToken)
+        console.log(response)
+        if (response.success) {
+            toast(response.message, { autoClose: 2000, type: 'success' })
+        }    
+        
+    }
+
+
+
+
+    // Change Store fotos    
     const [image, setImage] = useState<any>(null);
     const [previewUrl, setPreviewUrl] = useState<any>(null);
     const [storeCount, setStoreCount] = useState<number>(null);
     const getStoreCount = async () => {
-        try {
             const response = await Request('admin/store', "GET", null, accessToken)
             setStoreCount(response.data.length);
-        } catch (error) {
-            console.log(error);
-        }
     }
     useEffect(() => {
         getStoreCount();
@@ -52,16 +110,9 @@ export default function Page() {
     const handleChangePhoto = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget)       
-        try {
-            const response = await Request('admin/store/upload', "POST", formData, accessToken)
-            if (response.data.success) {
-                toast(response.data.message, { autoClose: 2000, type: 'success' })
-            } 
-        } catch (err) {
-            const data: error = err.response?.data
-            for (const message of data.message) {
-                toast(message, { autoClose: 2000, type: 'error' })
-            }
+        const response = await Request('admin/store/upload', "POST", formData, accessToken)
+        if (response.success) {
+            toast(response.message, { autoClose: 2000, type: 'success' })
         }
     };
 
@@ -72,20 +123,10 @@ export default function Page() {
     const handleUpdateHours = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget)
-        try {
-            const response = await Request('admin/opening-hours/', "PUT", formData, accessToken)
-            if (response.data.success) {
-                toast(response.data.message, { autoClose: 2000, type: 'success' })
-            } 
-        } catch (err) {
-            const data: error = err.response?.data
-            console.log(data);
-            for (const message of data.message ) {
-                toast(message, { autoClose: 2000, type: 'error'})
-            }
-        }
-        
-
+        const response = await Request('admin/opening-hours/', "PUT", formData, accessToken)
+        if (response.success) {
+            toast(response.message, { autoClose: 2000, type: 'success' })
+        } 
     }
 
 
@@ -106,6 +147,56 @@ export default function Page() {
                     type="customers"
                 />
             </div>
+
+            {/* Create Store */}
+            
+            <p className="text-2xl font-semibold my-5 py-10">Create Store</p>
+            <form className="flex flex-col" onSubmit={handleCreateStore}>
+                <input type="text" placeholder="Store Name" className="rounded max-w-sm my-5"  onChange={e => setName(e.currentTarget.value)} value={name}/>
+                <div className="flex flex-row ">
+                    <p>Active: {active ? "True" : "False"}</p>
+                    <button onClick={() => setActive(prev => !prev)} className="rounded border-2 w-20 mx-1">change</button>
+                </div>
+                <input type="text" placeholder="Description" value={description} className="rounded max-w-sm my-5" onChange={e => setDescription(e.currentTarget.value)}/>
+                    <div className="flex items-center">
+                    <p>Enter Date: </p>
+                    <input type="date" placeholder="Enter Date" className="rounded max-w-sm my-5 mx-2" onChange={e => setEnterDate(e.currentTarget.value)}/>
+                </div>
+                <input type="text" placeholder="Longitude" value={longitude} className="rounded max-w-sm my-5" onChange={e => setLongitude(e.currentTarget.value)}/>
+                <input type="text" placeholder="Latitude" value={latitude} className="rounded max-w-sm my-5" onChange={e => setLatitude(e.currentTarget.value)} />
+                <input type="text" placeholder="Street" value={street} className="rounded max-w-sm my-5" onChange={e => setStreet(e.currentTarget.value)} />
+                <input type="text" placeholder="Post code" name={postcode} className="rounded max-w-sm my-5" onChange={e => setPostcode(e.currentTarget.value)} />
+                <input type="text" placeholder="City" value={city} className="rounded max-w-sm my-5" onChange={e => setCity(e.currentTarget.value)} />
+                <p className="text-l font-semibold my-1 py-1">Opening Hours</p>
+                <input type="text" placeholder="Montag" value={openingHours.Mon} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours,Mon: e.currentTarget.value})}/>
+                <input type="text" placeholder="Dienstag" value={openingHours.Tue} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours, Tue: e.currentTarget.value })} />
+                <input type="text" placeholder="Mittwoch" value={openingHours.Wed} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours, Wed: e.currentTarget.value })} />
+                <input type="text" placeholder="Donnerstag" value={openingHours.Thu} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours, Thu: e.currentTarget.value })} />
+                <input type="text" placeholder="Fritag" value={openingHours.Fri} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours, Fri: e.currentTarget.value })} />
+                <input type="text" placeholder="Samtag" value={openingHours.Sat} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours, Sat: e.currentTarget.value })} />
+                <input type="text" placeholder="Sontag" value={openingHours.Sun} className="rounded max-w-sm my-5" onChange={e => setOpeningHours({ ...openingHours, Sun: e.currentTarget.value })} />
+                
+                {categories.map((item, index) => <span key={index}>{item}</span>)}
+                <div className="flex items-center">
+                    <p>Add Category: </p>
+                    <input type="text" placeholder="Add Category" className="rounded max-w-sm my-5 mx-10" onChange={e => setCategory(e.currentTarget.value)} value={category}/>
+                    <button className="rounded border-2 w-10 mx-1" onClick={e => addCategory(e)}>Add</button>
+                    <button className="rounded border-2 w-10 mx-1" onClick={e => dropCategory(e)}>Drop</button>
+                </div>
+                {services.map((item, index) => <span key={index}>{item}</span>)}
+                <div className="flex items-center">
+                    <p>Add Service: </p>
+                    <input type="text" placeholder="Add Category" className="rounded max-w-sm my-5 mx-10" onChange={e => setService(e.currentTarget.value)} value={service}/>
+                    <button className="rounded border-2 w-10 mx-1" onClick={e => addService(e)}>Add</button>
+                    <button className="rounded border-2 w-10 mx-1" onClick={e => dropService(e)}>Drop</button>
+                </div>
+                <Button className="flex justify-center my-5 py-5 w-28">
+                    <p className="text-xl font-semibold">Submit</p>
+                </Button>
+            </form>
+
+
+
 
             {/* Store Fotos */}
 

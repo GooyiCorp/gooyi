@@ -8,7 +8,7 @@ import { mkdir, rm } from 'fs';
 const storeRoute = express.Router();
 
 const host = process.env.host
-const port = process.env.port
+const port = process.env.PORT
 
 storeRoute.get('/', async (req, res) => {
 
@@ -33,7 +33,6 @@ storeRoute.post('/create', async (req, res) => {
         street,
         postcode,
         city,
-        add_detail,
         opening_hours,
         service
     } = req.body;
@@ -69,7 +68,7 @@ storeRoute.post('/create', async (req, res) => {
                 background: `http://${host}:${port}/store/${store.store_id}/background.png`
             }
         })
-        const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city, detail: add_detail } })
+        const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city} })
         const openingHour = await prisma.openingHour.create({ data: { ...opening_hours, store_id: store.store_id } })
         return sendSuccess(res, "Create store successfully",{ store, address, openingHour })
 
