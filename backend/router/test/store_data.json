@@ -1,17 +1,8 @@
 [
     {
         "name": "Tokas",
-        "category": [
-            {
-                "where": { "name": "Bubble Tea"},
-                "create": { "name": "Bubble Tea"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            }
-            
-        ],
+        "category": ["Bubble Tea", "Asiatisch"],
+        "service": ["Wifi", "To Go", "Karterzahlung", "Lieferservice"],
         "active": true,
         "description": "Chan qua",
         "enter_date": "2024-02-01 00:00:00.000",
@@ -33,17 +24,8 @@
     },
     {
         "name": "Mai Mai Hbf",
-        "category": [
-            
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Chinesisch"},
-                "create": {"name": "Chinesisch"}
-            }
-        ],
+        "category": ["Asiatisch", "Chinesisch"],
+        "service": ["To Go", "Karterzahlung", "Lieferservice"],
         "active": true,
         "description": "Do qua",
         "enter_date": "2023-12-21 00:00:00.000",
@@ -87,6 +69,7 @@
             }
         ],
         "enter_date": "2020-10-20 00:00:00.000",
+        "service": ["Wifi", "To Go", "Karterzahlung", "Lieferservice", "Innensitzplätze", "Kunden WC", "Parkplätze"],
         "latitude": "53.080992243029776",
         "longitude": "8.812118005927749",
         "street": "Breitenweg",
@@ -107,16 +90,8 @@
         "name": "Hypnotize Wings",
         "description": "vai lz",
         "active": true,
-        "category": [
-            {
-                "where": {"name": "Snacks"},
-                "create": {"name": "Snacks"}
-            },
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            }
-        ],
+        "category": ["Snacks", "Restaurant"],
+        "service": ["Wifi", "To Go", "Karterzahlung", "Lieferservice", "Innensitzplätze", "Außensitzplätze","Kunden WC"],
         "enter_date": "2020-10-20 00:00:00.000",
         "latitude": "53.07850545678961",
         "longitude": "8.823873978362942",
@@ -136,20 +111,8 @@
     },
     {
         "name": "Yoko Sushi",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Sushi"},
-                "create": {"name": "Sushi"} 
-            }
-        ],
+        "category": ["Restaurant", "Asiatisch", "Sushi"],
+        "service": ["Wifi", "To Go", "Karterzahlung", "Lieferservice"],
         "active": true,
         "description": "Buon ngu qua",
         "enter_date": "2023-12-18 00:00:00.000",
@@ -171,20 +134,8 @@
     },
     {
         "name": "EAT HAPPY",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Sushi"},
-                "create": {"name": "Sushi"}
-            }
-        ],
+        "category": ["Restaurant", "Asiatisch", "Sushi"],
+        "service": ["Wifi", "To Go", "Karterzahlung", "Lieferservice"],
         "active": true,
         "description": "Chan vl",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -206,12 +157,8 @@
     },
     {
         "name": "Hangover Bar",
-        "category": [
-            {
-                "where": {"name": "Bar"},
-                "create": {"name": "Bar"}
-            }
-        ],
+        "category": ["Bar"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Parkplätze"],
         "active": true,
         "description": "Chan tra sua",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -233,24 +180,8 @@
     },
     {
         "name": "Mekong Grill",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Vietnamesich"},
-                "create": {"name": "Vietnamesich"}
-            },
-            {
-                "where": {"name": "Pho"},
-                "create": {"name": "Pho"}
-            }
-        ],
+        "category": ["Restaurant", "Asiatisch", "Vietnamesich", "Pho"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Außensitzplätze", "Lieferservice"],
         "active": true,
         "description": "Thua",
         "enter_date": "2023-12-15 00:00:00.000",
@@ -270,22 +201,10 @@
             "Sun": "13:00-22:00"
         }
     },
-    {
+    { 
         "name": "Corona Pizza",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Pizza"},
-                "create": {"name": "Pizza"}
-            },
-            {
-                "where": {"name": "Italienish"},
-                "create": {"name": "Italienish"}
-            }
-        ],
+        "category": ["Restaurant", "Pizza", "Italienish"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Außensitzplätze", "To Go"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -307,20 +226,8 @@
     },
     {
         "name": "Die Mafia Pizza Bremen",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Pizza"},
-                "create": {"name": "Pizza"}
-            },
-            {
-                "where": {"name": "Italienish"},
-                "create": {"name": "Italienish"}
-            }
-        ],
+        "category": ["Restaurant", "Pizza", "Italienish"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Außensitzplätze", "To Go", "Parkplätze"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -342,20 +249,8 @@
     },
     {
         "name": "China Ecke",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Chinesisch"},
-                "create": {"name": "Chinesisch"}
-            }
-        ],
+        "category": ["Restaurant", "Asiatisch", "Chinesisch"],
+        "service": ["Wifi", "Karterzahlung", "Innensitzplätze", "Außensitzplätze"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2023-12-30 00:00:00.000",
@@ -377,20 +272,8 @@
     },
     {
         "name": "Asia Wok & Sushi",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Sushi"},
-                "create": {"name": "Sushi"}
-            }
-        ],
+        "category": ["Restaurant", "Asiatisch", "Sushi"],
+        "service": ["Innensitzplätze", "To Go", "Lieferservice"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -412,24 +295,8 @@
     },
     {
         "name": "Litte Saigon",
-        "category": [
-            {
-                "where": {"name": "Restaurant"},
-                "create": {"name": "Restaurant"}
-            },
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Vietnamesich"},
-                "create": {"name": "Vietnamesich"}
-            },
-            {
-                "where": {"name": "Pho"},
-                "create": {"name": "Pho"}
-            }
-        ],
+        "category": ["Restaurant", "Asiatisch","Vietnamesich", "Pho"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Außensitzplätze", "Parkplätze"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -451,16 +318,8 @@
     },
     {
         "name": "Burger King",
-        "category": [
-            {
-                "where": {"name": "Snacks"},
-                "create": {"name": "Snacks"}
-            },
-            {
-                "where": {"name": "Burger"},
-                "create": {"name": "Burger"}
-            }
-        ],
+        "category": ["Snacks", "Burger"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Parkplätze", "To Go"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -482,12 +341,8 @@
     },
     {
         "name": "Espresso House",
-        "category": [
-            {
-                "where": {"name": "Coffee"},
-                "create": {"name": "Coffee"}
-            }
-        ],
+        "category": ["Coffee"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "Außensitzplätze", "To Go"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -509,16 +364,8 @@
     },
     {
         "name": "Thai Lounge Spa Massage",
-        "category": [
-            {
-                "where": {"name": "Asiatisch"},
-                "create": {"name": "Asiatisch"}
-            },
-            {
-                "where": {"name": "Spa"},
-                "create": {"name": "Spa"}
-            }
-        ],
+        "category": ["Asiatisch", "Spa","Massage"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2024-01-03 00:00:00.000",
@@ -540,12 +387,8 @@
     },
     {
         "name": "Die Sauna im Viertel",
-        "category": [
-            {
-                "where": {"name": "Spa"},
-                "create": {"name": "Spa"}
-            }
-        ],
+        "category": ["Spa", "Massage"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2020-10-20 00:00:00.000",
@@ -567,12 +410,8 @@
     },
     {
         "name": "Massage Bremen",
-        "category": [
-            {
-                "where": {"name": "Spa"},
-                "create": {"name": "Spa"}
-            }
-        ],
+        "category": ["Massage", "Spa"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2024-01-02 00:00:00.000",
@@ -594,16 +433,8 @@
     },
     {
         "name": "Döner & Frites",
-        "category": [
-            {
-                "where": {"name": "Arabish"},
-                "create": {"name": "Arabish"}
-            },
-            {
-                "where": {"name": "Döner"},
-                "create": {"name": "Döner"}
-            }
-        ],
+        "category": ["Arabish", "Döner"],
+        "service": ["Wifi", "Karterzahlung", "Kunden WC", "Innensitzplätze", "To Go"],
         "active": true,
         "description": "Chan oi la chan",
         "enter_date": "2024-01-04 00:00:00.000",
@@ -621,6 +452,29 @@
             "Fri": "00:00-22:00",
             "Sat": "11:30-22:00",
             "Sun": "13:00-22:00"
+        }
+    },
+    {
+        "name": "Kiosk Coffee To Go",
+        "category": ["Coffee", "Kiosk"],
+        "service": ["Wifi","To Go","Karterzahlung"],
+        "active": true,
+        "description": "Test",
+        "enter_date": "2024-01-04 00:00:00.000",
+        "latitude": "53.1123826946992",
+        "longitude": "8.754532332011662",
+        "street": "Liegnitzstraße",
+        "postcode": "28237",
+        "city": "Bremen",
+        "add_detail": "no",
+        "opening_hours": {
+            "Mon": "12:00-20:00",
+            "Tue": "12:00-20:00",
+            "Wed": "12:00-20:00",
+            "Thu": "12:00-20:00",
+            "Fri": "12:00-20:00",
+            "Sat": "12:00-20:00",
+            "Sun": "13:00-19:00"
         }
     }
 ]
