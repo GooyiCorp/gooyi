@@ -15,7 +15,7 @@ storeRoute.get('/info/:id', async (req, res) => {
     const store_id = parseInt(req.params.id)
     if (!store_id) return sendError(res, "Invalid id provided")
     try {
-        const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true, _count: { select: { FavoritedUsers :true}}}})
+        const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true, service: true ,_count: { select: { FavoritedUsers :true}}}})
         const location = await prisma.$queryRaw 
         `
             SELECT ST_X(ST_GeometryN("location"::geometry, 1)) AS longitude, ST_Y(ST_GeometryN("location"::geometry, 1)) AS latitude
@@ -35,7 +35,7 @@ storeRoute.get('/loggedin/info/:id', verifyToken, async (req, res) => {
     const store_id = parseInt(req.params.id)
     if (!store_id) return sendError(res, "Invalid id provided")
     try {
-        const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true, _count: { select: { FavoritedUsers :true}}}})
+        const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true,service: true ,_count: { select: { FavoritedUsers :true}}}})
         const location = await prisma.$queryRaw 
         `
             SELECT ST_X(ST_GeometryN("location"::geometry, 1)) AS longitude, ST_Y(ST_GeometryN("location"::geometry, 1)) AS latitude

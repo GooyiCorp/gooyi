@@ -25,6 +25,7 @@ export default function StoreInformation({
     const [longitude, setLongitude] = useState(0)
     const [latitude, setLatitude] = useState(0)
     const [hours, setHours] = useState({})
+    const [services, setServices] = useState([])
     const isLoggedIn = useSelector(state => state.user.isLoggedIn)
     const accessToken = useSelector(state => state.user.accessToken);
 
@@ -37,6 +38,7 @@ export default function StoreInformation({
             setLongitude(response.data.location.longitude)
             setLatitude(response.data.location.latitude)
             setHours(response.data.OpeningHour)
+            setServices(response.data.service);
         }
     }
     // Set User Point 
@@ -84,11 +86,7 @@ export default function StoreInformation({
             <Text style={[H4, {fontFamily: 'RH-Medium', color: COLORS.black, marginBottom: 8, marginTop: 20}]}>Service</Text>
             {/* .map Services */}
             <View style={{marginHorizontal: -5,flexWrap: 'wrap', flexDirection: 'row'}}>
-                <Keywords keyword={'Kartenzahlung'}/>
-                <Keywords keyword={'Lieferservice'}/>
-                <Keywords keyword={'To Go'}/>
-                <Keywords keyword={'Wifi'}/>
-                <Keywords keyword={'Außensitzplätze'}/>
+                {services.map(service => <Keywords key={service.service_id} keyword={service.name} />)}
             </View>
         </View>
         {/* Map Section */}

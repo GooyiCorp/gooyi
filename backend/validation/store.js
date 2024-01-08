@@ -4,7 +4,6 @@ export function store_create_validate(store) {
     // Check null values
     let error = new Error()
     .isRequired(store.name, "Store's name")
-    .isRequired(store.category, "Store's category")
     .isRequired(store.description, "Store's description")
     .isRequired(store.longitude, "Store's longitude")
     .isRequired(store.latitude, "Store's latitude")

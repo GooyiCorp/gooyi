@@ -34,16 +34,32 @@ storeRoute.post('/create', async (req, res) => {
         postcode,
         city,
         add_detail,
-        opening_hours
+        opening_hours,
+        service
     } = req.body;
     const error = store_create_validate(req.body);
     if (error) return sendError(res,error);
     try {
+        const categories = category.map(item => {
+            return {
+                "where": { "name": item.charAt(0).toUpperCase() + item.slice(1) },
+                "create": { "name": item.charAt(0).toUpperCase() + item.slice(1) }
+            }
+        })
+        const services = service.map(item => {
+            return {
+                "where": { "name": item.charAt(0).toUpperCase() + item.slice(1) },
+                "create": { "name": item.charAt(0).toUpperCase() + item.slice(1) }
+            }
+        })
         const store = await prisma.store.create({
             data: {
                 name, active, description, enter_date: new Date(enter_date),
                 category: {
-                    connectOrCreate: category
+                    connectOrCreate: categories
+                },
+                service: {
+                    connectOrCreate: services
                 }
             }
         })
@@ -58,7 +74,6 @@ storeRoute.post('/create', async (req, res) => {
         return sendSuccess(res, "Create store successfully",{ store, address, openingHour })
 
     } catch (err) {
-        console.log(err);
         logger.error(err);
         return sendServerError(res);
     }
