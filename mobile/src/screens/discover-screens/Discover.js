@@ -131,6 +131,7 @@ const refreshToken = useSelector((state) => state.user.refreshToken)
     const scrollValue = useSharedValue(0)
     const buttonValue = useSharedValue(0)
     // ---- Animated Style
+      // Header Container Style
       const translateHeaderContainer = useAnimatedStyle(() => {
         return {
           height: scrollValue.value <= 30 && scrollValue.value >= 0? interpolate(scrollValue.value, [0,30], [170, 100]) : scrollValue.value <= 0? 170 : 100
