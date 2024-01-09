@@ -27,6 +27,7 @@ import Request from './../../helper/request';
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function FilterModal({
     showCategorySelection,
+    showFilterSelection,
 }) {
 
 // Redux
@@ -292,31 +293,35 @@ return (
         {/* ------------------------------------------------ */}
         {/* Filter */}
         {/* ------------------------------------------------ */}
-        {/* Title */}
-        <Text style={[H4, styles.subTitle]}>Filter</Text>
-        {/* Selector */}
-            <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={{overflow: 'visible'}}
-            >
-            <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: -5, width: width*2}} >
-                {filterList.map((filter) => (
-                    <Filter
-                        key={filter.id}
-                        keyword={filter.filter}
-                        onPress={() => handleSelectFilter(filter)}
-                        bgStyle={{
-                            backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
-                            borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey,
-                        }}
-                        textStyle={{
-                            color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
-                        }}
-                    />
-                ))}
-            </View>
-            </ScrollView>
+        {showFilterSelection &&
+            <>
+                {/* Title */}
+                <Text style={[H4, styles.subTitle]}>Filter</Text>
+                {/* Selector */}
+                    <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        style={{overflow: 'visible'}}
+                    >
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: -5, width: width*2}} >
+                        {filterList.map((filter) => (
+                            <Filter
+                                key={filter.id}
+                                keyword={filter.filter}
+                                onPress={() => handleSelectFilter(filter)}
+                                bgStyle={{
+                                    backgroundColor: checkFilter(filter) ?  COLORS.ivoryDark : 'transparent',
+                                    borderColor: checkFilter(filter) ?  COLORS.ivoryDark : COLORS.borderGrey,
+                                }}
+                                textStyle={{
+                                    color: checkFilter(filter) ? COLORS.grey : COLORS.lightGrey,
+                                }}
+                            />
+                        ))}
+                    </View>
+                    </ScrollView>
+            </>
+        }
 
         {/* ------------------------------------------------ */}
         {/* Sort by */}
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
         height: 0.65*height,
         width: width,
         position: 'absolute',
-        zIndex: 5,
+        zIndex: 6,
         backgroundColor: COLORS.white,
         bottom: 0,
         borderRadius: 20,

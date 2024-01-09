@@ -11,6 +11,8 @@ import { setCategory, setResetFilter, setSelectedCategory } from '../../redux/sl
 import { MainHeader, SubHeader } from '../../index/navIndex'
 import PresentationHeader from '../../components/components_universal/PresentationHeader'
 import LogInRequired from '../logIn-screens/LogInRequired'
+import OfferBoxS from '../../components/archive/OfferBoxS'
+import OfferBoxL from '../../components/components_coupons_screen/OfferBoxL'
 
 
 
@@ -65,10 +67,14 @@ export default function CouponsScreen({
 
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {couponActivePage == 'marks' && 
-        <PresentationHeader 
-          title={'Merkliste'}
-          // showAllButton
-        />
+        <>
+          <PresentationHeader 
+            title={'Merkliste'}
+            // showAllButton
+          />
+          <OfferBoxS />
+          <OfferBoxL />
+        </>
       }
 
       {couponActivePage == 'myCoupons' && 

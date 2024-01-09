@@ -49,10 +49,13 @@ const dispatch = useDispatch()
 
       {/* ---- Modal Section */}
         {/* Locate Modal */}
-          <LocateModal onSearchScreen/>
+          <LocateModal />
           <ScreenOverlay locate delay={0}/>
         {/* Filter Modal */}
-          <FilterModal showCategorySelection/>
+          <FilterModal 
+            showCategorySelection
+            showFilterSelection
+          />
           <ScreenOverlay search delay={0}/>
       
       {/* ---- start - Background Touch - Exit Input Field */}

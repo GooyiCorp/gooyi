@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 // Reanimated
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 // Redux
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // BlurView
 import { BlurView } from 'expo-blur'
 // Helpers
@@ -16,6 +16,10 @@ import SettingHeader from '../../components/components_navigation/SettingHeader'
 import { icons } from '../../components/components_universal/Icons'
 import StoreCard from '../../components/components_stores_screen/StoreCard'
 import RoundButton from '../../components/components_universal/RoundButton'
+import LocateModal from '../../components/components_locate_screen/LocateModal'
+import ScreenOverlay from '../../components/components_universal/ScreenOverlay'
+import FilterModal from '../../components/components_search_screen/FilterModal'
+import { setShowFilterModal, setShowLocateModal } from '../../redux/slices/showModalSlice'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
@@ -25,6 +29,9 @@ export default function ListByCategory({
   navigation,
   navigation: {goBack}
 }) {
+
+// Redux
+const dispatch = useDispatch()
 
   // ----------------------------  
   // Get API Section
@@ -72,6 +79,16 @@ export default function ListByCategory({
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 return (
 <View style={styles.card}>
+
+  {/* ---- start - Modal Section */}
+    {/* Locate Modal */}
+    <LocateModal />
+    <ScreenOverlay locate delay={0}/>
+    {/* Filter Modal */}
+    <FilterModal />
+    <ScreenOverlay search delay={0}/>
+  {/* ---- end - Modal Section */}
+
   {/* Header Section */}
   <SettingHeader
     goBack
@@ -79,7 +96,9 @@ return (
     header
     headerText={'Pizza'}
     iconStyle={COLORS.mainBackground}
-    selectorButton
+    setting
+    onPressSettingShowMore={() => dispatch(setShowFilterModal())}
+    // selectorButton
   />
   {/* ---- start - Main Scroll Area */}
     {/* Scroll */}

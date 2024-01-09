@@ -41,7 +41,7 @@ const dispatch = useDispatch()
     // Check Previous Screen
     setTimeout(() => {
       dispatch(setHideLocateModal())
-      if (prevRoute.name == 'Search' || prevRoute.name == 'ShowAllOffers') {
+      if (prevRoute.name == 'Search' || prevRoute.name == 'ShowAllOffers' || prevRoute.name == 'ListByCategory') {
         dispatch(setShowFilterModal())
       }
     }, 100)

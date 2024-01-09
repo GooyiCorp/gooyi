@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   
   boxContainer: {
     width: 363,
-    height: 138,
+    height: 180,
     borderRadius: 16,
     overflow: 'hidden',
     justifyContent: 'space-between',

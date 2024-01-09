@@ -2,12 +2,13 @@ import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'reac
 import React, {useState} from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import HeartButton from '../../components_universal/HeartButton'
+
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withRepeat } from 'react-native-reanimated'
 import { COLORS } from '../../../index/constantsindex'
 import { H3, H4, T1, T2, T3, T4 } from '../../../constants/text-style'
 import Icons, { icons } from '../../components_universal/Icons'
 import { useNavigation } from '@react-navigation/native'
+import HeartButton from '../../components_universal/HeartButton'
 
 // ---------------------------------------------------------------------------------------------------------------------
 

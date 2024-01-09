@@ -28,9 +28,11 @@ export default function ShowAllOffers({
   }
   return (
     <View style={styles.card}>
-      <LocateModal onSearchScreen/>
+      <LocateModal />
       <ScreenOverlay locate delay={0}/>
-      <FilterModal />
+      <FilterModal 
+        showFilterSelection
+      />
       <ScreenOverlay search delay={0}/>
       {/* <ShowMoreOfferModal />
       <ScreenOverlay settingShowMore delay={0}/> */}

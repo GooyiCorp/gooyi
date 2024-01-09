@@ -33,6 +33,7 @@ const [data, setData] = useState('')
     // Get Route Name
     const routes = useNavigationState(state => state.routes)
     const prevRoute = routes[routes.length - 2];
+    // console.log(prevRoute)
 
     // Test List
     const position = [
@@ -65,7 +66,7 @@ const [data, setData] = useState('')
         // Check Previous Screen
         setTimeout(() => {
             dispatch(setHideLocateModal())
-            if (prevRoute.name == 'Search' || prevRoute.name == 'ShowAllOffers') {
+            if (prevRoute.name == 'Search' || prevRoute.name == 'ShowAllOffers' || prevRoute.name == 'ListByCategory') {
             dispatch(setShowFilterModal())
             }
         }, 100)
