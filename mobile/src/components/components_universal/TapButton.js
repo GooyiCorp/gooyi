@@ -20,7 +20,7 @@ export default function TapButton({
     }
 
   return (
-    <Pressable onPress={handlePressButton} style={[styles.button, {backgroundColor: showActivityHistoryModal? COLORS.grey : COLORS.default}]}>
+    <Pressable onPress={handlePressButton} style={[styles.button, {backgroundColor: showActivityHistoryModal? COLORS.grey : COLORS.ivoryDark}]}>
         <Icons 
             icon={icon}
             iconName={iconName}
@@ -36,9 +36,9 @@ const styles = StyleSheet.create({
     button: {
         height: 38,
         width: 38,
-        backgroundColor: COLORS.default,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 10
     }
 })

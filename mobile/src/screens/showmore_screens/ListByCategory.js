@@ -98,7 +98,6 @@ return (
     iconStyle={COLORS.mainBackground}
     setting
     onPressSettingShowMore={() => dispatch(setShowFilterModal())}
-    // selectorButton
   />
   {/* ---- start - Main Scroll Area */}
     {/* Scroll */}

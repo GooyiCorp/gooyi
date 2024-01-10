@@ -4,7 +4,7 @@ import { StyleSheet,View, Text, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { MainHeader } from '../../index/navIndex.js'
+import { MainHeader, SubHeader } from '../../index/navIndex.js'
 // Constant
 import { T1, T2 } from '../../constants/text-style.js'
 import { COLORS } from '../../index/constantsindex.js'
@@ -14,229 +14,195 @@ import Request from '../../helper/request.js'
 // Components
 import Icons, {icons} from '../../components/components_universal/Icons.js'
 import LogIn from '../logIn-screens/LogIn.js'
-import RoundButton from '../../components/components_universal/RoundButton.js'
-import IconLabelButton from '../../components/components_universal/IconLabelButton.js'
-import TapButton from '../../components/components_universal/TapButton.js'
 import ActivityHistoryModal from '../../components/components_profile_screen/ActivityHistoryModal.js'
 import { setEntryDate, setUserId, setUserName } from '../../redux/slices/userSlice.js'
 
 
-
-
-
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function ProfileScreen({
   hideTabNav,
   showTabNav,
 }) {
 
-  // ------------------------------------------ Get API
-  const userName = useSelector(state => state.user.user_name)
-  const userID = useSelector(state => state.user.user_id)
-  const entryDate = useSelector(state => state.user.entryDate)
-  const couponsAvailable = 15
-  const couponsShortValidity = 5
-  
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
-  const accessToken = useSelector(state => state.user.accessToken)
+// React Navigation
+const navigation = useNavigation()
+// Redux
+const dispatch = useDispatch()
 
-  const getInfo = async () => {
-    if (!userName) {
-      const response = await Request('user/profile/info', 'get', null, accessToken)
-      if (response.success) {
-        dispatch(setUserId(response.data.user_id))
-        dispatch(setUserName(response.data.first_name + ' ' + response.data.last_name))
-        const date = new Date(response.data.create_at)
-        const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        dispatch(setEntryDate(month[date.getMonth()] + ' ' + date.getFullYear()))
+const accessToken = useSelector(state => state.user.accessToken)
+const userName = useSelector(state => state.user.user_name)
+const userID = useSelector(state => state.user.user_id)
+const entryDate = useSelector(state => state.user.entryDate)
+const logIn = !useSelector((state) => state.user.isLoggedIn)
+
+  // ----------------------------  
+  // Get Data Section
+  // ---------------------------- 
+    // Test Data (Delete)
+    const couponsAvailable = 15
+    const couponsShortValidity = 5
+  
+    const getInfo = async () => {
+      if (!userName) {
+        const response = await Request('user/profile/info', 'get', null, accessToken)
+        if (response.success) {
+          dispatch(setUserId(response.data.user_id))
+          dispatch(setUserName(response.data.first_name + ' ' + response.data.last_name))
+          const date = new Date(response.data.create_at)
+          const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+          dispatch(setEntryDate(month[date.getMonth()] + ' ' + date.getFullYear()))
+        }
       }
     }
-    // Duc anh: set data vao 
-  }
-  getInfo()
-  // Global State, userSlide - LogIn required? show/hide
-  const logIn = !useSelector((state) => state.user.isLoggedIn)
-  // const token = useSelector((state) => state.user.accessToken)
-  // console.log('token:', token)
+    getInfo()
+    // Global State, userSlide - LogIn required? show/hide
+    // const token = useSelector((state) => state.user.accessToken)
+    // console.log('token:', token)
   
-  // Locate Modal ----------------------------------------------------------------------
-  const showActivityHistoryModal = useSelector((state) => state.showModal.activityHistoryModal)
+  // ----------------------------  
+  // Show Modal Section
+  // ---------------------------- 
+  // ---- start - Activity Modal
+    // Value Section
+    const showActivityHistoryModal = useSelector((state) => state.showModal.activityHistoryModal)
+    // Check State - Hide / Show : Bottom Tab Bar
+    useEffect(() => {
+      showActivityHistoryModal? hideTabNav() : showTabNav()
+    }, [showActivityHistoryModal])
+  // ---- end - Activity Modal
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+<View style={styles.card}>
+  {/* ---- start - Overlay / Modal Section */}
+    {/* Activity History Modal */}
+    {!logIn && <ActivityHistoryModal/>}
+    {/* Login */}
+    {logIn && <LogIn/>}
+  {/* ---- end - Modal Section */}
+
+  {/* ---- start - Header Section */}
+    {/* Main Header */}
+    <MainHeader 
+      title={userName}
+      qrButton
+      onPressQRButton={() => navigation.navigate('QRScan')}
+      notificationButton
+      onPressNotificationButton={() => navigation.navigate('Profile', {screen: 'Notification'})}
+      headerContainerStyle={{backgroundColor: 'transparent'}}
+    />
+    {/* Sub Header */}
+    <SubHeader 
+      setting
+      onPressSetting={() => navigation.navigate('Profile', {screen: 'Setting'})}
+      mail
+      activity
+    />
+  {/* ---- end - Header Section */}
   
-  useEffect(() => {
-    showActivityHistoryModal? hideTabNav() : showTabNav()
-  }, [showActivityHistoryModal])
+  {/* ---- start - Content Section */}
+  <View style={{paddingHorizontal: 30}}>
 
-  return (
-    <View style={{height: height, width: width}}>
+    {/* ---- User ID Section */}
+    <View style={{marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}>
+      {/* ID Box */}
+      <View style={styles.idTextBox}>
+        <Text style={[T1, {fontFamily: 'RH-Bold', color: COLORS.white}]}>ID</Text>
+      </View>
+      {/* User ID */}
+      <Text style={T1}>{userID}</Text>
+    </View>
 
-      {!logIn && <ActivityHistoryModal/>}
-      {logIn && <LogIn/>}
-      {/* Main Header */}
-      <MainHeader 
-        title={userName}
-        qrButton
-        onPressQRButton={() => navigation.navigate('QRScan')}
-        notificationButton
-        onPressNotificationButton={() => navigation.navigate('Profile', {screen: 'Notification'})}
-        headerContainerStyle={{backgroundColor: 'transparent'}}
+    {/* ---- Create Date Section */}
+    <View style={{marginTop: 15, flexDirection: 'row', alignItems: 'center'}}>
+      {/* Clock Icon */}
+      <Icons 
+        icon={icons.MaterialCommunityIcons}
+        iconName={'clock'}
+        iconSize={20}
+        iconColor={COLORS.grey}
+        iconStyle={{marginRight: 5}}
       />
+      {/* Date */}
+      <Text style={T2}>Aktiv, seit {entryDate}</Text>
+    </View>
 
-      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+    {/* ---- start - Statistic Section */}
+    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
 
-      <View style={styles.cardStyle}>
-
-        {/* Header */}
-        {/* <Text style={[styles.h3, {color: COLORS.grey, marginBottom: 10,}]}>Übersicht</Text> */}
-
-        {/* User ID */}
-        <View style={[styles.infoView, {marginTop: 10}]}>
-
-          <Text style={{
-            fontFamily: 'RH-Bold',
-            fontSize: 16,
-            marginRight: 10,
-            color: COLORS.white,
-            backgroundColor: COLORS.grey,
-            paddingLeft: 10,
-            paddingRight: 9,
-            paddingVertical: 2,
-          }}>ID</Text>
-          <Text style={T1}>{userID}</Text>
-        </View>
-
-        {/* Create Date */}
-        <View style={[styles.infoView, {marginTop: 15}]}>
-          <Icons 
-            icon={icons.MaterialCommunityIcons}
-            iconName={'clock'}
-            iconSize={20}
-            iconColor={COLORS.grey}
-            iconStyle={{marginRight: 5}}
-          />
-          <Text style={T2}>Aktiv, seit {entryDate}</Text>
-        </View>
-
-        {/* Statistic */}
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between'
-        }}>
-          {/* Available Coupons */}
-          <View style={styles.statisticContainer}>
-            <Icons
-              icon={icons.MaterialCommunityIcons}
-              iconName={'ticket-percent-outline'}
-              iconSize={20}
-              iconColor={COLORS.grey}
-              iconStyle={{
-                position: 'absolute',
-                top: 8,
-                right: 10,
-              }}
-            />
-              <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey ,fontSize: 35, lineHeight: 40}}>{couponsAvailable}</Text>
-              <Text style={[T2, {fontFamily: 'RH-Light', lineHeight: 15}]}>Nicht eingelöst</Text>
-          </View>
-
-          {/* Short Validity Coupons */}
-          <View style={styles.statisticContainer}>
-            <Icons
-              icon={icons.MaterialCommunityIcons}
-              iconName={'ticket-percent-outline'}
-              iconSize={20}
-              iconColor={COLORS.grey}
-              iconStyle={{
-                position: 'absolute',
-                top: 8,
-                right: 10,
-              }}
-            />
-              <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey ,fontSize: 35, lineHeight: 40}}>{couponsShortValidity}</Text>
-              <Text style={[T2, {fontFamily: 'RH-Light', lineHeight: 15}]}>Kurze Gültigkeit</Text>
-          </View>
-        </View>
-        
-        <View style={{flexDirection: 'row', marginTop: 20}}>
-
-        {/* Setting */}
-        <IconLabelButton 
-          icon={icons.Ionicons}
-          iconName={'settings-sharp'}
-          iconSize={22}
+      {/* ---- Available Coupons */}
+      <View style={styles.statisticContainer}>
+        <Icons
+          icon={icons.MaterialCommunityIcons}
+          iconName={'ticket-percent-outline'}
+          iconSize={20}
           iconColor={COLORS.grey}
-          label={'Einstellungen'}
-          style={{
-            marginRight: 10,
+          iconStyle={{
+            position: 'absolute',
+            top: 8,
+            right: 10,
           }}
-          onPressButton={() => navigation.navigate('Profile', {screen: 'Setting'})}
         />
-
-        {/* Messages */}
-        <RoundButton
-          icon={icons.Ionicons}
-          iconName={'mail'}
-          iconSize={22}
+        <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey ,fontSize: 35, lineHeight: 40}}>{couponsAvailable}</Text>
+        <Text style={[T2, {fontFamily: 'RH-Light', lineHeight: 15}]}>Nicht eingelöst</Text>
+      </View>
+      {/* ---- Short Validity Coupons */}
+      <View style={styles.statisticContainer}>
+        <Icons
+          icon={icons.MaterialCommunityIcons}
+          iconName={'ticket-percent-outline'}
+          iconSize={20}
           iconColor={COLORS.grey}
-          label={'Einstellungen'}
-          style={{
-            height: 38,
-            width: 38,
-            margin: 0,
-            borderRadius: 10,
-            marginRight: 10,
+          iconStyle={{
+            position: 'absolute',
+            top: 8,
+            right: 10,
           }}
-
         />
-
-        {/* Update */}
-        <TapButton 
-          icon={icons.MaterialIcons}
-          iconName={'history'}
-          iconSize={24}
-        />
-
-        </View>
-
-        {/* <View style={{height: 100, width: width, backgroundColor: COLORS.mainBackground, position: 'absolute', zIndex: 2, bottom: 0}}></View> */}
-
-        {!logIn && <View style={{width: 200,height: 300, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 40, zIndex: -1, left: 20}}>
-          <Image source={require('../../../assets/image/fox2d01.png')} style={{resizeMode: 'contain', maxWidth: '100%'}}/>
-        </View>}
-
+        <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey ,fontSize: 35, lineHeight: 40}}>{couponsShortValidity}</Text>
+        <Text style={[T2, {fontFamily: 'RH-Light', lineHeight: 15}]}>Kurze Gültigkeit</Text>
       </View>
 
-
-      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-
-
-
     </View>
-  )
+    {/* ---- end - Statistic Section */}
+
+  </View>
+  {/* ---- end - Content Section */}
+
+  {/* Fox Image */}
+  {!logIn && <View style={{width: 200,height: 300, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 40, zIndex: -1, left: 20}}>
+    <Image source={require('../../../assets/image/fox2d01.png')} style={{resizeMode: 'contain', maxWidth: '100%'}}/>
+  </View>}
+
+</View>
+)
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
 
-  cardStyle: {
-    flex: 1,
+  card: {
+    height: height,
+    width: width,
     backgroundColor: COLORS.white,
-    paddingHorizontal: 30,
+    overflow: 'hidden',
   },
 
-  t2: {
-    fontFamily: 'RH-Regular',
-    fontSize: 14,
-  },
-
-  h3: {
-    fontFamily: 'RH-Light',
-    fontSize: 24,
-  },
-
-  infoView: {
-    flexDirection: 'row', 
+  idTextBox: {
+    marginRight: 10,
+    backgroundColor: COLORS.grey,
+    paddingLeft: 8,
+    paddingRight: 7,
+    paddingVertical: 2,
+    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 2
   },
 
   statisticContainer: {

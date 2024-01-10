@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         height: height,
         backgroundColor: COLORS.mainBackground,
         padding: 30,
+        zIndex: 6,
     },
     
 })

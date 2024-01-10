@@ -160,7 +160,7 @@ return (
     <View style={{flex:1}}>
 
         {/* -------------------------------------------------------------------- Tab Navigation */}
-        <Animated.View style={[{zIndex: 2, position: 'absolute', bottom: 0}, animateBottomTab]}>
+        <Animated.View style={[{zIndex: 8, position: 'absolute', bottom: 0}, animateBottomTab]}>
             <TabNavigator
                 selectedPage={page}
 

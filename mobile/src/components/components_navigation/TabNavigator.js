@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         bottom: 0,
         position: 'absolute', 
-        zIndex: 2,
+        zIndex: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20,

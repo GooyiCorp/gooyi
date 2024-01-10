@@ -12,7 +12,6 @@ import HeartButton from '../components_universal/HeartButton'
 import { width } from '../../constants/size'
 
 // Image Box Size
-const imgBoxWidth = 117
 const imgBoxHeight = 138
 
 // Test API
@@ -32,53 +31,49 @@ export default function OfferBoxL({
 // React Navigation
 const navigation = useNavigation()
   
-    // ----------------------------  
-    // Animation Section
-    // ---------------------------- 
-        // ---- Value Section
-        const [focus, setFocus] = useState(false)
-        const [boxWidth, setBoxWidth] = useState(0)
-        const [textWidth, setTextWidth] = useState(0)
-    
-        const imgBoxDiagonal = Math.sqrt( Math.pow(imgBoxWidth,2) + Math.pow(imgBoxHeight,2) )
-        //const degree = (Math.atan( imgBoxHeight/imgBoxWidth ) * ( 180/Math.PI )) + 'deg'   
+  // ----------------------------  
+  // Animation Section
+  // ---------------------------- 
+    // ---- Value Section
+    const [focus, setFocus] = useState(false)
+    const [boxWidth, setBoxWidth] = useState(0)
+    const [textWidth, setTextWidth] = useState(0)
 
-        const flashValue = useSharedValue(0)
-        const transitionVal = useSharedValue(0)
-        const textAnimation = useSharedValue(0)
+    const [imageBoxWidth, setImageBoxWidth] = useState(0)
+
+    const imgBoxDiagonal = Math.sqrt( Math.pow(imageBoxWidth,2) + Math.pow(imgBoxHeight,2) )
+    //const degree = (Math.atan( imgBoxHeight/imgBoxWidth ) * ( 180/Math.PI )) + 'deg'   
+
+    const flashValue = useSharedValue(0)
+    const transitionVal = useSharedValue(0)
+    const textAnimation = useSharedValue(0)
 
     // ---- Animated Style
-        // Flash Style
-  const flashOverlay = useAnimatedStyle(() =>{
-    const translatePosition = interpolate(flashValue.value, [0,1], [imgBoxDiagonal, 0])
+      // Flash Style
+      const flashOverlay = useAnimatedStyle(() =>{
         return {
-            transform:[
-                {rotate: '45deg'},
-                {translateX: translatePosition},
-            ],
+          transform:[
+            {rotate: '45deg'},
+            {translateX: interpolate(flashValue.value, [0,1], [imgBoxDiagonal, 0])},
+          ],
         }
-    }
-  )
-
-  const boxTransition = useAnimatedStyle(() =>{
-    const boxScale = interpolate(transitionVal.value, [0,1], [1, 0.95])
+      })
+      // Scale Card Container Style 
+      const boxTransition = useAnimatedStyle(() =>{
         return {
-            transform:[
-                {scale: boxScale},
-            ],
+          transform:[
+            {scale: interpolate(transitionVal.value, [0,1], [1, 0.95])},
+          ],
         }
-    }
-  )
-
-  const xVal = useAnimatedStyle(() =>{
-    const move = interpolate(textAnimation.value, [0,1], [0, boxWidth - textWidth])
+      })
+      // Text Animation Style
+      const xVal = useAnimatedStyle(() =>{
         return {
-            transform:[
-                {translateX: move},
-            ],
+          transform:[
+              {translateX: interpolate(textAnimation.value, [0,1], [0, boxWidth - textWidth])},
+          ],
         }
-    }
-  )
+      })
 
   const handleOnPressCard = () => {
     navigation.navigate('OfferCardDetail')
@@ -110,7 +105,7 @@ return (
         {/* ------------------------------------------------ */}
         {/* Image Container */}
         {/* ------------------------------------------------ */}
-        <View style={styles.imageBox}>
+        <View style={styles.imageBox} onLayout={(e) => setImageBoxWidth(e.nativeEvent.layout.width)}>
             {/* ---- Flash Overlay */}
             <Animated.View style={[{width: imgBoxDiagonal, height: imgBoxDiagonal, backgroundColor: '#ffffff', opacity: 0.3, position: 'absolute', zIndex: 1}, flashOverlay]}></Animated.View>
             {/* ---- Main Image */}
@@ -181,9 +176,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginRight: 15,
-    marginLeft: 30, 
-    marginTop: 10
+    marginBottom: 12
   },
 
   imageBox: {
