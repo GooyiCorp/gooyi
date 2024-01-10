@@ -99,11 +99,11 @@ export default function CouponCard() {
 
         <View style={{position: 'absolute', bottom: 10, right: 10, flexDirection: 'row',}}>
           {/* Logo */}
-          <View style={{height: 40, width: 40, backgroundColor: COLORS.white, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight: 8, overflow: 'hidden'}}>
+          <View style={{height: 40, width: 40, backgroundColor: COLORS.white, borderRadius: 10, justifyContent: 'center', alignItems: 'center', overflow: 'hidden'}}>
             <Image source={require('../../../assets/image/Yoko_Logo_WEB.png')} resizeMode='contain' style={{maxWidth: '80%'}}/>
           </View>
           {/* Button */}
-          <IconLabelButton 
+          {/* <IconLabelButton 
             label={'Einlösen'}
             style={{
               height: 40,
@@ -114,7 +114,7 @@ export default function CouponCard() {
               fontFamily: 'RH-Medium',
               color: COLORS.grey
             }}
-          />
+          /> */}
         </View>
 
         </View>
