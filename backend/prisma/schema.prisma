@@ -22,13 +22,12 @@ model Admin {
 
 // ------------ User ------------------------------------------------
 model User {
-  user_id    Int       @id @unique @default(autoincrement())
+  user_id    String    @id @unique
   first_name String
   last_name  String
   email      String?   @unique
   phone      String?   @unique
   active     Boolean   @default(false)
-  Setting    Setting?
   last_login DateTime?
   create_at  DateTime  @default(now())
   update_at  DateTime  @updatedAt
@@ -37,14 +36,6 @@ model User {
   UserPoints      UserPoint[]
   FeedBacks       FeedBack[]
   FavoriteCoupons Coupon[]    @relation("FavoriteCoupons")
-}
-
-model Setting {
-  user_id Int  @unique
-  user    User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
-
-  message Boolean
-  terms   Boolean
 }
 
 // ------------ Store ----------------------------------------------
@@ -114,10 +105,10 @@ model Service {
 // ------- Store and User --------------------------------
 
 model UserPoint {
-  user_id  Int
-  user     User  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  user_id  String
+  user     User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
   store_id Int
-  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   point Int
 
@@ -127,8 +118,8 @@ model UserPoint {
 model FeedBack {
   feedback_id Int @id @default(autoincrement())
 
-  user_id Int
-  user    User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  user_id String
+  user    User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
 
   store_id Int
   store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)

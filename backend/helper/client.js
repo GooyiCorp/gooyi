@@ -1,4 +1,5 @@
 import NodeMailer from "nodemailer"
+import prisma from '../prisma/client/index.js';
 
 
 export const sendSuccess = (res, message, data = null) => {
@@ -50,4 +51,16 @@ export function generate_key() {
         retVal += charset.charAt(Math.floor(Math.random() * n));
     }
     return retVal;
+}
+
+export async function generate_user_id() {
+    try {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const user_count = await prisma.user.count({ where: { create_at : { gte : today } } });
+        today = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
+        return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(5 - user_count.toString().length)}${user_count}`
+    } catch (e) {
+        return e
+    }
 }
