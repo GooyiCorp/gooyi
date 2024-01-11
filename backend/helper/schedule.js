@@ -1,3 +1,5 @@
+import Redis from "../cache/index.js";
+import { TODAY_CREATED_USERS } from "../constant/others.js";
 import prisma from "../prisma/client/index.js";
 import { logger } from "./logger.js";
 import { isNew, isOpening } from "./time.js";
@@ -71,4 +73,8 @@ export async function checkNewStore() {
     } catch (err) {
         logger.error(err)
     }
+}
+
+export async function reset_user_created() {
+    await Redis.set(TODAY_CREATED_USERS, 0)
 }

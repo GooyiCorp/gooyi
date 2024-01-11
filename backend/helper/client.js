@@ -1,5 +1,8 @@
 import NodeMailer from "nodemailer"
 import prisma from '../prisma/client/index.js';
+import { logger } from "./logger.js";
+import Redis from "../cache/index.js";
+import { TODAY_CREATED_USERS } from '../constant/others.js';
 
 
 export const sendSuccess = (res, message, data = null) => {
@@ -56,11 +59,16 @@ export function generate_key() {
 export async function generate_user_id() {
     try {
         var today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const user_count = await prisma.user.count({ where: { create_at : { gte : today } } });
+        var user_count = await Redis.get(TODAY_CREATED_USERS)
+        if (!user_count) {
+            await Redis.set(TODAY_CREATED_USERS, 0)
+            user_count = 0
+        }
+        await Redis.incr(TODAY_CREATED_USERS)
         today = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
-        return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(5 - user_count.toString().length)}${user_count}`
+        return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(5 - user_count.toString().length)}${parseInt(user_count) + 1}`
     } catch (e) {
-        return e
+        logger.error(e);
+        return 'error';
     }
 }

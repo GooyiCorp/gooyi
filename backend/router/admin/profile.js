@@ -14,23 +14,6 @@ import { clearTokenList } from '../../helper/jwt.js';
 const profileRoute = express.Router();
 
 
-profileRoute.post('/create', async (req, res) => {
-    const errors = create_admin_validate(req.body)
-    if (errors) return sendError(res, errors);
-    const {
-        name,
-        username,
-        password,
-    } = req.body
-    try {
-        const hash = bcrypt.hashSync(password, 10)
-        const admin = await prisma.admin.create({data: {name, username, password: hash}})
-        return sendSuccess(res, "Create admin successfully", admin)
-    } catch (err) {
-        logger.error(err)
-        return sendServerError(res)
-    }
-})
 profileRoute.post("/logout", verifyToken, verifyAdmin ,(req, res) => {
     const { refreshToken } = req.body
     if (refreshToken in TOKEN_LIST) delete TOKEN_LIST[refreshToken]

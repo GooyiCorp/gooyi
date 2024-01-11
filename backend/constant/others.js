@@ -1,0 +1,1 @@
+export const TODAY_CREATED_USERS = 'today_created_user'

@@ -2,7 +2,7 @@ import express from 'express';
 import { ADMIN } from '../../constant/role.js';
 import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
 import prisma from '../../prisma/client/index.js';
-import { login_validate } from '../../validation/admin.js';
+import { create_admin_validate, login_validate } from '../../validation/admin.js';
 import { logger } from '../../helper/logger.js';
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from '../../constant/jwt.js';
 import bcrypt from 'bcrypt'
@@ -49,6 +49,24 @@ adminRoute.post('/login', async (req, res) => {
         }
         TOKEN_LIST[refreshToken] = response
         return sendSuccess(res, "Login successfully", response)
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
+})
+
+adminRoute.post('/create', async (req, res) => {
+    const errors = create_admin_validate(req.body)
+    if (errors) return sendError(res, errors);
+    const {
+        name,
+        username,
+        password,
+    } = req.body
+    try {
+        const hash = bcrypt.hashSync(password, 10)
+        const admin = await prisma.admin.create({ data: { name, username, password: hash } })
+        return sendSuccess(res, "Create admin successfully", admin)
     } catch (err) {
         logger.error(err)
         return sendServerError(res)

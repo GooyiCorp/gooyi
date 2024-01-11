@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { generate_key, sendAutoMail, sendError, sendServerError, sendSuccess } from "../../helper/client.js";
+import { generate_key, generate_user_id, sendAutoMail, sendError, sendServerError, sendSuccess } from "../../helper/client.js";
 import { email_validate, redirect_validate, register_validate } from "../../validation/user.js";
 import { USER } from "../../constant/role.js";
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../../constant/jwt.js";
@@ -120,8 +120,9 @@ profileRoute.post('/register', async(req, res) => {
         sendServerError(res)
     }
     try {
-        const user = await prisma.user.create({data: {first_name, last_name, email, phone, active: true}})
-        const setting = await prisma.setting.create({data: {user_id: user.user_id, message: true, terms: true}})
+        const user_id = await generate_user_id()
+        if (user_id === 'error') return sendServerError(res)
+        const user = await prisma.user.create({ data: { user_id, first_name, last_name, email, phone, active: true } })
         const userData = {
             id: user.user_id,
             email: user.email || null,
