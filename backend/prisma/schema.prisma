@@ -40,7 +40,7 @@ model User {
 
 // ------------ Store ----------------------------------------------
 model Store {
-  store_id    Int          @id @default(autoincrement())
+  store_id    String       @id @unique
   name        String
   category    Category[]   @relation("StoreAndCategory")
   status      Status[]     @relation("StoreStatus")
@@ -63,7 +63,7 @@ model Store {
 }
 
 model Address {
-  store_id Int                                   @unique
+  store_id String                                @unique
   store    Store                                 @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
   location Unsupported("geography(Point, 4326)")
   street   String
@@ -72,7 +72,7 @@ model Address {
 }
 
 model OpeningHour {
-  store_id Int    @unique
+  store_id String @unique
   store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
   Mon      String
   Tue      String
@@ -107,7 +107,7 @@ model Service {
 model UserPoint {
   user_id  String
   user     User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
-  store_id Int
+  store_id String
   store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   point Int
@@ -121,8 +121,8 @@ model FeedBack {
   user_id String
   user    User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
 
-  store_id Int
-  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  store_id String
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   text          String
   create_at     DateTime        @default(now())
@@ -144,8 +144,8 @@ model FeedBackReply {
 model Quest {
   quest_id Int @id @default(autoincrement())
 
-  store_id Int
-  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  store_id String
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   point Int
 }
@@ -158,8 +158,8 @@ model Coupon {
   expired_in  DateTime
   description String
 
-  store_id Int
-  store    Store @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
+  store_id String
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: Cascade)
 
   likedUsers User[] @relation("FavoriteCoupons")
 }

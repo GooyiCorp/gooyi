@@ -60,16 +60,14 @@ export function changeHost(host) {debuggerHost = host}
 const PORT = process.env.PORT || 8000
 
 // Schedule 
-import { checkNewStore, checkOpeningStore, reset_user_created } from "./helper/schedule.js";
+import { checkNewStore, checkOpeningStore, reset_day_count } from "./helper/schedule.js";
 
 const opening = scheduleJob('opening', '* * * * *', () => {
     checkOpeningStore();
 })
-const neu = scheduleJob('new', '0 0 * * *', () => {
+const day = scheduleJob('new', '0 0 * * *', () => {
     checkNewStore();
-})
-const reset_users = scheduleJob('reset_users', '0 0 * * *', () => {
-    reset_user_created();
+    reset_day_count();
 })
 app.listen(PORT, () => {
     logger.info("Listening on port 8000");

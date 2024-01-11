@@ -2,7 +2,7 @@ import NodeMailer from "nodemailer"
 import prisma from '../prisma/client/index.js';
 import { logger } from "./logger.js";
 import Redis from "../cache/index.js";
-import { TODAY_CREATED_USERS } from '../constant/others.js';
+import { TODAY_CREATED_STORE, TODAY_CREATED_USERS } from '../constant/others.js';
 
 
 export const sendSuccess = (res, message, data = null) => {
@@ -67,6 +67,22 @@ export async function generate_user_id() {
         await Redis.incr(TODAY_CREATED_USERS)
         today = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
         return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(5 - user_count.toString().length)}${parseInt(user_count) + 1}`
+    } catch (e) {
+        logger.error(e);
+        return 'error';
+    }
+}
+export async function generate_store_id() {
+    try {
+        var today = new Date();
+        var store_count = await Redis.get(TODAY_CREATED_STORE)
+        if (!store_count) {
+            await Redis.set(TODAY_CREATED_STORE, 0)
+            store_count = 0
+        }
+        await Redis.incr(TODAY_CREATED_STORE)
+        today = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
+        return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(3 - store_count.toString().length)}${parseInt(store_count) + 1}`
     } catch (e) {
         logger.error(e);
         return 'error';

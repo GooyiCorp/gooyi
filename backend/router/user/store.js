@@ -12,7 +12,7 @@ const storeRoute = express.Router();
 
 
 storeRoute.get('/info/:id', async (req, res) => {
-    const store_id = parseInt(req.params.id)
+    const store_id = req.params.id
     if (!store_id) return sendError(res, "Invalid id provided")
     try {
         const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true, service: true ,_count: { select: { FavoritedUsers :true}}}})
@@ -32,7 +32,7 @@ storeRoute.get('/info/:id', async (req, res) => {
 })
 storeRoute.get('/loggedin/info/:id', verifyToken, async (req, res) => {
     const user_id = req.user.id
-    const store_id = parseInt(req.params.id)
+    const store_id = req.params.id
     if (!store_id) return sendError(res, "Invalid id provided")
     try {
         const store = await prisma.store.findUnique({ where: { store_id }, include: { Address: true, OpeningHour: true, status: true,service: true ,_count: { select: { FavoritedUsers :true}}}})
