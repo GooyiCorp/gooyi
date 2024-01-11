@@ -20,8 +20,7 @@ import Icons, { icons } from '../../components/components_universal/Icons'
 import BulletPointText from '../../components/components_universal/BulletPointText'
 import RoundButton from '../../components/components_universal/RoundButton'
 import BigButton from '../../components/components_LogIn/BigButton'
-
-import CountDown from 'react-native-countdown-component';
+import CountdownTimer from '../../components/components_universal/countdown/CountdownTimer'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -185,17 +184,15 @@ return (
                                         backgroundColor={COLORS.mainBackground}
                                     />
                                 </View>
-                                <CountDown
-                                    size={20}
-                                    until={0}
-                                    onFinish={() => console.log('Finisch')}
-                                    digitStyle={{backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', width: 40, height: 40}}
-                                    digitTxtStyle={{color: COLORS.grey, textAlign: 'center', fontSize: 20}}
-                                    separatorStyle={{color: COLORS.grey, fontSize: 20, marginBottom: 2}}
-                                    timeToShow={['M', 'S']}
-                                    timeLabels={{m: null, s: null}}
-                                    showSeparator
-                                />   
+                                <CountdownTimer 
+                                    targetDate={ ( 15 * 60 * 1000 ) + (new Date().getTime()) }
+                                    styleBox={{backgroundColor: 'transparent'}}
+                                    styleSeparator={{
+                                        marginHorizontal: 0,
+                                        color: COLORS.black,
+                                        marginBottom: 2 
+                                    }}
+                                />
                             </>
                         }
                     {/* ---- end - QR Code Section */}    
