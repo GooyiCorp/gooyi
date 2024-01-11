@@ -36,13 +36,13 @@ const ShowCounter = ({ days, hours, minutes, seconds, styleDigit, styleBox, styl
 // ------------------------------------------------
 // CountdownTimer
 // ------------------------------------------------
-const CountdownTimer = ({ targetDate, styleBox, styleDigit, styleSeparator }) => {
+const CountdownTimer = ({ targetDate, styleBox, styleDigit, styleSeparator, handleFinish }) => {
 
     const [days, hours, minutes, seconds] = useCountdown(targetDate);
   
-    if (days + hours + minutes + seconds <= 0) {
-        console.log('Finish')
-    } else {
+    if (days + hours + minutes + seconds == 0) {
+        handleFinish()
+    } else if (days + hours + minutes + seconds >= 0) {
         return (
             <ShowCounter
                 days={days}
@@ -55,7 +55,7 @@ const CountdownTimer = ({ targetDate, styleBox, styleDigit, styleSeparator }) =>
                 styleSeparator={styleSeparator}
             />
         );
-    }
+    } 
 
 };
 

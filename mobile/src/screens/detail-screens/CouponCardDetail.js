@@ -185,7 +185,8 @@ return (
                                     />
                                 </View>
                                 <CountdownTimer 
-                                    targetDate={ ( 15 * 60 * 1000 ) + (new Date().getTime()) }
+                                    targetDate={ ( 15 * 1000 ) + (new Date().getTime()) }
+                                    handleFinish={() => console.log('done')}
                                     styleBox={{backgroundColor: 'transparent'}}
                                     styleSeparator={{
                                         marginHorizontal: 0,
