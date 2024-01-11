@@ -11,19 +11,22 @@ import { COLORS } from '../../../index/constantsindex'
 // Components
 import BigButton from '../../components_LogIn/BigButton'
 import { setHideLeaveScreenAlert } from '../../../redux/slices/sendFeedbackSlice'
+import { setHideActivateCouponAlert, setHideTimeEndAlert } from '../../../redux/slices/couponCardSlice'
 
 
 
 
 
-
-export default function LeaveScreenAlert({
-    handleLeaveButton
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export default function TimeEndAlert({
+    onClose
 }) {
 
     // Redux
     const dispatch = useDispatch()
-    const leaveScreenAlert = useSelector((state) => state.storeFeedback.leaveScreenAlert)
+    const timeEndAlert = useSelector((state) => state.couponCard.timeEndAlert)
 
     // State
     const [showOverlay, setShowOverlay] = useState(false)
@@ -49,7 +52,7 @@ export default function LeaveScreenAlert({
 
     // Handler
     useEffect(() => {
-        if (leaveScreenAlert) {
+        if (timeEndAlert) {
             setShowOverlay(true)
             backgroundOverlayVal.value = withTiming(1, {duration: 200}) 
             cardVal.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.34, 0.95, 0.76, 1.09)})
@@ -60,61 +63,40 @@ export default function LeaveScreenAlert({
                 setShowOverlay(false)
             }, 400)
         }
-    }, [leaveScreenAlert])
+    }, [timeEndAlert])
 
     // Button Handler
-    // Handle Stay
-    const handleStay = () => {
-        dispatch(setHideLeaveScreenAlert())
-    }
-    // Handle Leave
-    const handleLeave = () => {
-        dispatch(setHideLeaveScreenAlert())
-        setTimeout(() => {
-            handleLeaveButton()
-        }, 300)
+    // Handle Close
+    const handleClose = () => {
+        dispatch(setHideTimeEndAlert())
+        onClose()
     }
 
-// ----------------------------------------------------------------------------------------------------------------
-// RETURN
-// ----------------------------------------------------------------------------------------------------------------
-  return (
-    <>
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+<>
     {/* ------------------------------------------------ */}
     {/* Card */}
     {/* ------------------------------------------------ */}
     <Animated.View style={[styles.card, translateCard]}>
     {/* Info View */}
     <View style={{marginBottom: 20}}>
-        <Text style={[H4, {textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>Deine Nachricht wurde {"\n"}noch nicht gesendet!</Text>
-        <Text style={[T2, {textAlign: 'center', marginTop: 10}]}>Wenn du die Seite jetzt verlässt werden alle Eingaben gelöscht.</Text>
-        <Text style={[T2, {textAlign: 'center', marginTop: 8, fontFamily: 'RH-Medium'}]}>Wie möchtest du fortfahren?</Text>
+        <Text style={[H4, {textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>Zeit abgelaufen!</Text>
+        <Text style={[T2, {textAlign: 'center', marginTop: 10}]}>Zur Einlösung muss dieser Coupon erneut aktiviert werden.</Text>
     </View> 
     {/* Button View */}
     <View>
         <BigButton 
-            title={'Seite verlassen'}
-            bgStyle={{
-                maxWidth: '100%',
-                backgroundColor: COLORS.grey,
-                borderRadius: 10,
-                marginVertical: 0,
-            }}
-            titleStyle={{
-                color: COLORS.white
-            }}
-            onPress={handleLeave}
-        />
-        <BigButton 
-            title={'Auf der Seite bleiben'}
+            title={'Zurück'}
             bgStyle={{
                 maxWidth: '100%',
                 backgroundColor: COLORS.ivoryDark,
                 borderRadius: 10,
                 marginVertical: 0,
-                marginTop: 10
             }}
-            onPress={handleStay}
+            onPress={handleClose}
         />
     </View>
     </Animated.View>
@@ -122,15 +104,18 @@ export default function LeaveScreenAlert({
     {/* Background Overlay */}
     {/* ------------------------------------------------ */}
     {showOverlay && <Animated.View style={[styles.overlay, translateOverlay]}>
-        <Pressable style={{height: height, width: width, position: 'absolute'}} onPress={handleStay}></Pressable>
+        <Pressable 
+            style={{height: height, width: width, position: 'absolute'}} 
+            onPress={handleClose}
+        ></Pressable>
     </Animated.View>}
-    </>
-  )
+</>
+)
 }
 
-// ----------------------------------------------------------------------------------------------------------------
-// STYLE
-// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
     card: {
         width: 0.7*width,

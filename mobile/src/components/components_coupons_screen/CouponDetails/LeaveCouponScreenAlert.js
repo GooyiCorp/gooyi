@@ -10,20 +10,24 @@ import { height, width } from '../../../constants/size'
 import { COLORS } from '../../../index/constantsindex'
 // Components
 import BigButton from '../../components_LogIn/BigButton'
-import { setHideLeaveScreenAlert } from '../../../redux/slices/sendFeedbackSlice'
+import { setHideLeaveCouponScreenAlert } from '../../../redux/slices/couponCardSlice'
 
 
 
 
 
 
-export default function LeaveScreenAlert({
-    handleLeaveButton
+
+export default function LeaveCouponScreenAlert({
+    handleLeaveButton,
+    handleHideQR,
+    handleNavigateButton,
 }) {
 
     // Redux
     const dispatch = useDispatch()
-    const leaveScreenAlert = useSelector((state) => state.storeFeedback.leaveScreenAlert)
+    const leaveCouponScreenAlert = useSelector((state) => state.couponCard.leaveCouponScreenAlert)
+    const userAction = useSelector((state) => state.couponCard.userAction)
 
     // State
     const [showOverlay, setShowOverlay] = useState(false)
@@ -49,7 +53,7 @@ export default function LeaveScreenAlert({
 
     // Handler
     useEffect(() => {
-        if (leaveScreenAlert) {
+        if (leaveCouponScreenAlert) {
             setShowOverlay(true)
             backgroundOverlayVal.value = withTiming(1, {duration: 200}) 
             cardVal.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.34, 0.95, 0.76, 1.09)})
@@ -58,21 +62,26 @@ export default function LeaveScreenAlert({
             cardVal.value = withDelay(200, withTiming(0, {duration: 300}))
             setTimeout(() => {
                 setShowOverlay(false)
-            }, 400)
+            }, 300)
         }
-    }, [leaveScreenAlert])
+    }, [leaveCouponScreenAlert])
 
     // Button Handler
     // Handle Stay
     const handleStay = () => {
-        dispatch(setHideLeaveScreenAlert())
+        dispatch(setHideLeaveCouponScreenAlert())
     }
     // Handle Leave
     const handleLeave = () => {
-        dispatch(setHideLeaveScreenAlert())
-        setTimeout(() => {
+        dispatch(setHideLeaveCouponScreenAlert())
+        if (userAction == 'GoBack') {
             handleLeaveButton()
-        }, 300)
+        } else if (userAction == 'Navigate') {
+            handleNavigateButton()
+        }
+        setTimeout(() => {
+            handleHideQR()
+        }, 200)
     }
 
 // ----------------------------------------------------------------------------------------------------------------
@@ -86,14 +95,14 @@ export default function LeaveScreenAlert({
     <Animated.View style={[styles.card, translateCard]}>
     {/* Info View */}
     <View style={{marginBottom: 20}}>
-        <Text style={[H4, {textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>Deine Nachricht wurde {"\n"}noch nicht gesendet!</Text>
-        <Text style={[T2, {textAlign: 'center', marginTop: 10}]}>Wenn du die Seite jetzt verlässt werden alle Eingaben gelöscht.</Text>
+        <Text style={[H4, {textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>Dein Coupon ist{"\n"}noch aktiv!</Text>
+        <Text style={[T2, {textAlign: 'center', marginTop: 10}]}>Wenn du die Seite jetzt verlässt wird dieser Coupon vorerst deaktiviert.</Text>
         <Text style={[T2, {textAlign: 'center', marginTop: 8, fontFamily: 'RH-Medium'}]}>Wie möchtest du fortfahren?</Text>
     </View> 
     {/* Button View */}
     <View>
         <BigButton 
-            title={'Seite verlassen'}
+            title={'Auf der Seite bleiben'}
             bgStyle={{
                 maxWidth: '100%',
                 backgroundColor: COLORS.grey,
@@ -103,10 +112,10 @@ export default function LeaveScreenAlert({
             titleStyle={{
                 color: COLORS.white
             }}
-            onPress={handleLeave}
+            onPress={handleStay}
         />
         <BigButton 
-            title={'Auf der Seite bleiben'}
+            title={'Seite verlassen'}
             bgStyle={{
                 maxWidth: '100%',
                 backgroundColor: COLORS.ivoryDark,
@@ -114,7 +123,7 @@ export default function LeaveScreenAlert({
                 marginVertical: 0,
                 marginTop: 10
             }}
-            onPress={handleStay}
+            onPress={handleLeave}
         />
     </View>
     </Animated.View>

@@ -9,6 +9,7 @@ import pointReducer from "./slices/pointSlice";
 import queueReducer from "./slices/queueSlice";
 import storeFeedbackReducer from "./slices/sendFeedbackSlice";
 import cartReducer from "./slices/cartSlice";
+import couponCardReducer from "./slices/couponCardSlice";
 
 
 
@@ -24,5 +25,6 @@ export const store = configureStore({
         queue: queueReducer,
         storeFeedback: storeFeedbackReducer,
         cart: cartReducer,
+        couponCard: couponCardReducer,
     }
 })

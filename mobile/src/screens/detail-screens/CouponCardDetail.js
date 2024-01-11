@@ -21,6 +21,10 @@ import BulletPointText from '../../components/components_universal/BulletPointTe
 import RoundButton from '../../components/components_universal/RoundButton'
 import BigButton from '../../components/components_LogIn/BigButton'
 import CountdownTimer from '../../components/components_universal/countdown/CountdownTimer'
+import { setShowActivateCouponAlert, setShowLeaveCouponScreenAlert, setShowTimeEndAlert, setUserAction } from '../../redux/slices/couponCardSlice'
+import ActivateCouponAlert from '../../components/components_coupons_screen/CouponDetails/ActivateCouponAlert'
+import TimeEndAlert from '../../components/components_coupons_screen/CouponDetails/TimeEndAlert'
+import LeaveCouponScreenAlert from '../../components/components_coupons_screen/CouponDetails/LeaveCouponScreenAlert'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,14 +44,45 @@ const [qr, setQR] = useState(false)
         setQR(true)
     }
 
+    const handleActiveCoupon = () => {
+        dispatch(setShowActivateCouponAlert())
+    }
+
+    const handleHideQR = () => {
+        setQR(false)
+    }
+
+    const handleLeaveByAlert = () => {
+        goBack()
+    }
+
+    const handleNavigateByAlert = () => {
+        navigation.navigate('Main')
+        setTimeout(() => {
+            dispatch(setPage('coupons'))
+        }, 300)
+    }
+
     // Go Back Handle
     const handleGoBack = () => {
-        goBack()
+        dispatch(setUserAction('GoBack'))
+        if (qr) {
+            dispatch(setShowLeaveCouponScreenAlert())
+        } else {
+            goBack()
+        }
     }
     // Navigate Shop
     const handleShowShop = () => {
-        navigation.navigate('Main')
-        dispatch(setPage('coupons'))
+        dispatch(setUserAction('Navigate'))
+        if (qr) {
+            dispatch(setShowLeaveCouponScreenAlert())
+        } else {
+            navigation.navigate('Main')
+            setTimeout(() => {
+                dispatch(setPage('coupons'))
+            }, 300)
+        }
     }
     // Open Map App Handle
     const handleOpenMap = () => {
@@ -86,6 +121,9 @@ const [qr, setQR] = useState(false)
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 return (
 <View style={styles.card}>
+    <ActivateCouponAlert onRedeem={handleGenerateQR}/>
+    <TimeEndAlert onClose={handleHideQR}/>
+    <LeaveCouponScreenAlert handleHideQR={handleHideQR} handleLeaveButton={handleLeaveByAlert} handleNavigateButton={handleNavigateByAlert}/>
     {/* Header */}
     <SettingHeader
         goBack
@@ -144,10 +182,10 @@ return (
                         {/* Coupon Info */}
                         <Text style={[T1, {fontFamily: 'RH-Medium', color: COLORS.grey}]}>Größe M</Text>
                         {/* Coupon Code */}
-                        <Text style={[T4, {fontFamily: 'RH-Bold', marginTop: 20}]}>Coupon Code</Text>
+                        <Text style={[T4, {fontFamily: 'RH-Bold', marginTop: 20, marginBottom: 3}]}>Coupon Code</Text>
                         <Text style={[T2, {marginBottom: 5}]}>YS23-0021-7798-HH78</Text>
                         {/* Validity Date  */}
-                        <Text style={[T4, {fontFamily: 'RH-Bold'}]}>Gültig bis</Text>
+                        <Text style={[T4, {fontFamily: 'RH-Bold', marginBottom: 3}]}>Gültig bis</Text>
                         <Text style={[T2]}>30.06.2023</Text>
                         
                     </View>
@@ -168,7 +206,7 @@ return (
                                 titleStyle={{
                                     color: COLORS.grey,
                                 }}  
-                                onPress={handleGenerateQR}
+                                onPress={handleActiveCoupon}
                             />
                         }
 
@@ -185,8 +223,8 @@ return (
                                     />
                                 </View>
                                 <CountdownTimer 
-                                    targetDate={ ( 15 * 1000 ) + (new Date().getTime()) }
-                                    handleFinish={() => console.log('done')}
+                                    targetDate={ ( 15 * 60 * 1000 ) + (new Date().getTime()) }
+                                    handleFinish={() => dispatch(setShowTimeEndAlert())}
                                     styleBox={{backgroundColor: 'transparent'}}
                                     styleSeparator={{
                                         marginHorizontal: 0,
@@ -278,7 +316,8 @@ const styles = StyleSheet.create({
     card: {
         height: height,
         width: width,
-        backgroundColor: COLORS.mainBackground
+        backgroundColor: COLORS.mainBackground,
+        justifyContent: 'center'
     },
 
     logoBox: {

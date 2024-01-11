@@ -11,19 +11,22 @@ import { COLORS } from '../../../index/constantsindex'
 // Components
 import BigButton from '../../components_LogIn/BigButton'
 import { setHideLeaveScreenAlert } from '../../../redux/slices/sendFeedbackSlice'
+import { setHideActivateCouponAlert } from '../../../redux/slices/couponCardSlice'
 
 
 
 
 
-
-export default function LeaveScreenAlert({
-    handleLeaveButton
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export default function ActivateCouponAlert({
+    onRedeem
 }) {
 
     // Redux
     const dispatch = useDispatch()
-    const leaveScreenAlert = useSelector((state) => state.storeFeedback.leaveScreenAlert)
+    const activateCouponAlert = useSelector((state) => state.couponCard.activateCouponAlert)
 
     // State
     const [showOverlay, setShowOverlay] = useState(false)
@@ -49,7 +52,7 @@ export default function LeaveScreenAlert({
 
     // Handler
     useEffect(() => {
-        if (leaveScreenAlert) {
+        if (activateCouponAlert) {
             setShowOverlay(true)
             backgroundOverlayVal.value = withTiming(1, {duration: 200}) 
             cardVal.value = withTiming(1, {duration: 300, easing: Easing.bezier(0.34, 0.95, 0.76, 1.09)})
@@ -60,53 +63,53 @@ export default function LeaveScreenAlert({
                 setShowOverlay(false)
             }, 400)
         }
-    }, [leaveScreenAlert])
+    }, [activateCouponAlert])
 
     // Button Handler
-    // Handle Stay
-    const handleStay = () => {
-        dispatch(setHideLeaveScreenAlert())
+    // Handle Redeem
+    const handleRedeem = () => {
+        dispatch(setHideActivateCouponAlert())
+        onRedeem()
     }
-    // Handle Leave
-    const handleLeave = () => {
-        dispatch(setHideLeaveScreenAlert())
-        setTimeout(() => {
-            handleLeaveButton()
-        }, 300)
+    // Handle Quit
+    const handleQuit = () => {
+        dispatch(setHideActivateCouponAlert())
+        // setTimeout(() => {
+        //     handleLeaveButton()
+        // }, 300)
     }
 
-// ----------------------------------------------------------------------------------------------------------------
-// RETURN
-// ----------------------------------------------------------------------------------------------------------------
-  return (
-    <>
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+<>
     {/* ------------------------------------------------ */}
     {/* Card */}
     {/* ------------------------------------------------ */}
     <Animated.View style={[styles.card, translateCard]}>
     {/* Info View */}
     <View style={{marginBottom: 20}}>
-        <Text style={[H4, {textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>Deine Nachricht wurde {"\n"}noch nicht gesendet!</Text>
-        <Text style={[T2, {textAlign: 'center', marginTop: 10}]}>Wenn du die Seite jetzt verlässt werden alle Eingaben gelöscht.</Text>
-        <Text style={[T2, {textAlign: 'center', marginTop: 8, fontFamily: 'RH-Medium'}]}>Wie möchtest du fortfahren?</Text>
+        <Text style={[H4, {textAlign: 'center', fontFamily: 'RH-Bold', color: COLORS.grey}]}>Coupon aktivieren!</Text>
+        <Text style={[T2, {textAlign: 'center', marginTop: 10}]}>Dieser Coupon wird für <Text style={{fontFamily: 'RH-Medium', color: COLORS.primary}}>15 Minuten</Text> aktiviert. Tippe auf Einlösen wenn {"\n"}du dazu bereit bist!</Text>
     </View> 
     {/* Button View */}
     <View>
         <BigButton 
-            title={'Seite verlassen'}
+            title={'Einlösen'}
             bgStyle={{
                 maxWidth: '100%',
-                backgroundColor: COLORS.grey,
+                backgroundColor: COLORS.primary,
                 borderRadius: 10,
                 marginVertical: 0,
             }}
             titleStyle={{
                 color: COLORS.white
             }}
-            onPress={handleLeave}
+            onPress={handleRedeem}
         />
         <BigButton 
-            title={'Auf der Seite bleiben'}
+            title={'Abbrechen'}
             bgStyle={{
                 maxWidth: '100%',
                 backgroundColor: COLORS.ivoryDark,
@@ -114,7 +117,7 @@ export default function LeaveScreenAlert({
                 marginVertical: 0,
                 marginTop: 10
             }}
-            onPress={handleStay}
+            onPress={handleQuit}
         />
     </View>
     </Animated.View>
@@ -122,15 +125,18 @@ export default function LeaveScreenAlert({
     {/* Background Overlay */}
     {/* ------------------------------------------------ */}
     {showOverlay && <Animated.View style={[styles.overlay, translateOverlay]}>
-        <Pressable style={{height: height, width: width, position: 'absolute'}} onPress={handleStay}></Pressable>
+        <Pressable 
+            style={{height: height, width: width, position: 'absolute'}} 
+            onPress={handleQuit}
+        ></Pressable>
     </Animated.View>}
-    </>
-  )
+</>
+)
 }
 
-// ----------------------------------------------------------------------------------------------------------------
-// STYLE
-// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Style Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const styles = StyleSheet.create({
     card: {
         width: 0.7*width,
