@@ -347,6 +347,7 @@ const styles = StyleSheet.create({
         height: 110,
         position: 'absolute',
         justifyContent: 'flex-end',
+        top: 0,
     },
     
     shadow: {
