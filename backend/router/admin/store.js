@@ -1,9 +1,10 @@
 import express from 'express';
 import prisma from '../../prisma/client/index.js';
-import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
+import { generate_store_id, sendError, sendServerError, sendSuccess } from '../../helper/client.js';
 import { store_create_validate, upload_image_validate } from '../../validation/store.js';
 import { logger } from './../../helper/logger.js';
 import { mkdir, rm } from 'fs';
+import { isNew } from '../../helper/time.js';
 
 const storeRoute = express.Router();
 
@@ -51,15 +52,24 @@ storeRoute.post('/create', async (req, res) => {
                 "create": { "name": item.charAt(0).toUpperCase() + item.slice(1) }
             }
         })
+        const store_id = await generate_store_id()
         const store = await prisma.store.create({
             data: {
-                name, active, description, enter_date: new Date(enter_date),
+                store_id, name, active, description, enter_date: new Date(enter_date),
                 category: {
                     connectOrCreate: categories
                 },
                 service: {
                     connectOrCreate: services
-                }
+                },
+                status: isNew(enter_date) ? {
+                    connectOrCreate: [
+                        {
+                            where: { "name": "Neu" },
+                            create: { "name": "Neu" }
+                        }
+                    ]
+                } : {}
             }
         })
         const image = await prisma.store.update({

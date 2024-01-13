@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendError, sendServerError, sendSuccess } from './../../helper/client.js';
+import { generate_user_id, sendError, sendServerError, sendSuccess } from './../../helper/client.js';
 import prisma from '../../prisma/client/index.js';
 import { USER } from '../../constant/role.js';
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from '../../constant/jwt.js';
@@ -17,8 +17,8 @@ userRoute.post('/create-user', async (req, res) => {
         phone,
     } = req.body;
     try {
-        const user = await prisma.user.create({ data: { first_name, last_name, email, phone, active: true } })
-        const setting = await prisma.setting.create({ data: { user_id: user.user_id, message: true, terms: true } })
+        const user_id = await generate_user_id()
+        const user = await prisma.user.create({ data: { user_id,first_name, last_name, email, phone, active: true } })
         return sendSuccess(res, "Create", user)
     } catch (err) {
         console.log(err);
