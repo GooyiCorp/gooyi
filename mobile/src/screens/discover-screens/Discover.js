@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState } from 'react'
-import { Button, FlatList, ScrollView, StyleSheet,View } from 'react-native'
+import { Button, FlatList, ScrollView, StyleSheet,View, Image } from 'react-native'
 // Reanimated
 import Animated, { interpolate, runOnJS, runOnUI, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 // Haptics
@@ -247,6 +247,13 @@ return (
     style={[styles.mainContainer, {overflow: 'visible'}]}
     scrollEventThrottle={16}
   >
+    <View style={{height: 30, width: 30, justifyContent: 'center', alignItems: 'center'}}>
+    <Image source={require('../../../assets/image/coin.gif')}
+    resizeMode='contain'
+    style={{maxWidth: '100%'}}
+    />
+
+    </View>
     {/* ------------------------------------------------ */}
     {/* Category Container */}
     {/* ------------------------------------------------ */}
