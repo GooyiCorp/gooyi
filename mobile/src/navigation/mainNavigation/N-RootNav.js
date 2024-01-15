@@ -60,7 +60,7 @@ return (
     >
         
         {/* ----------------------------- Main Screens */}
-        {/* Main Navigation*/}
+        {/* Main Navigation */}
         <Root.Screen 
             name='Main' 
             component={MainNav}
