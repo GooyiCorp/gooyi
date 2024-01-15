@@ -48,11 +48,11 @@ import userRoute from "./router/user/index.js";
 import storeRoute from "./router/store/index.js";
 import testRoute from "./router/test/index.js";
 
-import { verifyAdmin, verifyToken } from "./middleware/index.js";
+import { verifyAdmin, verifyStore, verifyToken } from "./middleware/index.js";
 app.use("/api/admin",verifyToken, verifyAdmin, adminRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
-app.use("/api/store", storeRoute)
+app.use("/api/store", verifyToken, verifyStore,storeRoute)
 app.use("/api/test", testRoute)
 
 export var debuggerHost = process.env.APP_SCHEMA

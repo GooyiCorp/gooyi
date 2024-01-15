@@ -2,7 +2,7 @@ import express from 'express';
 import { ADMIN } from '../../constant/role.js';
 import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
 import prisma from '../../prisma/client/index.js';
-import { create_admin_validate, login_validate } from '../../validation/admin.js';
+import { admin_login_validate, create_admin_validate } from '../../validation/admin.js';
 import { logger } from '../../helper/logger.js';
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from '../../constant/jwt.js';
 import bcrypt from 'bcrypt'
@@ -13,7 +13,7 @@ import { TOKEN_LIST } from '../../index.js';
 const adminRoute = express.Router()
 
 adminRoute.post('/login', async (req, res) => {
-    const errors = login_validate(req.body)
+    const errors = admin_login_validate(req.body)
     if (errors) return sendError(res, errors)
     const { username, password } = req.body
     try {

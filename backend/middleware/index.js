@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import { TOKEN_LIST, TOKEN_BLACKLIST } from "../index.js"
 import { sendError } from "../helper/client.js"
 import {mkdir} from 'fs'
-import { ADMIN } from "../constant/role.js"
+import { ADMIN, STORE } from "../constant/role.js"
 export const verifyToken = async (req, res, next) => {
     try {
         const data = req.headers['authorization']
@@ -32,8 +32,8 @@ export const verifyAdmin = async (req, res, next) => {
     next()
 }
 
-
-export const createLogoDir = (req, res, next) => {
-    
-    mkdir()
+export const verifyStore = async (req, res, next) => {
+    if (req.user.role !== STORE)
+        return sendError(res, 'Forbidden.', 403)
+    next()
 }

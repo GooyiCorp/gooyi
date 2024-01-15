@@ -1,20 +1,11 @@
 import express from 'express';
 import jwt from "jsonwebtoken";
-import bcrypt from 'bcrypt'
-import prisma from '../../prisma/client/index.js';
-
-import { create_admin_validate } from './../../validation/admin.js';
-import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
-import { logger } from '../../helper/logger.js';
+import { sendError, sendSuccess } from '../../helper/client.js';
 import { TOKEN_BLACKLIST, TOKEN_LIST } from '../../index.js';
-import { verifyAdmin, verifyToken } from '../../middleware/index.js';
-import { clearTokenList } from '../../helper/jwt.js';
 
+const profileRoute = express.Router()
 
-const profileRoute = express.Router();
-
-
-profileRoute.post("/logout" ,(req, res) => {
+profileRoute.post("/logout", (req, res) => {
     const { refreshToken } = req.body
     if (refreshToken in TOKEN_LIST) delete TOKEN_LIST[refreshToken]
     else return sendError(res, "Invalid refresh token")
