@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
+import { generate_key, sendError, sendServerError, sendSuccess } from '../../helper/client.js';
 import { create_mod_validate } from '../../validation/mod.js';
 import { logger } from '../../helper/logger.js';
 import bcrypt from 'bcrypt'
@@ -19,8 +19,10 @@ modRoute.post('/create', async (req, res) => {
     try {
         const check = await prisma.mod.findMany({where: {OR: [{email, phone}]}})
         if (check.lenght > 0) return sendError(res, "Email or Phone exists")
-        const mod = await prisma.mod.create({data: {store_id, name, email, phone}})
-        return sendSuccess(res, "Create mod successfully", mod)
+        const password = generate_key(8)
+        const hash = bcrypt.hashSync(password, 10)
+        const mod = await prisma.mod.create({data: {store_id, name, email, phone, password: hash}})
+        return sendSuccess(res, "Create mod successfully", {...mod, defaultPassword: password})
     } catch (err) {
         logger.error(err);
         return sendServerError(res)

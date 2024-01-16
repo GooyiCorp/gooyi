@@ -52,7 +52,7 @@ import { verifyAdmin, verifyStore, verifyToken } from "./middleware/index.js";
 app.use("/api/admin",verifyToken, verifyAdmin, adminRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
-app.use("/api/store", verifyToken, verifyStore,storeRoute)
+app.use("/api/store", verifyToken, verifyStore, storeRoute)
 app.use("/api/test", testRoute)
 
 export var debuggerHost = process.env.APP_SCHEMA

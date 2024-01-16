@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendError, sendServerError, sendSuccess } from './../../helper/client.js';
+import { generate_store_id, sendError, sendServerError, sendSuccess } from './../../helper/client.js';
 import stores from './store_data.json' assert { type: 'json' };
 import prisma from '../../prisma/client/index.js';
 import { store_create_validate } from '../../validation/store.js';
@@ -41,9 +41,10 @@ async function createStore(store) {
                 "create": { "name": item.charAt(0).toUpperCase() + item.slice(1) }
             }
         })
+        const store_id =await generate_store_id()
         const store = await prisma.store.create({
             data: {
-                name, active, description, enter_date: new Date(enter_date),
+                name, active, description, enter_date: new Date(enter_date), store_id,
                 category: {
                     connectOrCreate: categories
                 },

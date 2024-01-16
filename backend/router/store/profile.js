@@ -1,9 +1,31 @@
 import express from 'express';
+import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
-import { sendError, sendSuccess } from '../../helper/client.js';
+import { sendError, sendServerError, sendSuccess } from '../../helper/client.js';
 import { TOKEN_BLACKLIST, TOKEN_LIST } from '../../index.js';
+import { mod_password_validate } from '../../validation/mod.js';
+import prisma from '../../prisma/client/index.js';
+import { logger } from '../../helper/logger.js';
 
 const profileRoute = express.Router()
+
+profileRoute.put('/register', async (req, res) => {
+    const { password } = req.body;
+    const mod_id = req.user.id
+    const error = mod_password_validate(password)
+    if (error) return sendError(res, error);
+    try {
+        const mod = await prisma.mod.findUnique({where: {mod_id}})
+        if (!mod) return sendError(res, "Not Found");
+        const hash = bcrypt.hashSync(password, 10)
+        await prisma.mod.update({where: {mod_id}, data: { password: hash, verified: true}})
+        return sendSuccess(res, "Register successfully")
+    } catch (err) {
+        logger.error(err)
+        return sendServerError(res)
+    }
+
+})
 
 profileRoute.post("/logout", (req, res) => {
     const { refreshToken } = req.body

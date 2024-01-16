@@ -21,7 +21,6 @@ storeRoute.post('/login', async (req, res) => {
     const mod = await prisma.mod.findUnique({ where: { email: email.toLowerCase() } })
     if (!mod) return sendError(res, "No user found")
     if (!bcrypt.compareSync(password, mod.password)) return sendError(res, "Wrong password!!!")
-
     const data = {
         id: mod.mod_id,
         role: STORE
@@ -45,7 +44,7 @@ storeRoute.post('/login', async (req, res) => {
         }
     )
     const response = {
-        accessToken, refreshToken
+        accessToken, refreshToken, action: mod.verified ? "LOGIN" : "CREATE_PASSWORD"
     }
     TOKEN_LIST[refreshToken] = response
     return sendSuccess(res, "Login successfully", response)
