@@ -2,6 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 // Slices
 import merchantSlice from "./slices/merchantSlice";
+import logInSlice from "./slices/logInSlice";
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
@@ -9,5 +10,6 @@ import merchantSlice from "./slices/merchantSlice";
 export const store = configureStore({
     reducer: {
         merchant: merchantSlice,
+        logIn: logInSlice,
     }
 })
