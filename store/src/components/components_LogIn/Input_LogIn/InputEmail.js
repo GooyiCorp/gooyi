@@ -14,21 +14,7 @@ import { setEmailError } from '../../../redux/slices/logInSlice'
 // Main Section
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function InputEmail({
-    // Error Message
-    errorMessageCaseEmpty,
-    errorMessageDataValidity,
-    // Check Algorithm
-    checkAlgorithm,
-    // Label
-    label,
-    // check Status
-    checkSuccess,
-    checkFailed,
-    // Secure Text
-    secureTextEntry,
-    //setExternData
     setInputData,
-
     handleSubmit,
 }) {
 
@@ -92,7 +78,7 @@ export default function InputEmail({
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 return (
 <View style={{width: '100%', marginBottom: 15}}>
-    <Animated.Text style={[T4, styles.label, labelTransition]}>E-Mail Adresse:</Animated.Text>
+    <Animated.Text style={[T4, styles.label, labelTransition]}>E-Mail Adresse</Animated.Text>
 
     {/* ------------------------------------------------ */}
     {/* Input Section */}
@@ -119,8 +105,6 @@ return (
             onSubmitEditing={handleInputSubmit}
             // Style
             style={[styles.input, {color: error ? COLORS.primary : COLORS.grey}]}
-            // Text Secure
-            secureTextEntry={secureTextEntry}
 
             placeholder='example@gooyi.de'
             placeholderTextColor={error ? COLORS.primary02 : COLORS.ivoryDark2}
@@ -191,7 +175,7 @@ const styles = StyleSheet.create({
     },
     label: {
         color: COLORS.ivoryDark2,
-        fontFamily: 'RH-Medium',
+        fontFamily: 'RH-Bold',
         zIndex: 1,
     },
 })

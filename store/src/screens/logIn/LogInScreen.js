@@ -1,4 +1,4 @@
-import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 // Helpers
 import { height, width } from '../../helper/constants/size'
@@ -6,7 +6,6 @@ import { COLORS } from '../../helper/constants/colors'
 import { T2, T3, T4 } from '../../helper/constants/text'
 // Components
 import BigButton from '../../components/universal/Buttons/BigButton'
-import InputLogIn from '../../components/components_LogIn/Input_LogIn/InputLogIn'
 import InputEmail from '../../components/components_LogIn/Input_LogIn/InputEmail'
 import InputPassword from '../../components/components_LogIn/Input_LogIn/InputPassword'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,7 +15,9 @@ import Icons, { icons } from '../../components/universal/Icons/Icons'
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export default function LogInScreen() {
+export default function LogInScreen({
+    navigation
+}) {
 // Redux
 const dispatch = useDispatch()
 
@@ -60,6 +61,10 @@ const dispatch = useDispatch()
     const handleSubmitButton = () => {
         checkEmail()
         checkPassword()
+        navigation.navigate('ChangePassword')
+    }
+    const handleResetPassword = () => {
+        navigation.navigate('ResetPassword')
     }
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Return Section
@@ -86,7 +91,9 @@ return (
             setInputData={setPassword}
             handleSubmit={checkPassword}
         />
-        <Text style={{alignSelf: 'flex-end', fontFamily: 'RH-Medium', color: COLORS.grey, marginVertical: 3, fontSize: 14}}>Passwort vergessen?</Text>
+        <TouchableOpacity onPress={handleResetPassword}>
+            <Text style={{alignSelf: 'flex-end', fontFamily: 'RH-Medium', color: COLORS.grey, marginVertical: 3, fontSize: 14}}>Passwort vergessen?</Text>
+        </TouchableOpacity>
     {/* ------------------------------------------------ */}
     {/* Error Message Section */}
     {/* ------------------------------------------------ */}

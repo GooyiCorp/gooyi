@@ -7,6 +7,8 @@ import { height, width } from '../helper/constants/size';
 // Screens
 import LoadingScreen from '../screens/loading/LoadingScreen';
 import LogInScreen from '../screens/logIn/LogInScreen';
+import ChangePasswordScreen from '../screens/logIn/ChangePasswordScreen';
+import ResetPasswordScreen from '../screens/logIn/ResetPasswordScreen';
 
 
 // --- Create Stack Navigator
@@ -40,7 +42,16 @@ return (
             name='LogIn'
             component={LogInScreen}
         />
-
+        {/* Change Password Screen */}
+        <Root.Screen 
+            name='ChangePassword'
+            component={ChangePasswordScreen}
+        />
+        {/* Reset Password Screen */}
+        <Root.Screen 
+            name='ResetPassword'
+            component={ResetPasswordScreen}
+        />
 
 
     </Root.Navigator>

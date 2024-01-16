@@ -76,7 +76,7 @@ export default function InputPassword({
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 return (
 <View style={{width: '100%', marginBottom: 10}}>
-    <Animated.Text style={[T4, styles.label, labelTransition]}>Passwort:</Animated.Text>
+    <Animated.Text style={[T4, styles.label, labelTransition]}>Passwort</Animated.Text>
 
     {/* ------------------------------------------------ */}
     {/* Input Section */}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     },
     label: {
         color: COLORS.ivoryDark2,
-        fontFamily: 'RH-Medium',
+        fontFamily: 'RH-Bold',
         zIndex: 1,
     },
 })
