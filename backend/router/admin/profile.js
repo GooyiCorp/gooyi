@@ -14,7 +14,7 @@ import { clearTokenList } from '../../helper/jwt.js';
 const profileRoute = express.Router();
 
 
-profileRoute.post("/logout", verifyToken, verifyAdmin ,(req, res) => {
+profileRoute.post("/logout" ,(req, res) => {
     const { refreshToken } = req.body
     if (refreshToken in TOKEN_LIST) delete TOKEN_LIST[refreshToken]
     else return sendError(res, "Invalid refresh token")

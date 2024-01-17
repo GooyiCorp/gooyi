@@ -14,6 +14,21 @@ CREATE TABLE "Admin" (
 );
 
 -- CreateTable
+CREATE TABLE "Mod" (
+    "mod_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "verified" BOOLEAN NOT NULL DEFAULT false,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
+    "store_id" TEXT NOT NULL,
+
+    CONSTRAINT "Mod_pkey" PRIMARY KEY ("mod_id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "user_id" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
@@ -30,7 +45,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Store" (
-    "store_id" SERIAL NOT NULL,
+    "store_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT NOT NULL,
@@ -45,8 +60,8 @@ CREATE TABLE "Store" (
 
 -- CreateTable
 CREATE TABLE "Address" (
-    "store_id" INTEGER NOT NULL,
-    "location" geography(Point, 4326) NOT NULL,
+    "store_id" TEXT NOT NULL,
+    "location" geography NOT NULL,
     "street" TEXT NOT NULL,
     "postcode" TEXT NOT NULL,
     "city" TEXT NOT NULL
@@ -54,7 +69,7 @@ CREATE TABLE "Address" (
 
 -- CreateTable
 CREATE TABLE "OpeningHour" (
-    "store_id" INTEGER NOT NULL,
+    "store_id" TEXT NOT NULL,
     "Mon" TEXT NOT NULL,
     "Tue" TEXT NOT NULL,
     "Wed" TEXT NOT NULL,
@@ -92,7 +107,7 @@ CREATE TABLE "Service" (
 -- CreateTable
 CREATE TABLE "UserPoint" (
     "user_id" TEXT NOT NULL,
-    "store_id" INTEGER NOT NULL,
+    "store_id" TEXT NOT NULL,
     "point" INTEGER NOT NULL,
 
     CONSTRAINT "UserPoint_pkey" PRIMARY KEY ("user_id","store_id")
@@ -102,7 +117,7 @@ CREATE TABLE "UserPoint" (
 CREATE TABLE "FeedBack" (
     "feedback_id" SERIAL NOT NULL,
     "user_id" TEXT NOT NULL,
-    "store_id" INTEGER NOT NULL,
+    "store_id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_at" TIMESTAMP(3) NOT NULL,
@@ -123,7 +138,7 @@ CREATE TABLE "FeedBackReply" (
 -- CreateTable
 CREATE TABLE "Quest" (
     "quest_id" SERIAL NOT NULL,
-    "store_id" INTEGER NOT NULL,
+    "store_id" TEXT NOT NULL,
     "point" INTEGER NOT NULL,
 
     CONSTRAINT "Quest_pkey" PRIMARY KEY ("quest_id")
@@ -135,33 +150,33 @@ CREATE TABLE "Coupon" (
     "title" TEXT NOT NULL,
     "expired_in" TIMESTAMP(3) NOT NULL,
     "description" TEXT NOT NULL,
-    "store_id" INTEGER NOT NULL,
+    "store_id" TEXT NOT NULL,
 
     CONSTRAINT "Coupon_pkey" PRIMARY KEY ("coupon_id")
 );
 
 -- CreateTable
 CREATE TABLE "_FavoriteStore" (
-    "A" INTEGER NOT NULL,
+    "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_StoreAndCategory" (
     "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_StoreStatus" (
     "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_StoreService" (
     "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -174,6 +189,9 @@ CREATE TABLE "_FavoriteCoupons" (
 CREATE UNIQUE INDEX "Admin_username_key" ON "Admin"("username");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Mod_store_id_key" ON "Mod"("store_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_user_id_key" ON "User"("user_id");
 
 -- CreateIndex
@@ -181,6 +199,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Store_store_id_key" ON "Store"("store_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Address_store_id_key" ON "Address"("store_id");
@@ -231,22 +252,25 @@ CREATE UNIQUE INDEX "_FavoriteCoupons_AB_unique" ON "_FavoriteCoupons"("A", "B")
 CREATE INDEX "_FavoriteCoupons_B_index" ON "_FavoriteCoupons"("B");
 
 -- AddForeignKey
+ALTER TABLE "Mod" ADD CONSTRAINT "Mod_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Address" ADD CONSTRAINT "Address_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "OpeningHour" ADD CONSTRAINT "OpeningHour_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserPoint" ADD CONSTRAINT "UserPoint_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "UserPoint" ADD CONSTRAINT "UserPoint_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "FeedBack" ADD CONSTRAINT "FeedBack_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserPoint" ADD CONSTRAINT "UserPoint_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FeedBack" ADD CONSTRAINT "FeedBack_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FeedBack" ADD CONSTRAINT "FeedBack_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FeedBackReply" ADD CONSTRAINT "FeedBackReply_feedback_id_fkey" FOREIGN KEY ("feedback_id") REFERENCES "FeedBack"("feedback_id") ON DELETE CASCADE ON UPDATE CASCADE;

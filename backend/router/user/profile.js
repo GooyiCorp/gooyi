@@ -75,7 +75,7 @@ profileRoute.post("/email-login", async (req, res) => {
             return sendSuccess(res, "Login email sent successfully", { accessToken, refreshToken})
         }
         else {
-            const key = generate_key()
+            const key = generate_key(8)
             await Redis.hSet("verified_code", email, key)
             const options = {
                 from: "Gooyi.de <info@gooyi.de>",

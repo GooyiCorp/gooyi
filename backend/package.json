@@ -10,10 +10,10 @@
     "dev": "nodemon index.js",
     "migrate": "npx prisma migrate dev"
   },
-  "author": "Thanh Nguyen, Duc Aanh",
+  "author": "Thanh Nguyen, Duc Anh",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.7.1",
+    "@prisma/client": "^5.8.0",
     "bcrypt": "^5.1.1",
     "chalk": "^5.3.0",
     "cors": "^2.8.5",

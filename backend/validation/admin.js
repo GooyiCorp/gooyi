@@ -10,7 +10,7 @@ export function create_admin_validate(data) {
     return errors.get()
 }
 
-export function login_validate(data) {
+export function admin_login_validate(data) {
     const errors = new Error()
     .isRequired(data.username, 'username')
     .isRequired(data.password, 'password')
