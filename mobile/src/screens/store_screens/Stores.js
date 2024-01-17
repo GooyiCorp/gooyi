@@ -44,21 +44,17 @@ const pageSelected = useSelector((state) => state.subNav.storeNavPage)
   // Duc Anh: chinh radius o day
   const longitude = useSelector((state) => state.locate.long)
   const latitude = useSelector((state) => state.locate.lat)
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn)
+  const accessToken = useSelector((state) => state.user.accessToken)
   const getStores = async () => {
-    try {
-      // Duc anh: Neu chua dang nhap thi goi cai nay
-      const response = await Request(`user/store?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET")
-      // Neu dang nhap roi thi goi cai nay
-      // const accessToken = store.getState().user.accessToken
-      // const response = await Request(`user/store/find?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET",data={},token=accessToken)
-      setStores(response.data)
-    } catch (error) {  
-      console.log(error.response.data)
-    }
+      const response = isLoggedIn ? await Request(`user/store/find?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET", null, accessToken) : await Request(`user/store?longitude=${longitude}&latitude=${latitude}&radius=${radius}`, "GET")
+      if (response.success) {
+        setStores(response.data)
+      }
   }  
   useEffect(() => {
     getStores();
-  }, [radius, longitude, latitude])
+  }, [radius, longitude, latitude, isLoggedIn, accessToken])
 
   // ----------------------------  
   // Animation Section
@@ -188,6 +184,8 @@ return (
                 shopName={store.name} 
                 description={store.description} 
                 distance={store.distance}
+                store_id={store.store_id} 
+                liked={store.favorite}
               />
             )
           })

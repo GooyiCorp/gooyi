@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons, MaterialIcons, Octicons } from '@expo/vector-icons'; 
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming } from 'react-native-reanimated';
@@ -9,9 +9,10 @@ export default function HeartButton({
   icon,
   iconName,
   iconSize,
+  value,
+  Action
 }) {
-
-    const liked = useSharedValue(0)
+    const liked = useSharedValue(value ? value : 0)
 
     const outlineStyle = useAnimatedStyle(() => {
         return {
@@ -32,9 +33,13 @@ export default function HeartButton({
           ],
         };
       });
-
+      const handlePress = async () => {
+        console.log(value);
+        liked.value = withTiming(liked.value ? 0 : 1)
+        // await Action()
+      }
     return (
-        <Pressable onPress={() => (liked.value = withTiming(liked.value ? 0 : 1))}>
+        <Pressable onPress={handlePress}>
             <Animated.View style={[StyleSheet.absoluteFill, outlineStyle]}>
                 <Icons 
                   icon={icon}

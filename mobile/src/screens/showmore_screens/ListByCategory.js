@@ -123,6 +123,7 @@ return (
           shopName={item.name} 
           description={item.description} 
           distance={item.distance}
+          store_id={item.store_id} 
         />
       ))}  
     </View>

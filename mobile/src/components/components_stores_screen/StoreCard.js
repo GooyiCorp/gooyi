@@ -12,6 +12,8 @@ import { height, width } from '../../constants/size'
 import HeartButton from '../components_universal/HeartButton'
 import Icons, { icons } from '../components_universal/Icons'
 import CategoryType from './CategoryType'
+import Request from '../../helper/request.js'
+import { useSelector } from 'react-redux'
 
 
 
@@ -24,11 +26,12 @@ const imgBoxHeight = 200*0.6
 export default function StoreCard({
     onPress,
     newshop,
+    store_id,
     shopName,
     description,
     distance,
+    liked,
 }) {
-
   // ----------------------------  
   // Animation Section
   // ---------------------------- 
@@ -75,7 +78,11 @@ export default function StoreCard({
             opacity: interpolate(transitionVal.value, [0,1], [0.8, 1])
         }
       })
-    
+  const accessToken = useSelector(state => state.user.accessToken)
+  const handleLike = async () => {
+    const response = await Request('user/store/like', 'POST', {store_id}, accessToken)
+    if (!response.success) alert(response.message)
+  }
        
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Return Section
@@ -172,6 +179,8 @@ return (
           icon={icons.MaterialIcons}
           iconName={'favorite'}
           iconSize={30}
+          Action={handleLike}
+          value={liked ? 1 : 0}
           />
       </View>
 

@@ -78,19 +78,22 @@ storeRoute.get("/find", verifyToken, async (req, res) => {
     const error = find_stores_validate(req.query)
     if  (error) return sendError(res, error);
     
-    const {longitude, latitude, radius} = req.query
+    const {longitude, latitude, radius, neu} = req.query
     const user_id = req.user.id
     if (!radius) radius = 1000
     try {
         const user = await prisma.user.findUnique({where: {user_id}, include: {FavoriteStores: { select: {store_id: true}}}})
         if (!user) return sendError(res, "Unauthorized", 403)
         const favoriteStoreIds = user.FavoriteStores.map((item) => item.store_id);
-    const stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
-    const results = stores.map((item) => ({
+        let stores = await prisma.store.findClosestStores({longitude, latitude, radius: parseInt(radius)})
+        if ((/true/i).test(neu)) {
+            stores = stores.filter((store) => store.isNew)
+        }
+        const results = stores.map((item) => ({
             ...item,
             favorite: favoriteStoreIds.includes(item.store_id)
         }));
-        return res.send(results)
+        return sendSuccess(res, "Success", results)
     } catch (error) {
         logger.error(error);
         return sendServerError(res, error);
