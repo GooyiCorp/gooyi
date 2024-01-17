@@ -26,7 +26,7 @@ return (
 <View style={styles.screen}>
     {/* ---- start - Navigation Section */}
     <Root.Navigator
-        initialRouteName='LogIn'
+        initialRouteName='ChangePassword'
         screenOptions={{
             headerShown: false,    
         }}
