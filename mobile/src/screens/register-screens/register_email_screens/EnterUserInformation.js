@@ -24,8 +24,6 @@ import SettingHeader from '../../../components/components_navigation/SettingHead
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function EnterUserInformation({route}) {
   const {email, key} = route.params;
-  //const email = 'test email'
-  //console.log(email)
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
@@ -61,13 +59,6 @@ export default function EnterUserInformation({route}) {
   const handleCheck3CaseFalse = (() => {
     setCheck3(false)
   })
-
-  // Test State
-  // useEffect(() => {
-  //   console.log('check1:', check1)
-  //   console.log('check2:', check2)
-  //   console.log('check3:', check3)
-  // }, [check1, check2, check3])
 
   const [errorCheck2, setErrorCheck2] = useState(false)
   const [errorCheck3, setErrorCheck3] = useState(false)
@@ -108,20 +99,17 @@ export default function EnterUserInformation({route}) {
   // handle Server Request
   useEffect(() => {
     if (checkSuccessFN && checkSuccessLN && check2 && check3) {
-      console.log('send request')
       handleSubmit()
     }
   }, [checkSuccessFN,checkSuccessLN,check2,check3])
   
   const handleSubmit = async () => {
-    try {
       const response = await Request('user/profile/register', "post", {
         first_name: inputDataFN,
         last_name: inputDataLN,
         email: email,
         key: key,
       })
-      console.log(response);
       // success
       // Luu thong tin
       if (response.success) {
@@ -130,21 +118,10 @@ export default function EnterUserInformation({route}) {
         dispatch(setRefreshToken(response.data.refreshToken))
         await Save("accessToken", response.data.accessToken)
         await Save("refreshToken", response.data.refreshToken)
-        console.log('sucess')
         navigation.navigate('Onboard')
       } else {
-
+        alert(response.message)
       }
-      //console.log(Get("accessToken"))
-      // Save("email", response.data.data.userData.email)
-      // Save("phone", response.data.data.userData.phone)
-      // Save("id", response.data.data.userData.id)
-      // ------
-      // set log ing lai di
-      // nhay vao cai nao day 
-    } catch (error) {
-      console.log(error)
-    }
   }
   
 

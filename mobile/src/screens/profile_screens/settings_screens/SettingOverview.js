@@ -6,7 +6,7 @@ import { H3, T1, T2 } from '../../../constants/text-style'
 import { COLORS } from '../../../index/constantsindex'
 // Redux
 import {useSelector, useDispatch} from 'react-redux'
-import { setLoggedOut, setRefreshToken, setToken } from '../../../redux/slices/userSlice.js'
+import { setEntryDate, setLoggedOut, setRefreshToken, setToken, setUserId, setUserName } from '../../../redux/slices/userSlice.js'
 // React Navigation
 import { useNavigation } from '@react-navigation/native'
 // Helpers
@@ -30,6 +30,9 @@ export default function SettingOverview() {
         dispatch(setLoggedOut())
         dispatch(setToken(''))
         dispatch(setRefreshToken(''))
+        dispatch(setUserId(''))
+        dispatch(setUserName(''))
+        dispatch(setEntryDate(''))
         await Delete('accessToken')
         await Delete('refreshToken')
             // Duc anh: Navigate sang trang khac sau khi log out

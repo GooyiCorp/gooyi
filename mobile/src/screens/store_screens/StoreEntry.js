@@ -323,7 +323,7 @@ export default function StoreEntry({
                         color: COLORS.grey,
                         fontFamily: 'RH-Medium'
                     }}
-                    onPressButton={() => navigation.navigate('SendFeedback')}
+                    onPressButton={() => navigation.navigate('SendFeedback', {store_id, name})}
                 />
 
         </View>

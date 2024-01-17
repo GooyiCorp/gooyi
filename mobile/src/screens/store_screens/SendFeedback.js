@@ -5,7 +5,7 @@ import { height, width } from '../../constants/size'
 import { COLORS } from '../../index/constantsindex'
 import { H1, H3, H4, T1, T2, T3, T4 } from '../../constants/text-style'
 // Redux
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setShowLeaveScreenAlert, setShowMessageSendAlert } from '../../redux/slices/sendFeedbackSlice'
 import { setPage } from '../../redux/slices/mainNavSlice'
 // Components
@@ -15,16 +15,17 @@ import RoundButton from '../../components/components_universal/RoundButton'
 import LeaveScreenAlert from '../../components/components_stores_screen/send_feedback/LeaveScreenAlert'
 import MessageSendAlert from '../../components/components_stores_screen/send_feedback/MessageSendAlert'
 import SettingHeader from '../../components/components_navigation/SettingHeader'
+import Request from '../../helper/request.js'
 
 
 // ----------------------------------------------------------------------------------------------------------------
 // Main
 // ----------------------------------------------------------------------------------------------------------------
-export default function SendFeedback({navigation , navigation: {goBack}}) {
-
+export default function SendFeedback({route, navigation , navigation: {goBack}}) {
+  const {store_id, name} = route.params
   // Redux
   const dispatch = useDispatch()
-
+  const accessToken = useSelector(state => state.user.accessToken);
   // Input State
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
@@ -36,12 +37,16 @@ export default function SendFeedback({navigation , navigation: {goBack}}) {
     setError(false)
   } 
   // Send Message Button 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!message) {
       setError(true)
     } else {
-      console.log('send message!')
-      dispatch(setShowMessageSendAlert())
+      const response = await Request('user/store/feedback', "POST", {store_id, text: message}, accessToken)
+      if (response.success) {
+        dispatch(setShowMessageSendAlert())
+      } else {
+        alert(response.message)
+      }
     }
   }
   // Enter Text Input
@@ -104,7 +109,7 @@ return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 10}}>
       {/* Address */}
       <View style={[styles.addressBar]}>
-        <Text style={[T2, {color: COLORS.grey}]}>An: <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey}}>Dat Backhus</Text></Text>
+        <Text style={[T2, {color: COLORS.grey}]}>An: <Text style={{fontFamily: 'RH-Bold', color: COLORS.grey}}>{name}</Text></Text>
       </View>
       {/* Clear Button */}
       {message && <RoundButton
