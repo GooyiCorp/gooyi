@@ -11,6 +11,8 @@ export const changePasswordSlice = createSlice({
     initialState: {
         showInput: false,
         notMatchError: false,
+        passwordLengthError: false,
+        changePasswordSuccessAlert: false,
     },
 
     // ---- start - Reducers Section
@@ -25,6 +27,17 @@ export const changePasswordSlice = createSlice({
             state.notMatchError = action.payload
         },
 
+        setPasswordLengthError: (state, action) => {
+            state.passwordLengthError = action.payload
+        },
+
+        setHideChangePasswordSuccessAlert: (state) => {
+            state.changePasswordSuccessAlert = false
+        },
+        setShowChangePasswordSuccessAlert: (state) => {
+            state.changePasswordSuccessAlert = true
+        }
+
     }
     // ---- end - Reducers Section
 
@@ -37,6 +50,10 @@ export const {
 
     setShowInput,
     setNotMatchError,
+    setPasswordLengthError,
+
+    setShowChangePasswordSuccessAlert,
+    setHideChangePasswordSuccessAlert,
 
 } = changePasswordSlice.actions;
  

@@ -9,7 +9,7 @@ import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedVal
 import { T4 } from '../../../helper/constants/text'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPasswordError } from '../../../redux/slices/logInSlice'
-import { setNotMatchError, setShowInput } from '../../../redux/slices/changePasswordSlice'
+import { setNotMatchError, setPasswordLengthError, setShowInput } from '../../../redux/slices/changePasswordSlice'
 import ProgressBar from '../../universal/ProgressBar/ProgressBar'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ export default function InputChangePassword({
     const [focus, setFocus] = useState(false)
     const showPassword = useSelector((state) => state.changePassword.showInput)
     const error = useSelector((state) => state.changePassword.notMatchError)
-
+    const lengthError = useSelector((state) => state.changePassword.passwordLengthError)
     // ----------------------------  
     // Animation
     // ---------------------------- 
@@ -42,7 +42,7 @@ export default function InputChangePassword({
         // Label Style
         const borderTransition = useAnimatedStyle(() => {
             return {
-                borderColor: error ? COLORS.primary : interpolateColor(focusInput.value, [0,1], [COLORS.ivoryDark2, COLORS.grey])
+                borderColor: lengthError && data.length < 8 && data.length > 0 ? COLORS.primary : error ? COLORS.primary : interpolateColor(focusInput.value, [0,1], [COLORS.ivoryDark2, COLORS.grey])
             }
         })
     // ---- end - Animated Style
@@ -67,6 +67,7 @@ export default function InputChangePassword({
         // handle onChangeText
         const handleOnChangeText = (e) => {
             dispatch(setNotMatchError(false))
+            dispatch(setPasswordLengthError(false))
             setData(e)
         }
         // handle Press Input Submit
