@@ -156,10 +156,6 @@ const handleSubmitButton = () => {
     />
 
 
-            {/* <Text style={styles.strengthText}> 
-                {strength} 
-            </Text>  */}
-
  
 
     </Pressable>
@@ -195,21 +191,7 @@ const styles = StyleSheet.create({
       marginLeft: 5
   },
 
-  strengthMeter: { 
-    width: '40%', 
-    height: 8, 
-    backgroundColor: COLORS.ivory, 
-    marginTop: 10, 
-    marginRight: 10,
-    borderRadius: 10, 
-    overflow: 'hidden', 
-    alignSelf: 'flex-end'
-}, 
-
-strengthText: { 
-fontSize: 12, 
-}, 
-suggestionsText: { 
-  color: 'red', 
+  suggestionsText: { 
+    color: 'red', 
 }, 
 })
