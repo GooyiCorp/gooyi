@@ -15,6 +15,6 @@ export const store = configureStore({
         merchant: merchantSlice,
         logIn: logInSlice,
         changePassword: changePasswordSlice,
-        resetPassword: resetPasswordSlice
+        resetPassword: resetPasswordSlice,
     }
 })

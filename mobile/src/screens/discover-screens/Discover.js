@@ -252,7 +252,7 @@ return (
     resizeMode='contain'
     style={{maxWidth: '100%'}}
     />
-
+ 
     </View>
     {/* ------------------------------------------------ */}
     {/* Category Container */}
