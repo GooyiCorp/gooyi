@@ -10,6 +10,7 @@ export const resetPasswordSlice = createSlice({
     
     initialState: {
         emailError_ResetPassword: false,
+        sendResetPasswordMailSuccessAlert: false,
     },
 
     // ---- start - Reducers Section
@@ -19,6 +20,13 @@ export const resetPasswordSlice = createSlice({
         setEmailError_ResetPassword: (state, action) => {
             state.emailError_ResetPassword = action.payload
         },
+
+        setHideSendResetPasswordMailSuccessAlert: (state) => {
+            state.sendResetPasswordMailSuccessAlert = false
+        },
+        setShowSendResetPasswordMailSuccessAlert: (state) => {
+            state.sendResetPasswordMailSuccessAlert = true
+        }
 
     }
     // ---- end - Reducers Section
@@ -30,7 +38,9 @@ export const resetPasswordSlice = createSlice({
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export const {
 
-    setEmailError_ResetPassword
+    setEmailError_ResetPassword,
+    setHideSendResetPasswordMailSuccessAlert,
+    setShowSendResetPasswordMailSuccessAlert,
 
 } = resetPasswordSlice.actions;
  

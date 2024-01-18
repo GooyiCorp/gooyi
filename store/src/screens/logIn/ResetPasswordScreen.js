@@ -4,9 +4,10 @@ import { height, width } from '../../helper/constants/size'
 import { COLORS } from '../../helper/constants/colors'
 import InputEmail_ResetPassword from '../../components/components_LogIn/Input_ResetPassword/InputEmail_ResetPassword'
 import BigButton from '../../components/universal/Buttons/BigButton'
-import { setEmailError_ResetPassword } from '../../redux/slices/resetPasswordSlice'
+import { setEmailError_ResetPassword, setShowSendResetPasswordMailSuccessAlert } from '../../redux/slices/resetPasswordSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Icons, { icons } from '../../components/universal/Icons/Icons'
+import SendResetPasswordMailSuccessAlert from '../../components/components_LogIn/Alert/SendResetPasswordMailSuccessAlert'
 
 export default function ResetPasswordScreen({
   navigation
@@ -28,6 +29,7 @@ export default function ResetPasswordScreen({
             // Case: success -> handle ServerRequest
             else {
                 dispatch(setEmailError_ResetPassword(false))
+                dispatch(setShowSendResetPasswordMailSuccessAlert())
                 return
             }   
     }
@@ -38,6 +40,7 @@ export default function ResetPasswordScreen({
   }
   return (
     <View style={styles.screen}>
+      <SendResetPasswordMailSuccessAlert onPressButton={() => console.log('send Mail')}/>
       <View style={{width: width, paddingHorizontal: 35, marginBottom: 20}}>
         <InputEmail_ResetPassword 
           setInputData={setEmail}
