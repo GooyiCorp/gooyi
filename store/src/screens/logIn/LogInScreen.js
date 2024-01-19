@@ -1,4 +1,4 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 // Helpers
 import { height, width } from '../../helper/constants/size'
@@ -130,6 +130,7 @@ return (
         }}
         onPress={handleSubmitButton}
     />
+    <Button title='go main' onPress={() => navigation.navigate('Main')}/>
     </Pressable>
 </View>
 )

@@ -9,6 +9,7 @@ import LoadingScreen from '../screens/loading/LoadingScreen';
 import LogInScreen from '../screens/logIn/LogInScreen';
 import ChangePasswordScreen from '../screens/logIn/ChangePasswordScreen';
 import ResetPasswordScreen from '../screens/logIn/ResetPasswordScreen';
+import MainNav from './MainNav';
 
 
 // --- Create Stack Navigator
@@ -51,6 +52,11 @@ return (
         <Root.Screen 
             name='ResetPassword'
             component={ResetPasswordScreen}
+        />
+
+        <Root.Screen 
+            name='Main'
+            component={MainNav}
         />
 
 
