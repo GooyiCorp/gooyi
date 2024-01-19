@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "gooyi-store",
     "name": "gooyi-store",
     "slug": "gooyi-store",
     "version": "1.0.0",

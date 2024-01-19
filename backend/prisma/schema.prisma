@@ -27,7 +27,7 @@ model Mod {
   verified  Boolean  @default(false)
   create_at DateTime @default(now())
   update_at DateTime @updatedAt
-  store_id  String   @unique
+  store_id  String   
   store     Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
 }
 
@@ -60,7 +60,7 @@ model Store {
   Address        Address?
   Coupons        Coupon[]
   FeedBacks      FeedBack[]
-  Mod            Mod?
+  Mod            Mod[]
   OpeningHour    OpeningHour?
   Quests         Quest[]
   UserPoints     UserPoint[]
