@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { height, width } from '../../../helper/constants/size'
-import { COLORS } from '../../../helper/constants/colors'
+import { height, width } from '../../../constants/size'
+import { COLORS } from '../../../constants/colors'
 
 export default function CouponsScreen() {
   return (

@@ -6,7 +6,7 @@ import RedeemScreen from '../screens/main/redeem/RedeemScreen';
 import CouponsScreen from '../screens/main/coupons/CouponsScreen';
 import MoreScreen from '../screens/main/more/MoreScreen';
 import { MaterialIcons } from '@expo/vector-icons';
-import { COLORS } from '../helper/constants/colors';
+import { COLORS } from '../constants/colors';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {

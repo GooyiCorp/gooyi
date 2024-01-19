@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Icons from '../Icons/Icons'
-import { COLORS } from '../../../helper/constants/colors'
+import { COLORS } from '../../../constants/colors'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
