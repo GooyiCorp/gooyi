@@ -7,47 +7,26 @@ import CouponsScreen from '../screens/main/coupons/CouponsScreen';
 import MoreScreen from '../screens/main/more/MoreScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import { COLORS } from '../helper/constants/colors';
+import MainHeader from '../components/components_Navigation/MainHeader';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {
   return (
+    <>
+    <MainHeader />
     <Main.Navigator
         screenOptions={{
-            // tabBarShowLabel: false
+            headerShown: false,    
         }}
     >
         <Main.Screen 
             name='Home'
             component={HomeScreen}
         />
-        <Main.Screen 
+        {/* <Main.Screen 
             name='Deals'
-            component={HomeScreen}
-        />
-        <Main.Screen 
-            name='Redeem'
-            component={RedeemScreen}
-            options={{
-                tabBarIcon: () => {
-                    return (
-                        <MaterialIcons 
-                            name="qr-code-scanner" 
-                            size={26} 
-                            color={COLORS.grey}
-                            // style={{
-                            //     padding: 10,
-                            //     borderRadius: 16,
-                            //     overflow: 'hidden',
-                            //     backgroundColor: COLORS.primary,
-                            //     bottom: 5,
-                            //     position: 'absolute'
-                            // }}
-                            />
-                    )
-                },
-                
-            }}
-        />
+            component={}
+        /> */}
         <Main.Screen 
             name='Coupons'
             component={CouponsScreen}
@@ -59,6 +38,7 @@ export default function MainNav() {
         />
         
     </Main.Navigator>
+    </>
   )
 }
 

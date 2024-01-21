@@ -10,6 +10,8 @@ import LogInScreen from '../screens/logIn/LogInScreen';
 import ChangePasswordScreen from '../screens/logIn/ChangePasswordScreen';
 import ResetPasswordScreen from '../screens/logIn/ResetPasswordScreen';
 import MainNav from './MainNav';
+import RedeemScreen from '../screens/main/redeem/RedeemScreen';
+import CreateNewCouponScreen from '../screens/main/coupons/CreateNewCouponScreen';
 
 
 // --- Create Stack Navigator
@@ -59,6 +61,15 @@ return (
             component={MainNav}
         />
 
+        <Root.Screen 
+            name='Redeem'
+            component={RedeemScreen}
+        />
+
+        <Root.Screen 
+            name='CreateCoupon'
+            component={CreateNewCouponScreen}
+        />
 
     </Root.Navigator>
     {/* ---- end - Navigation Section */}
