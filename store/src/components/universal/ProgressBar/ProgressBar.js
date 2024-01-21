@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
-import { COLORS } from '../../../constants/colors'
+import { COLORS } from '../../../helper/constants/colors'
 
 export default function ProgressBar({
     progressValue,

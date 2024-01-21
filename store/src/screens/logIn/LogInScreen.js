@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 // Helpers
 
-import { height, width } from '../../constants/size'
-import { COLORS } from '../../constants/colors'
-import { T2, T3, T4 } from '../../constants/text'
+import { height, width } from '../../helper/constants/size'
+import { COLORS } from '../../helper/constants/colors'
+import { T2, T3, T4 } from '../../helper/constants/text'
 // Components
 import BigButton from '../../components/universal/Buttons/BigButton'
 import InputEmail from '../../components/components_LogIn/Input_LogIn/InputEmail'
@@ -13,7 +13,7 @@ import InputPassword from '../../components/components_LogIn/Input_LogIn/InputPa
 import { useDispatch, useSelector } from 'react-redux'
 import { setEmailError, setPasswordError } from '../../redux/slices/logInSlice'
 import Icons, { icons } from '../../components/universal/Icons/Icons'
-import { api_url } from '../../constants/api';
+import { api_url } from '../../helper/constants/api';
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section

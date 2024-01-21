@@ -3,7 +3,7 @@ import React from 'react'
 // React Navigation
 import { createStackNavigator } from '@react-navigation/stack';
 // Helpers
-import { height, width } from '../constants/size';
+import { height, width } from '../helper/constants/size';
 // Screens
 import LoadingScreen from '../screens/loading/LoadingScreen';
 import LogInScreen from '../screens/logIn/LogInScreen';

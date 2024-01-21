@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 // Helpers
-import { T1 } from '../../../constants/text'
-import { COLORS } from '../../../constants/colors'
+import { T1 } from '../../../helper/constants/text'
+import { COLORS } from '../../../helper/constants/colors'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section

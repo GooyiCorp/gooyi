@@ -1,12 +1,12 @@
 import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 // Helpers
-import { COLORS } from '../../../constants/colors'
+import { COLORS } from '../../../helper/constants/colors'
 // Components
 import IconButton from '../../universal/Buttons/IconButton'
 import Icons, { icons } from '../../universal/Icons/Icons'
 import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
-import { T4 } from '../../../constants/text'
+import { T4 } from '../../../helper/constants/text'
 import { useDispatch, useSelector } from 'react-redux'
 import { setEmailError } from '../../../redux/slices/logInSlice'
 import { setEmailError_ResetPassword } from '../../../redux/slices/resetPasswordSlice'
