@@ -74,8 +74,8 @@ storeRoute.post('/create', async (req, res) => {
         })
         const image = await prisma.store.update({
             where: { store_id: store.store_id }, data: {
-                logo: `http://${host}:${port}/store/${store.store_id}/logo.png`,
-                background: `http://${host}:${port}/store/${store.store_id}/background.png`
+                logo: encodeURI(`http://${host}:${port}/store/${store.store_id}/logo.png`),
+                background: encodeURI(`http://${host}:${port}/store/${store.store_id}/background.png`)
             }
         })
         const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city} })
@@ -91,7 +91,7 @@ storeRoute.post('/create', async (req, res) => {
 storeRoute.delete("/:id", async (req, res) => {
     const store_id = req.params.id
     try {
-        await prisma.store.delete({where: {store_id: parseInt(store_id)}})
+        await prisma.store.delete({where: {store_id: store_id}})
         rm(`public/store/${store_id}`, function (err) {
             if (err) return sendError(res, "Cannot delete store's image.")
         })
@@ -110,8 +110,7 @@ storeRoute.post("/upload", async (req, res) => {
     const {store_id, type} = req.body
     const image = req.files.image
     try {
-        console.log(parseInt(store_id));
-        const store = await prisma.store.findUnique({where: {store_id: parseInt(store_id)}})
+        const store = await prisma.store.findUnique({where: {store_id: store_id}})
         
         if (!store) return sendError(res, "No store found")
         image.name = type + ".png"

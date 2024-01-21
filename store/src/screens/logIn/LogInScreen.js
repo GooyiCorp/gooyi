@@ -1,9 +1,11 @@
 import { Button, Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+import axios from 'axios'
 // Helpers
-import { height, width } from '../../helper/constants/size'
-import { COLORS } from '../../helper/constants/colors'
-import { T2, T3, T4 } from '../../helper/constants/text'
+
+import { height, width } from '../../constants/size'
+import { COLORS } from '../../constants/colors'
+import { T2, T3, T4 } from '../../constants/text'
 // Components
 import BigButton from '../../components/universal/Buttons/BigButton'
 import InputEmail from '../../components/components_LogIn/Input_LogIn/InputEmail'
@@ -11,6 +13,7 @@ import InputPassword from '../../components/components_LogIn/Input_LogIn/InputPa
 import { useDispatch, useSelector } from 'react-redux'
 import { setEmailError, setPasswordError } from '../../redux/slices/logInSlice'
 import Icons, { icons } from '../../components/universal/Icons/Icons'
+import { api_url } from '../../constants/api';
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
@@ -58,10 +61,21 @@ const dispatch = useDispatch()
     const handleLeaveInput = () => {
         Keyboard.dismiss()
     }
-    const handleSubmitButton = () => {
+    const handleSubmitButton = async () => {
         checkEmail()
         checkPassword()
-        navigation.navigate('ChangePassword')
+        try {
+            const response = await axios.post(`${api_url}auth/store/login`, {email: email.toLowerCase(), password})
+            if (response.data.data.action == "CREATE_PASSWORD") {
+                return navigation.navigate('ChangePassword')
+            }
+            else alert("Success")
+            return navigation.navigate('Main')
+        } catch (e) {
+            console.log(e.response.data);
+            alert(e.response.data.message)
+        }
+        
     }
     const handleResetPassword = () => {
         navigation.navigate('ResetPassword')

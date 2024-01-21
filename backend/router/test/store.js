@@ -55,8 +55,8 @@ async function createStore(store) {
         })
         const image = await prisma.store.update({
             where: { store_id: store.store_id }, data: {
-                logo: `http://${host}:${port}/store/${store.store_id}/logo.png`,
-                background: `http://${host}:${port}/store/${store.store_id}/background.png`
+                logo: encodeURI(`http://${host}:${port}/store/${store.store_id}/logo.png`),
+                background: encodeURI(`http://${host}:${port}/store/${store.store_id}/background.png`)
             }
         })
         const address = await prisma.address.create({ data: { store_id: store.store_id, longitude, latitude, street, postcode, city} })

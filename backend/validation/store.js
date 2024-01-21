@@ -45,7 +45,6 @@ export function upload_image_validate(data) {
     .isRequired(data.body.store_id, "Store ID")
     .isRequired(data.body.type, "Type")
 
-    if (data.body.store_id && !parseInt(data.body.store_id))  error.appendError("Store ID must be a number");
     if (data.body.type && data.body.type != "logo" && data.body.type != "background") error.appendError("Type must be logo or background")
     if (!data.files) error.appendError("Files must be provided");
     return error.get()

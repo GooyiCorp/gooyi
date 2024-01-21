@@ -206,7 +206,7 @@ export default function Page() {
                 {previewUrl && <img className="" src={previewUrl} alt="Preview" />}
             </div>
             <form className="flex flex-col" onSubmit={handleChangePhoto}>
-                <input type="number" placeholder="store_id" className="rounded max-w-sm my-5" name="store_id"/>
+                <input type="text" placeholder="store_id" className="rounded max-w-sm my-5" name="store_id"/>
                 <select name="type" placeholder="Select type" className="max-w-sm my-5">
                     <option value={'logo'}>Logo</option>
                     <option value={'background'}>Background</option>

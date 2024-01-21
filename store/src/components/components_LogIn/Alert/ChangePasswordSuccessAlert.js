@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { height, width } from '../../../helper/constants/size'
-import { COLORS } from '../../../helper/constants/colors'
-import { H4, T2 } from '../../../helper/constants/text'
+import { height, width } from '../../../constants/size'
+import { COLORS } from '../../../constants/colors'
+import { H4, T2 } from '../../../constants/text'
 import BigButton from '../../universal/Buttons/BigButton'
 import { setHideChangePasswordSuccessAlert } from '../../../redux/slices/changePasswordSlice'
 // Constant

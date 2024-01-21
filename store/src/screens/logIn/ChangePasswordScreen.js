@@ -1,7 +1,7 @@
 import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
-import { height, width } from '../../helper/constants/size'
-import { COLORS } from '../../helper/constants/colors'
+import { height, width } from '../../constants/size'
+import { COLORS } from '../../constants/colors'
 import InputChangePassword from '../../components/components_LogIn/Input_ChangePassword/InputChangePassword'
 import { useDispatch, useSelector } from 'react-redux'
 import BigButton from '../../components/universal/Buttons/BigButton'
@@ -58,6 +58,7 @@ const handleSubmitButton = () => {
   if (firstInput == secondInput && firstInput.length >= 8) {
     console.log('password match')
     // ---- start - Thanh: handle change Password  
+    // Duc Anh: Tao giup e slice cho acccessToken refreshToken de gui kem 
       dispatch(setShowChangePasswordSuccessAlert())
 
     // ---- end - Thanh: handle change Password  

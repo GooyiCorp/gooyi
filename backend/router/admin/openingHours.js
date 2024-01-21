@@ -14,9 +14,9 @@ openingHours.put('/', async (req, res) => {
     const update = {}
     update[day] = timeString
     try {
-        const store = await prisma.store.findUnique({where: {store_id: parseInt(store_id)}})
+        const store = await prisma.store.findUnique({where: {store_id: store_id}})
         if (!store) return sendError(res, "Store not found")
-        await prisma.OpeningHour.update({where: {store_id: parseInt(store_id)}, data: update})
+        await prisma.OpeningHour.update({where: {store_id: store_id}, data: update})
         return sendSuccess(res, "Update successfully", store)
     } catch (err) {
         logger.error(err)
