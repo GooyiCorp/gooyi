@@ -48,11 +48,8 @@ export default function InputDistributionTime({
     // Handler Section
     // ---------------------------- 
         // Clear Button Handler
-        const handleClear = () => {
-            setData('')
-            // dispatch(setEmailError(false))
-            handleOnBlur()
-            Keyboard.dismiss()
+        const handleRangePicker = () => {
+
         }
         // onFocus Hanlder
         const handleOnFocus = () => {
@@ -114,14 +111,13 @@ return (
         <View 
             style={[
                 styles.rightView,
-                {zIndex: focus? 1 : 0}
             ]}
         >
             {/* Clear Button */}
             <IconButton 
-                icon={icons.MaterialCommunityIcons}
-                iconName={'close'}
-                iconSize={28}
+                icon={icons.AntDesign}
+                iconName={'calendar'}
+                iconSize={23}
                 iconColor={COLORS.subPrimary}
                 styleContainer={{
                     alignItems: 'flex-end',
@@ -129,15 +125,8 @@ return (
                     borderRadius: 0,
                     paddingBottom: 5,
                     backgroundColor: 'transparent',
-                    opacity: focus? 1 : 0, 
-                    transform: [
-                        {scaleX: focus? 1 : 0}
-                    ]
                 }}
-                styleIcon={{
-                    marginRight: -3
-                }}
-                onPress={handleClear}
+                onPress={handleRangePicker}
             />
         </View>
         {/* ---- end - Right View */}
@@ -163,6 +152,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         position: 'absolute',
         right: 0,
+        zIndex: 2,
     },
     input: {
         height: '100%',

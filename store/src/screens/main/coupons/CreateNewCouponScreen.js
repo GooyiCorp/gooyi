@@ -10,17 +10,29 @@ import InputDistributionTime from '../../../components/components_Coupon/compone
 import InputCouponDescription from '../../../components/components_Coupon/components_CreateCoupon/Input_CreateCoupon/InputCouponDescription'
 import InputCouponAmounts from '../../../components/components_Coupon/components_CreateCoupon/Input_CreateCoupon/InputCouponAmounts'
 import InputCouponValidityPeriod from '../../../components/components_Coupon/components_CreateCoupon/Input_CreateCoupon/InputCouponValidityPeriod'
+import CalendarPicker from 'react-native-calendar-picker';
 
 export default function CreateNewCouponScreen({
     navigation: {goBack}
 }) {
 
     const [couponTitle, setCouponTitle] = useState('')
+
     const handleLeaveInput = () => {
         Keyboard.dismiss()
     }
+
   return (
     <View style={styles.screen}>
+        <View style={{position: 'absolute', height: height, width: width, justifyContent: 'center', alignItems: 'center', zIndex: 2, paddingHorizontal: 30, backgroundColor: COLORS.bgTransparencyDark}}>
+            <View style={{width: width*0.9, backgroundColor: COLORS.white, justifyContent: 'center', alignItems: 'center'}}>
+
+            <CalendarPicker
+            // onDateChange={(date) => this.setState({ selectedDate: date })}
+            width={width*0.9}
+                />
+            </View>
+        </View>
         <Pressable 
         style={{
             height: height, 

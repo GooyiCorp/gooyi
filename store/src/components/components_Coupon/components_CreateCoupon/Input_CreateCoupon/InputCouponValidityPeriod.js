@@ -119,8 +119,8 @@ return (
         >
             {/* Clear Button */}
             <IconButton 
-                icon={icons.MaterialCommunityIcons}
-                iconName={'close'}
+                icon={icons.AntDesign}
+                iconName={'calendar'}
                 iconSize={28}
                 iconColor={COLORS.subPrimary}
                 styleContainer={{
