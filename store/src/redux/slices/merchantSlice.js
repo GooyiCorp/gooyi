@@ -9,8 +9,10 @@ export const merchantSlice = createSlice({
     name: 'merchant',
     
     initialState: {
-        merchant_id: 0,
+        merchant_id: "",
         logIn_state: false,
+        accessToken: "",
+        refreshToken: "",
     },
 
     // ---- start - Reducers Section
