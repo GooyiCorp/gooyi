@@ -17,6 +17,7 @@ import { icons } from '../../../universal/Icons/Icons'
 export default function InputDistributionTime({
     setInputData,
     handleSubmit,
+    showCalendar,
 }) {
 
     const dispatch = useDispatch()
@@ -49,7 +50,7 @@ export default function InputDistributionTime({
     // ---------------------------- 
         // Clear Button Handler
         const handleRangePicker = () => {
-
+            showCalendar()
         }
         // onFocus Hanlder
         const handleOnFocus = () => {
