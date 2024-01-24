@@ -22,6 +22,15 @@ export const merchantSlice = createSlice({
         setMerchantId: (state, action) => {
             state.merchant_id = action.payload
         },
+        setLogInState: (state, action) => {
+            state.logIn_state = action.payload
+        },
+        setAccessToken: (state, action) => {
+            state.accessToken = action.payload
+        },
+        setRefreshToken: (state, action) => {
+            state.refreshToken = action.payload
+        },
 
     }
     // ---- end - Reducers Section
@@ -34,6 +43,9 @@ export const merchantSlice = createSlice({
 export const {
 
     setMerchantId,
+    setLogInState,
+    setAccessToken,
+    setRefreshToken,
 
 } = merchantSlice.actions;
  

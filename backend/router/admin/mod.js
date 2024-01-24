@@ -21,7 +21,7 @@ modRoute.post('/create', async (req, res) => {
         if (check.lenght > 0) return sendError(res, "Email or Phone exists")
         const store = await prisma.store.findUnique({where: {store_id}})
         if (!store) return sendError(res, "Store not found")
-        const password = generate_key(8)
+        const password = generate_key(11)
         const hash = bcrypt.hashSync(password, 10)
         const mod = await prisma.mod.create({data: {store_id, name, email, phone, password: hash}})
         const options = {

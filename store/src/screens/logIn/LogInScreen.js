@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setEmailError, setPasswordError } from '../../redux/slices/logInSlice'
 import Icons, { icons } from '../../components/universal/Icons/Icons'
 import { api_url } from '../../helper/constants/api';
+import { setAccessToken, setMerchantId, setRefreshToken } from '../../redux/slices/merchantSlice'
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Main Section
@@ -66,6 +67,13 @@ const dispatch = useDispatch()
         checkPassword()
         try {
             const response = await axios.post(`${api_url}auth/store/login`, {email: email.toLowerCase(), password})
+            console.log(response.data.data.store_id)
+            if (response.data.success) {
+                dispatch(setAccessToken(response.data.data.accessToken))
+                dispatch(setRefreshToken(response.data.data.refreshToken))
+                dispatch(setMerchantId(response.data.data.store_id))
+                dispatch(setLogInState(true))
+            }
             if (response.data.data.action == "CREATE_PASSWORD") {
                 return navigation.navigate('ChangePassword')
             }

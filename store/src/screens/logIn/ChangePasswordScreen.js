@@ -9,6 +9,7 @@ import { passwordLengthError, setNotMatchError, setPasswordLengthError, setShowC
 import Icons, { icons } from '../../components/universal/Icons/Icons'
 import ProgressBar from '../../components/universal/ProgressBar/ProgressBar'
 import ChangePasswordSuccessAlert from '../../components/components_LogIn/Alert/ChangePasswordSuccessAlert'
+import Request from '../../helper/request'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,7 +27,7 @@ export default function ChangePasswordScreen({
 
   const notMatchError = useSelector((state) => state.changePassword.notMatchError)
   const passwordLengthError = useSelector((state) => state.changePassword.passwordLengthError)
-
+  const accessToken = useSelector((state) => state.merchant.accessToken)
   const handleLeaveInput = () => {
     Keyboard.dismiss()
 }
@@ -53,14 +54,16 @@ const validatePassword = (input) => {
   // ---- end - Password Strength
 }
 
-const handleSubmitButton = () => {
+const handleSubmitButton = async () => {
   Keyboard.dismiss()
   if (firstInput == secondInput && firstInput.length >= 8) {
-    console.log('password match')
     // ---- start - Thanh: handle change Password  
-    // Duc Anh: Tao giup e slice cho acccessToken refreshToken de gui kem 
+    const respone = await Request("store/profile/register", "PUT", { password: firstInput }, accessToken)
+    if (respone.success) {
       dispatch(setShowChangePasswordSuccessAlert())
-
+    } else {
+      console.log(respone.message);
+    }
     // ---- end - Thanh: handle change Password  
   } else if (firstInput.length < 8) {
     dispatch(setPasswordLengthError(true))
