@@ -9,6 +9,7 @@ datasource db {
   extensions = [postgis]
 }
 
+// ------------------- Admin -------------------
 model Admin {
   admin_id  Int      @id @default(autoincrement())
   name      String
@@ -18,6 +19,7 @@ model Admin {
   update_at DateTime @updatedAt
 }
 
+// ------------------- Mod -------------------
 model Mod {
   mod_id    Int      @id @default(autoincrement())
   name      String
@@ -27,10 +29,11 @@ model Mod {
   verified  Boolean  @default(false)
   create_at DateTime @default(now())
   update_at DateTime @updatedAt
-  store_id  String   
+  store_id  String
   store     Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
 }
 
+// ------------------- User -------------------
 model User {
   user_id         String      @id @unique
   first_name      String
@@ -47,6 +50,7 @@ model User {
   FavoriteStores  Store[]     @relation("FavoriteStore")
 }
 
+// ------------------- Store -------------------
 model Store {
   store_id       String       @id @unique
   name           String
@@ -110,6 +114,7 @@ model Service {
   stores     Store[] @relation("StoreService")
 }
 
+// ------------------- User And Store -------------------
 model UserPoint {
   user_id  String
   store_id String
@@ -147,14 +152,32 @@ model Quest {
   store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
 }
 
+// ------------------- Coupon -------------------
 model Coupon {
-  coupon_id   Int      @id @default(autoincrement())
+  coupon_id   Int              @id @default(autoincrement())
   title       String
-  expired_in  DateTime
+  start_date  DateTime
+  end_date    DateTime
+  expired_in  Int
   description String
-  store_id    String
-  store       Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
-  likedUsers  User[]   @relation("FavoriteCoupons")
+  amount      Int
+  store_id    String           @unique
+  store       Store            @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  likedUsers  User[]           @relation("FavoriteCoupons")
+  priorities  CouponPriority[]
+  categories  CouponCategory[]
+}
+
+model CouponCategory {
+  coupon_category_id Int      @id @default(autoincrement())
+  name               String   @unique
+  coupons            Coupon[]
+}
+
+model CouponPriority {
+  coupon_priority_id Int      @id @default(autoincrement())
+  name               String   @unique
+  coupons            Coupon[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

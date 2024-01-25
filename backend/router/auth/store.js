@@ -27,6 +27,7 @@ storeRoute.post('/login', async (req, res) => {
         }
         const data = {
             id: mod.mod_id,
+            store_id: mod.store_id,
             role: STORE
         };
         const accessToken = jwt.sign(
@@ -43,7 +44,6 @@ storeRoute.post('/login', async (req, res) => {
             accessToken,
             refreshToken,
             action: mod.verified ? "LOGIN" : "CREATE_PASSWORD",
-            store_id: mod.store_id
         };
         TOKEN_LIST[refreshToken] = response;
         return sendSuccess(res, "Login successfully", response);

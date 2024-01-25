@@ -80,10 +80,11 @@ export async function generate_store_id() {
             store_count = 0
         }
         await Redis.incr(TODAY_CREATED_STORE)
+        store_count = parseInt(store_count) + 1
         today = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
-        return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(3 - store_count.toString().length)}${parseInt(store_count) + 1}`
+        return `${new Date().getFullYear() - 2024} ${'0'.repeat(3 - today.toString().length)}${today} ${'0'.repeat(3 - store_count.toString().length)}${store_count}`
     } catch (e) {
         logger.error(e);
-        return 'error';
+        throw new Error(`Failed to generate store id: ${e.message}`);
     }
 }

@@ -148,11 +148,30 @@ CREATE TABLE "Quest" (
 CREATE TABLE "Coupon" (
     "coupon_id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "expired_in" TIMESTAMP(3) NOT NULL,
+    "start_date" TIMESTAMP(3) NOT NULL,
+    "end_date" TIMESTAMP(3) NOT NULL,
+    "expired_in" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
     "store_id" TEXT NOT NULL,
 
     CONSTRAINT "Coupon_pkey" PRIMARY KEY ("coupon_id")
+);
+
+-- CreateTable
+CREATE TABLE "CouponCategory" (
+    "coupon_category_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "CouponCategory_pkey" PRIMARY KEY ("coupon_category_id")
+);
+
+-- CreateTable
+CREATE TABLE "CouponPriority" (
+    "coupon_priority_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "CouponPriority_pkey" PRIMARY KEY ("coupon_priority_id")
 );
 
 -- CreateTable
@@ -185,11 +204,26 @@ CREATE TABLE "_FavoriteCoupons" (
     "B" TEXT NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "_CouponToCouponPriority" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_CouponToCouponCategory" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_username_key" ON "Admin"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Mod_store_id_key" ON "Mod"("store_id");
+CREATE UNIQUE INDEX "Mod_email_key" ON "Mod"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Mod_phone_key" ON "Mod"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_user_id_key" ON "User"("user_id");
@@ -222,6 +256,15 @@ CREATE UNIQUE INDEX "Status_name_key" ON "Status"("name");
 CREATE UNIQUE INDEX "Service_name_key" ON "Service"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Coupon_store_id_key" ON "Coupon"("store_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CouponCategory_name_key" ON "CouponCategory"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CouponPriority_name_key" ON "CouponPriority"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_FavoriteStore_AB_unique" ON "_FavoriteStore"("A", "B");
 
 -- CreateIndex
@@ -250,6 +293,18 @@ CREATE UNIQUE INDEX "_FavoriteCoupons_AB_unique" ON "_FavoriteCoupons"("A", "B")
 
 -- CreateIndex
 CREATE INDEX "_FavoriteCoupons_B_index" ON "_FavoriteCoupons"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_CouponToCouponPriority_AB_unique" ON "_CouponToCouponPriority"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_CouponToCouponPriority_B_index" ON "_CouponToCouponPriority"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_CouponToCouponCategory_AB_unique" ON "_CouponToCouponCategory"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_CouponToCouponCategory_B_index" ON "_CouponToCouponCategory"("B");
 
 -- AddForeignKey
 ALTER TABLE "Mod" ADD CONSTRAINT "Mod_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -310,3 +365,15 @@ ALTER TABLE "_FavoriteCoupons" ADD CONSTRAINT "_FavoriteCoupons_A_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "_FavoriteCoupons" ADD CONSTRAINT "_FavoriteCoupons_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CouponToCouponPriority" ADD CONSTRAINT "_CouponToCouponPriority_A_fkey" FOREIGN KEY ("A") REFERENCES "Coupon"("coupon_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CouponToCouponPriority" ADD CONSTRAINT "_CouponToCouponPriority_B_fkey" FOREIGN KEY ("B") REFERENCES "CouponPriority"("coupon_priority_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CouponToCouponCategory" ADD CONSTRAINT "_CouponToCouponCategory_A_fkey" FOREIGN KEY ("A") REFERENCES "Coupon"("coupon_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CouponToCouponCategory" ADD CONSTRAINT "_CouponToCouponCategory_B_fkey" FOREIGN KEY ("B") REFERENCES "CouponCategory"("coupon_category_id") ON DELETE CASCADE ON UPDATE CASCADE;

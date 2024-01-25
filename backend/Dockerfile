@@ -10,6 +10,5 @@ COPY . .
 
 EXPOSE 8000
 RUN npx prisma generate
-# RUN chmod +x ./entry_point.sh
-# ENTRYPOINT ["bash", "./entry_point.sh"]
+
 CMD [ "yarn", "start" ]
