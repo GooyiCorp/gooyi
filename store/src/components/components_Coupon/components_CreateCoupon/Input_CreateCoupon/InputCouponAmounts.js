@@ -109,6 +109,8 @@ return (
 
             // placeholder='z.B.: 20% Rabatt auf '
             placeholderTextColor={error ? COLORS.primary02 : COLORS.ivoryDark2}
+
+            keyboardType='number-pad'
         />
         {/* ---- start - Right View */}
         <View 

@@ -1,5 +1,5 @@
 import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // Helpers
 
 // Components
@@ -18,6 +18,8 @@ export default function InputDistributionTime({
     setInputData,
     handleSubmit,
     showCalendar,
+    onPress,
+    calendarData
 }) {
 
     const dispatch = useDispatch()
@@ -72,6 +74,10 @@ export default function InputDistributionTime({
             handleSubmit()
         }
 
+        useEffect(() => {
+            setData(calendarData)
+        }, [calendarData])
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Return Section
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -107,6 +113,9 @@ return (
 
             // placeholder='z.B.: 20% Rabatt auf '
             placeholderTextColor={error ? COLORS.primary02 : COLORS.ivoryDark2}
+            editable={false}
+            onPressIn={onPress}
+            defaultValue=''
         />
         {/* ---- start - Right View */}
         <View 
