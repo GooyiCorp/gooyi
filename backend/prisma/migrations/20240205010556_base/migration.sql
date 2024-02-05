@@ -153,6 +153,8 @@ CREATE TABLE "Coupon" (
     "expired_in" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
     "amount" INTEGER NOT NULL,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
     "store_id" TEXT NOT NULL,
 
     CONSTRAINT "Coupon_pkey" PRIMARY KEY ("coupon_id")
@@ -172,6 +174,38 @@ CREATE TABLE "CouponPriority" (
     "name" TEXT NOT NULL,
 
     CONSTRAINT "CouponPriority_pkey" PRIMARY KEY ("coupon_priority_id")
+);
+
+-- CreateTable
+CREATE TABLE "CouponUser" (
+    "coupon_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+
+    CONSTRAINT "CouponUser_pkey" PRIMARY KEY ("coupon_id","user_id")
+);
+
+-- CreateTable
+CREATE TABLE "Reward" (
+    "reward_id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
+    "expired_in" INTEGER NOT NULL,
+    "description" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "max_coupon_amount" INTEGER NOT NULL,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
+    "store_id" TEXT NOT NULL,
+
+    CONSTRAINT "Reward_pkey" PRIMARY KEY ("reward_id")
+);
+
+-- CreateTable
+CREATE TABLE "Condition" (
+    "condition_id" SERIAL NOT NULL,
+    "text" TEXT NOT NULL,
+
+    CONSTRAINT "Condition_pkey" PRIMARY KEY ("condition_id")
 );
 
 -- CreateTable
@@ -212,6 +246,18 @@ CREATE TABLE "_CouponToCouponPriority" (
 
 -- CreateTable
 CREATE TABLE "_CouponToCouponCategory" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_ConditionToReward" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_ConditionToCoupon" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
@@ -265,6 +311,15 @@ CREATE UNIQUE INDEX "CouponCategory_name_key" ON "CouponCategory"("name");
 CREATE UNIQUE INDEX "CouponPriority_name_key" ON "CouponPriority"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "CouponUser_code_key" ON "CouponUser"("code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Reward_store_id_key" ON "Reward"("store_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Condition_text_key" ON "Condition"("text");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_FavoriteStore_AB_unique" ON "_FavoriteStore"("A", "B");
 
 -- CreateIndex
@@ -306,6 +361,18 @@ CREATE UNIQUE INDEX "_CouponToCouponCategory_AB_unique" ON "_CouponToCouponCateg
 -- CreateIndex
 CREATE INDEX "_CouponToCouponCategory_B_index" ON "_CouponToCouponCategory"("B");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_ConditionToReward_AB_unique" ON "_ConditionToReward"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ConditionToReward_B_index" ON "_ConditionToReward"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_ConditionToCoupon_AB_unique" ON "_ConditionToCoupon"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ConditionToCoupon_B_index" ON "_ConditionToCoupon"("B");
+
 -- AddForeignKey
 ALTER TABLE "Mod" ADD CONSTRAINT "Mod_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -335,6 +402,15 @@ ALTER TABLE "Quest" ADD CONSTRAINT "Quest_store_id_fkey" FOREIGN KEY ("store_id"
 
 -- AddForeignKey
 ALTER TABLE "Coupon" ADD CONSTRAINT "Coupon_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CouponUser" ADD CONSTRAINT "CouponUser_coupon_id_fkey" FOREIGN KEY ("coupon_id") REFERENCES "Coupon"("coupon_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CouponUser" ADD CONSTRAINT "CouponUser_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reward" ADD CONSTRAINT "Reward_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FavoriteStore" ADD CONSTRAINT "_FavoriteStore_A_fkey" FOREIGN KEY ("A") REFERENCES "Store"("store_id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -377,3 +453,15 @@ ALTER TABLE "_CouponToCouponCategory" ADD CONSTRAINT "_CouponToCouponCategory_A_
 
 -- AddForeignKey
 ALTER TABLE "_CouponToCouponCategory" ADD CONSTRAINT "_CouponToCouponCategory_B_fkey" FOREIGN KEY ("B") REFERENCES "CouponCategory"("coupon_category_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConditionToReward" ADD CONSTRAINT "_ConditionToReward_A_fkey" FOREIGN KEY ("A") REFERENCES "Condition"("condition_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConditionToReward" ADD CONSTRAINT "_ConditionToReward_B_fkey" FOREIGN KEY ("B") REFERENCES "Reward"("reward_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConditionToCoupon" ADD CONSTRAINT "_ConditionToCoupon_A_fkey" FOREIGN KEY ("A") REFERENCES "Condition"("condition_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConditionToCoupon" ADD CONSTRAINT "_ConditionToCoupon_B_fkey" FOREIGN KEY ("B") REFERENCES "Coupon"("coupon_id") ON DELETE CASCADE ON UPDATE CASCADE;

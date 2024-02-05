@@ -4,8 +4,12 @@ import stores from './store_data.json' assert { type: 'json' };
 import prisma from '../../prisma/client/index.js';
 import { store_create_validate } from '../../validation/store.js';
 import { rm } from 'fs';
+import jwt from "jsonwebtoken";
 import { checkNewStore, checkOpeningStore } from '../../helper/schedule.js';
 import { logger } from '../../helper/logger.js';
+import { STORE } from '../../constant/role.js';
+import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from '../../constant/jwt.js';
+import { TOKEN_LIST } from '../../index.js';
 
 const storeRoute = express.Router()
 
@@ -113,5 +117,53 @@ storeRoute.put('/check-new-store', async (req, res) => {
     const result = await checkNewStore()
     return sendSuccess(res, "success", result);
 })
+
+storeRoute.post('/create-mod', async (req, res) => {
+    const { store_id, name, phone, email } = req.body;
+    try {
+        const mod = await prisma.mod.create({
+            data: {
+                store_id, name, phone, email, password: "test"
+            }
+        })
+        return sendSuccess(res, "success", mod)
+    } catch (err) {
+        logger.error(err);
+        return sendServerError(res)
+    }
+})
+
+storeRoute.post('/mod-login', async (req, res) => {
+    const { mod_id } = req.body;
+    try {
+        const mod = await prisma.mod.findUnique({ where: { mod_id } });
+        if (!mod) return sendError(res, "No user found")
+        const data = {
+            id: mod.mod_id,
+            store_id: mod.store_id,
+            role: STORE
+        };
+        const accessToken = jwt.sign(
+            { user: data },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: JWT_EXPIRED }
+        );
+        const refreshToken = jwt.sign(
+            { user: data },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: JWT_REFRESH_EXPIRED }
+        );
+        const response = {
+            accessToken,
+            refreshToken,
+        };
+        TOKEN_LIST[refreshToken] = response;
+        return sendSuccess(res, "Login successfully", response);
+    } catch (err) {
+        logger.error(err);
+        return sendServerError(res);
+    }
+})
+
 
 export default storeRoute

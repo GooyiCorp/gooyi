@@ -88,3 +88,15 @@ export async function generate_store_id() {
         throw new Error(`Failed to generate store id: ${e.message}`);
     }
 }
+
+export async function generate_coupon_code(id) {
+    var code = '';
+    for (var i = 0; i < 4; i++) {
+        code += `${generate_key(4).toUpperCase()}-`
+    }
+    if (await Redis.get(code)) {
+        return generate_coupon_code()
+    }
+    await Redis.set(code, id, 'EX', 900)
+    return code.slice(0, -1)
+}

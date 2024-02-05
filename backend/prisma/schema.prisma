@@ -35,34 +35,38 @@ model Mod {
 
 // ------------------- User -------------------
 model User {
-  user_id         String      @id @unique
-  first_name      String
-  last_name       String
-  email           String?     @unique
-  phone           String?     @unique
-  active          Boolean     @default(false)
-  last_login      DateTime?
-  create_at       DateTime    @default(now())
-  update_at       DateTime    @updatedAt
+  user_id    String    @id @unique
+  first_name String
+  last_name  String
+  email      String?   @unique
+  phone      String?   @unique
+  active     Boolean   @default(false)
+  last_login DateTime?
+  create_at  DateTime  @default(now())
+  update_at  DateTime  @updatedAt
+
   FeedBacks       FeedBack[]
   UserPoints      UserPoint[]
-  FavoriteCoupons Coupon[]    @relation("FavoriteCoupons")
-  FavoriteStores  Store[]     @relation("FavoriteStore")
+  favoriteCoupons Coupon[]     @relation("FavoriteCoupons")
+  FavoriteStores  Store[]      @relation("FavoriteStore")
+  coupons         CouponUser[]
 }
 
 // ------------------- Store -------------------
 model Store {
-  store_id       String       @id @unique
-  name           String
-  active         Boolean      @default(false)
-  description    String
-  logo           String?
-  background     String?
-  enter_date     DateTime
-  create_at      DateTime     @default(now())
-  update_at      DateTime     @updatedAt
+  store_id    String   @id @unique
+  name        String
+  active      Boolean  @default(false)
+  description String
+  logo        String?
+  background  String?
+  enter_date  DateTime
+  create_at   DateTime @default(now())
+  update_at   DateTime @updatedAt
+
   Address        Address?
   Coupons        Coupon[]
+  Rewards        Reward[]
   FeedBacks      FeedBack[]
   Mod            Mod[]
   OpeningHour    OpeningHour?
@@ -126,12 +130,13 @@ model UserPoint {
 }
 
 model FeedBack {
-  feedback_id   Int            @id @default(autoincrement())
-  user_id       String
-  store_id      String
-  text          String
-  create_at     DateTime       @default(now())
-  update_at     DateTime       @updatedAt
+  feedback_id Int      @id @default(autoincrement())
+  user_id     String
+  store_id    String
+  text        String
+  create_at   DateTime @default(now())
+  update_at   DateTime @updatedAt
+
   store         Store          @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
   user          User           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   FeedBackReply FeedBackReply?
@@ -142,7 +147,8 @@ model FeedBackReply {
   reply       String
   create_at   DateTime @default(now())
   update_at   DateTime @updatedAt
-  feedback    FeedBack @relation(fields: [feedback_id], references: [feedback_id], onDelete: Cascade)
+
+  feedback FeedBack @relation(fields: [feedback_id], references: [feedback_id], onDelete: Cascade)
 }
 
 model Quest {
@@ -154,18 +160,23 @@ model Quest {
 
 // ------------------- Coupon -------------------
 model Coupon {
-  coupon_id   Int              @id @default(autoincrement())
+  coupon_id   Int      @id @default(autoincrement())
   title       String
   start_date  DateTime
   end_date    DateTime
   expired_in  Int
   description String
   amount      Int
-  store_id    String           @unique
-  store       Store            @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
-  likedUsers  User[]           @relation("FavoriteCoupons")
-  priorities  CouponPriority[]
-  categories  CouponCategory[]
+  create_at   DateTime @default(now())
+  update_at   DateTime @updatedAt
+
+  store_id   String           @unique
+  store      Store            @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  likedUsers User[]           @relation("FavoriteCoupons")
+  priorities CouponPriority[]
+  categories CouponCategory[]
+  conditions Condition[]
+  users      CouponUser[]
 }
 
 model CouponCategory {
@@ -178,6 +189,40 @@ model CouponPriority {
   coupon_priority_id Int      @id @default(autoincrement())
   name               String   @unique
   coupons            Coupon[]
+}
+
+model CouponUser {
+  coupon_id Int
+  user_id   String
+  coupon    Coupon @relation(fields: [coupon_id], references: [coupon_id], onDelete: Cascade)
+  user      User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  code      String @unique
+
+  @@id([coupon_id, user_id])
+}
+
+// ------------------- Reward -------------------
+model Reward {
+  reward_id         Int      @id @default(autoincrement())
+  title             String
+  expired_in        Int
+  description       String
+  amount            Int
+  max_coupon_amount Int
+  create_at         DateTime @default(now())
+  update_at         DateTime @updatedAt
+
+  conditions Condition[]
+  store_id   String      @unique
+  store      Store       @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+}
+
+// Condition
+model Condition {
+  condition_id Int      @id @default(autoincrement())
+  text         String   @unique
+  rewards      Reward[]
+  copouns      Coupon[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
