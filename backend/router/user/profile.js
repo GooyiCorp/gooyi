@@ -4,7 +4,7 @@ import { generate_key, generate_user_id, sendAutoMail, sendError, sendServerErro
 import { email_validate, redirect_validate, register_validate } from "../../validation/user.js";
 import { USER } from "../../constant/role.js";
 import { JWT_EXPIRED, JWT_REFRESH_EXPIRED } from "../../constant/jwt.js";
-import { TOKEN_LIST, TOKEN_BLACKLIST, debuggerHost } from "../../index.js";
+import { TOKEN_LIST, TOKEN_BLACKLIST, app_schema } from "../../index.js";
 import path from 'path';
 import { __dirname } from "../../index.js";
 import { render } from "../../template/index.js";
@@ -172,7 +172,7 @@ profileRoute.get("/login-redirect", async (req, res) => {
     } = req.query
     try {
         const now = new Date().getTime()
-        const link = debuggerHost + "main"
+        const link = app_schema + "main"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link+"?error=expired"}))
         if (refreshToken in TOKEN_LIST) return res.send(render(redirect_page, {redirect_link: link+"?error=used"}))
@@ -199,7 +199,7 @@ profileRoute.get('/register-redirect', async (req, res) => {
         const user = await prisma.user.findUnique({where: {email: email}})
         if (user) return res.send("This user is already registered")
         const now = new Date().getTime()
-        const link = debuggerHost + "register/enterinfo"
+        const link = app_schema + "register/enterinfo"
         const redirect_page = path.join(__dirname, '/template/redirect.html')
         if (now - exp >= 600000) return res.send(render(redirect_page, {redirect_link: link + "?error=expired"}))
         return res.send(render(redirect_page, {redirect_link: link + `?email=${email}&key=${key}`}))

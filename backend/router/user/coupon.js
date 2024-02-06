@@ -20,20 +20,19 @@ couponRoute.get('/', verifyToken, async (req, res) => {
     }
 });
 
-// couponRoute.post('/redeem', verifyToken, async (req, res) => {
-//     const {coupon_id} = req.body;
-//     const user_id = req.user.id;
-//     try {
-//         const coupon = await prisma.coupon.findUnique({where: {coupon_id}});
-//         if (!coupon) return sendError(res, 'Coupon not found', 404);
+couponRoute.post('/redeem', verifyToken, async (req, res) => {
+    const {coupon_id} = req.body;
+    const user_id = req.user.id;
+    try {
+        const coupon = await prisma.coupon.findUnique({where: {coupon_id}});
+        if (!coupon) return sendError(res, 'Coupon not found', 404);
         
-//         const code = await generate_coupon_code(coupon_id);
-//         await prisma.user.update({where: {user_id}, data: {coupons: {connect: {coupon_id}}}});
-//         return sendSuccess(res, 'Coupon redeemed', {code});
-//     } catch (error) {
-//         logger.error(error);
-//         return sendServerError(res);
-//     }
-// });
+        const code = await generate_coupon_code(coupon_id);
+        return sendSuccess(res, 'Coupon redeemed', {code});
+    } catch (error) {
+        logger.error(error);
+        return sendServerError(res);
+    }
+});
 
 export default couponRoute;

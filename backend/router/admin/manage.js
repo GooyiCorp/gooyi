@@ -1,7 +1,7 @@
 import express from "express";
 import { sendServerError, sendSuccess } from "../../helper/client.js";
 import { logger, readLog } from "../../helper/logger.js";
-import { changeHost, debuggerHost } from "../../index.js";
+import { changeHost, app_schema } from "../../index.js";
 import Redis from "../../cache/index.js";
 
 const manageRoute = express.Router()
@@ -32,7 +32,7 @@ manageRoute.get("/change-host", (req, res) => {
     try {
         changeHost(host)
         logger.info(`Change host : ${host}`)
-        return sendSuccess(res, "Change Host", debuggerHost)
+        return sendSuccess(res, "Change Host", app_schema)
     } catch (err) {
         logger.error(err)
         return sendServerError(res)

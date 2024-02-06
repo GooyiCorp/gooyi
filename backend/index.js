@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv"
 import cors from "cors"
 import morgan from "morgan";
+import helmet from "helmet";
 import bodyParser from "body-parser"
 import path from "path"
 import fileUpload from "express-fileupload";
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(helmet())
 app.use(fileUpload({
     createParentPath: true,
     limits: {
@@ -55,8 +57,8 @@ app.use("/api/user", userRoute)
 app.use("/api/store", verifyToken, verifyStore, storeRoute)
 app.use("/api/test", testRoute)
 
-export var debuggerHost = process.env.APP_SCHEMA
-export function changeHost(host) {debuggerHost = host}
+export var app_schema = process.env.APP_SCHEMA
+export function changeHost(host) {app_schema = host}
 const PORT = process.env.PORT || 8000
 
 // Schedule 
