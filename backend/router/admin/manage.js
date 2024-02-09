@@ -31,8 +31,8 @@ manageRoute.get("/change-host", (req, res) => {
     const { host } = req.query
     try {
         changeHost(host)
-        logger.info(`Change host : ${host}`)
-        return sendSuccess(res, "Change Host", app_schema)
+        logger.info(`Change app schema : ${host}`)
+        return sendSuccess(res, "Change App Schema", app_schema)
     } catch (err) {
         logger.error(err)
         return sendServerError(res)

@@ -1,0 +1,249 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Project "Gooyi" {
+  database_type: 'PostgreSQL'
+  Note: ''
+}
+
+Table Admin {
+  admin_id Int [pk, increment]
+  name String [not null]
+  username String [unique, not null]
+  password String [not null]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+}
+
+Table Mod {
+  mod_id Int [pk, increment]
+  name String [not null]
+  email String [unique, not null]
+  phone String [unique, not null]
+  password String [not null]
+  verified Boolean [not null, default: false]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  store_id String [not null]
+  store Store [not null]
+}
+
+Table User {
+  user_id String [pk]
+  first_name String [not null]
+  last_name String [not null]
+  email String [unique]
+  phone String [unique]
+  active Boolean [not null, default: false]
+  last_login DateTime
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  FeedBacks FeedBack [not null]
+  UserPoints UserPoint [not null]
+  favoriteCoupons Coupon [not null]
+  FavoriteStores Store [not null]
+  coupons CouponUser [not null]
+}
+
+Table Store {
+  store_id String [pk]
+  name String [not null]
+  active Boolean [not null, default: false]
+  description String [not null]
+  logo String
+  background String
+  enter_date DateTime [not null]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  Address Address
+  Coupons Coupon [not null]
+  Rewards Reward [not null]
+  FeedBacks FeedBack [not null]
+  Mod Mod [not null]
+  OpeningHour OpeningHour
+  Quests Quest [not null]
+  UserPoints UserPoint [not null]
+  FavoritedUsers User [not null]
+  category Category [not null]
+  service Service [not null]
+  status Status [not null]
+}
+
+Table Address {
+  store_id String [unique, not null]
+  street String [not null]
+  postcode String [not null]
+  city String [not null]
+  store Store [not null]
+}
+
+Table OpeningHour {
+  store_id String [unique, not null]
+  Mon String [not null]
+  Tue String [not null]
+  Wed String [not null]
+  Thu String [not null]
+  Fri String [not null]
+  Sat String [not null]
+  Sun String [not null]
+  store Store [not null]
+}
+
+Table Category {
+  category_id Int [pk, increment]
+  name String [unique, not null]
+  image String [unique]
+  stores Store [not null]
+}
+
+Table Status {
+  status_id Int [pk, increment]
+  name String [unique, not null]
+  stores Store [not null]
+}
+
+Table Service {
+  service_id Int [pk, increment]
+  name String [unique, not null]
+  stores Store [not null]
+}
+
+Table UserPoint {
+  user_id String [not null]
+  store_id String [not null]
+  point Int [not null]
+  store Store [not null]
+  user User [not null]
+
+  indexes {
+    (user_id, store_id) [pk]
+  }
+}
+
+Table FeedBack {
+  feedback_id Int [pk, increment]
+  user_id String [not null]
+  store_id String [not null]
+  text String [not null]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  store Store [not null]
+  user User [not null]
+  FeedBackReply FeedBackReply
+}
+
+Table FeedBackReply {
+  feedback_id Int [pk]
+  reply String [not null]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  feedback FeedBack [not null]
+}
+
+Table Quest {
+  quest_id Int [pk, increment]
+  store_id String [not null]
+  point Int [not null]
+  store Store [not null]
+}
+
+Table Coupon {
+  coupon_id Int [pk, increment]
+  title String [not null]
+  start_date DateTime [not null]
+  end_date DateTime [not null]
+  expired_in Int [not null]
+  description String [not null]
+  amount Int [not null]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  store_id String [unique, not null]
+  store Store [not null]
+  likedUsers User [not null]
+  priorities CouponPriority [not null]
+  categories CouponCategory [not null]
+  conditions Condition [not null]
+  users CouponUser [not null]
+}
+
+Table CouponCategory {
+  coupon_category_id Int [pk, increment]
+  name String [unique, not null]
+  coupons Coupon [not null]
+}
+
+Table CouponPriority {
+  coupon_priority_id Int [pk, increment]
+  name String [unique, not null]
+  coupons Coupon [not null]
+}
+
+Table CouponUser {
+  coupon_id Int [not null]
+  user_id String [not null]
+  coupon Coupon [not null]
+  user User [not null]
+  code String [unique, not null]
+
+  indexes {
+    (coupon_id, user_id) [pk]
+  }
+}
+
+Table Reward {
+  reward_id Int [pk, increment]
+  title String [not null]
+  expired_in Int [not null]
+  description String [not null]
+  amount Int [not null]
+  max_coupon_amount Int [not null]
+  create_at DateTime [default: `now()`, not null]
+  update_at DateTime [not null]
+  conditions Condition [not null]
+  store_id String [unique, not null]
+  store Store [not null]
+}
+
+Table Condition {
+  condition_id Int [pk, increment]
+  text String [unique, not null]
+  rewards Reward [not null]
+  copouns Coupon [not null]
+}
+
+Table spatial_ref_sys {
+  srid Int [pk]
+  auth_name String
+  auth_srid Int
+  srtext String
+  proj4text String
+
+  Note: 'This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.'
+}
+
+Ref: Mod.store_id > Store.store_id [delete: Cascade]
+
+Ref: Address.store_id - Store.store_id [delete: Cascade]
+
+Ref: OpeningHour.store_id - Store.store_id [delete: Cascade]
+
+Ref: UserPoint.store_id > Store.store_id [delete: Cascade]
+
+Ref: UserPoint.user_id > User.user_id [delete: Cascade]
+
+Ref: FeedBack.store_id > Store.store_id [delete: Cascade]
+
+Ref: FeedBack.user_id > User.user_id [delete: Cascade]
+
+Ref: FeedBackReply.feedback_id - FeedBack.feedback_id [delete: Cascade]
+
+Ref: Quest.store_id > Store.store_id [delete: Cascade]
+
+Ref: Coupon.store_id > Store.store_id [delete: Cascade]
+
+Ref: CouponUser.coupon_id > Coupon.coupon_id [delete: Cascade]
+
+Ref: CouponUser.user_id > User.user_id [delete: Cascade]
+
+Ref: Reward.store_id > Store.store_id [delete: Cascade]

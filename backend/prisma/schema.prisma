@@ -3,6 +3,13 @@ generator client {
   previewFeatures = ["fullTextSearch", "postgresqlExtensions"]
 }
 
+// generator dbml {
+//   provider   = "prisma-dbml-generator"
+//   projectName = "Gooyi"
+//   projectDatabaseType = "PostgreSQL"
+//   manyToMany = True
+//   includeRelationFields = True
+// }
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
@@ -151,11 +158,31 @@ model FeedBackReply {
   feedback FeedBack @relation(fields: [feedback_id], references: [feedback_id], onDelete: Cascade)
 }
 
+// ------------------- Quest -------------------
 model Quest {
-  quest_id Int    @id @default(autoincrement())
-  store_id String
-  point    Int
-  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  quest_id        Int              @id @default(autoincrement())
+  store_id        String
+  point           Int
+  type            QuestType
+  store           Store            @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  VisitStoreQuest VisitStoreQuest?
+  CollectPointQuest CollectPointQuest?
+}
+
+model VisitStoreQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+
+}
+
+model CollectPointQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+enum QuestType {
+  VISIT_STORE
+  COLLECT_POINT
 }
 
 // ------------------- Coupon -------------------

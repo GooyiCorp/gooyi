@@ -5,7 +5,7 @@ import fs from "fs";
 log4js.configure({
     appenders: {
         "stdout": { type: "stdout" },
-        "file": { type: "file", filename: "logs/out.log" }
+        "file": { type: "file", filename: "logs/error.log" }
     },
     categories: {
         default: { appenders: ['stdout', 'file'], level: 'info' }
@@ -13,7 +13,7 @@ log4js.configure({
 });
 export const logger = log4js.getLogger();
 export const readLog = () => {
-    let log = fs.readFileSync('logs/out.log', 'utf8',
+    let log = fs.readFileSync('logs/error.log', 'utf8',
         (error, content) => {
             if (error) {
                 log4js.getLogger().error(error);
