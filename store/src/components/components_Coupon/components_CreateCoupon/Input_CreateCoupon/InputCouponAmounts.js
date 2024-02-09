@@ -103,14 +103,14 @@ return (
             // onChangeText 
             onChange={handleOnChangeText}
             // Pass Data
-            onSubmitEditing={handleInputSubmit}
+            // onSubmitEditing={handleInputSubmit}
             // Style
             style={[styles.input, {color: error ? COLORS.primary : COLORS.grey}]}
 
             // placeholder='z.B.: 20% Rabatt auf '
             placeholderTextColor={error ? COLORS.primary02 : COLORS.ivoryDark2}
-
-            keyboardType='number-pad'
+            inputMode='numeric'
+            returnKeyType='done'
         />
         {/* ---- start - Right View */}
         <View 

@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react'
 
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { Gesture, GestureDetector, TextInput } from 'react-native-gesture-handler'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { H3, H4 } from '../../../../helper/constants/text'
 import { height, width } from '../../../../helper/constants/size'
 import { COLORS } from '../../../../helper/constants/colors'
 // Wheel Picker
 import WheelPicker from 'react-native-wheely';
+import IconButton from '../../../universal/Buttons/IconButton'
+import { icons } from '../../../universal/Icons/Icons'
+import { setHideValidityTimePicker, setValidityTime } from '../../../../redux/slices/createCouponSlice'
 
 
 
@@ -17,22 +20,32 @@ export default function ValidityPeriodPickerModal() {
 
     const dispatch = useDispatch()
 
+    const pickerList = ['1 Monat', '2 Monate', '3 Monate', '4 Monate', '5 Monate', '6 Monate']
     const [selectedIndex, setSelectedIndex] = useState(0);
+   
 
     // Value ----------------------------------------------------------
-    const translateY = useSharedValue(height)
+    const translateY = useSharedValue(0.8*height)
     const context = useSharedValue({y: 0})
-    const showActivityHistoryModal = true
+    const showValidityTimePicker = useSelector(state => state.createCoupon.validityTimePicker)
+
+    const bgViewTransition = useSharedValue(0)
+
+    const translateBGView = useAnimatedStyle(() => {
+        return {
+            opacity: bgViewTransition.value,
+        }
+    })
 
     // handle Close ---------------------------------------------------
     const handleOnEnd = () => {
         setTimeout(() => {
-            // dispatch(setHideActivityHistoryModal())
+            dispatch(setHideValidityTimePicker())
         }, 50) 
     }
 
     const handleClose = () => {
-        // dispatch(setHideActivityHistoryModal())
+        dispatch(setHideValidityTimePicker())
     } 
 
     // handle Gesture -------------------------------------------------
@@ -46,7 +59,7 @@ export default function ValidityPeriodPickerModal() {
     })
     .onEnd(() => {
         if (translateY.value > 0.2*height) {
-            translateY.value = withTiming(height, {duration: 600, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01)})
+            translateY.value = withTiming(0.6*height, {duration: 600, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01)})
             runOnJS(handleOnEnd)()
         }
         else {
@@ -66,16 +79,28 @@ export default function ValidityPeriodPickerModal() {
 
       // check status
       useEffect(()=>{
-        if (showActivityHistoryModal) {
+        if (showValidityTimePicker) {
+            bgViewTransition.value = withTiming(1)
             translateY.value = withTiming(0.05*height, {duration: 500, easing: Easing.bezier(0.49, 1.19, 0.79, 1.01),})
         } else {
-            translateY.value = withDelay(100, withTiming(height, {duration: 400}))
+            bgViewTransition.value = withTiming(0)
+            translateY.value = withDelay(100, withTiming(0.6*height, {duration: 400}))
         }
-      }, [showActivityHistoryModal])
+      }, [showValidityTimePicker])
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
+    <>
+<Animated.View style={[{height: height, width: width, position: 'absolute', zIndex: showValidityTimePicker ? 5 : 0}, translateBGView]}> 
+
+   
+    <Pressable 
+        style={{height: height, width: width, backgroundColor: COLORS.bgTransparencyDark}}
+        onPress={handleClose}
+    >
+    </Pressable>
+    </Animated.View>
     <GestureDetector gesture={gesture}>
             
             {/* Modal Container ---------------------------------------------------- */}
@@ -85,23 +110,24 @@ export default function ValidityPeriodPickerModal() {
             <View style={styles.line}></View>
 
             {/* -------------------------------------------------------------------- Close Button */}
-                    {/* <RoundButton 
-                    icon={icons.MaterialIcons}
-                    iconName={'close'}
-                    iconSize={moderateScale(22,0.2)}
-                    iconColor={COLORS.white}
-                    style={{
-                        backgroundColor: COLORS.grey,
-                        height: moderateScale(34,0.2),
-                        width: moderateScale(34,0.2),
-                        position: 'absolute',
-                        margin: 0,
-                        top: 25,
-                        right: 25,
-                        zIndex: 2
-                    }}
-                    onPressButton={handleClose}
-                /> */}
+
+            <IconButton 
+                icon={icons.MaterialIcons}
+                iconName={'close'}
+                iconSize={22}
+                iconColor={COLORS.white}
+                styleContainer={{
+                    backgroundColor: COLORS.grey,
+                    height: 34,
+                    width: 34,
+                    position: 'absolute',
+                    margin: 0,
+                    top: 25,
+                    right: 25,
+                    zIndex: 2
+                }}
+                onPress={handleClose}
+            />
 
             {/* -------------------------------------------------------------------- Top Section */}
             <View style={styles.topSectionContainer}>
@@ -111,8 +137,8 @@ export default function ValidityPeriodPickerModal() {
             <View style={styles.midSectionContainer}>
                 <WheelPicker
                     selectedIndex={selectedIndex}
-                    options={['1 Monat', '2 Monate', '3 Monate', '4 Monate', '5 Monate', '6 Monate']}
-                    onChange={(index) => setSelectedIndex(index)}
+                    options={pickerList}
+                    onChange={(index) => {setSelectedIndex(index), dispatch(setValidityTime(pickerList[index])) }}
                     selectedIndicatorStyle={{backgroundColor: COLORS.mainBackground, borderRadius: 0}}
                     itemTextStyle={{fontFamily: 'RH-Regular', fontSize: 18}}
                 />
@@ -120,17 +146,17 @@ export default function ValidityPeriodPickerModal() {
 
         </Animated.View>
     </GestureDetector>
-    
+    </>
   )
 }
 
 const styles = StyleSheet.create({
 
     modalContainer: {
-        height: 0.6*height,
+        height: 0.4*height,
         width: width,
         position: 'absolute',
-        zIndex: 2,
+        zIndex: 5,
         backgroundColor: COLORS.white,
         bottom: 0,
         borderRadius: 20,

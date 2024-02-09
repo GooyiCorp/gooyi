@@ -17,10 +17,11 @@ import { icons } from '../../../universal/Icons/Icons'
 export default function InputCouponValidityPeriod({
     setInputData,
     handleSubmit,
+    onPress
 }) {
 
     const dispatch = useDispatch()
-    const [data, setData] = useState('')
+    const data = useSelector(state => state.createCoupon.validityTime)
     const [focus, setFocus] = useState(false)
     const error = false
 
@@ -78,7 +79,7 @@ export default function InputCouponValidityPeriod({
 // Return Section
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 return (
-<View style={{width: '30%', marginBottom: 15}}>
+<View style={{width: '35%', marginBottom: 15}}>
     <Animated.Text style={[T4, styles.label, labelTransition]}>Gültigkeit</Animated.Text>
 
     {/* ------------------------------------------------ */}
@@ -96,7 +97,6 @@ return (
         <TextInput 
             // Input Data
             value={ data }
-            onChangeText={ (e) => (setData(e), setInputData(e)) }
             // onFocus/onBlur
             onFocus={handleOnFocus}
             onBlur={handleOnBlur}
@@ -109,35 +109,30 @@ return (
 
             // placeholder='z.B.: 20% Rabatt auf '
             placeholderTextColor={error ? COLORS.primary02 : COLORS.ivoryDark2}
+
+            editable={false}
+            onPressIn={onPress}
         />
         {/* ---- start - Right View */}
         <View 
             style={[
                 styles.rightView,
-                {zIndex: focus? 1 : 0}
+                // {zIndex: focus? 1 : 0}
             ]}
         >
             {/* Clear Button */}
             <IconButton 
-                icon={icons.MaterialCommunityIcons}
-                iconName={'close'}
-                iconSize={28}
-                iconColor={COLORS.subPrimary}
+                icon={icons.Ionicons}
+                iconName={'caret-down'}
+                iconSize={18}
+                iconColor={COLORS.grey}
                 styleContainer={{
                     alignItems: 'flex-end',
                     height: '100%',
                     borderRadius: 0,
                     paddingBottom: 5,
                     backgroundColor: 'transparent',
-                    opacity: focus? 1 : 0, 
-                    transform: [
-                        {scaleX: focus? 1 : 0}
-                    ]
                 }}
-                styleIcon={{
-                    marginRight: -3
-                }}
-                onPress={handleClear}
             />
         </View>
         {/* ---- end - Right View */}

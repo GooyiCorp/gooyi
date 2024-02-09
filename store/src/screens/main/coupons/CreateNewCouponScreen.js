@@ -20,6 +20,8 @@ import InputCouponValidityPeriod from '../../../components/components_Coupon/com
 import Icons, { icons } from '../../../components/universal/Icons/Icons'
 import IconButton from '../../../components/universal/Buttons/IconButton'
 import ValidityPeriodPickerModal from '../../../components/components_Coupon/components_CreateCoupon/Modal_CreateCoupon/ValidityPeriodPickerModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { setShowValidityTimePicker } from '../../../redux/slices/createCouponSlice'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -28,6 +30,8 @@ import ValidityPeriodPickerModal from '../../../components/components_Coupon/com
 export default function CreateNewCouponScreen({
     navigation: {goBack}
 }) {
+
+    const dispatch = useDispatch()
     const [showCalendar, setShowCalendar] = useState(false)
 
     
@@ -38,6 +42,9 @@ export default function CreateNewCouponScreen({
     const [amounts, setAmounts] = useState(null)
     const [validity, setValidity] = useState(null)
     const [description, setDescription] = useState('')
+
+    const validityTime = useSelector((state) => state.createCoupon.validityTime)
+    console.log(validityTime)
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [selectedStartDate, setSelectedStartDate] = useState(null)
@@ -193,6 +200,7 @@ return (
                 />
                 <InputCouponValidityPeriod 
                     setInputData={setValidity}
+                    onPress={() => dispatch(setShowValidityTimePicker())}
                 />
             </View>
             <InputCouponDescription 
