@@ -22,6 +22,7 @@ import IconButton from '../../../components/universal/Buttons/IconButton'
 import ValidityPeriodPickerModal from '../../../components/components_Coupon/components_CreateCoupon/Modal_CreateCoupon/ValidityPeriodPickerModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowValidityTimePicker } from '../../../redux/slices/createCouponSlice'
+import TargetSelection from '../../../components/components_Coupon/components_CreateCoupon/Input_CreateCoupon/TargetSelection'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ export default function CreateNewCouponScreen({
     const [description, setDescription] = useState('')
 
     const validityTime = useSelector((state) => state.createCoupon.validityTime)
-    console.log(validityTime)
+    // console.log(validityTime)
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [selectedStartDate, setSelectedStartDate] = useState(null)
@@ -206,6 +207,7 @@ return (
             <InputCouponDescription 
                 setInputData={setDescription}
             />
+            <TargetSelection />
 
 
         </View>

@@ -42,6 +42,11 @@ export default function InputCouponDescription({
                 borderColor: error? COLORS.primary : interpolateColor(focusInput.value, [0,1], [COLORS.ivoryDark2, COLORS.grey])
             }
         })
+        const descriptionLength = useAnimatedStyle(() => {
+            return {
+                opacity: focusInput.value
+            }
+        })
     // ---- end - Animated Style
 
     // ----------------------------  
@@ -79,7 +84,7 @@ export default function InputCouponDescription({
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 return (
 <View style={{width: '100%', marginBottom: 15}}>
-    <Animated.Text style={[T4, styles.label, labelTransition]}>Beschreibung</Animated.Text>
+        <Animated.Text style={[T4, styles.label, labelTransition]}>Beschreibung</Animated.Text>
 
     {/* ------------------------------------------------ */}
     {/* Input Section */}
@@ -109,42 +114,14 @@ return (
 
             // placeholder='z.B.: 20% Rabatt auf '
             placeholderTextColor={error ? COLORS.primary02 : COLORS.ivoryDark2}
+            multiline={true}
+            maxLength={200}
+            scrollEnabled={true}
         />
-        {/* ---- start - Right View */}
-        <View 
-            style={[
-                styles.rightView,
-                {zIndex: focus? 1 : 0}
-            ]}
-        >
-            {/* Clear Button */}
-            <IconButton 
-                icon={icons.MaterialCommunityIcons}
-                iconName={'close'}
-                iconSize={28}
-                iconColor={COLORS.subPrimary}
-                styleContainer={{
-                    alignItems: 'flex-end',
-                    height: '100%',
-                    borderRadius: 0,
-                    paddingBottom: 5,
-                    backgroundColor: 'transparent',
-                    opacity: focus? 1 : 0, 
-                    transform: [
-                        {scaleX: focus? 1 : 0}
-                    ]
-                }}
-                styleIcon={{
-                    marginRight: -3
-                }}
-                onPress={handleClear}
-            />
-        </View>
-        {/* ---- end - Right View */}
-
-        
 
     </Animated.View>
+    <Animated.Text style={[T4, {fontFamily: 'RH-Regular', color: COLORS.black, fontSize: 12, alignSelf: 'flex-end', marginTop: 5}, descriptionLength]}>{data.length} / 200</Animated.Text>
+
 </View>
 )
 }
