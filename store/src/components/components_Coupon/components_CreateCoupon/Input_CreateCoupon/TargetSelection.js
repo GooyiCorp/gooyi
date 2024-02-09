@@ -33,7 +33,7 @@ export default function TargetSelection() {
                     keyWords={target} 
                     onPress={() => (handleSelectTarget(target))}
                     styleContainer={{
-                        backgroundColor: selectedTarget.includes(target) == target.includes(target) ? COLORS.grey : COLORS.ivory
+                        backgroundColor: selectedTarget.includes(target) ? COLORS.grey : COLORS.ivory
                     }}
                 />
             ))}
