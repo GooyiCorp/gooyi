@@ -20,6 +20,9 @@ import InputCouponValidityPeriod from '../../../components/components_Coupon/com
 import Icons, { icons } from '../../../components/universal/Icons/Icons'
 import IconButton from '../../../components/universal/Buttons/IconButton'
 import ValidityPeriodPickerModal from '../../../components/components_Coupon/components_CreateCoupon/Modal_CreateCoupon/ValidityPeriodPickerModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { setShowValidityTimePicker } from '../../../redux/slices/createCouponSlice'
+import TargetSelection from '../../../components/components_Coupon/components_CreateCoupon/Input_CreateCoupon/TargetSelection'
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -28,6 +31,8 @@ import ValidityPeriodPickerModal from '../../../components/components_Coupon/com
 export default function CreateNewCouponScreen({
     navigation: {goBack}
 }) {
+
+    const dispatch = useDispatch()
     const [showCalendar, setShowCalendar] = useState(false)
 
     
@@ -38,6 +43,9 @@ export default function CreateNewCouponScreen({
     const [amounts, setAmounts] = useState(null)
     const [validity, setValidity] = useState(null)
     const [description, setDescription] = useState('')
+
+    const validityTime = useSelector((state) => state.createCoupon.validityTime)
+    // console.log(validityTime)
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [selectedStartDate, setSelectedStartDate] = useState(null)
@@ -168,7 +176,7 @@ return (
         style={{
             height: height, 
             width: width, 
-            zIndex: 1,
+            // zIndex: 1,
         }} 
         onPress={handleLeaveInput} 
       >
@@ -176,8 +184,9 @@ return (
             onPressGoBack={() => goBack()}
         />
         <View style={styles.topSection}>
-            <Text style={[H1, {color: COLORS.grey}]}>Neue Coupon</Text>
+            <Text style={[H1, {color: COLORS.grey}]}>Coupon erstellen</Text>
         </View>
+    
         <View style={styles.midSection}>
             <InputCouponTitle 
                 setInputData={setCouponTitle}
@@ -193,11 +202,13 @@ return (
                 />
                 <InputCouponValidityPeriod 
                     setInputData={setValidity}
+                    onPress={() => dispatch(setShowValidityTimePicker())}
                 />
             </View>
             <InputCouponDescription 
                 setInputData={setDescription}
             />
+            <TargetSelection />
 
 
         </View>

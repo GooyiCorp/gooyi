@@ -5,6 +5,7 @@ import merchantSlice from "./slices/merchantSlice";
 import logInSlice from "./slices/logInSlice";
 import changePasswordSlice from "./slices/changePasswordSlice";
 import resetPasswordSlice from "./slices/resetPasswordSlice";
+import createCouponSlice from "./slices/createCouponSlice";
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -16,5 +17,6 @@ export const store = configureStore({
         logIn: logInSlice,
         changePassword: changePasswordSlice,
         resetPassword: resetPasswordSlice,
+        createCoupon: createCouponSlice,
     }
 })
