@@ -176,7 +176,7 @@ return (
         style={{
             height: height, 
             width: width, 
-            zIndex: 1,
+            // zIndex: 1,
         }} 
         onPress={handleLeaveInput} 
       >
@@ -184,8 +184,9 @@ return (
             onPressGoBack={() => goBack()}
         />
         <View style={styles.topSection}>
-            <Text style={[H1, {color: COLORS.grey}]}>Neue Coupon</Text>
+            <Text style={[H1, {color: COLORS.grey}]}>Coupon erstellen</Text>
         </View>
+    
         <View style={styles.midSection}>
             <InputCouponTitle 
                 setInputData={setCouponTitle}
