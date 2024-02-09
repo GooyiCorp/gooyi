@@ -12,8 +12,7 @@ import KeyButton from '../../../universal/Buttons/KeyButton'
 // Main Section
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export default function TargetSelection() {
-
-    let selectedTarget = []
+    const [selectedTarget, setSelectedTarget] = useState([])
 
     const targetList = [
         'Neukunden', 'Stammkunden', 'Zufällig', 'Kunden (Besuch liegt weit zurück)'
@@ -21,35 +20,38 @@ export default function TargetSelection() {
 
     const handleSelectTarget = (target) => {
         if (selectedTarget.includes(target)) {
-            selectedTarget = selectedTarget.filter(element => element !== target)
+            setSelectedTarget(selectedTarget.filter(element => element !== target))
         } else {
-            selectedTarget.push(target)
+            setSelectedTarget([...selectedTarget, target])
         }
-        console.log(selectedTarget)
     }
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// Return Section
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-return (
-<View style={{top: -17}}>
-    {/* ---- Label */}
-    <Text style={[T4, styles.label, {marginBottom: 5}]}>Priorisierung</Text>
-    {/* ---- start - Target Selection Section */}
-    <View style={{width: width, marginLeft: -30, paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap'}}>
-        {targetList.map((target) => (
-            <KeyButton 
-                key={target} 
-                keyWords={target} 
-                onPress={() => (handleSelectTarget(target))}
-                styleContainer={{
-                    backgroundColor: selectedTarget.includes(target) ? COLORS.grey : COLORS.ivory
-                }}
-            />
-        ))}
-    </View>
-    {/* ---- end - Target Selection Section */}
-</View>
-)
+
+    // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Return Section
+    // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    return (
+        <View style={{top: -17}}>
+            {/* ---- Label */}
+            <Text style={[T4, styles.label, {marginBottom: 5}]}>Priorisierung</Text>
+            {/* ---- start - Target Selection Section */}
+            <View style={{width: width, marginLeft: -30, paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap'}}>
+                {targetList.map((target) => (
+                    <KeyButton 
+                        key={target} 
+                        keyWords={target} 
+                        onPress={() => (handleSelectTarget(target))}
+                        styleContainer={{
+                            backgroundColor: selectedTarget.includes(target) ? COLORS.grey : COLORS.ivory
+                        }}
+                        styleText={{
+                            color: selectedTarget.includes(target) ? COLORS.ivory : COLORS.grey
+                        }}
+                    />
+                ))}
+            </View>
+            {/* ---- end - Target Selection Section */}
+        </View>
+    )
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
