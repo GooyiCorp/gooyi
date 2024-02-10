@@ -1,15 +1,14 @@
-import { Prisma } from "@prisma/client"
-import prisma from "./index.js"
+import { Prisma } from "@prisma/client";
+import prisma from "./index.js";
 
 const storeExt = Prisma.defineExtension({
-    name: 'store',
-    model: {
-        store: {
-            async findClosestStores({ longitude, latitude, radius }) {
-                const result = await prisma.$queryRaw
-                    `
+  name: "store",
+  model: {
+    store: {
+      async findClosestStores({ longitude, latitude, radius }) {
+        const result = await prisma.$queryRaw`
                 SELECT DISTINCT ON (distance, Store.store_id)
-                    Store.store_id, 
+                    Store.store_id,
                     Store.name,
                     Store.active,
                     Store.description,
@@ -28,23 +27,23 @@ const storeExt = Prisma.defineExtension({
                         'Sat', OpeningHour."Sat",
                         'Sun', OpeningHour."Sun"
                     ) as opening_hours
-                FROM 
-                    "Store" Store 
+                FROM
+                    "Store" Store
                     INNER JOIN "Address" Address ON Store.store_id = Address.store_id
                     INNER JOIN "OpeningHour" OpeningHour ON Store.store_id = OpeningHour.store_id
-                    LEFT JOIN "_StoreStatus" StoreStatus on store.store_id = StoreStatus."B" 
-                    LEFT JOIN "Status" Status on Status.status_id = StoreStatus."A" 
+                    LEFT JOIN "_StoreStatus" StoreStatus on store.store_id = StoreStatus."B"
+                    LEFT JOIN "Status" Status on Status.status_id = StoreStatus."A"
                 WHERE ST_DWithin(
                     Address.location,
                     ST_MakePoint(${parseFloat(longitude)}, ${parseFloat(latitude)}),
-                    ${radius}         
+                    ${radius}
                 )
                 ORDER BY distance, Store.store_id , "isNew" DESC
-                `
-                return result
-            }
-        }
-    }
-})
+                `;
+        return result;
+      },
+    },
+  },
+});
 
-export default storeExt
+export default storeExt;
