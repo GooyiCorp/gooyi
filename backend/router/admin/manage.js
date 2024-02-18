@@ -1,9 +1,9 @@
 import express from "express";
+import fs from "fs";
+import Redis from "../../cache/index.js";
 import { sendServerError, sendSuccess } from "../../helper/client.js";
 import { logger, readLog } from "../../helper/logger.js";
-import { changeHost, app_schema } from "../../index.js";
-import Redis from "../../cache/index.js";
-
+import { app_schema, changeHost } from "../../index.js";
 const manageRoute = express.Router();
 
 manageRoute.get("/test", async (_, res) => {
@@ -22,6 +22,15 @@ manageRoute.get("/logs", (_, res) => {
     const result = readLog();
     res.type("text/plain");
     return res.send(result);
+  } catch (err) {
+    logger.error(err);
+    return sendServerError(res);
+  }
+});
+manageRoute.delete("/logs", (_, res) => {
+  try {
+    fs.writeFileSync("logs/error.log", "");
+    return sendSuccess(res, "Delete logs successfully", "");
   } catch (err) {
     logger.error(err);
     return sendServerError(res);

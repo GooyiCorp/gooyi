@@ -7,17 +7,16 @@ log4js.configure({
     file: { type: "file", filename: "logs/error.log" },
   },
   categories: {
-    default: { appenders: ["stdout", "file"], level: "info" },
+    default: { appenders: ["stdout", "file"], level: "error" },
   },
 });
 export const logger = log4js.getLogger();
 export const readLog = () => {
   let log = fs.readFileSync("logs/error.log", "utf8", (error, content) => {
     if (error) {
-      log4js.getLogger().error(error);
+      logger.error(error);
       return error;
     }
-    //otherwise
     return content;
   });
   return log;
