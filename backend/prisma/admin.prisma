@@ -1,0 +1,10 @@
+
+// ------------------- Admin -------------------
+model Admin {
+  admin_id  Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  password  String
+  create_at DateTime @default(now())
+  update_at DateTime @updatedAt
+}

@@ -1,0 +1,24 @@
+
+// ------------------- Reward -------------------
+model Reward {
+  reward_id         Int      @id @default(autoincrement())
+  title             String
+  expired_in        Int
+  description       String
+  amount            Int
+  max_coupon_amount Int
+  create_at         DateTime @default(now())
+  update_at         DateTime @updatedAt
+
+  conditions Condition[]
+  store_id   String      @unique
+  store      Store       @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+}
+
+// Condition
+model Condition {
+  condition_id Int      @id @default(autoincrement())
+  text         String   @unique
+  rewards      Reward[]
+  copouns      Coupon[]
+}

@@ -8,8 +8,7 @@
     "test": "test",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "migrate": "npx prisma migrate dev",
-    "format": "npx prisma format"
+    "migrate": "npx prisma-util migrate dev"
   },
   "author": "Thanh Nguyen, Duc Anh",
   "license": "ISC",
@@ -30,6 +29,7 @@
     "nodemailer": "^6.9.6",
     "pg": "^8.11.3",
     "prisma": "^5.9.1",
+    "prisma-util": "^2.1.1",
     "redis": "^4.6.10"
   },
   "devDependencies": {
@@ -37,5 +37,6 @@
     "nodemon": "^3.0.1",
     "prisma-dbml-generator": "^0.10.0",
     "sequelize-cli": "^6.6.1"
-  }
+  },
+  "prismaUtil": "prisma-util"
 }

@@ -1,0 +1,41 @@
+model Coupon {
+  coupon_id   Int      @id @default(autoincrement())
+  title       String
+  start_date  DateTime
+  end_date    DateTime
+  expired_in  Int
+  description String
+  amount      Int
+  create_at   DateTime @default(now())
+  update_at   DateTime @updatedAt
+
+  store_id   String           @unique
+  store      Store            @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  likedUsers User[]           @relation("FavoriteCoupons")
+  priorities CouponPriority[]
+  categories CouponCategory[]
+  conditions Condition[]
+  users      CouponUser[]
+}
+
+model CouponCategory {
+  coupon_category_id Int      @id @default(autoincrement())
+  name               String   @unique
+  coupons            Coupon[]
+}
+
+model CouponPriority {
+  coupon_priority_id Int      @id @default(autoincrement())
+  name               String   @unique
+  coupons            Coupon[]
+}
+
+model CouponUser {
+  coupon_id Int
+  user_id   String
+  coupon    Coupon @relation(fields: [coupon_id], references: [coupon_id], onDelete: Cascade)
+  user      User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  code      String @unique
+
+  @@id([coupon_id, user_id])
+}

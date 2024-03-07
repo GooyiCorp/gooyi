@@ -1,0 +1,9 @@
+model UserPoint {
+  user_id  String
+  store_id String
+  point    Int
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  user     User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  @@id([user_id, store_id])
+}

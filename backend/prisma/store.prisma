@@ -1,0 +1,65 @@
+// ------------------- Store -------------------
+model Store {
+  store_id    String   @id @unique
+  name        String
+  active      Boolean  @default(false)
+  description String
+  logo        String?
+  background  String?
+  enter_date  DateTime
+  create_at   DateTime @default(now())
+  update_at   DateTime @updatedAt
+
+  Address        Address?
+  Coupons        Coupon[]
+  Rewards        Reward[]
+  FeedBacks      FeedBack[]
+  Mod            Mod[]
+  OpeningHour    OpeningHour?
+  Quests         Quest[]
+  UserPoints     UserPoint[]
+  FavoritedUsers User[]       @relation("FavoriteStore")
+  category       Category[]   @relation("StoreAndCategory")
+  service        Service[]    @relation("StoreService")
+  status         Status[]     @relation("StoreStatus")
+}
+
+model Address {
+  store_id String                   @unique
+  location Unsupported("geography")
+  street   String
+  postcode String
+  city     String
+  store    Store                    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+}
+
+model OpeningHour {
+  store_id String @unique
+  Mon      String
+  Tue      String
+  Wed      String
+  Thu      String
+  Fri      String
+  Sat      String
+  Sun      String
+  store    Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+}
+
+model Category {
+  category_id Int     @id @default(autoincrement())
+  name        String  @unique
+  image       String? @unique
+  stores      Store[] @relation("StoreAndCategory")
+}
+
+model Status {
+  status_id Int     @id @default(autoincrement())
+  name      String  @unique
+  stores    Store[] @relation("StoreStatus")
+}
+
+model Service {
+  service_id Int     @id @default(autoincrement())
+  name       String  @unique
+  stores     Store[] @relation("StoreService")
+}

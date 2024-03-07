@@ -1,0 +1,78 @@
+// ------------------- Quest -------------------
+model Quest {
+  quest_id          Int                @id @default(autoincrement())
+  store_id          String
+  point             Int
+  type              QuestType
+  store             Store              @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  VisitStoreQuest   VisitStoreQuest?
+  CollectPointQuest CollectPointQuest?
+  PurchaseQuest     PurchaseQuest?
+  UseCouponQuest    UseCouponQuest?
+  CompleteQuest     CompleteQuest?
+  RewardQuest       RewardQuest?
+  LikeStoreQuest    LikeStoreQuest?
+  CustomerTypeQuest CustomerTypeQuest?
+}
+
+model VisitStoreQuest {
+  quest_id         Int   @id
+  quest            Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+  // visit store x times in y days
+  times            Int?
+  duration         Int?
+  // visit store x consecutive days 
+  consecutive_days Int?
+}
+
+model CollectPointQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+
+  point    Int
+  // collect x point in y days
+  duration Int?
+  // collect x point in y buy times
+  times    Int?
+}
+
+model PurchaseQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+model UseCouponQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+model CompleteQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+model RewardQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+model LikeStoreQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+model CustomerTypeQuest {
+  quest_id Int   @id
+  quest    Quest @relation(fields: [quest_id], references: [quest_id], onDelete: Cascade)
+}
+
+enum QuestType {
+  VISIT_STORE
+  COLLECT_POINT
+  PURCHASE
+  USE_COUPON
+  COMPLETE
+  REWARD
+  LIKE_STORE
+  CUSTOMER_TYPE
+}
