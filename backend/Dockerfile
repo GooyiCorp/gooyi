@@ -9,6 +9,6 @@ RUN yarn --prod
 COPY . .
 
 EXPOSE 8000
-RUN npx prisma generate
+RUN yarn generate
 
 CMD [ "yarn", "start" ]

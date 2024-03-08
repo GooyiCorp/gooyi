@@ -9,7 +9,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "migrate": "npx prisma-util migrate dev",
-    "studio": "npx prisma-util studio"
+    "studio": "npx prisma-util studio",
+    "generate": "npx prisma-util generate"
   },
   "author": "Thanh Nguyen, Duc Anh",
   "license": "ISC",
