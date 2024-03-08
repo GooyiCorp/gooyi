@@ -1,0 +1,34 @@
+model Notification {
+    notification_id  Int @id @default(autoincrement())
+
+    text            String
+
+    create_at       DateTime @default(now())
+    update_at       DateTime @updatedAt
+
+    Stores          StoreNotification[]
+    Users           UserNotification[]
+}
+
+model StoreNotification {
+    notification_id     Int
+    notification        Notification    @relation(fields: [notification_id], references: [notification_id], onDelete: Cascade)
+    store_id            String
+    store               Store           @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+
+    read                Boolean         @default(false)
+
+    @@id([notification_id, store_id])
+}
+
+model UserNotification {
+    notification_id     Int             
+    notification        Notification    @relation(fields: [notification_id], references: [notification_id], onDelete: Cascade)
+    user_id             String
+    user                User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+    
+    read                Boolean          @default(false)
+
+    @@id([notification_id, user_id])
+    
+}

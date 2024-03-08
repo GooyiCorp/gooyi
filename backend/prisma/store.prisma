@@ -23,6 +23,7 @@ model Store {
   service        Service[]    @relation("StoreService")
   status         Status[]     @relation("StoreStatus")
   PointHistory   PointHistory[]
+  Notifications  StoreNotification[]
 }
 
 model Address {

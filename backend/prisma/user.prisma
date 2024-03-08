@@ -17,4 +17,5 @@ model User {
   friends         User[]       @relation("Friendship")
   friendOf        User[]       @relation("Friendship")
   PointHistory    PointHistory[]
+  Notifications   UserNotification[]
 }
