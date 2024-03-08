@@ -27,7 +27,11 @@ notificationRoute.get("/", verifyToken, async (req, res) => {
                 }
             }
         });
-        return sendSuccess(res, "Get Notification Successfully", notifications.map(({ notification }) => notification));
+        const formattedNotifications = notifications.map(({ notification, read }) => ({
+            ...notification,
+            read
+        }));
+        return sendSuccess(res, "Get Notification Successfully", formattedNotifications);
     } catch (err) {
         logger.error(err);
         return sendServerError(res);
