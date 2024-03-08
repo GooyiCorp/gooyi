@@ -22,6 +22,7 @@ model Store {
   category       Category[]   @relation("StoreAndCategory")
   service        Service[]    @relation("StoreService")
   status         Status[]     @relation("StoreStatus")
+  PointHistory   PointHistory[]
 }
 
 model Address {

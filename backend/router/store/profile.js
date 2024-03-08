@@ -50,4 +50,16 @@ profileRoute.post("/logout", (req, res) => {
   return sendSuccess(res, "Logged out successfully");
 });
 
+profileRoute.get("/point-history", async (req, res) => {
+  const mod_id = req.user.id
+  try {
+    const mod = await prisma.mod.findUnique({ where: { mod_id }, select: { store_id: true } })
+    const history = await prisma.PointHistory.findMany({where: {store_id: mod.store_id}, orderBy: {create_at: 'desc'}})
+    return sendSuccess(res, "ok", history)
+  } catch (err) {
+    logger.error(err)
+    return sendServerError(res)
+  }
+})
+
 export default profileRoute;

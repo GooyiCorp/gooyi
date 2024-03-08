@@ -81,6 +81,7 @@ const Feedback = constantModel("prisma/feedback.prisma");
 const Quest = constantModel("prisma/quest.prisma")
 const Reward = constantModel("prisma/reward.prisma")
 const UserPoint = constantModel("prisma/userpoint.prisma")
+const PointHistory = constantModel("prisma/point_history.prisma")
 
 export default {
     optionalFeatures: [],
@@ -93,7 +94,8 @@ export default {
         Feedback,
         Quest,
         Reward,
-        UserPoint
+        UserPoint,
+        PointHistory
     ],
     baseSchema: 'prisma/base.prisma',
     toolchain: {

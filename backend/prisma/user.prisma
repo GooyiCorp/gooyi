@@ -16,4 +16,5 @@ model User {
   coupons         CouponUser[]
   friends         User[]       @relation("Friendship")
   friendOf        User[]       @relation("Friendship")
+  PointHistory    PointHistory[]
 }
