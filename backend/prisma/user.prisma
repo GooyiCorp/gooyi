@@ -18,4 +18,6 @@ model User {
   friendOf        User[]       @relation("Friendship")
   PointHistory    PointHistory[]
   Notifications   UserNotification[]
+  Stores          Customer[]
+  Groups          CustomerGroup[] @relation("GroupCustomer")
 }

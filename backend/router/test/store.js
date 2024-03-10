@@ -15,6 +15,7 @@ import {
   sendSuccess,
 } from "./../../helper/client.js";
 import stores from "./store_data.json" assert { type: "json" };
+import { createDefaultGroup } from "../../helper/store.js";
 
 const storeRoute = express.Router();
 
@@ -90,6 +91,7 @@ async function createStore(store) {
     await prisma.openingHour.create({
       data: { ...opening_hours, store_id: store.store_id },
     });
+    await createDefaultGroup(store_id)
   } catch (err) {
     return logger.error(err);
   }

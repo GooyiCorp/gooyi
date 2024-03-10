@@ -80,6 +80,7 @@ scheduleJob("new", "0 0 * * *", () => {
 });
 app.listen(PORT, () => {
   logger.info("Listening on port 8000");
+  console.log("Listening on port 8000");
 });
 
 setInterval(() => {
