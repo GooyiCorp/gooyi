@@ -11,7 +11,7 @@
     "migrate": "npx prisma-util migrate dev",
     "studio": "npx prisma-util studio",
     "schema": "npx prisma-util schema --path ./prisma/schema.prisma",
-    "generate": "npx prisma-util generate"
+    "generate": "npx prisma generate"
   },
   "author": "Thanh Nguyen, Duc Anh",
   "license": "ISC",
