@@ -18,6 +18,7 @@ userRoute.put("/add-point", async (req, res) => {
       create: { store_id: mod.store_id, user_id, point }
     });
     await prisma.PointHistory.create({data: {store_id: mod.store_id, user_id, point}})
+    await prisma.Customer.upsert({where: {user_id_store_id: { user_id, store_id: mod.store_id}}, update: {}, create: {user_id, store_id: mod.store_id}})
     return sendSuccess(res, "ok")
   } catch (err) {
     logger.error(err);
