@@ -20,4 +20,5 @@ model User {
   Notifications   UserNotification[]
   Stores          Customer[]
   Groups          CustomerGroup[] @relation("GroupCustomer")
+  Visits          Visit[]
 }

@@ -1,0 +1,11 @@
+model Visit {
+    visit_id Int @id @default(autoincrement())
+
+    user_id     String
+    store_id    String
+    store       Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+    user        User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+    time        DateTime    @default(now())
+}
+

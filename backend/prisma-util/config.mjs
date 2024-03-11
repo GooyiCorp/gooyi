@@ -84,6 +84,7 @@ const UserPoint = constantModel("prisma/userpoint.prisma")
 const PointHistory = constantModel("prisma/point_history.prisma")
 const Notification = constantModel("prisma/notification.prisma")
 const Customer = constantModel("prisma/customer.prisma")
+const Visit = constantModel("prisma/visit.prisma")
 
 export default {
     optionalFeatures: [],
@@ -99,7 +100,8 @@ export default {
         UserPoint,
         PointHistory,
         Notification,
-        Customer
+        Customer,
+        Visit
     ],
     baseSchema: 'prisma/base.prisma',
     toolchain: {

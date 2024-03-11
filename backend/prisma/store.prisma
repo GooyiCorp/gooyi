@@ -25,6 +25,7 @@ model Store {
   Notifications  StoreNotification[]
   Customer       Customer[]
   CustomerGroup  CustomerGroup[]
+  Visits         Visit[]
 }
 
 model Address {
