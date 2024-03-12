@@ -1,5 +1,7 @@
+import { COLORS } from "./colors"
+
 export const T1 = {
-    fontFamily: 'RH-Regular',
+    fontFamily: 'RH-Medium',
     fontSize: 16
   }
 
@@ -38,6 +40,12 @@ export const H3 = {
   }
 
 export const H4 = {
-    fontFamily: 'RH-Light',
-    fontSize: 18,
+    fontFamily: 'RH-Medium',
+    fontSize: 20,
   }
+
+export const H5 = {
+  fontFamily: 'RH-Bold',
+  fontSize: 18,
+  color: COLORS.grey
+}

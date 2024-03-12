@@ -29,7 +29,7 @@ return (
 <View style={styles.screen}>
     {/* ---- start - Navigation Section */}
     <Root.Navigator
-        initialRouteName='CreateCoupon'
+        initialRouteName='Main'
         screenOptions={{
             headerShown: false,    
         }}
