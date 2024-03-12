@@ -21,7 +21,7 @@ export default function HomeScreen({navigation}) {
           paddingHorizontal: 20
         }}
       >
-        <View style={{marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <View style={{marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10}}>
           <Text style={H5}>Übersicht</Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={T2}>7 Tage</Text>
@@ -38,7 +38,7 @@ export default function HomeScreen({navigation}) {
 
         </View>
         <StatisticBox />
-        <View style={{marginTop: 30}}>
+        <View style={{marginTop: 30, paddingHorizontal: 10}}>
         <Text style={H5}>Meine Deals</Text>
         </View>
       </View>
