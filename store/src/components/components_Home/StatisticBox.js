@@ -15,7 +15,7 @@ export default function StatisticBox() {
             borderColor: COLORS.grey,
             paddingVertical: 10,
             paddingHorizontal: 15,
-            marginTop: 20
+            // marginTop: 20
         }}
     >
       <Text style={[T1, {color: COLORS.grey}]}>Aktive Kunden</Text>
