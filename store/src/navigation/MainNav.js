@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { COLORS } from '../helper/constants/colors';
 import MainHeader from '../components/components_Navigation/MainHeader';
 import Icons, { icons } from '../components/universal/Icons/Icons';
+import ScannerScreen from '../screens/main/scanner/ScannerScreen';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {
@@ -38,7 +39,7 @@ export default function MainNav() {
         />
         <Main.Screen 
             name='Scanner'
-            component={HomeScreen}
+            component={ScannerScreen}
             options={{
                 tabBarLabel: 'Scanner',
                 tabBarIcon: ({ color }) => (

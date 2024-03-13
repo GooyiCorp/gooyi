@@ -15,7 +15,7 @@ export default function CouponCard() {
             borderColor: COLORS.grey,
             borderRadius: 16,
             paddingHorizontal: 15,
-                    paddingVertical: 10
+            paddingVertical: 10
         }}
     >
         <Text style={[T1, {fontFamily: 'RH-Bold'}]}>20% auf alle vegane Gerichte</Text>
