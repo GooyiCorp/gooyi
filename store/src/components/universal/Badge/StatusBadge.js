@@ -15,7 +15,7 @@ export default function StatusBadge({
                     paddingHorizontal: 10,
                     paddingVertical: 3,
                     backgroundColor: status == 'Aktiv' ? '#D1ECD3' : '#F5E1E1', 
-                    // alignSelf: 'flex-end',
+                    alignSelf: 'flex-start',
                     borderRadius: height,
                 },
                 styleContainer

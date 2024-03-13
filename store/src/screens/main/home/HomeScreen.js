@@ -11,6 +11,9 @@ import {
   LineChart,
 } from "react-native-chart-kit";
 import DealCard from '../../../components/components_Home/DealCard'
+import SectionTitle from '../../../components/universal/Header/SectionTitle'
+import CouponCard from '../../../components/components_Home/CouponCard'
+import SectionCard from '../../../components/components_Home/SectionCard'
 
 export default function HomeScreen({navigation}) {
   // const navigation = useNavigation()
@@ -23,7 +26,8 @@ export default function HomeScreen({navigation}) {
           marginTop: 110, 
           // backgroundColor: 'yellow', 
           width: width,
-          paddingHorizontal: 20
+          paddingHorizontal: 20,
+          marginBottom: 80
         }}
       >
         <View style={{marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10}}>
@@ -77,13 +81,36 @@ export default function HomeScreen({navigation}) {
         {/* ---- end - LineChart */}
 
         <StatisticBox />
-        <View style={{marginTop: 30, paddingHorizontal: 10, marginBottom: 20}}>
-          <Text style={H5}>Meine Deals</Text>
-        </View>
-        <DealCard />
-      {/* </View>
-      <View> */}
 
+        
+        <View style={{marginTop: 30}}>
+          <SectionTitle 
+            title={'Meine Deals'}
+            showMoreButton
+          />
+          <DealCard />
+        </View>
+
+        <View style={{marginTop: 30}}>
+          <SectionTitle 
+            title={'Coupons Übersicht'}
+            showMoreButton
+          />
+          <CouponCard />
+        </View>
+
+        <View style={{marginTop: 30}}>
+          <SectionTitle 
+            title={'Schnellzugriff'}
+          />
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+          <SectionCard title={'Coupons'}/>
+          <SectionCard title={'Prämien'}/>
+          <SectionCard title={'Deals'}/>
+          <SectionCard title={'Quests'}/>
+          </View>
+        </View>
+        
 
     </ScrollView>
     </View>

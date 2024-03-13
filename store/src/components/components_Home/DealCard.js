@@ -15,7 +15,7 @@ export default function DealCard() {
                 borderWidth: 0.5, 
                 borderRadius: 16, 
                 borderColor: COLORS.grey,
-                // overflow: 'hidden',
+                overflow: 'hidden',
             }}
         >
             
@@ -24,14 +24,16 @@ export default function DealCard() {
                 style={{
                     width: '100%',
                     height: 140,
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    backgroundColor: 'yellow',
+                    alignSelf: 'center',
+                    overflow: 'hidden',
                 }}
             >
                 <Image 
                     source={require('../../../assets/image/Pizza.png')}
                     resizeMode='contain'
-                    style={{maxWidth: '100%'}}
+                    style={{maxHeight: '100%'}}
                 />
             </View>
             {/* ---- end - Image Section */}
@@ -43,43 +45,31 @@ export default function DealCard() {
                     paddingVertical: 10
                 }}
             >
-                <Text style={[T1, {fontFamily: 'RH-Bold'}]}>20% Rabatt auf 2 Bubble Tea bei Tokas Tea House</Text>
-                
-            </View>
-            {/* ---- end - Info Section */}
-            <View style={{
-                width: '100%',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                position: 'absolute',
-                bottom: 10,
-                right: 0,
-                paddingLeft: 12,
-                paddingRight: 10
-            }}>
-
-            <StatusBadge 
+                <Text style={[T1, {fontFamily: 'RH-Bold'}]}>20% Rabatt auf 2 Bubble Tea bei Tokas Tea House!</Text>
+                <StatusBadge 
                 status={'Pausiert'}
                 styleContainer={{
-                    // marginRight: 10
-                    // bottom: 0,
-                    // left: 12,
+                    marginTop: 6,
+                    bottom: 0,
+                    left: -2,
                 }}
             />
 
+            </View>
+            {/* ---- end - Info Section */}
+
+        
             <Icons
                 icon={icons.MaterialCommunityIcons}
                 iconName={'square-edit-outline'}
                 iconSize={25}
                 iconColor={COLORS.grey}
-                // iconStyle={{
-                //     position: 'absolute',
-                //     bottom: 10,
-                //     right: 10,
-                // }}
+                iconStyle={{
+                    position: 'absolute',
+                    bottom: 10,
+                    right: 10,
+                }}
             />
-            </View>
             
         </View>
     )
