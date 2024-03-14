@@ -10,6 +10,8 @@ import { COLORS } from '../helper/constants/colors';
 import MainHeader from '../components/components_Navigation/MainHeader';
 import Icons, { icons } from '../components/universal/Icons/Icons';
 import ScannerScreen from '../screens/main/scanner/ScannerScreen';
+import HistoryScreen from '../screens/main/history/HistoryScreen';
+import ManagementScreen from '../screens/main/manage/ManagementScreen';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {
@@ -54,7 +56,7 @@ export default function MainNav() {
         />
         <Main.Screen 
             name='Verlauf'
-            component={CouponsScreen}
+            component={HistoryScreen}
             options={{
                 tabBarLabel: 'Verlauf',
                 tabBarIcon: ({ color }) => (
@@ -69,7 +71,7 @@ export default function MainNav() {
         />
         <Main.Screen 
             name='Verwalten'
-            component={MoreScreen}
+            component={ManagementScreen}
             options={{
                 tabBarLabel: 'Verwalten',
                 tabBarIcon: ({ color }) => (
