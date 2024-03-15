@@ -5,11 +5,13 @@ import { COLORS } from '../../../helper/constants/colors'
 import { T3 } from '../../../helper/constants/text'
 
 export default function ClassBadge({
-    type
+    type,
+    styleContainer,
 }) {
   return (
     <View 
-        style={{
+        style={[
+            {
             backgroundColor: 
                 type == 'Moderator' ? '#758CDD' :
                 type == 'Admin' ? '#DD758A' : COLORS.lightGrey,
@@ -19,7 +21,9 @@ export default function ClassBadge({
             paddingVertical: 5,
             paddingHorizontal: 15,
             borderRadius: height,
-        }}
+            },
+            styleContainer
+        ]}
     >
         <Text 
             style={[

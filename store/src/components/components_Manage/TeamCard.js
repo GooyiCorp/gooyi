@@ -29,7 +29,12 @@ export default function TeamCard({
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
 
-            <ClassBadge type={type}/>
+            <ClassBadge 
+                type={type}
+                styleContainer={{
+                    alignSelf: 'center'
+                }}
+            />
             <Icons 
             icon={icons.MaterialIcons}
             iconName={'navigate-next'}
