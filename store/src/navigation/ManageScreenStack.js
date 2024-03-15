@@ -5,6 +5,7 @@ import { height, width } from '../helper/constants/size';
 import ManagementHeader from '../components/components_Manage/ManagementHeader';
 import ManageStoreScreen from '../screens/main/manage/ManageStoreScreen';
 import ManageTeamScreen from '../screens/main/manage/ManageTeamScreen';
+import MemberOverview from '../screens/main/manage/MemberOverview';
 
 // --- Create Stack Navigator
 const Manage = createStackNavigator();
@@ -31,6 +32,9 @@ return (
             <Manage.Screen 
                 name='ManageTeam'
                 component={ManageTeamScreen}
+                options={{
+                    gestureEnabled: false
+                }}
             />
             {/* ---- end - Create Screen Section */}
 

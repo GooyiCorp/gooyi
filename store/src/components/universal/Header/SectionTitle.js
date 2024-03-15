@@ -7,17 +7,21 @@ import { COLORS } from '../../../helper/constants/colors'
 export default function SectionTitle({
     title,
     showMoreButton,
+    styleContainer,
 }) {
   return (
     <View 
-        style={{
-            width: '100%',
-            paddingHorizontal: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            marginBottom: 20,
-        }}
+        style={[
+            {
+                width: '100%',
+                paddingHorizontal: 10,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                marginBottom: 20,
+            },
+            styleContainer
+        ]}
     >
         <Text style={[H5]}>{title}</Text>
 
