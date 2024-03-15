@@ -12,6 +12,7 @@ import Icons, { icons } from '../components/universal/Icons/Icons';
 import ScannerScreen from '../screens/main/scanner/ScannerScreen';
 import HistoryScreen from '../screens/main/history/HistoryScreen';
 import ManagementScreen from '../screens/main/manage/ManagementScreen';
+import ManageScreenStack from './ManageScreenStack';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {
@@ -71,7 +72,7 @@ export default function MainNav() {
         />
         <Main.Screen 
             name='Verwalten'
-            component={ManagementScreen}
+            component={ManageScreenStack}
             options={{
                 tabBarLabel: 'Verwalten',
                 tabBarIcon: ({ color }) => (

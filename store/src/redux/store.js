@@ -6,6 +6,7 @@ import logInSlice from "./slices/logInSlice";
 import changePasswordSlice from "./slices/changePasswordSlice";
 import resetPasswordSlice from "./slices/resetPasswordSlice";
 import createCouponSlice from "./slices/createCouponSlice";
+import manageScreenSlice from "./slices/manageScreenSlice";
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -18,5 +19,6 @@ export const store = configureStore({
         changePassword: changePasswordSlice,
         resetPassword: resetPasswordSlice,
         createCoupon: createCouponSlice,
+        manageScreen: manageScreenSlice,
     }
 })

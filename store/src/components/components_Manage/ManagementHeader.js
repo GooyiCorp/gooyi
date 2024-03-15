@@ -1,13 +1,40 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { COLORS } from '../../helper/constants/colors'
 import { width } from '../../helper/constants/size'
 import { H5 } from '../../helper/constants/text'
 import Icons, { icons } from '../universal/Icons/Icons'
+import HeaderButton from '../universal/Buttons/HeaderButton'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSelectedScreen } from '../../redux/slices/manageScreenSlice'
 
-export default function ManagementHeader() {
-  return (
-    <View style={{position: 'absolute', width: width}}>
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Main Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export default function ManagementHeader({}) {
+
+    const navigation = useNavigation()
+    const dispatch = useDispatch()
+    // ------------------------------
+    // Header Buttons 
+    // ------------------------------
+    const ManageHeader = [
+        {title: 'Geschäft', route: 'ManageStore'},
+        {title: 'Personal', route: 'ManageTeam'}
+    ]
+    const selected = useSelector(state => state.manageScreen.selectedScreen)
+    const handlePress = (row) => {
+        dispatch(setSelectedScreen(row.title))
+        navigation.navigate(row.route)
+    }
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Return Section
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+return (
+    <View style={{position: 'absolute', width: width, height: 110, backgroundColor: COLORS.white, zIndex: 6}}>
+
         <View 
             style={{
                 paddingHorizontal: 20,
@@ -19,20 +46,31 @@ export default function ManagementHeader() {
                 justifyContent: 'space-between',
             }}
         >
+
+            {/* ---- start - Left Section */}
             <View 
                 style={{
                     flexDirection: 'row'
                 }}
             >
-                <View style={{padding: 5, borderBottomWidth: 0.5, borderColor: COLORS.lightGrey, marginHorizontal: 10, }}>
-                    <Text style={[H5]}>Geschäft</Text>
-                </View>
-                <View style={{padding: 5, marginHorizontal: 10}}>
-                    <Text style={[H5, {fontFamily: 'RH-Regular', color: COLORS.lightGrey}]}>Personal</Text>
-
-                </View>
+                {ManageHeader.map((buttons) => (
+                    <HeaderButton 
+                        key={buttons.title} 
+                        title={buttons.title} 
+                        onPress={() => handlePress(buttons)}
+                        styleContainer={{
+                            borderBottomWidth: selected == buttons.title ? 0.5 : 0
+                        }}
+                        styleTitle={{
+                            fontFamily: selected == buttons.title ? 'RH-Bold' : 'RH-Regular',
+                            color: selected == buttons.title ? COLORS.grey : COLORS.lightGrey
+                        }}
+                    />
+                ))}
             </View>
+            {/* ---- end - Left Section */}
 
+            {/* ---- start - Right Section */}
             <Icons 
                 icon={icons.AntDesign}
                 iconName={'bells'}
@@ -42,9 +80,12 @@ export default function ManagementHeader() {
                     marginRight: 10
                 }}
             />
+            {/* ---- end - Right Section */}
+
         </View>
+
     </View>
-  )
+)
 }
 
 const styles = StyleSheet.create({})
