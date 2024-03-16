@@ -13,6 +13,7 @@ import ScannerScreen from '../screens/main/scanner/ScannerScreen';
 import HistoryScreen from '../screens/main/history/HistoryScreen';
 import ManagementScreen from '../screens/main/manage/ManagementScreen';
 import ManageScreenStack from './ManageScreenStack';
+import HistoryScreenStack from './HistoryScreenStack';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {
@@ -57,7 +58,7 @@ export default function MainNav() {
         />
         <Main.Screen 
             name='Verlauf'
-            component={HistoryScreen}
+            component={HistoryScreenStack}
             options={{
                 tabBarLabel: 'Verlauf',
                 tabBarIcon: ({ color }) => (
