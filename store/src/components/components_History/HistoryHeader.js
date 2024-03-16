@@ -8,14 +8,25 @@ export default function HistoryHeader() {
 
     const scrollRef = useRef()
     const HistoryHeader = [
-        {title: 'Punkteverlauf'},
-        {title: 'Couponverlauf'},
-        {title: 'Dealverlauf'},
+        {
+            title: 'Punkteverlauf',
+            id: 1
+        },
+        {
+            title: 'Couponverlauf',
+            id: 2
+        },
+        {
+            title: 'Dealverlauf',
+            id: 3
+        },
     ]
     const [selected, setSelected] = useState('Punkteverlauf')
     const handlePress = (row) => {
         setSelected(row.title)
         // navigation.navigate(row.route)
+        // scrollTo the selected button and center it
+        scrollRef.current.scrollTo({x: row.id * 100, y: 0, animated: true})
     }
 
 
