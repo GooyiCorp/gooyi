@@ -11,6 +11,7 @@ const History = createStackNavigator();
 export default function HistoryScreenStack() {
   return (
     <View style={{height: height, width: width}}>
+        
         <HistoryHeader />
 
         {/* ---- start - Navigation Section */}
