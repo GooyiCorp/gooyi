@@ -11,7 +11,7 @@ export default function PointsTransactionDayCard({
 }) {
 
     const Transaction = transactionList
-    console.log(Transaction)
+    
   return (
     <View>
         {header? 

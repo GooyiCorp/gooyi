@@ -36,15 +36,15 @@ export default function TeamCard({
                 }}
             />
             <Icons 
-            icon={icons.MaterialIcons}
-            iconName={'navigate-next'}
-            iconSize={22}
-            iconColor={COLORS.grey}
-            iconStyle={{
-                marginRight: -8,
-                marginLeft: 10
-            }}
-        />
+                icon={icons.MaterialIcons}
+                iconName={'navigate-next'}
+                iconSize={22}
+                iconColor={COLORS.grey}
+                iconStyle={{
+                    marginRight: -8,
+                    marginLeft: 10
+                }}
+            />
         </View>
     </TouchableOpacity>
   )

@@ -16,7 +16,7 @@ export default function HistoryScreenStack() {
 
         {/* ---- start - Navigation Section */}
         <History.Navigator
-            initialRouteName='ManageStore'
+            initialRouteName='PointsHistory'
             screenOptions={{
                 headerShown: false,    
             }}

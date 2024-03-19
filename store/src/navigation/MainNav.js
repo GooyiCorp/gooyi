@@ -14,6 +14,7 @@ import HistoryScreen from '../screens/main/history/HistoryScreen';
 import ManagementScreen from '../screens/main/manage/ManagementScreen';
 import ManageScreenStack from './ManageScreenStack';
 import HistoryScreenStack from './HistoryScreenStack';
+import ScannerScreenStack from './ScannerScreenStack';
 const Main = createBottomTabNavigator();
 
 export default function MainNav() {
@@ -43,7 +44,7 @@ export default function MainNav() {
         />
         <Main.Screen 
             name='Scanner'
-            component={ScannerScreen}
+            component={ScannerScreenStack}
             options={{
                 tabBarLabel: 'Scanner',
                 tabBarIcon: ({ color }) => (
