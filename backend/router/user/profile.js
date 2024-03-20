@@ -93,7 +93,7 @@ profileRoute.post("/email-login", async (req, res) => {
       });
     } else {
       const key = generate_key(8);
-      await Redis.hSet("verified_code", email, key);
+      await Redis.hSet("verified_code", email, key, "EX", Math.floor(Date.now() / 1000) + (10 * 60));
       const options = {
         from: "Gooyi.de <info@gooyi.de>",
         to: email,
