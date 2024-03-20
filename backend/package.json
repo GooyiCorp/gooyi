@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "test",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "test": "npx vitest --coverage",
+    "start": "node --no-warnings=ExperimentalWarning index.js",
+    "dev": "nodemon --no-warnings=ExperimentalWarning index.js",
     "migrate": "npx prisma-util migrate dev",
     "studio": "npx prisma-util studio",
     "schema": "npx prisma-util schema --path ./prisma/schema.prisma",
@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.10.2",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "chalk": "^5.3.0",
     "cors": "^2.8.5",
@@ -37,9 +38,10 @@
   },
   "devDependencies": {
     "@ts-safeql/eslint-plugin": "^2.0.3",
+    "@vitest/coverage-v8": "^1.4.0",
     "nodemon": "^3.0.1",
     "prisma-dbml-generator": "^0.10.0",
-    "sequelize-cli": "^6.6.1"
+    "vitest": "^1.4.0"
   },
   "prismaUtil": "prisma-util"
 }

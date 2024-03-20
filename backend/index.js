@@ -15,15 +15,8 @@ dotenv.config();
 export const TOKEN_LIST = {};
 export const TOKEN_BLACKLIST = {};
 import { clearTokenList } from "./helper/jwt.js";
-// Cache connection
-import Redis from "./cache/index.js";
-try {
-  await Redis.connect();
-} catch (error) {
-  console.log("Unable to connect to the Redis", error);
-}
 // Server initialization
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
