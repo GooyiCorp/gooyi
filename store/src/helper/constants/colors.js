@@ -1,5 +1,5 @@
 export const COLORS = {
-    primary: '#B84058',
+    primary: '#DD758A',
     primary02: 'rgba(184, 64, 88, 0.2)',
     subPrimary: '#516579',
     subPrimary02: 'rgba(130, 152, 174, 0.2)',

@@ -12,6 +12,7 @@ import ResetPasswordScreen from '../screens/logIn/ResetPasswordScreen';
 import MainNav from './MainNav';
 import RedeemScreen from '../screens/main/redeem/RedeemScreen';
 import CreateNewCouponScreen from '../screens/main/coupons/CreateNewCouponScreen';
+import MemberOverview from '../screens/main/manage/MemberOverview';
 
 
 // --- Create Stack Navigator
@@ -29,7 +30,7 @@ return (
 <View style={styles.screen}>
     {/* ---- start - Navigation Section */}
     <Root.Navigator
-        initialRouteName='CreateCoupon'
+        initialRouteName='Main'
         screenOptions={{
             headerShown: false,    
         }}
@@ -70,6 +71,16 @@ return (
             name='CreateCoupon'
             component={CreateNewCouponScreen}
         />
+
+        <Root.Screen 
+            name='MemberOverview'
+            component={MemberOverview}
+            options={{
+                presentation: 'modal'
+            }}
+        />
+
+
 
     </Root.Navigator>
     {/* ---- end - Navigation Section */}
