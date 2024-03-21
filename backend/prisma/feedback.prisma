@@ -3,8 +3,8 @@ model FeedBack {
   user_id     String
   store_id    String
   text        String
-  create_at   DateTime @default(now())
-  update_at   DateTime @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   store         Store          @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
   user          User           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
@@ -14,8 +14,8 @@ model FeedBack {
 model FeedBackReply {
   feedback_id Int      @id
   reply       String
-  create_at   DateTime @default(now())
-  update_at   DateTime @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   feedback FeedBack @relation(fields: [feedback_id], references: [feedback_id], onDelete: Cascade)
 }

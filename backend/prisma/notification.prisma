@@ -3,8 +3,8 @@ model Notification {
 
     text            String
 
-    create_at       DateTime @default(now())
-    update_at       DateTime @updatedAt
+    created_at       DateTime @default(now())
+    updated_at       DateTime @updatedAt
 
     Stores          StoreNotification[]
     Users           UserNotification[]

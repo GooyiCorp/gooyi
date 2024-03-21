@@ -50,7 +50,7 @@ const logIn = !useSelector((state) => state.user.isLoggedIn)
         if (response.success) {
           dispatch(setUserId(response.data.user_id))
           dispatch(setUserName(response.data.first_name + ' ' + response.data.last_name))
-          const date = new Date(response.data.create_at)
+          const date = new Date(response.data.created_at)
           const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
           dispatch(setEntryDate(month[date.getMonth()] + ' ' + date.getFullYear()))
         }

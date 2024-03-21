@@ -6,8 +6,8 @@ model Coupon {
   expired_in  Int
   description String
   amount      Int
-  create_at   DateTime @default(now())
-  update_at   DateTime @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   store_id   String           @unique
   store      Store            @relation(fields: [store_id], references: [store_id], onDelete: Cascade)

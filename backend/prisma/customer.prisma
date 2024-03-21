@@ -4,8 +4,8 @@ model Customer {
     store       Store  @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
     user        User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 
-    create_at   DateTime @default(now())
-    update_at   DateTime @updatedAt
+    created_at   DateTime @default(now())
+    updated_at   DateTime @updatedAt
     @@id([user_id, store_id])
 }
 
@@ -17,8 +17,8 @@ model CustomerGroup {
     title               String 
     customers           User[] @relation("GroupCustomer")
 
-    create_at           DateTime @default(now())
-    update_at           DateTime @updatedAt
+    created_at           DateTime @default(now())
+    updated_at           DateTime @updatedAt
 
     @@unique([store_id, title])
 }

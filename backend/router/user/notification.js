@@ -17,13 +17,13 @@ notificationRoute.get("/", verifyToken, async (req, res) => {
                 notification: {
                     select: {
                         text: true,
-                        create_at: true
+                        created_at: true
                     }
                 }
             },
             orderBy: {
                 notification: {
-                    create_at: 'desc'
+                    created_at: 'desc'
                 }
             }
         });

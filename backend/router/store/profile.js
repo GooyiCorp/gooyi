@@ -54,7 +54,7 @@ profileRoute.get("/point-history", async (req, res) => {
   const mod_id = req.user.id
   try {
     const mod = await prisma.mod.findUnique({ where: { mod_id }, select: { store_id: true } })
-    const history = await prisma.PointHistory.findMany({where: {store_id: mod.store_id}, orderBy: {create_at: 'desc'}})
+    const history = await prisma.PointHistory.findMany({where: {store_id: mod.store_id}, orderBy: {created_at: 'desc'}})
     return sendSuccess(res, "ok", history)
   } catch (err) {
     logger.error(err)

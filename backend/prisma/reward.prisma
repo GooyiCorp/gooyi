@@ -7,8 +7,8 @@ model Reward {
   description       String
   amount            Int
   max_coupon_amount Int
-  create_at         DateTime @default(now())
-  update_at         DateTime @updatedAt
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
 
   conditions Condition[]
   store_id   String      @unique

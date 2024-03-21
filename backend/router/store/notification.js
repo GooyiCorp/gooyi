@@ -41,12 +41,12 @@ notificationRoute.get("/", async (req, res) => {
         }
       },
       orderBy: {
-        create_at: 'desc' // or 'asc' for ascending order
+        created_at: 'desc' // or 'asc' for ascending order
       }
     });
     const formattedNotifications = notifications.map(notification => ({
         text: notification.text,
-        created_at: notification.create_at,
+        created_at: notification.created_at,
         read: notification.Stores[0] ? notification.Stores[0].read : false // Read status, defaulting to false if not present
     }));
 

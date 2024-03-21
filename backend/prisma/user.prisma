@@ -6,8 +6,8 @@ model User {
   phone      String?   @unique
   active     Boolean   @default(false)
   last_login DateTime?
-  create_at  DateTime  @default(now())
-  update_at  DateTime  @updatedAt
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
 
   FeedBacks       FeedBack[]
   UserPoints      UserPoint[]

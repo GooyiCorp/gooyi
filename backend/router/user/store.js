@@ -279,7 +279,7 @@ storeRoute.post("/feedback", verifyToken, async (req, res) => {
         FeedBacks: {
           where: { store_id },
           orderBy: {
-            create_at: "desc",
+            created_at: "desc",
           },
         },
       },
@@ -287,7 +287,7 @@ storeRoute.post("/feedback", verifyToken, async (req, res) => {
     if (!user) return sendError(res, "Unauthorized", 403);
     if (user.FeedBacks.length > 0) {
       const last_feedback_date = new Date(
-        user.FeedBacks[0].create_at,
+        user.FeedBacks[0].created_at,
       ).getDate();
       const today = new Date().getDate();
 
