@@ -6,14 +6,15 @@ model Store {
   logo        String?
   background  String?
   enter_date  DateTime
-  create_at   DateTime @default(now())
-  update_at   DateTime @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   Address        Address?
   Coupons        Coupon[]
   Rewards        Reward[]
   FeedBacks      FeedBack[]
-  Mod            Mod[]
+  StoreMember    StoreMember[]
+  Group          StoreMemberGroup[]
   OpeningHour    OpeningHour?
   Quests         Quest[]
   UserPoints     UserPoint[]

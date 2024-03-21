@@ -5,6 +5,6 @@ model Admin {
   name      String
   username  String   @unique
   password  String
-  create_at DateTime @default(now())
-  update_at DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

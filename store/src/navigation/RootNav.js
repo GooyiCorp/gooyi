@@ -13,6 +13,8 @@ import MainNav from './MainNav';
 import RedeemScreen from '../screens/main/redeem/RedeemScreen';
 import CreateNewCouponScreen from '../screens/main/coupons/CreateNewCouponScreen';
 import MemberOverview from '../screens/main/manage/MemberOverview';
+import PointsEntryScreen from '../screens/main/scanner/PointsEntryScreen';
+import ScoringScreenStack from './ScoringScreenStack';
 
 
 // --- Create Stack Navigator
@@ -78,6 +80,11 @@ return (
             options={{
                 presentation: 'modal'
             }}
+        />
+
+        <Root.Screen 
+            name='Scoring'
+            component={ScoringScreenStack}
         />
 
 

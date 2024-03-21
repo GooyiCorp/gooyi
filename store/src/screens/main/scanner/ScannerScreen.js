@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { height, width } from '../../../helper/constants/size'
 import { COLORS } from '../../../helper/constants/colors'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export default function ScannerScreen() {
+export default function ScannerScreen({navigation}) {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
@@ -32,6 +32,12 @@ export default function ScannerScreen() {
   
   return (
     <View style={styles.screen}>
+      <View style={{
+        position: 'absolute',
+        zIndex: 2
+      }}>
+        <Button title='Next' onPress={() => navigation.navigate('Scoring')}/>
+      </View>
 
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}

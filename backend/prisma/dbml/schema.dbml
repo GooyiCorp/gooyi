@@ -12,8 +12,8 @@ Table Admin {
   name String [not null]
   username String [unique, not null]
   password String [not null]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
 }
 
 Table Mod {
@@ -23,8 +23,8 @@ Table Mod {
   phone String [unique, not null]
   password String [not null]
   verified Boolean [not null, default: false]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   store_id String [not null]
   store Store [not null]
 }
@@ -37,8 +37,8 @@ Table User {
   phone String [unique]
   active Boolean [not null, default: false]
   last_login DateTime
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   FeedBacks FeedBack [not null]
   UserPoints UserPoint [not null]
   favoriteCoupons Coupon [not null]
@@ -54,8 +54,8 @@ Table Store {
   logo String
   background String
   enter_date DateTime [not null]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   Address Address
   Coupons Coupon [not null]
   Rewards Reward [not null]
@@ -126,8 +126,8 @@ Table FeedBack {
   user_id String [not null]
   store_id String [not null]
   text String [not null]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   store Store [not null]
   user User [not null]
   FeedBackReply FeedBackReply
@@ -136,8 +136,8 @@ Table FeedBack {
 Table FeedBackReply {
   feedback_id Int [pk]
   reply String [not null]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   feedback FeedBack [not null]
 }
 
@@ -156,8 +156,8 @@ Table Coupon {
   expired_in Int [not null]
   description String [not null]
   amount Int [not null]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   store_id String [unique, not null]
   store Store [not null]
   likedUsers User [not null]
@@ -198,8 +198,8 @@ Table Reward {
   description String [not null]
   amount Int [not null]
   max_coupon_amount Int [not null]
-  create_at DateTime [default: `now()`, not null]
-  update_at DateTime [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
   conditions Condition [not null]
   store_id String [unique, not null]
   store Store [not null]

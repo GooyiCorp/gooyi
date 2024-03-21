@@ -1,12 +1,40 @@
-model Mod {
-  mod_id    Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  phone     String   @unique
-  password  String
-  verified  Boolean  @default(false)
-  create_at DateTime @default(now())
-  update_at DateTime @updatedAt
-  store_id  String
-  store     Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+model StoreMember {
+  store_member_id    Int      @id @default(autoincrement())
+  name               String
+  email              String   @unique
+  phone              String   @unique
+  password           String
+  role               StoreMemberGroupType
+  store_owner        Boolean @default(false)
+  verified           Boolean  @default(false)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+  store_id           String
+  store              Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+  group_id           Int      
+  group              StoreMemberGroup @relation(fields: [group_id], references: [group_id])
+}
+
+model StoreMemberGroup {
+  group_id      Int @id @default(autoincrement())
+  name          StoreMemberGroupType
+  members       StoreMember[]
+  permissions   Permission[]
+  
+  store_id           String
+  store              Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+}
+
+
+model Permission {
+  name  String @id
+
+  group StoreMemberGroup[]
+}
+
+
+enum StoreMemberGroupType {
+  ADMIN
+  MODERATOR
+  MEMBER
 }
