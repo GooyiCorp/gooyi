@@ -28,11 +28,21 @@ export default function ScoringScreenStack({navigation}) {
             <Scoring.Screen 
                 name='PointsEntry'
                 component={PointsEntryScreen}
+                options={{
+                    gestureEnabled: false,
+                    presentation: 'transparentModal',
+                    animationEnabled: false,
+                }}
             />
 
             <Scoring.Screen 
                 name='QuickSelection'
                 component={QuickSelectionScreen}
+                options={{
+                    gestureEnabled: false,
+                    presentation: 'transparentModal',
+                    animationEnabled: false,
+                }}
             />
             {/* ---- end - Create Screen Section */}
 
@@ -44,7 +54,7 @@ export default function ScoringScreenStack({navigation}) {
             zIndex: 6,
             bottom: 0,
             width: width, 
-            paddingBottom: 30,
+            paddingBottom: 40,
             paddingTop: 20, 
             paddingHorizontal: 20,
             justifyContent: 'center',
