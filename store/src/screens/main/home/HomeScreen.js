@@ -17,7 +17,14 @@ import SectionCard from '../../../components/components_Home/SectionCard'
 import ServicesButton from '../../../components/universal/Buttons/ServicesButton'
 
 export default function HomeScreen({navigation}) {
-  // const navigation = useNavigation()
+
+  const ManageButtonsList = [
+    {id: 1, type: 'coupon', route: 'ManageCoupons'},
+    {id: 2, type: 'reward', route: 'ManageReward'},
+    {id: 3, type: 'deal', route: 'ManageDeals'},
+    {id: 4, type: 'quest', route: 'ManageQuest'},
+  ]
+
   return (
     <View style={styles.screen}>
       <HomeHeader />
@@ -105,10 +112,13 @@ export default function HomeScreen({navigation}) {
             title={'Schnellzugriff'}
           />
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', marginBottom: 20}}>
-          <SectionCard coupon/>
-          <SectionCard reward/>
-          <SectionCard deal/>
-          <SectionCard quest/>
+            {ManageButtonsList.map((buttons) => (
+              <SectionCard 
+                key={buttons.id}
+                type={buttons.type}
+                route={buttons.route}
+              />
+            ))}
           </View>
 
           <ServicesButton 

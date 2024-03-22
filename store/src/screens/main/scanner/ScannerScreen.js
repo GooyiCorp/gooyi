@@ -34,7 +34,8 @@ export default function ScannerScreen({navigation}) {
     <View style={styles.screen}>
       <View style={{
         position: 'absolute',
-        zIndex: 2
+        zIndex: 2,
+        bottom: 100,
       }}>
         <Button title='Next' onPress={() => navigation.navigate('Scoring')}/>
       </View>
@@ -43,6 +44,9 @@ export default function ScannerScreen({navigation}) {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
+      <View style={{width: width, borderBottomWidth: 2, borderColor: COLORS.primary}}>
+
+      </View>
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
 
     </View>

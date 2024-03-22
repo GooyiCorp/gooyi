@@ -10,7 +10,12 @@ import { icons } from '../../../components/universal/Icons/Icons'
 import { COLORS } from '../../../helper/constants/colors'
 
 export default function ManageStoreScreen({navigation}) {
-
+  const ManageButtonsList = [
+    {id: 1, type: 'coupon', route: 'ManageCoupons'},
+    {id: 2, type: 'reward', route: 'ManageReward'},
+    {id: 3, type: 'deal', route: 'ManageDeals'},
+    {id: 4, type: 'quest', route: 'ManageQuest'},
+  ]
   return (
     <View style={{width: width, height: height, backgroundColor: COLORS.white}}>
       <ScrollView 
@@ -64,10 +69,13 @@ export default function ManageStoreScreen({navigation}) {
             title={'Verwalten'}
           />
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
-            <SectionCard coupon/>
-            <SectionCard reward/>
-            <SectionCard deal/>
-            <SectionCard quest/>
+            {ManageButtonsList.map((buttons) => (
+              <SectionCard 
+                key={buttons.id}
+                type={buttons.type}
+                route={buttons.route}
+              />
+            ))}
           </View>
         </View>
 

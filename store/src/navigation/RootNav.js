@@ -15,6 +15,10 @@ import CreateNewCouponScreen from '../screens/main/coupons/CreateNewCouponScreen
 import MemberOverview from '../screens/main/manage/MemberOverview';
 import PointsEntryScreen from '../screens/main/scanner/PointsEntryScreen';
 import ScoringScreenStack from './ScoringScreenStack';
+import ManageCoupons from '../screens/main/manage/ManageCoupons';
+import ManageReward from '../screens/main/manage/ManageReward';
+import ManageDeals from '../screens/main/manage/ManageDeals';
+import ManageQuest from '../screens/main/manage/ManageQuest';
 
 
 // --- Create Stack Navigator
@@ -87,6 +91,22 @@ return (
             component={ScoringScreenStack}
         />
 
+        <Root.Screen 
+            name='ManageCoupons'
+            component={ManageCoupons}
+        />
+        <Root.Screen 
+            name='ManageReward'
+            component={ManageReward}
+        />
+        <Root.Screen 
+            name='ManageDeals'
+            component={ManageDeals}
+        />
+        <Root.Screen 
+            name='ManageQuest'
+            component={ManageQuest}
+        />
 
 
     </Root.Navigator>
