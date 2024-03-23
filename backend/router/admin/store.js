@@ -109,6 +109,7 @@ storeRoute.post("/create", async (req, res) => {
     const openingHour = await prisma.openingHour.create({
       data: { ...opening_hours, store_id: store.store_id },
     });
+    await createDefaultGroup(store_id)
     return sendSuccess(res, "Create store successfully", {
       store,
       address,

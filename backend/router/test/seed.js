@@ -1,12 +1,15 @@
 import express from 'express';
+import bcrypt from "bcrypt";
+
 import prisma from '../../prisma/client/index.js';
 
-
+import { logger } from '../../helper/logger.js';
 import { store_create_validate } from "../../validation/store.js";
 import { createDefaultGroup } from "../../helper/store.js";
-import { generate_store_id, generate_user_id } from '../../helper/client.js';
+import { generate_store_id, generate_user_id, sendServerError, sendSuccess } from '../../helper/client.js';
 
 import stores from "./store_data.json" assert { type: "json" };
+
 
 const seed = express.Router()
 
@@ -99,45 +102,36 @@ seed.post("/", async (req, res) => {
         logger.error("Store:", err);
         return sendServerError(res);
     }
-    console.log("Create stores successfully!");
     // Create admin
     try {
         const hash = bcrypt.hashSync("12345", 10);
-        const admin = await prisma.admin.create({
-            data: { name: "Thanh", username: "admin", password: hash },
+        await prisma.admin.upsert({
+            create: { name: "Thanh", username: "admin", password: hash },
+            where: { username: "admin" },
+            update: {}
         });
     } catch (err) {
         logger.error("Admin:", err);
         return sendServerError(res);
     }
-    console.log("Create admin successfully!");
     // Create sample users
-    const user_id_1 = await generate_user_id();
-    const user1 = await prisma.user.create({
-        data: {
-            user_id: user_id_1,
-            first_name: "Thanh",
-            last_name: "Nguyen",
-            email: "thanhoilathanh482@gmail.com",
-            phone: "123456",
-            active: true,
-        }
-    })
-    const user_id_2 = await generate_user_id();
-    const user2 = await prisma.user.create({
-        data: {
-            user_id: user_id_2,
-            first_name: "Duc",
-            last_name: "Anh",
-            email: "ducanh.95vn@icloud.com",
-            phone: "678910",
-            active: true,
-        }
-    })
-    console.log("Create users successfully!");
-
-
-  
+    try {
+      const user_id_1 = await generate_user_id();
+      const user1 = await prisma.user.create({
+          data: {
+              user_id: user_id_1,
+              first_name: "Thanh",
+              last_name: "Nguyen",
+              email: "thanhoilathanh482@gmail.com",
+              phone: "123456",
+              active: true,
+          }
+      })
+    } catch (err) {
+      logger.error("User:", err);
+      return sendServerError(res);
+    }
+    return sendSuccess(res, "Seed data successfully!");
 });
 
 

@@ -15,6 +15,14 @@ dotenv.config();
 export const TOKEN_LIST = {};
 export const TOKEN_BLACKLIST = {};
 import { clearTokenList } from "./helper/jwt.js";
+// Redis connection
+import Redis from "./cache/index.js";
+try {
+  await Redis.connect();
+} catch (error) {
+  console.log(error);
+}
+
 // Server initialization
 export const app = express();
 app.use(express.json());
