@@ -11,6 +11,13 @@ import ServicesButton from '../../../components/universal/Buttons/ServicesButton
 import { icons } from '../../../components/universal/Icons/Icons'
 
 export default function ManagementScreen() {
+
+  const ManageButtonsList = [
+    {id: 1, type: 'coupon', route: 'ManageCoupons'},
+    {id: 2, type: 'reward', route: 'ManageReward'},
+    {id: 3, type: 'deal', route: 'ManageDeals'},
+    {id: 4, type: 'quest', route: 'ManageQuest'},
+  ]
   return (
     <View style={styles.screen}>
       <ManagementHeader />
@@ -66,10 +73,10 @@ export default function ManagementScreen() {
             title={'Verwalten'}
           />
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
-            <SectionCard coupon/>
-            <SectionCard reward/>
-            <SectionCard deal/>
-            <SectionCard quest/>
+            <SectionCard type={'coupon'}/>
+            <SectionCard type={'reward'}/>
+            <SectionCard type={'deal'}/>
+            <SectionCard type={'quest'}/>
           </View>
         </View>
 

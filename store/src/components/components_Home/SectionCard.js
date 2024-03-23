@@ -1,18 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { width } from '../../helper/constants/size'
 import { COLORS } from '../../helper/constants/colors'
 import { T1, T2 } from '../../helper/constants/text'
 import Icons, { icons } from '../universal/Icons/Icons'
+import { useNavigation } from '@react-navigation/native'
 
 export default function SectionCard({
-    coupon,
-    reward,
-    deal,
-    quest,
+    type,
+    route,
 }) {
+    const navigation = useNavigation()
   return (
-    <View 
+    <TouchableOpacity 
         style={{
             width: width/2-25,
             height: 100,
@@ -23,16 +23,17 @@ export default function SectionCard({
             paddingHorizontal: 15,
             paddingVertical: 10,
         }}
+        onPress={() => navigation.navigate(route)}
     >
         <View 
             style={{
                 width: 34, 
                 height: 34,
                 backgroundColor: 
-                    coupon? '#DD758A' :
-                    reward? '#758CDD' : 
-                    deal? '#4FAAA0' :
-                    quest? '#FCDA70' : '#fff',
+                    type == 'coupon' ? '#DD758A' :
+                    type == 'reward' ? '#758CDD' : 
+                    type == 'deal' ? '#4FAAA0' :
+                    type == 'quest' ? '#FCDA70' : '#fff',
                 borderRadius: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -40,28 +41,28 @@ export default function SectionCard({
             }}
         >
             <Icons 
-                icon={quest? icons.AntDesign : icons.MaterialCommunityIcons}
+                icon={type == 'quest'? icons.AntDesign : icons.MaterialCommunityIcons}
                 iconName={
-                    coupon? 'ticket-percent' :
-                    reward? 'gift' : 
-                    deal? 'percent' :
-                    quest? 'star' : ''
+                    type == 'coupon'? 'ticket-percent' :
+                    type == 'reward'? 'gift' : 
+                    type == 'deal'? 'percent' :
+                    type == 'quest'? 'star' : ''
                 }
                 iconSize={22}
                 iconColor={
-                    coupon? '#F5E1E1' :
-                    reward? '#E2E8FD' : 
-                    deal? '#D6F4F1' :
-                    quest? '#FFF3CF' : '#fff'
+                    type == 'coupon'? '#F5E1E1' :
+                    type == 'reward'? '#E2E8FD' : 
+                    type == 'deal'? '#D6F4F1' :
+                    type == 'quest'? '#FFF3CF' : '#fff'
                 }
             />
         </View>
         <Text style={[T1, {fontFamily: 'RH-Bold', marginTop: 10}]}>
             {
-                coupon? 'Coupons' :
-                reward? 'Prämien' :
-                deal? 'Deals' : 
-                quest? 'Quest' : ''
+                type == 'coupon'? 'Coupons' :
+                type == 'reward'? 'Prämien' :
+                type == 'deal'? 'Deals' : 
+                type == 'quest'? 'Quest' : ''
             }
         </Text>
 
@@ -76,7 +77,7 @@ export default function SectionCard({
                 right: 10,
             }}
         />
-    </View>
+    </TouchableOpacity>
   )
 }
 
