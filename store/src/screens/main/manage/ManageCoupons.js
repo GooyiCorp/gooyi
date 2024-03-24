@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import HeaderButton from '../../../components/universal/Buttons/HeaderButton'
 import { COLORS } from '../../../helper/constants/colors'
 import { height, width } from '../../../helper/constants/size'
+import CouponBigCard from '../../../components/components_Manage/CouponBigCard'
 
 export default function ManageCoupons({navigation: {goBack}}) {
     const ScannerHeader = [
@@ -48,6 +49,10 @@ export default function ManageCoupons({navigation: {goBack}}) {
                     />
                 ))}
             </ScrollView>
+        </View>
+        <View style={{width: width, paddingHorizontal: 25}}>
+        <CouponBigCard type={'coupon'}/>
+
         </View>
     </View>
   )
