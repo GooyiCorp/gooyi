@@ -24,19 +24,21 @@ storeRoute.post("/login", async (req, res) => {
     return sendError(res, error);
   }
   try {
-    const mod = await prisma.mod.findUnique({
+    const member = await prisma.StoreMember.findUnique({
       where: { email: email.toLowerCase() },
     });
-    if (!mod) {
+    if (!member) {
       return sendError(res, "No user found");
     }
-    if (!bcrypt.compareSync(password, mod.password)) {
+    if (!bcrypt.compareSync(password, member.password)) {
       return sendError(res, "Wrong password!!!");
     }
+
     const data = {
-      id: mod.mod_id,
-      store_id: mod.store_id,
+      id: member.store_member_id,
+      store_id: member.store_id,
       role: STORE,
+      store_role: member.role,
     };
     const accessToken = jwt.sign({ user: data }, process.env.JWT_SECRET_KEY, {
       expiresIn: JWT_EXPIRED,
@@ -47,7 +49,7 @@ storeRoute.post("/login", async (req, res) => {
     const response = {
       accessToken,
       refreshToken,
-      action: mod.verified ? "LOGIN" : "CREATE_PASSWORD",
+      action: member.verified ? "LOGIN" : "CREATE_PASSWORD",
     };
     TOKEN_LIST[refreshToken] = response;
     return sendSuccess(res, "Login successfully", response);
@@ -63,15 +65,15 @@ storeRoute.put("/forgot-password", async (req, res) => {
     return sendError(res, "Email is required");
   }
   try {
-    const mod = await prisma.mod.findUnique({
+    const member = await prisma.StoreMember.findUnique({
       where: { email: email.toLowerCase() },
     });
-    if (!mod) {
+    if (!member) {
       return sendError(res, "No user found");
     }
     const password = generate_key(11);
     const hash = bcrypt.hashSync(password, 10);
-    await prisma.mod.update({
+    await prisma.StoreMember.update({
       where: { email: email.toLowerCase() },
       data: { password: hash },
     });

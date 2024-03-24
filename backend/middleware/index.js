@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ADMIN, STORE } from "../constant/role.js";
+import { ADMIN, STORE, STORE_ROLE } from "../constant/role.js";
 import { sendError } from "../helper/client.js";
 import { TOKEN_BLACKLIST, TOKEN_LIST } from "../index.js";
 export const verifyToken = async (req, res, next) => {
@@ -30,6 +30,6 @@ export const verifyAdmin = async (req, res, next) => {
 };
 
 export const verifyStore = async (req, res, next) => {
-  if (req.user.role !== STORE) return sendError(res, "Forbidden.", 403);
+  if (req.user.role !== STORE || !(Object.values(STORE_ROLE).includes(req.user.store_role))) return sendError(res, "Forbidden.", 403);
   next();
 };

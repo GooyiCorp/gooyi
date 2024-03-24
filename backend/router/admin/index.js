@@ -1,6 +1,6 @@
 import express from "express";
 import manageRoute from "./manage.js";
-import modRoute from "./mod.js";
+import storeMemberRoute from "./store_member.js";
 import openingHours from "./openingHours.js";
 import profileRoute from "./profile.js";
 import storeRoute from "./store.js";
@@ -12,5 +12,5 @@ adminRoute.use("/manage", manageRoute);
 adminRoute.use("/user", userRoute);
 adminRoute.use("/store", storeRoute);
 adminRoute.use("/opening-hours", openingHours);
-adminRoute.use("/mod", modRoute);
+adminRoute.use("/store-member", storeMemberRoute);
 export default adminRoute;

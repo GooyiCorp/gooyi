@@ -5,7 +5,7 @@ import prisma from '../../prisma/client/index.js';
 
 import { logger } from '../../helper/logger.js';
 import { store_create_validate } from "../../validation/store.js";
-import { createDefaultGroup } from "../../helper/store.js";
+import { createDefaultGroup, createDefaultGroupMember } from "../../helper/store.js";
 import { generate_store_id, generate_user_id, sendServerError, sendSuccess } from '../../helper/client.js';
 
 import stores from "./store_data.json" assert { type: "json" };
@@ -87,6 +87,7 @@ async function createStore(store) {
       data: { ...opening_hours, store_id: store.store_id },
     });
     await createDefaultGroup(store_id)
+    await createDefaultGroupMember(store_id)
   } catch (err) {
     return logger.error(err);
   }

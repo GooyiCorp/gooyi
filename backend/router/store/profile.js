@@ -15,15 +15,15 @@ const profileRoute = express.Router();
 
 profileRoute.put("/register", async (req, res) => {
   const { password } = req.body;
-  const mod_id = req.user.id;
+  const store_member_id = req.user.id;
   const error = mod_password_validate(password);
   if (error) return sendError(res, error);
   try {
-    const mod = await prisma.mod.findUnique({ where: { mod_id } });
-    if (!mod) return sendError(res, "Not Found");
+    const member = await prisma.StoreMember.findUnique({ where: { store_member_id } });
+    if (!member) return sendError(res, "Not Found");
     const hash = bcrypt.hashSync(password, 10);
-    await prisma.mod.update({
-      where: { mod_id },
+    await prisma.StoreMember.update({
+      where: { store_member_id },
       data: { password: hash, verified: true },
     });
     return sendSuccess(res, "Register successfully");
@@ -51,11 +51,13 @@ profileRoute.post("/logout", (req, res) => {
 });
 
 profileRoute.get("/point-history", async (req, res) => {
-  const mod_id = req.user.id
+  console.log(req.user);
+  const store_member_id = req.user.id
   try {
-    const mod = await prisma.mod.findUnique({ where: { mod_id }, select: { store_id: true } })
-    const history = await prisma.PointHistory.findMany({where: {store_id: mod.store_id}, orderBy: {created_at: 'desc'}})
-    return sendSuccess(res, "ok", history)
+    const member = await prisma.StoreMember.findUnique({ where: { store_member_id }, select: { store_id: true } })
+    if (!member) return sendError(res, "Not Found")
+    const history = await prisma.PointHistory.findMany({where: {store_id: member.store_id}, orderBy: {created_at: 'desc'}})
+    return sendSuccess(res, "ok", member)
   } catch (err) {
     logger.error(err)
     return sendServerError(res)

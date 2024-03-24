@@ -6,10 +6,10 @@ import prisma from '../../prisma/client/index.js'
 const notificationRoute = express.Router()
 
 notificationRoute.get("/", async (req, res) => {
-  const mod_id = req.user.id;
+  const store_member_id = req.user.id;
 
   try {
-    // Fetch notifications for the mod along with their read status
+    // Fetch notifications for the member along with their read status
     const notifications = await prisma.notification.findMany({
       where: {
         Stores: {
@@ -17,7 +17,7 @@ notificationRoute.get("/", async (req, res) => {
             store: {
               Mod: {
                 some: {
-                  mod_id
+                  store_member_id
                 }
               }
             }
@@ -30,7 +30,7 @@ notificationRoute.get("/", async (req, res) => {
             store: {
               Mod: {
                 some: {
-                  mod_id
+                  store_member_id
                 }
               }
             }

@@ -26,7 +26,7 @@ describe('GET /user/category', async () => {
         assert.isArray(response.data.data)
         for (const key in response.data.data) {
             const store = response.data.data[key]
-            assert.hasAllKeys(store, ['store_id', 'name', 'active', 'description', 'enter_date', 'logo', 'background', 'distance', 'create_at', 'update_at'])
+            assert.hasAllKeys(store, ['store_id', 'name', 'active', 'description', 'enter_date', 'logo', 'background', 'distance', 'created_at', 'updated_at'])
         }
     })
 })

@@ -8,13 +8,13 @@ import groups from '../../constant/default_customer_groups.json' assert { type: 
 const groupRoute = express.Router()
 
 groupRoute.get('/', async (req, res) => {
-    const mod_id = req.user.id
+    const store_member_id = req.user.id
     try {
         const store = await prisma.store.findMany({
             where: {
                 Mod: {
                     some: {
-                        mod_id
+                        store_member_id
                     }
                 }
             }, 
@@ -33,16 +33,16 @@ groupRoute.get('/', async (req, res) => {
 })
 
 groupRoute.post('/create', async (req, res) => {
-    const mod_id = req.user.id
+    const store_member_id = req.user.id
     const title = req.body.title
     if (!title) return sendError(res, "title must be provided")
     if (groups.some(group => group.title.toLowerCase() === title.toLowerCase())) return sendError(res, "Can not recreate default group")
     try {
-        const mod = await prisma.mod.findUnique({where: {mod_id}, select: {store_id: true}})
+        const member = await prisma.StoreMember.findUnique({where: {store_member_id}, select: {store_id: true}})
         await prisma.CustomerGroup.upsert({
             where: {
                 store_id_title: {
-                    store_id: mod.store_id,
+                    store_id: member.store_id,
                     title,
                 },
             },
@@ -50,7 +50,7 @@ groupRoute.post('/create', async (req, res) => {
             create: {
                 title,
                 store: {
-                    connect: { store_id: mod.store_id },
+                    connect: { store_id: member.store_id },
                 },
             },
         }); 
@@ -62,7 +62,7 @@ groupRoute.post('/create', async (req, res) => {
 })
 
 groupRoute.put('/add-user', async (req, res) => {
-    const mod_id = req.user.id
+    const store_member_id = req.user.id
     const {user_id, customer_group_id} = req.body
     if (!(customer_group_id && customer_group_id)) return sendError(res, "User and customer group are required")
     try {
@@ -71,7 +71,7 @@ groupRoute.put('/add-user', async (req, res) => {
                 store: {
                     Mod: {
                         some: {
-                            mod_id
+                            store_member_id
                         }
                     }
                 }
@@ -101,7 +101,7 @@ groupRoute.put('/add-user', async (req, res) => {
 })
 
 groupRoute.put('/delete-user', async (req, res) => {
-    const mod_id = req.user.id
+    const store_member_id = req.user.id
     const { user_id, customer_group_id } = req.body
     if (!(customer_group_id && customer_group_id)) return sendError(res, "User and customer group are required")
     try {
@@ -110,7 +110,7 @@ groupRoute.put('/delete-user', async (req, res) => {
                 store: {
                     Mod: {
                         some: {
-                            mod_id
+                            store_member_id
                         }
                     }
                 }

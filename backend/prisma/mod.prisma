@@ -23,6 +23,8 @@ model StoreMemberGroup {
   
   store_id           String
   store              Store    @relation(fields: [store_id], references: [store_id], onDelete: Cascade)
+
+  @@unique([store_id, name])
 }
 
 

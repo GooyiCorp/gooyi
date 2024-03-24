@@ -46,7 +46,7 @@ storeRoute.put("/check-new-store", async (req, res) => {
 storeRoute.post("/create-mod", async (req, res) => {
   const { store_id, name, phone, email } = req.body;
   try {
-    const mod = await prisma.mod.create({
+    const mod = await prisma.StoreMember.create({
       data: {
         store_id,
         name,
@@ -63,12 +63,12 @@ storeRoute.post("/create-mod", async (req, res) => {
 });
 
 storeRoute.post("/mod-login", async (req, res) => {
-  const { mod_id } = req.body;
+  const { store_member_id } = req.body;
   try {
-    const mod = await prisma.mod.findUnique({ where: { mod_id } });
+    const mod = await prisma.StoreMember.findUnique({ where: { store_member_id } });
     if (!mod) return sendError(res, "No user found");
     const data = {
-      id: mod.mod_id,
+      id: mod.store_member_id,
       store_id: mod.store_id,
       role: STORE,
     };

@@ -1,3 +1,4 @@
+import { STORE_ROLE } from "../constant/role.js";
 import Error from "../helper/error.js";
 
 export function create_mod_validate(data) {
@@ -5,11 +6,13 @@ export function create_mod_validate(data) {
     .isRequired(data.store_id, "Store ID")
     .isRequired(data.email, "Email")
     .isRequired(data.name, "Name")
-    .isRequired(data.phone, "Phone");
+    .isRequired(data.phone, "Phone")
+    .isRequired(data.role, "Role")
+
 
   const regEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  if (!regEX.test(data.email) && data.email)
-    error.appendError("Invalid email address.");
+  if (!regEX.test(data.email) && data.email) error.appendError("Invalid email address.");
+  if (data.role && !(data.role.toUpperCase() in STORE_ROLE)) error.appendError("Invalid role.");
   return error.get();
 }
 export function mod_login_validate(data) {
