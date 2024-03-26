@@ -19,6 +19,7 @@ import ManageCoupons from '../screens/main/manage/ManageCoupons';
 import ManageReward from '../screens/main/manage/ManageReward';
 import ManageDeals from '../screens/main/manage/ManageDeals';
 import ManageQuest from '../screens/main/manage/ManageQuest';
+import CreateCoupon from '../screens/main/manage/CreateCoupon';
 
 
 // --- Create Stack Navigator
@@ -75,7 +76,10 @@ return (
 
         <Root.Screen 
             name='CreateCoupon'
-            component={CreateNewCouponScreen}
+            component={CreateCoupon}
+            options={{
+                presentation: 'modal'
+            }}
         />
 
         <Root.Screen 
