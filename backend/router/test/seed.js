@@ -5,7 +5,7 @@ import prisma from '../../prisma/client/index.js';
 
 import { logger } from '../../helper/logger.js';
 import { store_create_validate } from "../../validation/store.js";
-import { createDefaultGroup, createDefaultGroupMember } from "../../helper/store.js";
+import { createDefaultGroup, createDefaultGroupMember, createDefaultPermission } from "../../helper/store.js";
 import { generate_store_id, generate_user_id, sendServerError, sendSuccess } from '../../helper/client.js';
 
 import stores from "./store_data.json" assert { type: "json" };
@@ -95,12 +95,19 @@ async function createStore(store) {
 
 seed.post("/", async (req, res) => {
     // Create Stores
+    // try {
+    //     for (const store of stores) {
+    //         await createStore(store);
+    //     }
+    // } catch (err) {
+    //     logger.error("Store:", err);
+    //     return sendServerError(res);
+    // }
+    // Create Store Group Permissions
     try {
-        for (const store of stores) {
-            await createStore(store);
-        }
+      await createDefaultPermission(); 
     } catch (err) {
-        logger.error("Store:", err);
+        logger.error("Store Group Permission:", err);
         return sendServerError(res);
     }
     // Create admin
@@ -116,22 +123,22 @@ seed.post("/", async (req, res) => {
         return sendServerError(res);
     }
     // Create sample users
-    try {
-      const user_id_1 = await generate_user_id();
-      const user1 = await prisma.user.create({
-          data: {
-              user_id: user_id_1,
-              first_name: "Thanh",
-              last_name: "Nguyen",
-              email: "thanhoilathanh482@gmail.com",
-              phone: "123456",
-              active: true,
-          }
-      })
-    } catch (err) {
-      logger.error("User:", err);
-      return sendServerError(res);
-    }
+    // try {
+    //   const user_id_1 = await generate_user_id();
+    //   const user1 = await prisma.user.create({
+    //       data: {
+    //           user_id: user_id_1,
+    //           first_name: "Thanh",
+    //           last_name: "Nguyen",
+    //           email: "thanhoilathanh482@gmail.com",
+    //           phone: "123456",
+    //           active: true,
+    //       }
+    //   })
+    // } catch (err) {
+    //   logger.error("User:", err);
+    //   return sendServerError(res);
+    // }
     return sendSuccess(res, "Seed data successfully!");
 });
 

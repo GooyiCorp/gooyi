@@ -1,0 +1,5 @@
+[
+    "CREATE_COUPON",
+    "UPDATE_COUPON",
+    "DELETE_COUPON"
+]
